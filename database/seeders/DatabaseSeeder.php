@@ -5,8 +5,10 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin;
 use App\Models\Juri;
+use App\Models\MataLomba;
 use App\Models\Pembina;
 use App\Models\Peserta;
+use App\Models\Pionering;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -35,6 +37,13 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('peserta123'),
             'role' => 'peserta'
         ]);
+
+        $pionering = MataLomba::create([
+            'nama' => 'Pionering',
+            'deskripsi' => 'pionering'
+        ]);
+
+
         $peserta = Peserta::create([
             'nama' => 'Peserta',
             'nisn' => '2141720239',
@@ -42,6 +51,7 @@ class DatabaseSeeder extends Seeder
             'regu' => 'semut',
             'jenis_kelamin' => 'laki-laki',
             'user_id' => $user_peserta->id,
+            'mata_lomba_id' => $pionering->id,
         ]);
 
         $user_pembina = \App\Models\User::create([
@@ -62,6 +72,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $juri = Juri::create([
             'nama' => 'Juri',
+            'mata_lomba_id' => $pionering->id,
             'user_id' => $user_juri->id,
         ]);
     }

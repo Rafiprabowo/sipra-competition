@@ -9,4 +9,7 @@ class Juri extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public function mata_lomba(){
+        return $this->belongsTo(MataLomba::class);
+    }
 }

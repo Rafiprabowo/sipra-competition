@@ -56,6 +56,22 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <label for="mata_lomba_id">Mata Lomba</label>
+                            <select class="form-control @error('mata_lomba_id') is-invalid @enderror" id="mata_lomba_id" name="mata_lomba_id">
+                                <option value="">-- Pilih Mata Lomba --</option>
+                                @foreach ($mata_lomba as $lomba)
+                                    <option value="{{ $lomba->id }}"
+                                        {{ old('mata_lomba_id', $peserta->mata_lomba_id) == $lomba->id ? 'selected' : '' }}>
+                                        {{ $lomba->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('mata_lomba_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="d-flex justify-content-start mt-5">
                             <button type="submit" class="btn btn-primary mr-3">Update Peserta</button>
                             <a href="{{ route('admin.peserta.index') }}" class="btn btn-secondary ml-2">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\JuriController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,16 @@ Route::prefix('peserta')->group(function(){
     Route::delete('/peserta/{id}', [\App\Http\Controllers\Admin\PesertaController::class, 'destroy'])->name('admin.peserta.destroy');
 });
 
+Route::prefix('mata-lomba')->group(function(){
+    Route::get('/data-mata-lomba', [\App\Http\Controllers\Admin\MataLomba::class, 'index'])->name('admin.mata-lomba.index');
+    Route::post('/mata-lomba', [\App\Http\Controllers\Admin\MataLomba::class, 'store'])->name('admin.mata-lomba.store');
+    Route::get('/mata-lomba/create', [\App\Http\Controllers\Admin\MataLomba::class, 'create'])->name('admin.mata-lomba.create');
+    Route::get('/mata-lomba/{id}/edit', [App\Http\Controllers\Admin\MataLomba::class, 'edit'])->name('admin.mata-lomba.edit');
+    Route::get('/mata-lomba/{id}', [App\Http\Controllers\Admin\MataLomba::class, 'show'])->name('admin.mata-lomba.show');
+    Route::put('/mata-lomba/{id}', [App\Http\Controllers\Admin\MataLomba::class, 'update'])->name('admin.mata-lomba.update');
+    Route::delete('/mata-lomba/{id}', [App\Http\Controllers\Admin\MataLomba::class, 'destroy'])->name('admin.mata-lomba.destroy');
+});
+
 Route::prefix('pembina')->group(function(){
     Route::get('/data-pembina', [\App\Http\Controllers\Admin\PembinaController::class, 'index'])->name('admin.pembina.index');
     Route::get('/pembina/create', [\App\Http\Controllers\Admin\PembinaController::class, 'create'])->name('admin.pembina.create');
@@ -37,6 +48,7 @@ Route::prefix('pembina')->group(function(){
     Route::delete('/pembina/{id}', [\App\Http\Controllers\Admin\PembinaController::class, 'destroy'])->name('admin.pembina.destroy');
 });
 });
+
 Route::prefix('peserta')->group(function(){
     Route::get('/dashboard',function(){return view('peserta.dashboard');})->name('peserta.dashboard');
 })->middleware('role:peserta');
@@ -45,5 +57,6 @@ Route::prefix('pembina')->group(function(){
 })->middleware('role:pembina');
 Route::prefix('juri')->group(function(){
     Route::get('/dashboard',function(){return view('juri.dashboard');})->name('juri.dashboard');
+    Route::resource('/juri', JuriController::class);
 })->middleware('role:juri');
 

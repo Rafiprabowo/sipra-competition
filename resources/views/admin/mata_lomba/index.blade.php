@@ -9,8 +9,8 @@
         @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">Data Peserta</h6>
-{{--                <a href="{{route('admin.peserta.create')}}" class="btn btn-primary btn-md">Tambah Peserta</a>--}}
+                <h6 class="m-0 font-weight-bold text-primary">Data Mata Lomba</h6>
+                                <a href="{{route('admin.mata-lomba.create')}}" class="btn btn-primary btn-md">Tambah Mata Lomba</a>
             </div>
 
             <div class="card-body">
@@ -19,33 +19,25 @@
                         <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nisn</th>
                             <th>Nama</th>
-                            <th>Pangkalan</th>
-                            <th>Regu</th>
-                            <th>Jenis Kelamin</th>
-                            <td>Nama Lomba</td>
+                            <th>Deskripsi</th>
                             <th>Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($peserta as $index => $value)
+                        @foreach($mata_lomba as $index => $value)
                             <tr>
                                 <td>{{$index + 1}}</td>
-                                <td>{{$value->nisn}}</td>
                                 <td>{{$value->nama}}</td>
-                                <td>{{$value->pangkalan}}</td>
-                                <td>{{$value->regu}}</td>
-                                <td>{{$value->jenis_kelamin}}</td>
-                                <td>{{$value->mata_lomba->nama}}</td>
+                                <td>{{$value->deskripsi}}</td>
                                 <td>
-                                    <a href="{{route('admin.peserta.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">
+                                    <a href="{{route('admin.mata-lomba.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{route('admin.peserta.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah">
+                                    <a href="{{route('admin.mata-lomba.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="{{route('admin.peserta.destroy', $value->id)}}" method="POST" style="display:inline;">
+                                    <form action="{{route('admin.mata-lomba.destroy', $value->id)}}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger  btn-sm" title="Delete" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?');">

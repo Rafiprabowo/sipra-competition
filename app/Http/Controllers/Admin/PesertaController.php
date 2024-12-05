@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\MataLomba;
 use App\Models\Peserta;
 use Illuminate\Http\Request;
 
@@ -16,12 +17,13 @@ class PesertaController extends Controller
             return view('admin.peserta.create');
         }
         public function show($id){
-            $peserta = Peserta::findOrFail($id);
-            return view('admin.peserta.show', compact('peserta'));
+            $peserta = Peserta::with('mata_lomba')->findOrFail($id)->first();
+            return view('admin.peserta.show', ['peserta' => $peserta]);
         }
         public function edit($id){
             $peserta = Peserta::findOrFail($id);
-            return view('admin.peserta.edit', compact('peserta'));
+            $mata_lomba = MataLomba::all();
+            return view('admin.peserta.edit', compact('peserta', 'mata_lomba'));
         }
         public function update(Request $request, $id){
             $request->validate([
@@ -30,6 +32,7 @@ class PesertaController extends Controller
                 'pangkalan' => 'required',
                 'regu' => 'required',
                 'jenis_kelamin' => 'required',
+                'mata_lomba_id' => 'required',
             ]);
 
             $peserta = Peserta::findOrFail($id);

@@ -35,6 +35,10 @@
                         <label for="jenis_kelamin">Jenis Kelamin</label>
                         <input type="text" class="form-control" id="jenis_kelamin" name="jenis_kelamin" value="{{ $peserta->jenis_kelamin }}" readonly>
                     </div>
+                    <div class="form-group">
+                        <label for="mata_lomba">Mata Lomba</label>
+                        <input type="text" class="form-control" id="mata_lomba" name="mata_Lomba" value="{{ $peserta->mata_lomba->nama }}" readonly>
+                    </div>
                     <!-- Tambahan Navigasi Kembali -->
                     <a href="{{ route('admin.peserta.index') }}" class="btn btn-secondary mt-3">
                         <i class="fas fa-arrow-left"></i> Kembali

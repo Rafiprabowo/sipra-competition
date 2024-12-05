@@ -14,9 +14,9 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{route('admin.mata-lomba.index')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span>Mata Lomba</span></a>
     </li>
 
     <!-- Divider -->
@@ -34,7 +34,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{route('admin.pembina.index')}}">Pembina</a>
                 <a class="collapse-item" href="{{route('admin.peserta.index')}}">Peserta</a>
-                <a class="collapse-item" href="">Juri</a>
+                <a class="collapse-item" href="{{route('juri.index')}}">Juri</a>
                 <a class="collapse-item" href="utilities-other.html">Other</a>
             </div>
         </div>
