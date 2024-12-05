@@ -15,5 +15,8 @@ class MataLomba extends Model
     public function juri(){
         return $this->hasMany(Juri::class);
     }
+    public function penilaian_karikatur(){
+        return $this->hasMany(PenilaianKarikatur::class);
+    }
 
 }

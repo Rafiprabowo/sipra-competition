@@ -13,4 +13,7 @@ class Peserta extends Model
     public function mata_lomba(){
         return $this->belongsTo(MataLomba::class);
     }
+    public function penilaian_karikatur(){
+        return $this->hasOne(PenilaianKarikatur::class);
+    }
 }
