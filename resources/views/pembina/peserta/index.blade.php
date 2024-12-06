@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('sidebar')
-    @include('layouts.sidebar.peserta')
+    @include('layouts.sidebar.pembina')
 @endsection
 
 @section('content')
@@ -9,11 +9,23 @@
         @if (session('success'))
             <div class="alert alert-success" role="alert"> {{ session('success') }} </div>
         @endif
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert"> {{ session('error') }} </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-primary">Data Peserta</h6>
                 <div class="d-flex align-items-center">
-                    <form action="{{ route('peserta.import') }}" method="POST" enctype="multipart/form-data" class="d-inline-block mr-3 ">
+                    <form action="{{ route('peserta.import') }}" method="POST" enctype="multipart/form-data" class="d-inline-block mr-3">
                         @csrf
                         <div class="form-group mb-2 d-flex align-items-center">
                             <label for="file" class="sr-only">Pilih File Excel:</label>

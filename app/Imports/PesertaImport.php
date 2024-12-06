@@ -18,11 +18,20 @@ class PesertaImport implements ToModel
 
     public function __construct()
     {
-        $this->mataLombas = MataLomba::pluck('id', 'nama')->toArray();
+        $this->mataLombas = MataLomba::all()->mapWithKeys(function($item) {
+            return [trim(strtolower($item->nama)) => $item->id];
+        })->toArray();
     }
+
     public function model(array $row)
     {
-        $mataLombaId = $this->mataLombas[$row[5]] ?? null;
+        // Cek apakah baris saat ini adalah header (misalnya berdasarkan NISN yang tidak mungkin menjadi kolom nama)
+        if ($row[0] == 'NISN') {
+            return null; // Melewati header
+        }
+
+        $mataLombaName = trim(strtolower($row[5]));
+        $mataLombaId = $this->mataLombas[$mataLombaName] ?? null;
 
         if (!$mataLombaId) {
             throw new \Exception("Mata lomba dengan nama '{$row[5]}' tidak ditemukan.");
@@ -30,7 +39,6 @@ class PesertaImport implements ToModel
 
         // Buat User baru berdasarkan NISN
         $user = User::create([
-            'name'     => $row[1], // Nama peserta
             'username' => $row[0], // NISN sebagai username
             'password' => Hash::make($row[0]), // Password dari NISN
         ]);
@@ -46,4 +54,10 @@ class PesertaImport implements ToModel
             'user_id'       => $user->id, // Hubungkan Peserta dengan User
         ]);
     }
+
+    public function startRow(): int
+    {
+        return 2; // Mulai pembacaan data dari baris kedua
+    }
+
 }

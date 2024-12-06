@@ -26,7 +26,6 @@ class PesertaController extends Controller
         try {
             // Proses impor data
             Excel::import(new PesertaImport, $request->file('file'));
-
             return back()->with('success', 'Berhasil Import Data Peserta');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
