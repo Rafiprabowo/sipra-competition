@@ -31,6 +31,7 @@ class PesertaImport implements ToModel
         }
 
         $mataLombaName = trim(strtolower($row[5]));
+
         $mataLombaId = $this->mataLombas[$mataLombaName] ?? null;
 
         if (!$mataLombaId) {
@@ -49,7 +50,7 @@ class PesertaImport implements ToModel
             'nama'          => $row[1],
             'pangkalan'     => $row[2],
             'regu'          => $row[3],
-            'jenis_kelamin' => $row[4],
+            'jenis_kelamin' => trim(strtolower($row[4])),
             'mata_lomba_id' => $mataLombaId,
             'user_id'       => $user->id, // Hubungkan Peserta dengan User
         ]);
