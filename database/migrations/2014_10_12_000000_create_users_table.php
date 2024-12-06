@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('password');
-            $table->enum('role', ['admin', 'pembina', 'peserta', 'juri'])->default('peserta');
+            $table->enum('role', ['admin', 'pembina', 'peserta', 'juri']);
             $table->rememberToken();
             $table->timestamps();
         });
