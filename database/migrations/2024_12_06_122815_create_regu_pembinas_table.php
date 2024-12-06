@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('juris', function (Blueprint $table) {
+        Schema::create('regu_pembinas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('nama_regu');
+            $table->enum('kategori', ['pa', 'pi']);
+            $table->foreignId('pembina_id')->constrained('pembinas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('juris');
+        Schema::dropIfExists('regu_pembinas');
     }
 };

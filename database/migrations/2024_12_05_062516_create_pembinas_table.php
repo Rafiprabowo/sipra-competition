@@ -14,7 +14,15 @@ return new class extends Migration
         Schema::create('pembinas', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->string('kwartir_cabang');
             $table->string('pangkalan');
+            $table->string('nama_gudep');
+            $table->string('tanggal_lahir');
+            $table->string('jenis_kelamin');
+            $table->string('alamat');
+            $table->string('no_hp');
+            $table->string('pengalaman_pembina');
+            $table->string('pekerjaan');
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

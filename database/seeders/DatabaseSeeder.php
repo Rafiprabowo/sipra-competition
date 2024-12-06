@@ -27,10 +27,10 @@ class DatabaseSeeder extends Seeder
              'role' => 'admin'
          ]);
 
-         $admin = Admin::create([
-             'nama' => 'Admin',
-             'user_id' => $user_admin->id,
-         ]);
+        //  $admin = Admin::create([
+        //      'nama' => 'Admin',
+        //      'user_id' => $user_admin->id,
+        //  ]);
 
         $user_peserta = \App\Models\User::create([
             'username' => 'peserta',
@@ -38,50 +38,49 @@ class DatabaseSeeder extends Seeder
             'role' => 'peserta'
         ]);
 
-        $pionering = MataLomba::create([
-            'nama' => 'Pionering',
-            'deskripsi' => 'pionering'
-        ]);
-        $karikatur = MataLomba::create([
-            'nama' => 'Karikatur',
-            'deskripsi' => 'karikatur'
-        ]);
-        $dutaLogika = MataLomba::create([
-            'nama' => 'Duta Logika',
-            'deskripsi' => 'duta'
-        ]);
+        // $pionering = MataLomba::create([
+        //     'nama' => 'Pionering',
+        //     'deskripsi' => 'pionering'
+        // ]);
+        // $karikatur = MataLomba::create([
+        //     'nama' => 'Karikatur',
+        //     'deskripsi' => 'karikatur'
+        // ]);
+        // $dutaLogika = MataLomba::create([
+        //     'nama' => 'Duta Logika',
+        //     'deskripsi' => 'duta'
+        // ]);
 
-
-        $peserta = Peserta::create([
-            'nama' => 'Peserta',
-            'nisn' => '2141720239',
-            'pangkalan' => 'Polinema',
-            'regu' => 'semut',
-            'jenis_kelamin' => 'laki-laki',
-            'user_id' => $user_peserta->id,
-            'mata_lomba_id' => $pionering->id,
-        ]);
+        // $peserta = Peserta::create([
+        //     'nama' => 'Peserta',
+        //     'nisn' => '2141720239',
+        //     'pangkalan' => 'Polinema',
+        //     'regu' => 'semut',
+        //     'jenis_kelamin' => 'laki-laki',
+        //     'user_id' => $user_peserta->id,
+        //     'mata_lomba_id' => $pionering->id,
+        // ]);
 
         $user_pembina = \App\Models\User::create([
             'username' => 'pembina',
             'password' => Hash::make('pembina123'),
             'role' => 'pembina'
         ]);
-        $pembina = Pembina::create([
-            'nama' => 'Pembina',
-            'pangkalan' => 'Polinema',
-            'user_id' => $user_pembina->id,
-        ]);
+        // $pembina = Pembina::create([
+        //     'nama' => 'Pembina',
+        //     'pangkalan' => 'Polinema',
+        //     'user_id' => $user_pembina->id,
+        // ]);
 
         $user_juri  = \App\Models\User::create([
             'username' => 'juri',
             'password' => Hash::make('juri123'),
             'role' => 'juri'
         ]);
-        $juri = Juri::create([
-            'nama' => 'Juri',
-            'mata_lomba_id' => $pionering->id,
-            'user_id' => $user_juri->id,
-        ]);
+        // $juri = Juri::create([
+        //     'nama' => 'Juri',
+        //     'mata_lomba_id' => $pionering->id,
+        //     'user_id' => $user_juri->id,
+        // ]);
     }
 }

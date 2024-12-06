@@ -9,4 +9,11 @@ class Pembina extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public function regu_pembina(){
+        return $this->hasMany(ReguPembina::class);
+    }
+
+    public function upload_dokumen(){
+        return $this->hasOne(UploadDokumen::class);
+    }
 }

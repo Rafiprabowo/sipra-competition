@@ -20,4 +20,8 @@ class Peserta extends Model
     public function penilaian_pioneering(){
         return $this->hasOne(PenilaianPioneering::class);
     }
+
+    public function regu_pembina(){
+        return $this->belongsTo(ReguPembina::class);
+    }
 }
