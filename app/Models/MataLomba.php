@@ -19,4 +19,8 @@ class MataLomba extends Model
         return $this->hasMany(PenilaianKarikatur::class);
     }
 
+    public function penilaian_pioneering(){
+        return $this->hasMany(PenilaianPioneering::class);
+    }
+
 }

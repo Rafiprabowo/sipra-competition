@@ -16,76 +16,73 @@
             </div>
 
             <div class="card-body">
-                <div class="row">
-                    <!-- Tabel Peserta -->
-                    <div class="col-md-6">
-                        <h5>Peserta</h5>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="pesertaTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nisn</th>
-                                    <th>Nama</th>
-                                    <th>Pangkalan</th>
-                                    <th>Regu</th>
-                                    <th>Jenis Kelamin</th>
+                <!-- Tabel Peserta -->
+                <div class="mb-5">
+                    <h5>Peserta</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="pesertaTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nisn</th>
+                                <th>Nama</th>
+                                <th>Pangkalan</th>
+                                <th>Regu</th>
+                                <th>Jenis Kelamin</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($pesertas as $index => $peserta)
+                                <tr class="peserta-row" data-id="{{ $peserta->id }}">
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $peserta->nisn }}</td>
+                                    <td>{{ $peserta->nama }}</td>
+                                    <td>{{ $peserta->pangkalan }}</td>
+                                    <td>{{ $peserta->regu }}</td>
+                                    <td>{{ $peserta->jenis_kelamin }}</td>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($pesertas as $index => $peserta)
-                                    <tr class="peserta-row" data-id="{{ $peserta->id }}">
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $peserta->nisn }}</td>
-                                        <td>{{ $peserta->nama }}</td>
-                                        <td>{{ $peserta->pangkalan }}</td>
-                                        <td>{{ $peserta->regu }}</td>
-                                        <td>{{ $peserta->jenis_kelamin }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
+                </div>
 
-                    <!-- Tabel Penilaian Karikatur -->
-                    <div class="col-md-6">
-                        <h5>Penilaian Karikatur <i class="fas fa-paint-brush"></i></h5>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="penilaianTable" width="100%" cellspacing="0">
-                                <thead>
+                <!-- Tabel Penilaian Karikatur -->
+                <div>
+                    <h5>Penilaian Karikatur <i class="fas fa-paint-brush"></i></h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="penilaianTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Nama Peserta</th>
+                                <th>Orisinalitas</th>
+                                <th>Kesesuaian Tema</th>
+                                <th>Kreativitas</th>
+                                <th>Pesan yang Disampaikan</th>
+                                <th>Teknik</th>
+                            </tr>
+                            </thead>
+                            <tbody id="penilaianData">
+                            @foreach($pesertas as $peserta)
                                 <tr>
-                                    <th>Nama Peserta</th>
-                                    <th>Orisinalitas</th>
-                                    <th>Kesesuaian Tema</th>
-                                    <th>Kreativitas</th>
-                                    <th>Pesan yang Disampaikan</th>
-                                    <th>Teknik</th>
+                                    <td>{{ $peserta->nama }}</td>
+                                    @if($peserta->penilaian_karikatur)
+                                        <td>{{ $peserta->penilaian_karikatur->orisinalitas }}</td>
+                                        <td>{{ $peserta->penilaian_karikatur->kesesuaian_tema }}</td>
+                                        <td>{{ $peserta->penilaian_karikatur->kreativitas }}</td>
+                                        <td>{{ $peserta->penilaian_karikatur->pesan_yang_disampaikan }}</td>
+                                        <td>{{ $peserta->penilaian_karikatur->teknik }}</td>
+                                    @else
+                                        <td>Belum dinilai</td>
+                                        <td>Belum dinilai</td>
+                                        <td>Belum dinilai</td>
+                                        <td>Belum dinilai</td>
+                                        <td>Belum dinilai</td>
+                                    @endif
                                 </tr>
-                                </thead>
-                                <tbody id="penilaianData">
-                                @foreach($pesertas as $peserta)
-                                    <tr>
-                                        <td>{{ $peserta->nama }}</td>
-                                        <!-- Menampilkan nilai jika sudah ada -->
-                                        @if($peserta->penilaian_karikatur)
-                                            <td>{{ $peserta->penilaian_karikatur->orisinalitas }}</td>
-                                            <td>{{ $peserta->penilaian_karikatur->kesesuaian_tema }}</td>
-                                            <td>{{ $peserta->penilaian_karikatur->kreativitas }}</td>
-                                            <td>{{ $peserta->penilaian_karikatur->pesan_yang_disampaikan }}</td>
-                                            <td>{{ $peserta->penilaian_karikatur->teknik }}</td>
-                                        @else
-                                            <td>Belum dinilai</td>
-                                            <td>Belum dinilai</td>
-                                            <td>Belum dinilai</td>
-                                            <td>Belum dinilai</td>
-                                            <td>Belum dinilai</td>
-                                        @endif
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -94,9 +91,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const pesertaRows = document.querySelectorAll('.peserta-row');
-            const penilaianData = document.getElementById('penilaianData');
-
             // Initialize DataTable with Export buttons
             $('#pesertaTable').DataTable({
                 dom: 'Bfrtip',

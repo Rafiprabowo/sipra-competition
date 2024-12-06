@@ -64,5 +64,6 @@ Route::prefix('pembina')->group(function(){
 Route::prefix('juri')->group(function(){
     Route::get('/dashboard',function(){return view('juri.dashboard');})->name('juri.dashboard')->middleware(['role:juri']);
     Route::resource('/penilaian-karikatur', \App\Http\Controllers\Juri\PenilaianKarikatur::class)->middleware(['role:juri']);
+    Route::resource('/penilaian-pioneering', \App\Http\Controllers\Juri\PenilaianPioneering::class)->middleware(['role:juri']);
 })->middleware(['role:juri']);
 

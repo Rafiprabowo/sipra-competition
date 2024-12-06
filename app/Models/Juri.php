@@ -19,4 +19,8 @@ class Juri extends Model
     public function penilaian_karikatur(){
         return $this->hasMany(PenilaianKarikatur::class);
     }
+
+    public function penilaian_pioneering(){
+        return $this->hasMany(PenilaianPioneering::class);
+    }
 }
