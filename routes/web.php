@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {return redirect()->route('login');})->middleware('admin');
+Route::get('/', function () {return redirect()->route('login');});
 Route::get('/login', function () {return view('auth.login');})->name('login');
 Route::post('/login', \App\Http\Controllers\Auth\LoginController::class)->name('login.attempt');
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout');
@@ -47,6 +47,10 @@ Route::prefix('pembina')->group(function(){
     Route::put('/pembina/{id}', [\App\Http\Controllers\Admin\PembinaController::class, 'update'])->name('admin.pembina.update')->middleware(['role:admin']);
     Route::delete('/pembina/{id}', [\App\Http\Controllers\Admin\PembinaController::class, 'destroy'])->name('admin.pembina.destroy')->middleware(['role:admin']);
 });
+
+Route::prefix('juri')->group(function(){
+    Route::resource('/juri', JuriController::class)->middleware(['role:admin']);
+});
 })->middleware(['role:admin']);
 
 Route::prefix('peserta')->group(function(){
@@ -55,10 +59,10 @@ Route::prefix('peserta')->group(function(){
 Route::prefix('pembina')->group(function(){
     Route::get('/dashboard',function(){return view('pembina.dashboard');})->name('pembina.dashboard')->middleware(['role:pembina']);
     Route::resource('data-peserta', \App\Http\Controllers\Pembina\PesertaController::class)->middleware(['role:pembina']);
+    Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
 })->middleware(['role:pembina']);
 Route::prefix('juri')->group(function(){
     Route::get('/dashboard',function(){return view('juri.dashboard');})->name('juri.dashboard')->middleware(['role:juri']);
-    Route::resource('/juri', JuriController::class)->middleware(['role:juri']);
     Route::resource('/penilaian-karikatur', \App\Http\Controllers\Juri\PenilaianKarikatur::class)->middleware(['role:juri']);
 })->middleware(['role:juri']);
 

@@ -3,17 +3,35 @@
 namespace App\Http\Controllers\Pembina;
 
 use App\Http\Controllers\Controller;
+use App\Imports\PesertaImport;
 use App\Models\MataLomba;
 use App\Models\Peserta;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PesertaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+        ]);
+
+        try {
+            // Proses impor data
+            Excel::import(new PesertaImport, $request->file('file'));
+
+            return back()->with('success', 'Berhasil Import Data Peserta');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
     public function index()
     {
         $peserta = Peserta::with('mata_lomba')->get();

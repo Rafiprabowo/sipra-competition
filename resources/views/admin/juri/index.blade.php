@@ -9,7 +9,7 @@
         @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">Data Mata Lomba</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Data Nama Juri</h6>
                 <a href="{{route('juri.create')}}" class="btn btn-primary btn-md">Tambah Juri</a>
             </div>
 

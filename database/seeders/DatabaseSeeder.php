@@ -42,6 +42,14 @@ class DatabaseSeeder extends Seeder
             'nama' => 'Pionering',
             'deskripsi' => 'pionering'
         ]);
+        $karikatur = MataLomba::create([
+            'nama' => 'Karikatur',
+            'deskripsi' => 'karikatur'
+        ]);
+        $dutaLogika = MataLomba::create([
+            'nama' => 'Duta Logika',
+            'deskripsi' => 'duta'
+        ]);
 
 
         $peserta = Peserta::create([

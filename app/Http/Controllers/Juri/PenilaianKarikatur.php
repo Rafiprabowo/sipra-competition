@@ -21,7 +21,7 @@ class PenilaianKarikatur extends Controller
         $juris = Auth::user()->juri;
 
         // Ambil mata lomba "karikatur"
-        $mata_lomba = MataLomba::where('nama', 'karikatur')->first();
+        $mata_lomba = MataLomba::where('nama', 'Karikatur')->first();
 
         // Ambil peserta yang terdaftar pada mata lomba "karikatur" dan sudah memiliki penilaian
         $pesertas = Peserta::with('penilaian_karikatur') // Eager load penilaian_karikatur
@@ -45,7 +45,7 @@ class PenilaianKarikatur extends Controller
         $juris = Auth::user()->juri;
 
         // Ambil mata lomba yang bernama "karikatur"
-        $mata_lomba = MataLomba::where('nama', 'karikatur')->first();
+        $mata_lomba = MataLomba::where('nama', 'Karikatur')->first();
 
         // Ambil peserta yang terdaftar untuk mata lomba "karikatur" dan belum memiliki penilaian
         $pesertas = Peserta::where('mata_lomba_id', $mata_lomba->id)

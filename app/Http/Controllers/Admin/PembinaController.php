@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\PesertaImport;
 use App\Models\Pembina;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PembinaController extends Controller
 {
+
     public function index(){
         $pembina = Pembina::all();
         return view('admin.pembina.index', compact('pembina'));
