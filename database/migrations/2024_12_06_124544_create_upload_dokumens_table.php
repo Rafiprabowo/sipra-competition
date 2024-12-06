@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('upload_form');
             $table->string('bukti_pembayaran');
+            $table->boolean('status');
             $table->foreignId('pembina_id')->constrained('pembinas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
