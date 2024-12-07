@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,8 +20,8 @@ return new class extends Migration
             $table->string('jenis_kelamin');
             $table->string('alamat');
             $table->string('no_hp');
-            $table->string('pengalaman_pembina');
-            $table->string('pekerjaan');
+            $table->string('pengalaman_pembina')->nullable();
+            $table->string('pekerjaan')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
