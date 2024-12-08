@@ -8,8 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class UploadDokumen extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
-    public function pembina(){
+
+    public function pembina()
+    {
         return $this->belongsTo(Pembina::class);
+    }
+
+    public function template_dokumen()
+    {
+        return $this->belongsTo(TemplateDokumen::class);
     }
 }

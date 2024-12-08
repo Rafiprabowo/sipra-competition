@@ -10,11 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('upload_dokumens', function (Blueprint $table) {
+        Schema::create('template_dokumens', function (Blueprint $table) {
             $table->id();
-            $table->boolean('status')->default(0);
-            $table->string('keterangan')->nullable();
-            $table->foreignId('pembina_id')->constrained('pembinas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('nama')->nullable();
+            $table->string('tipe')->nullable();
+            $table->string('template')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('upload_dokumens');
+        Schema::dropIfExists('template_dokumens');
     }
 };
