@@ -9,8 +9,8 @@
         @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">Data Mata Lomba</h6>
-                                <a href="{{route('admin.mata-lomba.create')}}" class="btn btn-primary btn-md">Tambah Mata Lomba</a>
+                <h6 class="m-0 font-weight-bold text-primary">Data Bobot Soal</h6>
+                                <a href="{{route('admin.mata-lomba.create')}}" class="btn btn-primary btn-md">Tambah Bobot Soal</a>
             </div>
 
             <div class="card-body">

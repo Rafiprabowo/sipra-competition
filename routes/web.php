@@ -58,6 +58,10 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('juri')->group(function () {
         Route::resource('/juri', JuriController::class)->middleware(['role:admin']);
+        Route::get('/dashboard', function () {
+            return view('juri.dashboard');
+        })->name('juri.dashboard')->middleware(['role:juri']);
+        Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri')->middleware(['role:juri']);
     });
 })->middleware(['role:admin']);
 

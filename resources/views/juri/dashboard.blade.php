@@ -3,7 +3,7 @@
     @include('layouts.sidebar.juri')
 @endsection
 @section('content')
-    <div class="col-sm-10 mx-auto mt-4">
+    <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 12px;">
         @if (session('success'))
             <div class="alert alert-success" role="alert"> {{ session('success') }} </div>
         @endif

@@ -6,13 +6,22 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Sipra <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">LOMBA</div>
     </a>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('admin.dashboard')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
     <li class="nav-item">
         <a class="nav-link" href="{{route('admin.mata-lomba.index')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -27,7 +36,7 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
            aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-wrench"></i>
-            <span>Manjemen Peserta</span>
+            <span>Manajemen Peserta</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
              data-parent="#accordionSidebar">
@@ -35,26 +44,15 @@
                 <a class="collapse-item" href="{{route('admin.pembina.index')}}">Pembina</a>
                 <a class="collapse-item" href="{{route('admin.peserta.index')}}">Peserta</a>
                 <a class="collapse-item" href="{{route('juri.index')}}">Juri</a>
-                <a class="collapse-item" href="utilities-other.html">Other</a>
             </div>
         </div>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="{{route('admin.mata-lomba.index')}}">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span></a>
+            <span>Manajemen Bobot Soal</span></a>
     </li>
-
-
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Manajemen Lomba
-    </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
@@ -77,7 +75,9 @@
         </div>
     </li>
 
-    <!-- Nav Item - Charts -->
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
     <!-- Nav Item - Tables -->
     <li class="nav-item active">
         <a class="nav-link" href="tables.html">

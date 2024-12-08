@@ -3,7 +3,7 @@
     @include('layouts.sidebar.admin')
 @endsection
 @section('content')
-  <div class="col-sm-10 mx-auto mt-4">
+  <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 12px;">
     @if (session('success'))
         <div class="alert alert-success" role="alert"> {{ session('success') }} </div>
     @endif
@@ -19,7 +19,7 @@
             </ul>
         </div>
     @endif
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-4" style="font-size: 12px;">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">List Status Validasi Persyaratan Lomba</h6>
         </div>
