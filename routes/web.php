@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {return redirect()->route('login');});
+Route::get('/', function () { return view('home'); });
+Route::get('/login', function () {return redirect()->route('login');});
 Route::get('/login', function () {return view('auth.login');})->name('login');
 Route::post('/login', \App\Http\Controllers\Auth\LoginController::class)->name('login.attempt');
 Route::get('/register', function () {return view('auth.register');})->name('register');
