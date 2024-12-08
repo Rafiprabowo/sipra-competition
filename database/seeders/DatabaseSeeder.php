@@ -27,10 +27,10 @@ class DatabaseSeeder extends Seeder
              'role' => 'admin'
          ]);
 
-        //  $admin = Admin::create([
-        //      'nama' => 'Admin',
-        //      'user_id' => $user_admin->id,
-        //  ]);
+          $admin = Admin::create([
+              'nama' => 'Admin',
+              'user_id' => $user_admin->id,
+          ]);
 
         $user_peserta = \App\Models\User::create([
             'username' => 'peserta',
@@ -38,18 +38,18 @@ class DatabaseSeeder extends Seeder
             'role' => 'peserta'
         ]);
 
-        // $pionering = MataLomba::create([
-        //     'nama' => 'Pionering',
-        //     'deskripsi' => 'pionering'
-        // ]);
-        // $karikatur = MataLomba::create([
-        //     'nama' => 'Karikatur',
-        //     'deskripsi' => 'karikatur'
-        // ]);
-        // $dutaLogika = MataLomba::create([
-        //     'nama' => 'Duta Logika',
-        //     'deskripsi' => 'duta'
-        // ]);
+         $pionering = MataLomba::create([
+             'nama' => 'Pionering',
+             'deskripsi' => 'pionering'
+         ]);
+         $karikatur = MataLomba::create([
+             'nama' => 'Karikatur',
+             'deskripsi' => 'karikatur'
+         ]);
+         $dutaLogika = MataLomba::create([
+             'nama' => 'Duta Logika',
+             'deskripsi' => 'duta'
+         ]);
 
         // $peserta = Peserta::create([
         //     'nama' => 'Peserta',

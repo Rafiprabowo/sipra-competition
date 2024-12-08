@@ -45,4 +45,7 @@ class User extends Authenticatable
     public function juri(){
         return $this->hasOne(Juri::class);
     }
+    public function pembina(){
+        return $this->hasOne(Pembina::class);
+    }
 }
