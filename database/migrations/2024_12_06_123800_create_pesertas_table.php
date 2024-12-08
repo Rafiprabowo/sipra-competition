@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,7 +12,7 @@ return new class extends Migration
     {
         Schema::create('pesertas', function (Blueprint $table) {
             $table->id();
-            $table->string('nisn');
+            $table->string('nisn')->unique();
             $table->string('nama');
             $table->foreignId('regu_pembina_id')->constrained('regu_pembinas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('mata_lomba_id')->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();

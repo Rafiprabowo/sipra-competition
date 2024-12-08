@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\JuriController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +21,9 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 Route::post('/login', \App\Http\Controllers\Auth\LoginController::class)->name('login.attempt');
-Route::get('/register', function () {return view('auth.register');})->name('register');
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
 Route::post('/register', \App\Http\Controllers\Auth\RegisterController::class)->name('register.attempt');
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout');
 
@@ -71,8 +74,15 @@ Route::prefix('pembina')->group(function () {
     Route::get('/dashboard', function () {
         return view('pembina.dashboard');
     })->name('pembina.dashboard')->middleware(['role:pembina']);
-    Route::get('/registrasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('pembina.registrasi')->middleware(['role:pembina']);
-
+    Route::get('/registrasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('registrasi.form')->middleware(['role:pembina']);
+    Route::post('/pembina/store', [App\Http\Controllers\Pembina\RegistrasiController::class, 'storePembina'])->name('pembina.store')->middleware(['role:pembina']);
+    Route::put('/pembina', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updatePembina'])->name('pembina.update')->middleware(['role:pembina']);
+    Route::post('/regu', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'storeRegu'])->name('regu.store')->middleware(['role:pembina']);
+    Route::put('/regu/{regu}/update', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updateRegu'])->name('regu.update')->middleware(['role:pembina']);
+    Route::delete('/regu/{regu}/destroy', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'destroyRegu'])->name('regu.destroy');
+    Route::post('/peserta/store', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'storePeserta'])->name('peserta.store')->middleware(['role:pembina']);
+    Route::put('/peserta/{peserta}/update', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updatePeserta'])->name('peserta.update')->middleware(['role:pembina']);
+    Route::delete('/peserta/{peserta}/destroy', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'destroyPeserta'])->name('peserta.destroy')->middleware(['role:pembina']);
     Route::resource('data-peserta', \App\Http\Controllers\Pembina\PesertaController::class)->middleware(['role:pembina']);
     Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
 })->middleware(['role:pembina']);
