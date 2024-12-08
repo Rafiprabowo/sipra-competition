@@ -7,10 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Pembina;
 use App\Models\Peserta;
 use App\Models\ReguPembina;
+use App\Models\TemplateDokumen;
+use App\Models\UploadDokumen;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use SebastianBergmann\Template\Template;
 
 class RegistrasiController extends Controller
 {
@@ -18,12 +21,15 @@ class RegistrasiController extends Controller
     {
         $pembina = auth()->user()->pembina;
         $mataLombas = \App\Models\MataLomba::all();
+        $templates = TemplateDokumen::all();
+        $uploadDokumens = UploadDokumen::with('template_dokumen')->get();
 
         if ($pembina) {
-            $regus = $pembina->regu ?? collect(); // Pastikan $regus adalah koleksi yang valid
+            $regus = $pembina->regu ?? collect();
             $pesertas = Peserta::whereIn('regu_pembina_id', $regus->pluck('id'))->get();
             $reguToEdit = null;
             $pesertaToEdit = null;
+            $status = $pembina->upload_dokumen;
 
             if ($request->has('edit_regu_id')) {
                 $reguToEdit = ReguPembina::findOrFail($request->get('edit_regu_id'));
@@ -33,10 +39,10 @@ class RegistrasiController extends Controller
                 $pesertaToEdit = Peserta::findOrFail($request->get('edit_peserta_id'));
             }
 
-            return view('pembina.registrasi', compact('pembina', 'regus', 'reguToEdit', 'pesertaToEdit', 'pesertas', 'mataLombas'));
+            return view('pembina.registrasi', compact('pembina', 'regus', 'reguToEdit', 'pesertaToEdit', 'pesertas', 'mataLombas', 'status', 'templates', 'uploadDokumens'));
         }
 
-        return view('pembina.registrasi', compact('pembina'))->with('regus', collect()); // Tambahkan 'regus' sebagai koleksi kosong
+        return view('pembina.registrasi', compact('pembina', 'templates', 'uploadDokumens'))->with('regus', collect()); // Tambahkan 'regus' sebagai koleksi kosong
     }
 
     public function storePembina(Request $request)
@@ -59,7 +65,7 @@ class RegistrasiController extends Controller
 
         Pembina::create($validatedData);
 
-        return redirect()->back()->with('success', 'Pembina berhasil disimpan! ');
+        return redirect()->route('registrasi.form')->with('success', 'Pembina berhasil disimpan! ');
 
     }
 
@@ -85,7 +91,7 @@ class RegistrasiController extends Controller
             $pembina->update($validatedData);
             return redirect()->back()->with('success', 'Pembina berhasil diupdate! ');
         }
-        return redirect()->back()->with('error', 'Pembina gagal diupdate! ');
+        return redirect()->route('registrasi.form')->with('error', 'Pembina gagal diupdate! ');
     }
 
     public function storeRegu(Request $request)
@@ -102,20 +108,20 @@ class RegistrasiController extends Controller
             $regus = $pembina->regu;
 
             if ($regus->count() >= 2) {
-                return redirect()->route('pembina.registrasi')->with('error', 'Anda sudah memiliki 2 regu. Tidak bisa menambah lebih banyak.');
+                return redirect()->route('registrasi.form')->with('error', 'Anda sudah memiliki 2 regu. Tidak bisa menambah lebih banyak.');
             }
 
             $existingCategories = $regus->pluck('kategori')->toArray();
 
             if (in_array($validatedData['kategori'], $existingCategories)) {
-                return redirect()->back()->with('error', 'Kategori regu sudah ada. Anda harus memilih kategori yang berbeda.');
+                return redirect()->route('registrasi.form')->with('error', 'Kategori regu sudah ada. Anda harus memilih kategori yang berbeda.');
             }
 
             $regu = ReguPembina::create($validatedData);
-            return redirect()->back()->with('success', 'Regu berhasil disimpan.');
+            return redirect()->route('registrasi.form')->with('success', 'Regu berhasil disimpan.');
         }
 
-        return redirect()->back()->with('error', 'Anda belum terdaftar sebagai pembina.');
+        return redirect()->route('registrasi.form')->with('error', 'Anda belum terdaftar sebagai pembina.');
     }
 
     public function updateRegu(Request $request, ReguPembina $regu)
@@ -132,17 +138,17 @@ class RegistrasiController extends Controller
             ->first();
 
         if ($existingRegu) {
-            return redirect()->back()->with('error', 'Kategori yang sama sudah ada untuk regu lain.');
+            return redirect()->route('registrasi.form')->with('error', 'Kategori yang sama sudah ada untuk regu lain.');
         }
 
         $regu->update($validatedData);
-        return redirect()->back()->with('success', 'Regu berhasil diupdate.');
+        return redirect()->route('registrasi.form')->with('success', 'Regu berhasil diupdate.');
     }
 
     public function destroyRegu(ReguPembina $regu)
     {
         $regu->delete();
-        return redirect()->back()->with('success', 'Regu berhasil dihapus.');
+        return redirect()->route('registrasi.form')->with('success', 'Regu berhasil dihapus.');
     }
 
 
@@ -184,7 +190,35 @@ class RegistrasiController extends Controller
 
         $peserta->update($validatedData);
 
-        return redirect()->route('pembina.registrasi')->with('success', 'Peserta berhasil diupdate.');
+        return redirect()->route('registrasi.form')->with('success', 'Peserta berhasil diupdate.');
+    }
+
+    public function storeDokumen(Request $request)
+    {
+        // Validasi input dari form
+        $request->validate([
+            'template_dokumen_id' => 'required|exists:template_dokumens,id',
+            'file' => 'required|file|max:2048',  // Maksimal 2MB
+        ]);
+
+        // Proses penyimpanan file
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('dokumen_pendaftaran');
+
+            // Menyimpan data ke dalam tabel upload_dokumens
+            UploadDokumen::create([
+                'template_dokumen_id' => $request->template_dokumen_id,
+                'pembina_id' => auth()->user()->pembina->id,  // Asumsi pembina sudah login
+                'keterangan' => null,  // Keterangan awal, bisa diupdate nanti
+                'status' => 0,  // Set status awal, misal 0 untuk belum diverifikasi
+                'file' => $filePath,
+            ]);
+
+            // Redirect ke halaman form registrasi dengan pesan sukses
+            return redirect()->route('registrasi.form')->with('success', 'Dokumen berhasil ditambahkan.');
+        } else {
+            return redirect()->route('registrasi.form')->with('error', 'Gagal mengunggah dokumen.');
+        }
     }
 
 }

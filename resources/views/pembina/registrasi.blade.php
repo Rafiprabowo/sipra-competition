@@ -33,7 +33,8 @@
                    aria-controls="peserta" aria-selected="false">Peserta</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="upload-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="upload"
+                <a class="nav-link" id="upload-tab" data-toggle="tab" href="#data-dokumen" role="tab"
+                   aria-controls="upload"
                    aria-selected="false">Upload Berkas</a>
             </li>
         </ul>
@@ -153,7 +154,8 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
-                                                        <label for="pangkalan">Nama Pangkalan</label>
+                                                        <label for="pangkalan">Nama Pangkalan <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="text" id="pangkalan" name="pangkalan"
                                                                class="form-control"
                                                                placeholder="Masukkan nama pangkalan"
@@ -169,7 +171,8 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6 mb-3">
-                                                        <label for="nama_gudep">Nama Gudep</label>
+                                                        <label for="nama_gudep">Nama Gudep <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="text" id="nama_gudep" name="nama_gudep"
                                                                class="form-control"
                                                                placeholder="Masukkan nama gudep"
@@ -190,11 +193,9 @@
                                                                name="pengalaman_pembina"
                                                                class="form-control"
                                                                placeholder="Masukkan pengalaman pembina"
-                                                               value="{{old('pengalaman_pembina', $pembina['pengalaman_pembina'] ?? '')}} "
+                                                               value="{{old('pengalaman_pembina', $pembina->pengalaman_pembina ?? '')}}"
                                                                aria-describedby="pengalaman_pembinaHelp">
-                                                        <small class="form-text text-muted">Jika belum ada, maka isi
-                                                            belum
-                                                            ada</small>
+                                                        <small class="form-text text-muted"></small>
                                                         @error('pengalaman_pembina')
                                                         <div class="text-danger">{{ $message }}</div>
                                                         @enderror
@@ -206,8 +207,7 @@
                                                                placeholder="Masukkan pekerjaan"
                                                                value="{{old('pekerjaan', $pembina['pekerjaan'] ?? '' ) }}"
                                                                aria-describedby="pekerjaanHelp">
-                                                        <small class="form-text text-muted">Jika tidak ada, bisa
-                                                            dikosongkan</small>
+                                                        <small class="form-text text-muted"></small>
                                                         @error('pekerjaan')
                                                         <div class="text-danger">{{ $message }}</div>
                                                         @enderror
@@ -640,73 +640,124 @@
 
 
             <!-- Tab Upload berkas -->
-            <div class="tab-pane fade" id="upload" role="tabpanel" aria-labelledby="upload-tab">
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5>Dokumen Syarat Umum</h5>
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Jenis Dokumen</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>FP-06: Surat Pernyataan Pimpinan PT Daftar Kerjasama Industri</td>
-                                        <td><a href="#"><i class="fa fa-download"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Lampiran FP-03: Pernyataan tentang Status PT dan Program Studi (ber-kop
-                                            PT)
-                                        </td>
-                                        <td><a href="#"><i class="fa fa-download"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Lampiran FK-03: Rekomendasi Pimpinan PT (ber-kop PT)</td>
-                                        <td><a href="#"><i class="fa fa-download"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Lampiran FU-02: Surat Rekomendasi Pimpinan PT (KOP PT)</td>
-                                        <td><a href="#"><i class="fa fa-download"></i></a></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-md-6">
-                                <h5>Unggah Dokumen</h5>
-                                <form>
-                                    <div class="form-group">
-                                        <label for="documentType">Pilih Jenis Dokumen</label>
-                                        <select class="form-control" id="documentType">
-                                            <option>Pilih</option>
-                                            <!-- Tambahkan pilihan jenis dokumen di sini -->
-                                        </select>
+            <div class="tab-pane fade" id="data-dokumen" role="tabpanel" aria-labelledby="data-dokumen-tab">
+                <div class="container-fluid mt-4">
+                    <!-- Pemberitahuan Jika Pembina atau Regu Belum Input Data -->
+                    @if(!isset($pembina))
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i> Harap lengkapi data pembina, regu, dan peserta
+                            terlebih dahulu
+                        </div>
+                    @endif
+
+                    <div class="card mt-4">
+                        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                            <h5>Dokumen Syarat Umum</h5>
+                            <!-- Tombol Finalisasi Pendaftaran -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#finalizeModal" {{ !isset($pembina) ? 'disabled' : '' }}>
+                                Finalisasi Pendaftaran
+                            </button>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Tabel Data Dokumen -->
+                                <div class="col-md-6">
+                                    <table id="documentTable" class="table table-bordered">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Jenis Dokumen</th>
+                                            <th>Status</th>
+                                            <th>Keterangan</th>
+                                            <th>Contoh Template</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($uploadDokumens as $dokumen)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $dokumen->template_dokumen->nama }}</td>
+                                                <td>{{ $dokumen->status == 1 ? 'Disetujui' : 'Menunggu verifikasi' }}</td>
+                                                <td>{{ $dokumen->keterangan ?? '-' }}</td>
+                                                <td>
+                                                    <a href="{{ asset('storage/' . $dokumen->template_dokumen->template) }}"
+                                                       class="btn btn-info"
+                                                       download="{{ $dokumen->template_dokumen->nama . '.' . pathinfo($dokumen->template_dokumen->template, PATHINFO_EXTENSION) }}">
+                                                        <i class="fa fa-download"></i> Unduh
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Form Unggah Dokumen -->
+                                @if(isset($pembina))
+                                    <div class="col-md-6">
+                                        <h5 class="font-weight-bold text-black-50 lead">Unggah Dokumen</h5>
+                                        <hr class="mb-4">
+                                        <form id="uploadForm" action="{{ route('upload_dokumen.store') }}" method="post"
+                                              enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="template_dokumen_id">Jenis Dokumen</label>
+                                                <select class="form-control" id="template_dokumen_id"
+                                                        name="template_dokumen_id" required>
+                                                    <option value="" disabled selected>Pilih jenis dokumen</option>
+                                                    @foreach($templates as $template)
+                                                        <option
+                                                            value="{{ $template->id }}">{{ $template->nama }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="file">Unggah Dokumen</label>
+                                                <input type="file" class="form-control-file" id="file" name="file"
+                                                       required>
+                                                <small class="form-text text-muted">Silahkan pilih file dokumen yang
+                                                    sesuai. Ukuran maksimal file 2 MB.</small>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Unggah</button>
+                                        </form>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="documentFile">Pilih File</label>
-                                        <input type="file" class="form-control-file" id="documentFile">
-                                        <small class="form-text text-muted">Silahkan pilih file dokumen anda. Ukuran
-                                            maksimal file 2 MB. Jenis dokumen yang diijinkan adalah: jpg, doc, docx,
-                                            dan
-                                            pdf</small>
+                                @endif
+
+                                <!-- Modal Konfirmasi Finalisasi Pendaftaran -->
+                                <div class="modal fade" id="finalizeModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="finalizeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="finalizeModalLabel">Konfirmasi Finalisasi
+                                                    Pendaftaran</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Apakah Anda yakin ingin finalisasi pendaftaran?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Batal
+                                                </button>
+                                                <button type="button" class="btn btn-primary"
+                                                        onclick="document.getElementById('uploadForm').submit();">
+                                                    Finalisasi
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
 
     </div>
 @endsection
@@ -716,7 +767,7 @@
     <script>
         $(document).ready(function () {
             // Load active tab from localStorage
-            var activeTab = localStorage.getItem('activeTab');
+            let activeTab = localStorage.getItem('activeTab');
             if (activeTab) {
                 $('#myTab a[href="' + activeTab + '"]').tab('show');
             }
@@ -724,13 +775,14 @@
             // Save active tab to localStorage
             $('#myTab a').on('click', function (e) {
                 e.preventDefault();
-                var tabName = $(this).attr('href');
+                let tabName = $(this).attr('href');
                 localStorage.setItem('activeTab', tabName);
                 $(this).tab('show');
             });
 
             $('#pesertaTable').DataTable()
             $('#reguTable').DataTable()
+
         });
     </script>
 @endsection
