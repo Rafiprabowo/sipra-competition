@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pembina;
 
 use App\Http\Controllers\Admin\MataLomba;
 use App\Http\Controllers\Controller;
+use App\Models\Finalisasi;
 use App\Models\Pembina;
 use App\Models\Peserta;
 use App\Models\ReguPembina;
@@ -11,6 +12,7 @@ use App\Models\TemplateDokumen;
 use App\Models\UploadDokumen;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use SebastianBergmann\Template\Template;
@@ -21,7 +23,7 @@ class RegistrasiController extends Controller
     {
         $pembina = auth()->user()->pembina;
         $mataLombas = \App\Models\MataLomba::all();
-        $templates = TemplateDokumen::all();
+        $templates = TemplateDokumen::with('upload_dokumen')->get();
         $uploadDokumens = UploadDokumen::with('template_dokumen')->get();
 
         if ($pembina) {
@@ -108,20 +110,28 @@ class RegistrasiController extends Controller
             $regus = $pembina->regu;
 
             if ($regus->count() >= 2) {
-                return redirect()->route('registrasi.form')->with('error', 'Anda sudah memiliki 2 regu. Tidak bisa menambah lebih banyak.');
+                return redirect()->route('registrasi.form')
+                    ->with('error', 'Anda sudah memiliki 2 regu. Tidak bisa menambah lebih banyak.')
+                    ->with('active_tab', 'regu');
             }
 
             $existingCategories = $regus->pluck('kategori')->toArray();
 
             if (in_array($validatedData['kategori'], $existingCategories)) {
-                return redirect()->route('registrasi.form')->with('error', 'Kategori regu sudah ada. Anda harus memilih kategori yang berbeda.');
+                return redirect()->route('registrasi.form')
+                    ->with('error', 'Kategori regu sudah ada. Anda harus memilih kategori yang berbeda.')
+                    ->with('active_tab', 'regu');
             }
 
             $regu = ReguPembina::create($validatedData);
-            return redirect()->route('registrasi.form')->with('success', 'Regu berhasil disimpan.');
+            return redirect()->route('registrasi.form')
+            ->with('success', 'Regu berhasil disimpan.')
+            ->with('active_tab', 'regu');
         }
 
-        return redirect()->route('registrasi.form')->with('error', 'Anda belum terdaftar sebagai pembina.');
+        return redirect()->route('registrasi.form')
+        ->with('error', 'Anda belum terdaftar sebagai pembina.')
+        ->with('active_tab', 'pembina');
     }
 
     public function updateRegu(Request $request, ReguPembina $regu)
@@ -155,23 +165,32 @@ class RegistrasiController extends Controller
     public function storePeserta(Request $request)
     {
         $validatedData = $request->validate([
-            'nisn' => 'required|string|max:255',
+            'nisn' => 'required|string|max:255|unique:pesertas,nisn',
             'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required',
             'mata_lomba_id' => 'required|exists:mata_lombas,id',
             'regu_pembina_id' => 'required|exists:regu_pembinas,id',
         ]);
-
+    
         $regu = ReguPembina::findOrFail($validatedData['regu_pembina_id']);
         $regu->load('peserta'); // Memastikan relasi pesertas dimuat
-
+    
+        // Cek kategori regu dan jenis kelamin peserta
+        if (($regu->kategori == 'PA' && $validatedData['jenis_kelamin'] != 'L') ||
+            ($regu->kategori == 'PI' && $validatedData['jenis_kelamin'] != 'P')) {
+            return redirect()->route('registrasi.form')->with('error', 'Jenis kelamin peserta harus sesuai dengan kategori regu.');
+        }
+    
         if ($regu->peserta->count() >= 8) {
             return redirect()->route('registrasi.form')->with('error', 'Masing-masing regu hanya bisa memiliki maksimal 8 peserta.');
         }
-
+    
         Peserta::create($validatedData);
-
+    
         return redirect()->route('registrasi.form')->with('success', 'Peserta berhasil ditambahkan.');
     }
+    
+
 
     public function destroyPeserta(Peserta $peserta)
     {
@@ -183,42 +202,110 @@ class RegistrasiController extends Controller
     public function updatePeserta(Request $request, Peserta $peserta)
     {
         $validatedData = $request->validate([
-            'nisn' => 'required|string|max:255',
+            'nisn' => 'required|string|max:255|unique:pesertas,nisn,' . $peserta->id,
             'nama' => 'required|string|max:255',
-            'mata_lomba_id' => 'required|exists:mata_lomba,id',
+            'regu_pembina_id' => 'required|exists:regu_pembinas,id',
+            'jenis_kelamin' => 'required',
+            'mata_lomba_id' => 'required|exists:mata_lombas,id',
         ]);
-
+    
+        $regu = ReguPembina::findOrFail($validatedData['regu_pembina_id']);
+    
+        // Cek kategori regu dan jenis kelamin peserta
+        if (($regu->kategori == 'PA' && $validatedData['jenis_kelamin'] != 'L') ||
+            ($regu->kategori == 'PI' && $validatedData['jenis_kelamin'] != 'P')) {
+            return redirect()->route('registrasi.form')->with('error', 'Jenis kelamin peserta harus sesuai dengan kategori regu.');
+        }
+    
         $peserta->update($validatedData);
-
+    
         return redirect()->route('registrasi.form')->with('success', 'Peserta berhasil diupdate.');
     }
+    
+
+    
 
     public function storeDokumen(Request $request)
-    {
-        // Validasi input dari form
-        $request->validate([
-            'template_dokumen_id' => 'required|exists:template_dokumens,id',
-            'file' => 'required|file|max:2048',  // Maksimal 2MB
-        ]);
+{
+    // Validasi input dari form
+    $request->validate([
+        'template_dokumen_id' => 'required|exists:template_dokumens,id',
+        'file' => 'required|file|max:2048',  // Maksimal 2MB
+    ]);
 
-        // Proses penyimpanan file
-        if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('dokumen_pendaftaran');
+    // Proses penyimpanan file
+    if ($request->hasFile('file')) {
+        $filePath = $request->file('file')->store('dokumen_pendaftaran');
 
-            // Menyimpan data ke dalam tabel upload_dokumens
-            UploadDokumen::create([
-                'template_dokumen_id' => $request->template_dokumen_id,
+        // Menggunakan updateOrCreate untuk menyimpan atau mengupdate data di tabel upload_dokumens
+        UploadDokumen::updateOrCreate(
+            [
+                'template_dokumens_id' => $request->template_dokumen_id,
                 'pembina_id' => auth()->user()->pembina->id,  // Asumsi pembina sudah login
+            ],
+            [
                 'keterangan' => null,  // Keterangan awal, bisa diupdate nanti
                 'status' => 0,  // Set status awal, misal 0 untuk belum diverifikasi
                 'file' => $filePath,
-            ]);
+            ]
+        );
 
-            // Redirect ke halaman form registrasi dengan pesan sukses
-            return redirect()->route('registrasi.form')->with('success', 'Dokumen berhasil ditambahkan.');
-        } else {
-            return redirect()->route('registrasi.form')->with('error', 'Gagal mengunggah dokumen.');
+        // Redirect ke halaman form registrasi dengan pesan sukses
+        return redirect()->route('registrasi.form')->with('success', 'Dokumen berhasil ditambahkan atau diupdate.');
+    } else {
+        return redirect()->route('registrasi.form')->with('error', 'Gagal mengunggah dokumen.');
+    }
+}
+
+public function finalisasi(Request $request)
+{
+    $pembina = Auth::user()->pembina;
+
+    // Cek apakah data pembina sudah terisi
+    if (!$pembina) {
+        return redirect()->route('registrasi.form')->with('error', 'Data pembina belum lengkap.');
+    }
+
+    // Cek apakah jumlah regu sudah terpenuhi
+    $regus = ReguPembina::where('pembina_id', $pembina->id)->get();
+    if ($regus->count() < 2) {
+        return redirect()->route('registrasi.form')->with('error', 'Jumlah regu minimal adalah 2.');
+    }
+
+    // Cek apakah setiap regu memiliki 8 peserta
+    // foreach ($regus as $regu) {
+    //     if ($regu->pesertas()->count() < 8) {
+    //         return redirect()->route('registrasi.form')->with('error', 'Setiap regu harus memiliki minimal 8 peserta.');
+    //     }
+    // }
+
+    // Cek apakah upload dokumen sudah lengkap
+    $requiredDocuments = TemplateDokumen::all();
+    foreach ($requiredDocuments as $document) {
+        $uploadedDokumen = UploadDokumen::where('template_dokumens_id', $document->id)
+                                         ->where('pembina_id', $pembina->id)
+                                         ->first();
+        if (!$uploadedDokumen) {
+            return redirect()->route('registrasi.form')->with('error', 'Semua dokumen wajib harus diunggah.');
         }
     }
+
+    // Finalisasi pendaftaran
+    Finalisasi::updateOrCreate(
+        [
+            'pembina_id' => $pembina->id,
+        ],
+        [
+            'status_finalisasi' => 1,
+            'keterangan' => $request->keterangan,
+        ]
+    );
+
+    return redirect()->route('registrasi.form')->with('success', 'Pendaftaran berhasil difinalisasi.');
+}
+
+
+
+
 
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\JuriController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Pembina\RegistrasiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -87,6 +88,7 @@ Route::prefix('pembina')->group(function () {
     Route::delete('/peserta/{peserta}/destroy', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'destroyPeserta'])->name('peserta.destroy')->middleware(['role:pembina']);
     Route::post('/dokumen-persyaratan', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'storeDokumen'])->name('upload_dokumen.store')->middleware(['role:pembina']);
     Route::resource('data-peserta', \App\Http\Controllers\Pembina\PesertaController::class)->middleware(['role:pembina']);
+    Route::post('/finalisasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'finalisasi'])->name('finalisasi')->middleware(['role:pembina']);
     Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
 })->middleware(['role:pembina']);
 Route::prefix('juri')->group(function () {

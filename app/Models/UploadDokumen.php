@@ -18,6 +18,6 @@ class UploadDokumen extends Model
 
     public function template_dokumen()
     {
-        return $this->belongsTo(TemplateDokumen::class);
+        return $this->belongsTo(TemplateDokumen::class, 'template_dokumens_id');
     }
 }
