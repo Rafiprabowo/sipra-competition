@@ -20,4 +20,8 @@ class Pembina extends Model
     {
         return $this->hasOne(UploadDokumen::class);
     }
+    public function finalisasi(){
+        return $this->hasOne(Finalisasi::class);
+    }
+    
 }

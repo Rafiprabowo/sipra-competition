@@ -20,28 +20,28 @@
 
         <!-- Navigation Tabs -->
         <ul class="nav nav-tabs navbar-light" id="myTab" role="tablist">
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" id="data-pembina-tab" data-toggle="tab" href="#data-pembina" role="tab"
                    aria-controls="data-pembina" aria-selected="true">Data Pembina</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="regu-tab" data-toggle="tab" href="#regu" role="tab" aria-controls="regu"
+                <a class="nav-link" id="data-regu-tab" data-toggle="tab" href="#data-regu" role="tab" aria-controls="data-regu"
                    aria-selected="false">Regu</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="peserta-tab" data-toggle="tab" href="#peserta" role="tab"
-                   aria-controls="peserta" aria-selected="false">Peserta</a>
+                <a class="nav-link" id="data-peserta-tab" data-toggle="tab" href="#data-peserta" role="tab"
+                   aria-controls="data-peserta" aria-selected="false">Peserta</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="upload-tab" data-toggle="tab" href="#data-dokumen" role="tab"
-                   aria-controls="upload"
+                <a class="nav-link" id="data-dokumen-tab" data-toggle="tab" href="#data-dokumen" role="tab"
+                   aria-controls="data-dokumen"
                    aria-selected="false">Upload Berkas</a>
             </li>
         </ul>
 
         <div class="tab-content" id="myTabContent">
             <!-- Data Pembina -->
-            <div class="tab-pane fade" id="data-pembina" role="tabpanel" aria-labelledby="data-pembina-tab">
+            <div class="tab-pane fade show active" id="data-pembina" role="tabpanel" aria-labelledby="data-pembina-tab">
                 <div class="container-fluid mt-4">
                     <div class="card-body ">
                         @if(isset($pembina) && $pembina->exists)
@@ -324,7 +324,7 @@
             </div>
 
             <!-- Tab Regu -->
-            <div class="tab-pane fade" id="regu" role="tabpanel" aria-labelledby="regu-tab">
+            <div class="tab-pane fade" id="data-regu" role="tabpanel" aria-labelledby="data-regu-tab">
                 <div class="container-fluid mt-4">
                     <!-- Pemberitahuan Jika Pembina Belum Input Data -->
                     @if(!isset($pembina))
@@ -469,7 +469,7 @@
 
 
             <!-- Tab Peserta -->
-            <div class="tab-pane fade" id="peserta" role="tabpanel" aria-labelledby="peserta-tab">
+            <div class="tab-pane fade" id="data-peserta" role="tabpanel" aria-labelledby="data-peserta-tab">
                 <div class="container-fluid mt-4">
                     <!-- Pemberitahuan Jika Pembina atau Regu Belum Input Data -->
                     @if(!isset($pembina) || !isset($regus) || $regus->isEmpty())
@@ -511,17 +511,13 @@
                                         @enderror
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label for="mata_lomba">Mata Lomba</label>
-                                        <select id="mata_lomba_id" name="mata_lomba_id" class="form-control" required>
-                                            <option value="">Pilih Nama Mata Lomba</option>
-                                            @foreach($mataLombas as $mataLomba)
-                                                <option
-                                                    value="{{$mataLomba->id}}" {{ old('mata_lomba_id', $pesertaToEdit->mata_lomba_id ?? '') == $mataLomba->id ? 'selected' : '' }}>
-                                                    {{$mataLomba->nama}}
-                                                </option>
-                                            @endforeach
+                                        <label for="nama">Jenis Kelamin</label>
+                                        <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
+                                            <option value="">Jenis Kelamin</option>
+                                            <option value="L" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "L" ? 'selected' : '' }}>Laki-laki</option>
+                                            <option value="P" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "P" ? 'selected' : '' }}>Perempuan</option>
                                         </select>
-                                        @error('mata_lomba_id')
+                                        @error('jenis_kelamin')
                                         <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -541,6 +537,23 @@
                                         <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="mata_lomba">Mata Lomba</label>
+                                        <select id="mata_lomba_id" name="mata_lomba_id" class="form-control" required>
+                                            <option value="">Pilih Nama Mata Lomba</option>
+                                            @foreach($mataLombas as $mataLomba)
+                                                <option
+                                                    value="{{$mataLomba->id}}" {{ old('mata_lomba_id', $pesertaToEdit->mata_lomba_id ?? '') == $mataLomba->id ? 'selected' : '' }}>
+                                                    {{$mataLomba->nama}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('mata_lomba_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    
                                 </div>
                                 <div class="card-footer">
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -589,12 +602,9 @@
                                             <th>No</th>
                                             <th>NISN</th>
                                             <th>Nama Peserta</th>
-                                            <th>Pangkalan</th>
-                                            <th>Gudep</th>
+                                            <th>Jenis Kelamin</th>
                                             <th>Regu</th>
-                                            <th>Kategori Regu</th>
                                             <th>Lomba</th>
-                                            <th>Nama Pembina</th>
                                             <th>Aksi</th>
                                         </tr>
                                         </thead>
@@ -604,12 +614,9 @@
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $peserta->nisn }}</td>
                                                 <td>{{ $peserta->nama }}</td>
-                                                <td>{{ $peserta->regu_pembina->pembina->pangkalan }}</td>
-                                                <td>{{ $peserta->regu_pembina->pembina->nama_gudep}}</td>
+                                                <th>{{$peserta->jenis_kelamin}}</th>
                                                 <td>{{ $peserta->regu_pembina->nama_regu }}</td>
-                                                <td>{{ $peserta->regu_pembina->kategori }}</td>
-                                                <td>{{$peserta->mata_lomba->nama}}</td>
-                                                <td>{{ $peserta->regu_pembina->pembina->nama }}</td>
+                                                <td>{{ $peserta->mata_lomba->nama}}</td>
                                                 <td>
                                                     <a href="{{ route('registrasi.form', ['edit_peserta_id' => $peserta->id]) }}"
                                                        class="btn btn-success btn-sm mr-2">
@@ -645,8 +652,7 @@
                     <!-- Pemberitahuan Jika Pembina atau Regu Belum Input Data -->
                     @if(!isset($pembina))
                         <div class="alert alert-warning">
-                            <i class="fas fa-exclamation-triangle"></i> Harap lengkapi data pembina, regu, dan peserta
-                            terlebih dahulu
+                            <i class="fas fa-exclamation-triangle"></i> Harap lengkapi data pembina, regu, dan peserta terlebih dahulu
                         </div>
                     @endif
 
@@ -654,8 +660,7 @@
                         <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
                             <h5>Dokumen Syarat Umum</h5>
                             <!-- Tombol Finalisasi Pendaftaran -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#finalizeModal" {{ !isset($pembina) ? 'disabled' : '' }}>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#finalizeModal" {{ !isset($pembina) ? 'disabled' : '' }}>
                                 Finalisasi Pendaftaran
                             </button>
                         </div>
@@ -666,40 +671,58 @@
                                 <div class="col-md-6">
                                     <table id="documentTable" class="table table-bordered">
                                         <thead class="thead-light">
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Jenis Dokumen</th>
-                                            <th>Status</th>
-                                            <th>Keterangan</th>
-                                            <th>Contoh Template</th>
-                                        </tr>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Jenis Dokumen</th>
+                                                <th>Status</th>
+                                                <th>Keterangan</th>
+                                                <th>Contoh Template</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($uploadDokumens as $dokumen)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $dokumen->template_dokumen->nama }}</td>
-                                                <td>{{ $dokumen->status == 1 ? 'Disetujui' : 'Menunggu verifikasi' }}</td>
-                                                <td>{{ $dokumen->keterangan ?? '-' }}</td>
-                                                <td>
-                                                    <a href="{{ asset('storage/' . $dokumen->template_dokumen->template) }}"
-                                                       class="btn btn-info"
-                                                       download="{{ $dokumen->template_dokumen->nama . '.' . pathinfo($dokumen->template_dokumen->template, PATHINFO_EXTENSION) }}">
-                                                        <i class="fa fa-download"></i> Unduh
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                            @foreach($templates as $template)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $template->nama }}</td>
+                                                    <td>
+                                                        @if($template->upload_dokumen->isNotEmpty())
+                                                            @php
+                                                                $status = $template->upload_dokumen->first()->status;
+                                                                $statusLabel = $status == 1 ? 'badge-success' : 'badge-warning';
+                                                                $statusText = $status == 1 ? 'Disetujui' : 'Menunggu Verifikasi';
+                                                            @endphp
+                                                            <span class="badge {{ $statusLabel }}">{{ $statusText }}</span>
+                                                        @else
+                                                            <span class="badge badge-secondary">Belum diunggah</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if($template->upload_dokumen->isNotEmpty())
+                                                            {{ $template->upload_dokumen->first()->keterangan ?? '-' }}
+                                                        @else
+                                                            -
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ asset('storage/' . $template->template) }}"
+                                                        class="btn btn-info"
+                                                        download="{{ $template->nama . '.' . pathinfo($template->template, PATHINFO_EXTENSION) }}">
+                                                            <i class="fa fa-download"></i> Unduh
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
+
                                 <!-- Form Unggah Dokumen -->
                                 @if(isset($pembina))
                                     <div class="col-md-6">
                                         <h5 class="font-weight-bold text-black-50 lead">Unggah Dokumen</h5>
                                         <hr class="mb-4">
                                         <form id="uploadForm" action="{{ route('upload_dokumen.store') }}" method="post"
-                                              enctype="multipart/form-data">
+                                            enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group">
                                                 <label for="template_dokumen_id">Jenis Dokumen</label>
@@ -707,15 +730,14 @@
                                                         name="template_dokumen_id" required>
                                                     <option value="" disabled selected>Pilih jenis dokumen</option>
                                                     @foreach($templates as $template)
-                                                        <option
-                                                            value="{{ $template->id }}">{{ $template->nama }}</option>
+                                                        <option value="{{ $template->id }}">{{ $template->nama }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="file">Unggah Dokumen</label>
                                                 <input type="file" class="form-control-file" id="file" name="file"
-                                                       required>
+                                                    required>
                                                 <small class="form-text text-muted">Silahkan pilih file dokumen yang
                                                     sesuai. Ukuran maksimal file 2 MB.</small>
                                             </div>
@@ -726,12 +748,11 @@
 
                                 <!-- Modal Konfirmasi Finalisasi Pendaftaran -->
                                 <div class="modal fade" id="finalizeModal" tabindex="-1" role="dialog"
-                                     aria-labelledby="finalizeModalLabel" aria-hidden="true">
+                                    aria-labelledby="finalizeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="finalizeModalLabel">Konfirmasi Finalisasi
-                                                    Pendaftaran</h5>
+                                                <h5 class="modal-title" id="finalizeModalLabel">Konfirmasi Finalisasi Pendaftaran</h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -741,25 +762,21 @@
                                                 Apakah Anda yakin ingin finalisasi pendaftaran?
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                    Batal
-                                                </button>
-                                                <button type="button" class="btn btn-primary"
-                                                        onclick="document.getElementById('uploadForm').submit();">
-                                                    Finalisasi
-                                                </button>
+                                                <form action="{{ route('finalisasi') }}" method="post">
+                                                    @csrf
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-primary">Finalisasi</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-    </div>
 @endsection
 
 @section('script')
@@ -782,6 +799,7 @@
 
             $('#pesertaTable').DataTable()
             $('#reguTable').DataTable()
+            $('#documentTable').DataTable();
 
         });
     </script>

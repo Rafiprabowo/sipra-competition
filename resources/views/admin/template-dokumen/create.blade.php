@@ -25,8 +25,8 @@
                         <label for="template">Template Dokumen</label>
                         <input type="file" class="form-control-file" id="template" name="template"
                                accept=".doc, .docx, .pdf">
-                        <small class="form-text text-muted">Unggah template dokumen dalam format .doc, .docx, atau
-                            .pdf.</small>
+                        <small class="form-text text-muted">Unggah template dokumen dalam format .doc, .docx,
+                            .pdf, atau .jpg, .jpeg, .png</small>
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
