@@ -185,7 +185,7 @@ class RegistrasiController extends Controller
         $validatedData = $request->validate([
             'nisn' => 'required|string|max:255',
             'nama' => 'required|string|max:255',
-            'mata_lomba_id' => 'required|exists:mata_lomba,id',
+            'mata_lomba_id' => 'required|exists:mata_lombas,id',
         ]);
 
         $peserta->update($validatedData);

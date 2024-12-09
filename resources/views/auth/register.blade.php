@@ -31,7 +31,7 @@
                                     <!-- Username -->
                                     <div class="form-group">
                                         <input type="text" name="username" class="form-control form-control-user"
-                                               placeholder="Enter Username" value="{{ old('username') }}" required>
+                                               placeholder="Enter Username" required>
                                         @error('username')
                                         <span class="text-danger small">{{ $message }}</span>
                                         @enderror
@@ -48,11 +48,11 @@
                                     <div class="form-group">
                                         <select name="role" class="form-control form-control-user" aria-label=".form-select-lg example" required>
                                             <!-- Placeholder dengan value kosong -->
-                                            <option value="" disabled {{ old('role') ? '' : 'selected' }}>Select Role</option>
-                                            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                            <option value="pembina" {{ old('role') == 'pembina' ? 'selected' : '' }}>Pembina</option>
-                                            <option value="peserta" {{ old('role') == 'peserta' ? 'selected' : '' }}>Peserta</option>
-                                            <option value="juri" {{ old('role') == 'juri' ? 'selected' : '' }}>Juri</option>
+                                            <option value="">Select Role</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="pembina">Pembina</option>
+                                            <option value="peserta">Peserta</option>
+                                            <option value="juri">Juri</option>
                                         </select>
                                         @error('role')
                                         <span class="text-danger small">{{ $message }}</span>

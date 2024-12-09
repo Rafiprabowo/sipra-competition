@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>LOGIKA 2024</title>
 
     <!-- Custom fonts for this template-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -228,7 +228,7 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->username }}</span>
                             <img class="img-profile rounded-circle"
-                                 src="img/undraw_profile.svg">
+                                 src="{{ asset('img/profile.jpg') }}">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -277,7 +277,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span><strong>LOMBA 2024</strong></span>
+                    <span><strong>LOGIKA 2024</strong></span>
                 </div>
             </div>
         </footer>

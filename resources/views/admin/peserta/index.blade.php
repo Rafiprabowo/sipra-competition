@@ -36,8 +36,8 @@
                                 <td>{{$index + 1}}</td>
                                 <td>{{$value->nisn}}</td>
                                 <td>{{$value->nama}}</td>
-                                <td>{{$value->pangkalan}}</td>
-                                <td>{{$value->regu}}</td>
+                                <td>{{$value->regu_pembina->pembina->pangkalan}}</td>
+                                <td>{{$value->regu_pembina->nama_regu}}</td>
                                 <td>{{$value->jenis_kelamin}}</td>
                                 <td>{{$value->mata_lomba->nama}}</td>
                                 <td>
