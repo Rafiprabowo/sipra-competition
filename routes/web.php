@@ -14,12 +14,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {
-    return redirect()->route('login');
-});
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+Route::get('/', function () { return view('home'); });
+Route::get('/login', function () {return redirect()->route('login');});
+Route::get('/login', function () {return view('auth.login');})->name('login');
 Route::post('/login', \App\Http\Controllers\Auth\LoginController::class)->name('login.attempt');
 Route::get('/register', function () {
     return view('auth.register');
@@ -62,6 +59,10 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('juri')->group(function () {
         Route::resource('/juri', JuriController::class)->middleware(['role:admin']);
+        Route::get('/dashboard', function () {
+            return view('juri.dashboard');
+        })->name('juri.dashboard')->middleware(['role:juri']);
+        Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri')->middleware(['role:juri']);
     });
 })->middleware(['role:admin']);
 

@@ -6,7 +6,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Sipra <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">LOMBA</div>
     </a>
 
     <!-- Divider -->
@@ -19,6 +19,9 @@
             <span>Dashboard</span></a>
     </li>
 
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
     <li class="nav-item">
         <a href="{{route('registrasi.form')}}" class="nav-link">
             <i class="fas fa-clipboard-list"></i>
@@ -26,19 +29,14 @@
         </a>
     </li>
 
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" href="{{route('data-peserta.index')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Data Pembina</span></a>
-    </li>
+    </li> --}}
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Interface
-    </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
