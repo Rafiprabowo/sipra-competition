@@ -24,10 +24,13 @@ Route::get('/register', function () {
 })->name('register');
 Route::post('/register', \App\Http\Controllers\Auth\RegisterController::class)->name('register.attempt');
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout');
+Route::get('/download-template/{templateId}', [\App\Http\Controllers\Admin\TemplateDokumenController::class, 'downloadTemplate'])->name('downloadTemplate');
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
+
+        $pembinas = \App\Models\Pembina::all();
+        return view('admin.dashboard', compact('pembinas'));
     })->name('admin.dashboard')->middleware(['role:admin']);
     Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class)->middleware(['role:admin']);
     Route::resource('dokumen', \App\Http\Controllers\Admin\TemplateDokumenController::class)->middleware(['role:admin']);

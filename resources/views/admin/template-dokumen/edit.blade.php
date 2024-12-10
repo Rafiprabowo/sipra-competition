@@ -3,7 +3,7 @@
     @include('layouts.sidebar.admin')
 @endsection
 @section('content')
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
         <div class="card">
             <div class="card-header bg-info text-white">
                 <h5>Edit Template Dokumen</h5>
