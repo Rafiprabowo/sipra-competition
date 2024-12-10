@@ -26,7 +26,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 18px;">
                     <thead>
                     <tr>
                         <th>No</th>
@@ -38,16 +38,28 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {{-- @foreach($peserta as $index => $value) --}}
+                     @foreach($pembinas as $index => $value)
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{$index + 1}}</td>
+                            <td>{{$value->nama}}</td>
+                            <td>{{$value->pangkalan}}</td>
+                            <td>{{$value->finalisasi->keterangan ?? ''}}</td>
+                           <td>
+                            @if($value->finalisasi->status)
+                                <span class="badge badge-success">Lolos Verifikasi</span>
+                            @else
+                                <span class="badge badge-info">Tidak Lolos Verifikasi</span>
+                            @endif
+                            </td>
+                           <td>
+                                <a href="" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </td>
+
+
                         </tr>
-                    {{-- @endforeach --}}
+                     @endforeach
                     </tbody>
                     <tfoot>
                     <tr>

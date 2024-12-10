@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\TemplateDokumen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TemplateDokumenController extends Controller
 {
@@ -54,6 +55,21 @@ class TemplateDokumenController extends Controller
         // Mengarahkan kembali ke halaman index dengan pesan sukses
         return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil ditambahkan.');
     }
+public function downloadTemplate($templateId)
+{
+    $template = TemplateDokumen::findOrFail($templateId);
+
+    // Make sure the storage path is correctly formed
+    $filePath = $template->template; // This should be 'templates/yourfilename.ext'
+    $fileName = $template->nama . '.' . pathinfo($template->template, PATHINFO_EXTENSION);
+
+    if (!Storage::exists($filePath)) {
+        return response()->json(['error' => 'File not found'], 404);
+    }
+
+    return response()->download(storage_path('app/' . $filePath), $fileName); // Ensure the correct storage path
+}
+
 
     /**
      * Display the specified resource.

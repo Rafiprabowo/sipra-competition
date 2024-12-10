@@ -44,6 +44,7 @@
             <div class="tab-pane fade show active" id="data-pembina" role="tabpanel" aria-labelledby="data-pembina-tab">
                 <div class="container-fluid mt-4">
                     <div class="card-body ">
+                       @if(!isset($pembina->finalisasi))
                         @if(isset($pembina) && $pembina->exists)
                             <form id="pembinaForm" action="{{ route('pembina.update', $pembina->id) }}" method="post">
                                 @method('PUT')
@@ -265,7 +266,7 @@
 
                                     </form>
 
-                                    @if(isset($pembina))
+                                @if(isset($pembina) && $pembina->exists)
                                         <div class="card w-auto mt-4">
                                             <div class="card-header bg-info text-white">Data Pembina</div>
                                             <div class="card-body">
@@ -318,6 +319,62 @@
                                             </div>
                                         </div>
                         @endif
+
+                                @else
+                                    @if(isset($pembina) && $pembina->exists)
+                                        <div class="card w-auto mt-4">
+                                            <div class="card-header bg-info text-white">Data Pembina</div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>Nama</td>
+                                                            <td>{{ $pembina->nama }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Alamat</td>
+                                                            <td>{{ $pembina->alamat }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Tanggal Lahir</td>
+                                                            <td>{{ $pembina->tanggal_lahir }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Jenis Kelamin</td>
+                                                            <td>{{ $pembina->jenis_kelamin }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Nomor Handphone</td>
+                                                            <td>{{ $pembina->no_hp }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Kwartir Cabang</td>
+                                                            <td>{{ $pembina->kwartir_cabang }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Nama Pangkalan</td>
+                                                            <td>{{ $pembina->pangkalan }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Nama Gudep</td>
+                                                            <td>{{ $pembina->nama_gudep }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Pengalaman Pembina</td>
+                                                            <td>{{ $pembina->pengalaman_pembina }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Pekerjaan</td>
+                                                            <td>{{ $pembina->pekerjaan }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                        @endif
+                        @endif
                     </div>
                 </div>
 
@@ -332,6 +389,8 @@
                             <i class="fas fa-exclamation-triangle"></i> Harap input data pembina terlebih dahulu.
                         </div>
                     @endif
+
+
                     <!-- Form Input Data Regu -->
                     @if(isset($pembina))
                         @if($pembina->regu->count() < 2 || isset($reguToEdit))
@@ -429,7 +488,9 @@
                                             <th>Nama Regu</th>
                                             <th>Kategori</th>
                                             <th>Nama Pembina</th>
-                                            <th>Aksi</th>
+                                               @if(!isset($pembina->finalisasi))
+                                                <th>Aksi</th>
+                                                    @endif
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -438,6 +499,7 @@
                                                 <td>{{ $regu->nama_regu }}</td>
                                                 <td>{{ $regu->kategori }}</td>
                                                 <td>{{ $regu->pembina->nama}}</td>
+                                               @if(!isset($pembina->finalisasi))
                                                 <td>
                                                     <a href="{{ route('registrasi.form', ['edit_regu_id' => $regu->id]) }}"
                                                        class="btn btn-success btn-sm mr-3   ">
@@ -453,6 +515,7 @@
                                                         </button>
                                                     </form>
                                                 </td>
+                                                @endif
 
                                             </tr>
                                         @endforeach
@@ -477,7 +540,7 @@
                             <i class="fas fa-exclamation-triangle"></i> Harap input data pembina & regu terlebih dahulu.
                         </div>
                     @endif
-
+                    @if(!isset($pembina->finalisasi))
                     <!-- Form Input atau Edit Data Peserta -->
                     @if(isset($pembina) && !$regus->isEmpty())
                         <form
@@ -553,7 +616,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    
+
                                 </div>
                                 <div class="card-footer">
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -589,7 +652,7 @@
                             </div>
                         </form>
                     @endif
-
+                    @endif
                     <!-- Tabel Data Peserta -->
                     @if(isset($pesertas) && $pesertas->count() > 0)
                         <div class="card mb-4">
@@ -605,7 +668,9 @@
                                             <th>Jenis Kelamin</th>
                                             <th>Regu</th>
                                             <th>Lomba</th>
+                                             @if(!isset($pembina->finalisasi))
                                             <th>Aksi</th>
+                                            @endif
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -617,6 +682,7 @@
                                                 <th>{{$peserta->jenis_kelamin}}</th>
                                                 <td>{{ $peserta->regu_pembina->nama_regu }}</td>
                                                 <td>{{ $peserta->mata_lomba->nama}}</td>
+                                               @if(!isset($pembina->finalisasi))
                                                 <td>
                                                     <a href="{{ route('registrasi.form', ['edit_peserta_id' => $peserta->id]) }}"
                                                        class="btn btn-success btn-sm mr-2">
@@ -632,6 +698,7 @@
                                                         </button>
                                                     </form>
                                                 </td>
+                                                @endif
 
                                             </tr>
                                         @endforeach
@@ -660,15 +727,17 @@
                         <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
                             <h5>Dokumen Syarat Umum</h5>
                             <!-- Tombol Finalisasi Pendaftaran -->
+                               @if(!isset($pembina->finalisasi))
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#finalizeModal" {{ !isset($pembina) ? 'disabled' : '' }}>
                                 Finalisasi Pendaftaran
                             </button>
+                            @endif
                         </div>
 
                         <div class="card-body">
                             <div class="row">
                                 <!-- Tabel Data Dokumen -->
-                                <div class="col-md-6">
+                                <div class="col-md-12 mb-5">
                                     <table id="documentTable" class="table table-bordered">
                                         <thead class="thead-light">
                                             <tr>
@@ -704,9 +773,8 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <a href="{{ asset('storage/' . $template->template) }}"
-                                                        class="btn btn-info"
-                                                        download="{{ $template->nama . '.' . pathinfo($template->template, PATHINFO_EXTENSION) }}">
+                                                        <a href="{{ route('downloadTemplate', $template->id) }}"
+                                                        class="btn btn-info">
                                                             <i class="fa fa-download"></i> Unduh
                                                         </a>
                                                     </td>
@@ -715,10 +783,10 @@
                                         </tbody>
                                     </table>
                                 </div>
-
+                   @if(!isset($pembina->finalisasi))
                                 <!-- Form Unggah Dokumen -->
                                 @if(isset($pembina))
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <h5 class="font-weight-bold text-black-50 lead">Unggah Dokumen</h5>
                                         <hr class="mb-4">
                                         <form id="uploadForm" action="{{ route('upload_dokumen.store') }}" method="post"
@@ -747,6 +815,7 @@
                                 @endif
 
                                 <!-- Modal Konfirmasi Finalisasi Pendaftaran -->
+                                @endif
                                 <div class="modal fade" id="finalizeModal" tabindex="-1" role="dialog"
                                     aria-labelledby="finalizeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -771,7 +840,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>

@@ -15,13 +15,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use SebastianBergmann\Template\Template;
 
 class RegistrasiController extends Controller
 {
     public function registrasi(Request $request)
     {
-        $pembina = auth()->user()->pembina;
+        $pembina = auth()->user()->pembina()->with('finalisasi')->first();
         $mataLombas = \App\Models\MataLomba::all();
         $templates = TemplateDokumen::with('upload_dokumen')->get();
         $uploadDokumens = UploadDokumen::with('template_dokumen')->get();
@@ -46,6 +47,7 @@ class RegistrasiController extends Controller
 
         return view('pembina.registrasi', compact('pembina', 'templates', 'uploadDokumens'))->with('regus', collect()); // Tambahkan 'regus' sebagai koleksi kosong
     }
+
 
     public function storePembina(Request $request)
     {
@@ -171,25 +173,25 @@ class RegistrasiController extends Controller
             'mata_lomba_id' => 'required|exists:mata_lombas,id',
             'regu_pembina_id' => 'required|exists:regu_pembinas,id',
         ]);
-    
+
         $regu = ReguPembina::findOrFail($validatedData['regu_pembina_id']);
         $regu->load('peserta'); // Memastikan relasi pesertas dimuat
-    
+
         // Cek kategori regu dan jenis kelamin peserta
         if (($regu->kategori == 'PA' && $validatedData['jenis_kelamin'] != 'L') ||
             ($regu->kategori == 'PI' && $validatedData['jenis_kelamin'] != 'P')) {
             return redirect()->route('registrasi.form')->with('error', 'Jenis kelamin peserta harus sesuai dengan kategori regu.');
         }
-    
+
         if ($regu->peserta->count() >= 8) {
             return redirect()->route('registrasi.form')->with('error', 'Masing-masing regu hanya bisa memiliki maksimal 8 peserta.');
         }
-    
+
         Peserta::create($validatedData);
-    
+
         return redirect()->route('registrasi.form')->with('success', 'Peserta berhasil ditambahkan.');
     }
-    
+
 
 
     public function destroyPeserta(Peserta $peserta)
@@ -208,22 +210,22 @@ class RegistrasiController extends Controller
             'jenis_kelamin' => 'required',
             'mata_lomba_id' => 'required|exists:mata_lombas,id',
         ]);
-    
+
         $regu = ReguPembina::findOrFail($validatedData['regu_pembina_id']);
-    
+
         // Cek kategori regu dan jenis kelamin peserta
         if (($regu->kategori == 'PA' && $validatedData['jenis_kelamin'] != 'L') ||
             ($regu->kategori == 'PI' && $validatedData['jenis_kelamin'] != 'P')) {
             return redirect()->route('registrasi.form')->with('error', 'Jenis kelamin peserta harus sesuai dengan kategori regu.');
         }
-    
+
         $peserta->update($validatedData);
-    
+
         return redirect()->route('registrasi.form')->with('success', 'Peserta berhasil diupdate.');
     }
-    
 
-    
+
+
 
     public function storeDokumen(Request $request)
 {
@@ -296,7 +298,7 @@ public function finalisasi(Request $request)
             'pembina_id' => $pembina->id,
         ],
         [
-            'status_finalisasi' => 1,
+            'status' => 1,
             'keterangan' => $request->keterangan,
         ]
     );
