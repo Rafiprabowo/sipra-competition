@@ -39,6 +39,9 @@
             <input type="file" class="form-control" id="foto_profil" name="foto_profil">
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route(auth()->user()->role . '.dashboard') }}" class="btn btn-secondary d-inline-block">
+            Kembali
+        </a>
     </form>
 </div>
 @endsection
