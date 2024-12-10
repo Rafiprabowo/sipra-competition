@@ -293,7 +293,7 @@ public function finalisasi(Request $request)
             'pembina_id' => $pembina->id,
         ],
         [
-            'status_finalisasi' => 1,
+            'status_finalisasi' => 0,
             'keterangan' => $request->keterangan,
         ]
     );

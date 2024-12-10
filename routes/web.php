@@ -29,6 +29,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard')->middleware(['role:admin']);
+    Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class)->middleware(['role:admin']);
     Route::resource('dokumen', \App\Http\Controllers\Admin\TemplateDokumenController::class)->middleware(['role:admin']);
     Route::prefix('peserta')->group(function () {
         Route::get('/data-peserta', [\App\Http\Controllers\Admin\PesertaController::class, 'index'])->name('admin.peserta.index')->middleware(['role:admin']);
@@ -98,4 +99,7 @@ Route::prefix('juri')->group(function () {
     Route::resource('/penilaian-karikatur', \App\Http\Controllers\Juri\PenilaianKarikatur::class)->middleware(['role:juri']);
     Route::resource('/penilaian-pioneering', \App\Http\Controllers\Juri\PenilaianPioneering::class)->middleware(['role:juri']);
 })->middleware(['role:juri']);
+
+Route::get('/edit-profile', [\App\Http\Controllers\DashboardController::class, 'editProfile'])->name('editProfile'); 
+Route::post('/update-profile', [\App\Http\Controllers\DashboardController::class, 'updateProfile'])->name('updateProfile');
 
