@@ -76,11 +76,23 @@ Route::prefix('admin')->group(function () {
     });
 })->middleware(['role:admin']);
 
-Route::prefix('peserta')->group(function () {
+// Route dengan prefix 'peserta' dan middleware 'role:peserta'
+Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
+
+    // Dashboard peserta
     Route::get('/dashboard', function () {
         return view('peserta.dashboard');
-    })->name('peserta.dashboard')->middleware(['role:peserta']);
-})->middleware(['role:peserta']);
+    })->name('peserta.dashboard');
+
+    // Route untuk upload lomba
+    Route::get('/upload-lombas', [App\Http\Controllers\Peserta\UploadLombaController::class, 'upload_lombas'])->name('upload_lombas.form')->middleware(['role:peserta']);
+    Route::post('/upload-lombas/store', [App\Http\Controllers\Peserta\UploadLombaController::class, 'store'])->name('upload_lombas.store')->middleware(['role:peserta']);
+    Route::delete('/upload-lombas/{id}', [App\Http\Controllers\Peserta\UploadLombaController::class, 'destroy'])->name('upload_lombas.destroy')->middleware(['role:peserta']);
+    Route::get('/upload-lombas/edit/{id}', [App\Http\Controllers\Peserta\UploadLombaController::class, 'edit'])->name('upload_lombas.edit')->middleware(['role:peserta']);
+    Route::put('/upload-lombas/update/{id}', [App\Http\Controllers\Peserta\UploadLombaController::class, 'update'])->name('upload_lombas.update')->middleware(['role:peserta']);
+
+});
+
 
 Route::prefix('pembina')->group(function () {
     Route::get('/dashboard', function () {

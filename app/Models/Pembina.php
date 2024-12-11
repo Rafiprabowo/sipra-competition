@@ -24,4 +24,9 @@ class Pembina extends Model
         return $this->hasOne(Finalisasi::class);
     }
 
-}
+
+    public function upload_lomba(){
+        return $this->hasOne(UploadLomba::class);
+    }    
+    
+

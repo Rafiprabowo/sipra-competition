@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('upload_lombas', function (Blueprint $table) {
             $table->id();
-            $table->string('upload_poster');
-            $table->string('upload_video');
+            $table->string('upload_poster')->nullable();
+            $table->string('upload_video')->nullable();
             $table->foreignId('peserta_id')->constrained('pesertas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('mata_lomba_id')->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('pembina_id')->constrained('pembinas')->cascadeOnDelete()->cascadeOnUpdate();

@@ -16,7 +16,6 @@
     <hr class="sidebar-divider my-0">
 
     <li class="nav-item">
-
         <a href="{{route('registrasi.form')}}" class="nav-link">Registrasi Pembina</a>
     </li>
 
