@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('nama_lengkap')->nullable();
+            $table->string('foto_profil')->nullable();
+            $table->string('email')->nullable();
+            $table->string('no_hp')->nullable();
             $table->enum('role', ['admin', 'pembina', 'peserta', 'juri']);
             $table->rememberToken();
             $table->timestamps();

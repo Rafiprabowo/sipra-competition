@@ -22,7 +22,12 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>Kwartir Cabang</th>
                             <th>Pangkalan</th>
+                            <th>Nama Gudep</th>
+                            <th>Tanggal Lahir</th>
+                            <th>Jenis Kelamin</th>
+                            <th>No Handphone</th>
                             <th>Aksi</th>
                         </tr>
                         </thead>
@@ -31,7 +36,12 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $value->nama }}</td>
+                                <td></td>
                                 <td>{{ $value->pangkalan }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td>
                                     <a href="{{ route('admin.pembina.show', $value->id) }}" class="btn btn-info btn-sm" title="Lihat">
                                         <i class="fas fa-eye"></i>

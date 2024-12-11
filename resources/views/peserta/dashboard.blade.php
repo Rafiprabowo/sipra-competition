@@ -30,12 +30,12 @@
     @include('layouts.sidebar.peserta')
 @endsection
 @section('content')
-    <div class="container py-5">
+    <div class="container py-5"  style="font-size: 12px;">
         <h2 class="text-center fw-bold mb-4">LOMBA</h2>
         <div class="row g-4">
             <!-- Card 1 -->
             <div class="col-md-4 col-sm-6">
-                <div class="card shadow-sm rounded-4 h-100 text-center">
+                <div class="card shadow-sm rounded-4 h-100 text-center" style="font-size: 12px;">
                     <img src="{{ asset('img/iot.jpg') }}" class="card-img-top img-fluid p-3" alt="Internet of Things">
                     <div class="card-body">
                         <h5 class="card-title fw-bold">Pioneering</h5>
@@ -111,7 +111,7 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size:12px;">
                         <thead>
                         <tr>
                             <th>No</th>

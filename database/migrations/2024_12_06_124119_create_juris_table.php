@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('jenis_kelamin');
             $table->string('alamat');
             $table->string('no_hp');
-            $table->string('pengalaman_juri');
-            $table->string('pekerjaan');
+            $table->string('pengalaman_juri')->nullable();
+            $table->string('pekerjaan')->nullable();
             $table->foreignId('mata_lomba_id')->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

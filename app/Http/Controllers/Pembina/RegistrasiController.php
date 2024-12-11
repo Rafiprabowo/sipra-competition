@@ -224,9 +224,6 @@ class RegistrasiController extends Controller
         return redirect()->route('registrasi.form')->with('success', 'Peserta berhasil diupdate.');
     }
 
-
-
-
     public function storeDokumen(Request $request)
 {
     // Validasi input dari form
@@ -305,9 +302,5 @@ public function finalisasi(Request $request)
 
     return redirect()->route('registrasi.form')->with('success', 'Pendaftaran berhasil difinalisasi.');
 }
-
-
-
-
 
 }

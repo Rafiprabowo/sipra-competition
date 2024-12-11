@@ -20,6 +20,10 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Juri</th>
+                            <th>Kwartir Cabang</th>
+                            <th>Pangkalan</th>
+                            <th>Jenis Kelamin</th>
+                            <th>No Handphone</th>
                             <th>Mata Lomba</th>
                             <th>Aksi</th>
                         </tr>
@@ -29,6 +33,10 @@
                             <tr>
                                 <td>{{$index + 1}}</td>
                                 <td>{{$value->nama}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td>{{$value->mata_lomba->nama}}</td>
                                 <td>
                                     <a href="{{route('juri.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">

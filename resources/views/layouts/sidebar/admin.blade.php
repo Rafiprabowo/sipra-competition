@@ -5,48 +5,53 @@
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('admin.dashboard')}}">
         <div class="sidebar-brand-text mx-3">LOGIKA</div>
     </a>
-    <!-- Manjemen Peserta -->
-    <li class="nav-item">
-        <a class="nav-link" href="">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Manajemen Peserta</span></a>
-    </li>
-    <!-- Manjemen Pembina -->
-    <hr class="sidebar-divider my-2">
-    <li class="nav-item">
-        <a class="nav-link" href="">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Manajemen Pembina</span></a>
-    </li>
-    <hr class="sidebar-divider my-2">
-    <!-- Manjemen Juri -->
-    <li class="nav-item">
-        <a class="nav-link" href="">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Manajemen Juri</span></a>
-    </li>
-    <hr class="sidebar-divider my-2">
-    <!-- Manjemen User -->
-    <li class="nav-item">
-        <a class="nav-link" href="">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Manajemen User</span></a>
-    </li>
-    <hr class="sidebar-divider my-2">
+
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('admin.dashboard')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
+    <hr class="sidebar-divider my-2">
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+    <!-- Manjemen Peserta -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('admin.peserta.index')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Manajemen Peserta</span></a>
+    </li>
+    <!-- Manjemen Pembina -->
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('admin.pembina.index')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Manajemen Pembina</span></a>
+    </li>
+
+    <!-- Manjemen Juri -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('juri.index')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Manajemen Juri</span></a>
+    </li>
+
+    <!-- Manjemen User -->
+    <li class="nav-item">
+        <a class="nav-link" href="">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Manajemen User</span></a>
+    </li>
 
     <li class="nav-item">
         <a class="nav-link" href="{{route('admin.mata-lomba.index')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Mata Lomba</span></a>
+            <span>Manajemen Mata Lomba</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('admin.peserta.index')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Manajemen Bobot Soal</span></a>
     </li>
     <hr class="sidebar-divider my-2">
     <!-- Nav Item - Dashboard -->
@@ -55,8 +60,10 @@
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Template Dokumen</span></a>
     </li>
+
     <hr class="sidebar-divider my-2">
-    <li class="nav-item">
+
+    {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
            aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-wrench"></i>
@@ -76,10 +83,10 @@
         <a class="nav-link" href="{{route('admin.mata-lomba.index')}}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Manajemen Bobot Soal</span></a>
-    </li>
+    </li> --}}
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
            aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
@@ -97,20 +104,20 @@
                 <a class="collapse-item" href="blank.html">dll</a>
             </div>
         </div>
-    </li>
+    </li> --}}
 
     <!-- Divider -->
-    <hr class="sidebar-divider">
+    {{-- <hr class="sidebar-divider"> --}}
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item active">
+    {{-- <li class="nav-item active">
         <a class="nav-link" href="tables.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Tables</span></a>
-    </li>
+    </li> --}}
 
     <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    {{-- <hr class="sidebar-divider d-none d-md-block"> --}}
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

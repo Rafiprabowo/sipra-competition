@@ -16,7 +16,6 @@ class RegisterController extends Controller
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
-            'role' => 'required|in:admin,pembina,peserta,juri',
         ]);
 
         // Create the user

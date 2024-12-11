@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="col-sm-12 mx-auto mt-4">
+    <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 12px;">
         @if (session('success'))
             <div class="alert alert-success" role="alert"> {{ session('success') }} </div>
         @endif
@@ -18,54 +18,35 @@
             <div class="card-body">
                 <!-- Tabel Peserta -->
                 <div class="mb-5">
-                    <h5>Peserta</h5>
+                    <h5>Penilaian Peserta</h5>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="pesertaTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nisn</th>
+                                {{-- <th>Nisn</th> --}}
                                 <th>Nama</th>
                                 <th>Pangkalan</th>
                                 <th>Regu</th>
-                                <th>Jenis Kelamin</th>
+                                <th>Orisinalitas</th>
+                                <th>Kesesuaian Tema</th>
+                                <th>Kreativitas</th>
+                                <th>Pesan yang Disampaikan</th>
+                                <th>Teknik</th>
+                                {{-- <th>Jenis Kelamin</th> --}}
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($pesertas as $index => $peserta)
                                 <tr class="peserta-row" data-id="{{ $peserta->id }}">
                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ $peserta->nisn }}</td>
+                                    {{-- <td>{{ $peserta->nisn }}</td> --}}
                                     <td>{{ $peserta->nama }}</td>
                                     <td>{{ $peserta->pangkalan }}</td>
                                     <td>{{ $peserta->regu }}</td>
-                                    <td>{{ $peserta->jenis_kelamin }}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                                    {{-- <td>{{ $peserta->jenis_kelamin }}</td> --}}
+                                    @foreach($pesertas as $peserta)
 
-                <!-- Tabel Penilaian Karikatur -->
-                <div>
-                    <h5>Penilaian Karikatur <i class="fas fa-paint-brush"></i></h5>
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="penilaianTable" width="100%" cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th>Nama Peserta</th>
-                                <th>Orisinalitas</th>
-                                <th>Kesesuaian Tema</th>
-                                <th>Kreativitas</th>
-                                <th>Pesan yang Disampaikan</th>
-                                <th>Teknik</th>
-                            </tr>
-                            </thead>
-                            <tbody id="penilaianData">
-                            @foreach($pesertas as $peserta)
-                                <tr>
-                                    <td>{{ $peserta->nama }}</td>
                                     @if($peserta->penilaian_karikatur)
                                         <td>{{ $peserta->penilaian_karikatur->orisinalitas }}</td>
                                         <td>{{ $peserta->penilaian_karikatur->kesesuaian_tema }}</td>
@@ -79,12 +60,17 @@
                                         <td>Belum dinilai</td>
                                         <td>Belum dinilai</td>
                                     @endif
+                            @endforeach
+
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                <!-- Tabel Penilaian Karikatur -->
+                
             </div>
         </div>
     </div>
