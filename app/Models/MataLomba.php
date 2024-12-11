@@ -23,4 +23,8 @@ class MataLomba extends Model
         return $this->hasMany(PenilaianPioneering::class);
     }
 
+    public function upload_lomba(){
+        return $this->hasOne(UploadLomba::class);
+    }
+
 }

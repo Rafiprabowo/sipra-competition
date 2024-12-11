@@ -24,4 +24,8 @@ class Peserta extends Model
     public function regu_pembina(){
         return $this->belongsTo(ReguPembina::class);
     }
+
+    public function upload_lomba(){
+        return $this->hasOne(UploadLomba::class);
+    }
 }
