@@ -55,6 +55,18 @@ class TemplateDokumenController extends Controller
         // Mengarahkan kembali ke halaman index dengan pesan sukses
         return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil ditambahkan.');
     }
+   public function viewFile($fileName)
+{
+    $filePath = 'dokumen_pendaftaran/' . $fileName;
+    if (!Storage::exists($filePath)) {
+        return abort(404, 'File not found');
+    }
+    $fileContents = Storage::get($filePath);
+    $mimeType = Storage::mimeType($filePath);
+
+    return response($fileContents, 200)->header('Content-Type', $mimeType);
+}
+
 public function downloadTemplate($templateId)
 {
     $template = TemplateDokumen::findOrFail($templateId);

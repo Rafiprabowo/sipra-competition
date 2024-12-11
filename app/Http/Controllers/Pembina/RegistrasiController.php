@@ -238,16 +238,16 @@ class RegistrasiController extends Controller
 
         // Menggunakan updateOrCreate untuk menyimpan atau mengupdate data di tabel upload_dokumens
         UploadDokumen::updateOrCreate(
-            [
-                'template_dokumens_id' => $request->template_dokumen_id,
-                'pembina_id' => auth()->user()->pembina->id,  // Asumsi pembina sudah login
-            ],
-            [
-                'keterangan' => null,  // Keterangan awal, bisa diupdate nanti
-                'status' => 0,  // Set status awal, misal 0 untuk belum diverifikasi
-                'file' => $filePath,
-            ]
-        );
+    [
+        'template_dokumens_id' => $request->template_dokumen_id,
+        'pembina_id' => auth()->user()->pembina->id, // Assume the pembina is logged in
+    ],
+    [
+        'keterangan' => null, // Initial description, can be updated later
+        'file' => $filePath,  // Ensure $filePath is correctly defined
+    ]
+);
+
 
         // Redirect ke halaman form registrasi dengan pesan sukses
         return redirect()->route('registrasi.form')->with('success', 'Dokumen berhasil ditambahkan atau diupdate.');
@@ -294,10 +294,6 @@ public function finalisasi(Request $request)
         [
             'pembina_id' => $pembina->id,
         ],
-        [
-            'status' => 1,
-            'keterangan' => $request->keterangan,
-        ]
     );
 
     return redirect()->route('registrasi.form')->with('success', 'Pendaftaran berhasil difinalisasi.');
