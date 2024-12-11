@@ -224,7 +224,7 @@ class RegistrasiController extends Controller
         return redirect()->route('registrasi.form')->with('success', 'Peserta berhasil diupdate.');
     }
 
-    public function storeDokumen(Request $request)
+   public function storeDokumen(Request $request)
 {
     // Validasi input dari form
     $request->validate([
@@ -240,12 +240,11 @@ class RegistrasiController extends Controller
         UploadDokumen::updateOrCreate(
             [
                 'template_dokumens_id' => $request->template_dokumen_id,
-                'pembina_id' => auth()->user()->pembina->id,  // Asumsi pembina sudah login
+                'pembina_id' => auth()->user()->pembina->id, // Assume the pembina is logged in
             ],
             [
-                'keterangan' => null,  // Keterangan awal, bisa diupdate nanti
-                'status' => 0,  // Set status awal, misal 0 untuk belum diverifikasi
-                'file' => $filePath,
+                'keterangan' => null, // Initial description, can be updated later
+                'file' => $filePath,  // Ensure $filePath is correctly defined
             ]
         );
 
@@ -294,10 +293,6 @@ public function finalisasi(Request $request)
         [
             'pembina_id' => $pembina->id,
         ],
-        [
-            'status' => 1,
-            'keterangan' => $request->keterangan,
-        ]
     );
 
     return redirect()->route('registrasi.form')->with('success', 'Pendaftaran berhasil difinalisasi.');

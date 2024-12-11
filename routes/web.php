@@ -25,13 +25,18 @@ Route::get('/register', function () {
 Route::post('/register', \App\Http\Controllers\Auth\RegisterController::class)->name('register.attempt');
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout');
 Route::get('/download-template/{templateId}', [\App\Http\Controllers\Admin\TemplateDokumenController::class, 'downloadTemplate'])->name('downloadTemplate');
-
+Route::get('/view-file/{fileName}', [\App\Http\Controllers\Admin\TemplateDokumenController::class, 'viewFile'])->name('viewFile');
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
-
-        $pembinas = \App\Models\Pembina::all();
-        return view('admin.dashboard', compact('pembinas'));
+        $finalisasis = \App\Models\Finalisasi::with('pembina.upload_dokumen')->get();
+        return view('admin.dashboard', compact('finalisasis'));
     })->name('admin.dashboard')->middleware(['role:admin']);
+    Route::post('/finalisasi/{id}/approve', [\App\Http\Controllers\Admin\FinalisasiController::class, 'approve'])->name('finalisasi.approve');
+    Route::post('/finalisasi/{id}/reject', [\App\Http\Controllers\Admin\FinalisasiController::class, 'reject'])->name('finalisasi.reject');
+    Route::get('/finalisasi/{id}/edit', [\App\Http\Controllers\Admin\FinalisasiController::class, 'edit'])->name('finalisasi.edit');
+    Route::put('/finalisasi/{id}/update', [\App\Http\Controllers\Admin\FinalisasiController::class, 'update'])->name('finalisasi.update');
+    Route::get('/view-file/{file}', [\App\Http\Controllers\Admin\FinalisasiController::class, 'view'])->name('viewFile');
+
     Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class)->middleware(['role:admin']);
     Route::resource('dokumen', \App\Http\Controllers\Admin\TemplateDokumenController::class)->middleware(['role:admin']);
     Route::prefix('peserta')->group(function () {
@@ -115,6 +120,6 @@ Route::prefix('juri')->group(function () {
     Route::resource('/penilaian-pioneering', \App\Http\Controllers\Juri\PenilaianPioneering::class)->middleware(['role:juri']);
 })->middleware(['role:juri']);
 
-Route::get('/edit-profile', [\App\Http\Controllers\DashboardController::class, 'editProfile'])->name('editProfile'); 
+Route::get('/edit-profile', [\App\Http\Controllers\DashboardController::class, 'editProfile'])->name('editProfile');
 Route::post('/update-profile', [\App\Http\Controllers\DashboardController::class, 'updateProfile'])->name('updateProfile');
 

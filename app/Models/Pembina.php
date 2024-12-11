@@ -18,14 +18,15 @@ class Pembina extends Model
 
     public function upload_dokumen()
     {
-        return $this->hasOne(UploadDokumen::class);
+        return $this->hasMany(UploadDokumen::class,'pembina_id');
     }
     public function finalisasi(){
         return $this->hasOne(Finalisasi::class);
     }
 
+
     public function upload_lomba(){
         return $this->hasOne(UploadLomba::class);
     }    
     
-}
+

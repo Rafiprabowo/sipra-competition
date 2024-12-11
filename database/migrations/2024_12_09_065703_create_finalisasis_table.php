@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('finalisasis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pembina_id')->constrained('pembinas')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->boolean('status')->default(0);
+            $table->boolean('status')->nullable()->default(null);
             $table->string('keterangan')->nullable();
             $table->timestamps();
         });

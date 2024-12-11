@@ -26,50 +26,67 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 18px;">
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Pembina</th>
-                        <th>Pangkalan</th>
-                        <th>Keterangan</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                     @foreach($pembinas as $index => $value)
-                        <tr>
-                            <td>{{$index + 1}}</td>
-                            <td>{{$value->nama}}</td>
-                            <td>{{$value->pangkalan}}</td>
-                            <td>{{$value->finalisasi->keterangan ?? ''}}</td>
-                           <td>
-                            @if($value->finalisasi->status)
-                                <span class="badge badge-success">Lolos Verifikasi</span>
-                            @else
-                                <span class="badge badge-info">Tidak Lolos Verifikasi</span>
-                            @endif
-                            </td>
-                           <td>
-                                <a href="" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i> Edit
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 14px;">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Nama Pembina</th>
+            <th>Pangkalan</th>
+            <th>Dokumen dan Status</th>
+            <th>Status Finalisasi</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($finalisasis as $index => $finalisasi)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $finalisasi->pembina->nama }}</td>
+                <td>{{ $finalisasi->pembina->pangkalan }}</td>
+                <td>
+                    <ul class="list-group">
+                        @foreach($finalisasi->pembina->upload_dokumen as $doc)
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ $doc->template_dokumen->nama }}</strong><br/>
+                                    <span class="badge {{ $doc->status == 1 ? 'badge-success' : ($doc->status == 0 ? 'badge-danger' : 'badge-warning') }}">
+                                        {{ $doc->status == 1 ? 'Tervalidasi' : ($doc->status == 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi') }}
+                                    </span>
+                                </div>
+                                <a href="{{ route('viewFile', basename($doc->file)) }}" class="btn btn-info btn-sm">
+                                    <i class="fa fa-eye"></i> Lihat
                                 </a>
-                            </td>
+                            </li>
+                        @endforeach
+                    </ul>
+                </td>
+                <td>
+                    @if($finalisasi && $finalisasi->status == 1)
+                        <span class="badge badge-success">Lolos Verifikasi</span>
+                    @elseif($finalisasi && $finalisasi->status === 0)
+                        <span class="badge badge-danger">Tidak Lolos Verifikasi</span>
+                    @else
+                        <span class="badge badge-warning">Menunggu Verifikasi</span>
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('finalisasi.edit', $finalisasi->id) }}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6" class="text-center">
+                <i class="fas fa-info-circle text-warning"></i> <strong>Pemberitahuan:</strong> Data Pangkalan yang belum lolos validasi tolong mengecek kelengkapan registrasi lomba oleh Pembina masing-masing.
+            </td>
+        </tr>
+    </tfoot>
+</table>
 
-
-                        </tr>
-                     @endforeach
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="8" class="text-center">
-                            <i class="fas fa-info-circle text-warning"></i> <strong>Pemberitahuan:</strong> Data Pangkalan yang belum lolos validasi tolong mengecek kelengkapan registrasi lomba oleh Pembina masing-masing.
-                        </td>
-                    </tr>
-                    </tfoot>
-                </table>
-            </div>
+  </div>
         </div>
     </div>
   </div>
