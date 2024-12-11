@@ -32,7 +32,10 @@ Route::prefix('admin')->group(function () {
         return view('admin.dashboard', compact('finalisasis'));
     })->name('admin.dashboard')->middleware(['role:admin']);
     Route::post('/finalisasi/{id}/approve', [\App\Http\Controllers\Admin\FinalisasiController::class, 'approve'])->name('finalisasi.approve');
-Route::post('/finalisasi/{id}/reject', [\App\Http\Controllers\Admin\FinalisasiController::class, 'reject'])->name('finalisasi.reject');
+    Route::post('/finalisasi/{id}/reject', [\App\Http\Controllers\Admin\FinalisasiController::class, 'reject'])->name('finalisasi.reject');
+    Route::get('/finalisasi/{id}/edit', [\App\Http\Controllers\Admin\FinalisasiController::class, 'edit'])->name('finalisasi.edit');
+    Route::put('/finalisasi/{id}/update', [\App\Http\Controllers\Admin\FinalisasiController::class, 'update'])->name('finalisasi.update');
+    Route::get('/view-file/{file}', [\App\Http\Controllers\Admin\FinalisasiController::class, 'view'])->name('viewFile');
 
     Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class)->middleware(['role:admin']);
     Route::resource('dokumen', \App\Http\Controllers\Admin\TemplateDokumenController::class)->middleware(['role:admin']);
