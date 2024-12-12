@@ -24,13 +24,6 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-        <a class="nav-link" href="{{route('upload_lombas.form')}}">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Upload Lomba</span></a>
-    </li>
-
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
         <a class="nav-link" href="charts.html">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Hasil Penilaian</span></a>

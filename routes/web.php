@@ -83,14 +83,6 @@ Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
     Route::get('/dashboard', function () {
         return view('peserta.dashboard');
     })->name('peserta.dashboard');
-
-    // Route untuk upload lomba
-    Route::get('/upload-lombas', [App\Http\Controllers\Peserta\UploadLombaController::class, 'upload_lombas'])->name('upload_lombas.form')->middleware(['role:peserta']);
-    Route::post('/upload-lombas/store', [App\Http\Controllers\Peserta\UploadLombaController::class, 'store'])->name('upload_lombas.store')->middleware(['role:peserta']);
-    Route::delete('/upload-lombas/{id}', [App\Http\Controllers\Peserta\UploadLombaController::class, 'destroy'])->name('upload_lombas.destroy')->middleware(['role:peserta']);
-    Route::get('/upload-lombas/edit/{id}', [App\Http\Controllers\Peserta\UploadLombaController::class, 'edit'])->name('upload_lombas.edit')->middleware(['role:peserta']);
-    Route::put('/upload-lombas/update/{id}', [App\Http\Controllers\Peserta\UploadLombaController::class, 'update'])->name('upload_lombas.update')->middleware(['role:peserta']);
-
 });
 
 
@@ -98,6 +90,13 @@ Route::prefix('pembina')->group(function () {
     Route::get('/dashboard', function () {
         return view('pembina.dashboard');
     })->name('pembina.dashboard')->middleware(['role:pembina']);
+    // Route untuk upload lomba
+    Route::get('/upload-lombas', [App\Http\Controllers\Pembina\UploadLombaController::class, 'upload_lombas'])->name('upload_lombas.form')->middleware(['role:pembina']);
+    Route::post('/upload-lombas/store', [App\Http\Controllers\Pembina\UploadLombaController::class, 'store'])->name('upload_lombas.store')->middleware(['role:pembina']);
+    Route::delete('/upload-lombas/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'destroy'])->name('upload_lombas.destroy')->middleware(['role:pembina']);
+    Route::get('/upload-lombas/edit/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'edit'])->name('upload_lombas.edit')->middleware(['role:pembina']);
+    Route::put('/upload-lombas/update/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'update'])->name('upload_lombas.update')->middleware(['role:pembina']);
+
     Route::get('/registrasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('registrasi.form')->middleware(['role:pembina']);
     Route::post('/pembina/store', [App\Http\Controllers\Pembina\RegistrasiController::class, 'storePembina'])->name('pembina.store')->middleware(['role:pembina']);
     Route::put('/pembina', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updatePembina'])->name('pembina.update')->middleware(['role:pembina']);

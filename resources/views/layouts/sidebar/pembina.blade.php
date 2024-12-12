@@ -19,6 +19,13 @@
         <a href="{{route('registrasi.form')}}" class="nav-link">Registrasi Pembina</a>
     </li>
 
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('upload_lombas.form')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Upload Lomba</span></a>
+    </li>
+
 
 </ul>
 <!-- End of Sidebar -->

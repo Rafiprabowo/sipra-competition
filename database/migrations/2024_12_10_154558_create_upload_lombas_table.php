@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('peserta_id')->constrained('pesertas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('mata_lomba_id')->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('pembina_id')->constrained('pembinas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('regu_pembina_id')->constrained('regu_pembinas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

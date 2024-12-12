@@ -29,4 +29,4 @@ class Pembina extends Model
         return $this->hasOne(UploadLomba::class);
     }    
     
-
+}

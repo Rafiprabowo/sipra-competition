@@ -16,4 +16,8 @@ class ReguPembina extends Model
     public function peserta(){
         return $this->hasMany(Peserta::class);
     }
+
+    public function upload_lomba(){
+        return $this->hasOne(UploadLomba::class);
+    }
 }
