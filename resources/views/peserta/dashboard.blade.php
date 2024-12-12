@@ -1,41 +1,133 @@
 <style>
-    .card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card-img-top {
-    max-height: 150px;
-    object-fit: contain;
-}
-
-.card-body {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-top: 2px solid #007bff;
-}
-
-.card-title {
-    color: #343a40;
-}
-
-</style>
-
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .breadcrumb-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+        h2 {
+            color: #007bff;
+            margin-bottom: 2rem;
+        }
+        .card {
+            border: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 1rem;  /* Add space between the cards */
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        .card-title {
+            color: #007bff;
+        }
+        .card-img-top {
+            border-radius: 10px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+         .table {
+            background-color: #fff; /* Set table background to white */
+        }
+        .btn-status-success {
+            background-color: #28a745;
+            color: #fff;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            border-radius: 0.2rem;
+            display: inline-block;
+        }
+        .btn-status-danger {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            border-radius: 0.2rem;
+            display: inline-block;
+        }
+        .btn-status-warning {
+            background-color: #ffc107;
+            color: #212529;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            border-radius: 0.2rem;
+            display: inline-block;
+        }
+    </style>
 @extends('layouts.template')
 @section('sidebar')
     @include('layouts.sidebar.peserta')
 @endsection
 @section('content')
-    <div class="container py-5"  style="font-size: 12px;">
-        <h2 class="text-center fw-bold mb-4">LOMBA</h2>
-        <div class="row g-4">
+   <div class="container-fluid " style="font-size: 14px;">
+        <nav class="mb-4" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">
+                    <a href="{{route('peserta.dashboard')}}">Mata Lomba</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{route('peserta.dashboard', ['tab' => 'listverifikasi'])}}" id="loadListVerifikasi">
+                        List Verifikasi Pangkalan
+                    </a>
+                </li>
+            </ol>
+        </nav>
+
+       @if(isset($finalisasis))
+            <div class="container-fluid py-5" style="font-size: 14px;">
+        <h6 class="font-weight-bold text-primary mb-4">List Status Validasi Persyaratan Lomba</h6>
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Pembina</th>
+                        <th>Pangkalan</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($finalisasis as $index => $finalisasi)
+                        @php
+                        $status = $finalisasi->status;
+                        $statusDokumenLabel = $status === 1 ? 'btn-status-success': ($status === 0 ? 'btn-status-danger' : 'btn-status-warning');
+                        $statusDokumenText = $status === 1 ? 'Tervalidasi' : ($status === 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi');
+                        @endphp
+                        <tr>
+                            <td>{{$index + 1}}</td>
+                            <td>{{$finalisasi->pembina->nama}}</td>
+                            <td>{{$finalisasi->pembina->pangkalan}}</td>
+                            <td>
+                                <span class="{{$statusDokumenLabel}}">{{$statusDokumenText}}</span>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <i class="fas fa-info-circle text-warning"></i> <strong>Pemberitahuan:</strong> Data Pangkalan yang belum lolos validasi tolong mengecek kelengkapan registrasi lomba oleh Pembina masing-masing.
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+       @else
+        <div class="row g-4 justify-content-center">
             <!-- Card 1 -->
-            <div class="col-md-4 col-sm-6">
-                <div class="card shadow-sm rounded-4 h-100 text-center" style="font-size: 12px;">
+            <div class="col-md-6 col-sm-6 col-lg-4 p-4">
+                <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/iot.jpg') }}" class="card-img-top img-fluid p-3" alt="Internet of Things">
                     <div class="card-body">
                         <h5 class="card-title fw-bold">Pioneering</h5>
@@ -43,7 +135,7 @@
                 </div>
             </div>
             <!-- Card 2 -->
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/bistik.jpg') }}" class="card-img-top img-fluid p-3" alt="Perencanaan Bisnis">
                     <div class="card-body">
@@ -52,7 +144,7 @@
                 </div>
             </div>
             <!-- Card 3 -->
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/hackathon.jpg') }}" class="card-img-top img-fluid p-3" alt="Hackathon">
                     <div class="card-body">
@@ -60,8 +152,11 @@
                     </div>
                 </div>
             </div>
-            <!-- Add more cards as needed -->
-            <div class="col-md-4 col-sm-6 pt-4">
+        </div>
+
+        <div class="row g-4 justify-content-center pt-4">
+            <!-- Card 4 -->
+            <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/animasi.jpg') }}" class="card-img-top img-fluid p-3" alt="Animasi">
                     <div class="card-body">
@@ -69,7 +164,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6 pt-4">
+            <!-- Card 5 -->
+            <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/game.jpg') }}" class="card-img-top img-fluid p-3" alt="Pengembangan Game">
                     <div class="card-body">
@@ -77,7 +173,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6 pt-4">
+            <!-- Card 6 -->
+            <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/egov.jpg') }}" class="card-img-top img-fluid p-3" alt="E-Government">
                     <div class="card-body">
@@ -86,63 +183,7 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 12px;">
-        @if (session('success'))
-            <div class="alert alert-success" role="alert"> {{ session('success') }} </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger" role="alert"> {{ session('error') }} </div>
-        @endif
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">List Status Validasi Persyaratan Lomba</h6>
-            </div>
-
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size:12px;">
-                        <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Pembina</th>
-                            <th>Pangkalan</th>
-                            <th>Keterangan</th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {{-- @foreach($peserta as $index => $value) --}}
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        {{-- @endforeach --}}
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <td colspan="8" class="text-center">
-                                <i class="fas fa-info-circle text-warning"></i> <strong>Pemberitahuan:</strong> Data Pangkalan yang belum lolos validasi tolong mengecek kelengkapan registrasi lomba oleh Pembina masing-masing.
-                            </td>
-                        </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
+       @endif
     </div>
 @endsection
 

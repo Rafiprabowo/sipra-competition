@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\JuriController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Pembina\RegistrasiController;
+use App\Models\Finalisasi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +27,7 @@ Route::post('/register', \App\Http\Controllers\Auth\RegisterController::class)->
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout');
 Route::get('/download-template/{templateId}', [\App\Http\Controllers\Admin\TemplateDokumenController::class, 'downloadTemplate'])->name('downloadTemplate');
 Route::get('/view-file/{fileName}', [\App\Http\Controllers\Admin\TemplateDokumenController::class, 'viewFile'])->name('viewFile');
+
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         $finalisasis = \App\Models\Finalisasi::with('pembina.upload_dokumen')->get();
@@ -69,20 +71,15 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('juri')->group(function () {
         Route::resource('/juri', JuriController::class)->middleware(['role:admin']);
-        Route::get('/dashboard', function () {
-            return view('juri.dashboard');
-        })->name('juri.dashboard')->middleware(['role:juri']);
-        Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri')->middleware(['role:juri']);
-    });
+       });
 })->middleware(['role:admin']);
 
 // Route dengan prefix 'peserta' dan middleware 'role:peserta'
 Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
 
     // Dashboard peserta
-    Route::get('/dashboard', function () {
-        return view('peserta.dashboard');
-    })->name('peserta.dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\Peserta\DashboardController::class, 'index'])->name('peserta.dashboard');
+
 });
 
 
@@ -111,10 +108,14 @@ Route::prefix('pembina')->group(function () {
     Route::post('/finalisasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'finalisasi'])->name('finalisasi')->middleware(['role:pembina']);
     Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
 })->middleware(['role:pembina']);
+
+
 Route::prefix('juri')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('juri.dashboard');
-    })->name('juri.dashboard')->middleware(['role:juri']);
+      Route::get('/dashboard', function () {
+            $finalisasis = Finalisasi::with('pembina')->get();
+            return view('juri.dashboard', compact('finalisasis'));
+        })->name('juri.dashboard')->middleware(['role:juri']);
+        Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri')->middleware(['role:juri']);
     Route::resource('/penilaian-karikatur', \App\Http\Controllers\Juri\PenilaianKarikatur::class)->middleware(['role:juri']);
     Route::resource('/penilaian-pioneering', \App\Http\Controllers\Juri\PenilaianPioneering::class)->middleware(['role:juri']);
 })->middleware(['role:juri']);

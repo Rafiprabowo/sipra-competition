@@ -278,15 +278,15 @@ public function finalisasi(Request $request)
     // }
 
     // Cek apakah upload dokumen sudah lengkap
-    $requiredDocuments = TemplateDokumen::all();
-    foreach ($requiredDocuments as $document) {
-        $uploadedDokumen = UploadDokumen::where('template_dokumens_id', $document->id)
-                                         ->where('pembina_id', $pembina->id)
-                                         ->first();
-        if (!$uploadedDokumen) {
-            return redirect()->route('registrasi.form')->with('error', 'Semua dokumen wajib harus diunggah.');
-        }
-    }
+//    $requiredDocuments = TemplateDokumen::all();
+//    foreach ($requiredDocuments as $document) {
+//        $uploadedDokumen = UploadDokumen::where('template_dokumens_id', $document->id)
+//                                         ->where('pembina_id', $pembina->id)
+//                                         ->first();
+//        if (!$uploadedDokumen) {
+//            return redirect()->route('registrasi.form')->with('error', 'Semua dokumen wajib harus diunggah.');
+//        }
+//    }
 
     // Finalisasi pendaftaran
     Finalisasi::updateOrCreate(

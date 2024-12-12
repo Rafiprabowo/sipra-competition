@@ -751,50 +751,53 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($templates as $template)
-                                @if($template->upload_dokumen->isEmpty())
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $template->nama }}</td>
-                                        <td>{{ $template->tipe }}</td>
-                                        <td>
-                                            <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm">
-                                                <i class="fa fa-download"></i> Unduh
-                                            </a>
-                                        </td>
-                                        <td colspan="3">
-                                            <span class="badge badge-secondary">Tidak Ada Dokumen</span>
-                                        </td>
-                                    </tr>
-                                @else
-                                    @foreach($template->upload_dokumen as $uploadDokumen)
-                                        @php
-                                            $statusDokumen = $uploadDokumen->status;
-                                            $statusDokumenLabel = $statusDokumen === 1 ? 'badge-success' : ($statusDokumen === 0 ? 'badge-danger' : 'badge-warning');
-                                            $statusDokumenText = $statusDokumen === 1 ? 'Tervalidasi' : ($statusDokumen === 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi');
-                                        @endphp
-                                        <tr>
-                                            <td>{{ $loop->parent->iteration }}</td>
-                                            <td>{{ $template->nama }}</td>
-                                            <td>{{ $template->tipe }}</td>
-                                            <td>
-                                                <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm">
-                                                    <i class="fa fa-download"></i> Unduh
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('viewFile', basename($uploadDokumen->file)) }}" class="btn btn-info btn-sm">
-                                                    <i class="fa fa-file"></i> Lihat
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <span class="badge {{ $statusDokumenLabel }}">{{ $statusDokumenText }}</span>
-                                            </td>
-                                            <td>{{ $uploadDokumen->keterangan ?? '-' }}</td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            @endforeach
+                           @foreach($templates as $template)
+    @if($template->upload_dokumen->isEmpty())
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $template->nama }}</td>
+            <td>{{ $template->tipe }}</td>
+            <td>
+                <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm">
+                    <i class="fa fa-download"></i> Unduh
+                </a>
+            </td>
+            <td colspan="3">
+                <span class="badge badge-secondary">Tidak Ada Dokumen</span>
+            </td>
+        </tr>
+    @else
+        @foreach($template->upload_dokumen as $uploadDokumen)
+            @php
+                $statusDokumen = $uploadDokumen->status;
+                $statusDokumenLabel = $statusDokumen === 1 ? 'badge-success' : ($statusDokumen === 0 ? 'badge-danger' : 'badge-warning');
+                $statusDokumenText = $statusDokumen === 1 ? 'Tervalidasi' : ($statusDokumen === 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi');
+            @endphp
+            <tr>
+                <td>{{ $loop->parent->iteration }}</td>
+                <td>{{ $template->nama }}</td>
+                <td>{{ $template->tipe }}</td>
+                <td>
+                    <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm">
+                        <i class="fa fa-download"></i> Unduh
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ route('viewFile', basename($uploadDokumen->file)) }}" class="btn btn-info btn-sm">
+                        <i class="fa fa-file"></i> Lihat
+                    </a>
+                </td>
+                <td>
+                    <span class="badge {{ $statusDokumenLabel }}">{{ $statusDokumenText }}</span>
+                    <br>
+                    <small class="text-muted">Diunggah pada: {{ $uploadDokumen->updated_at->format('d-m-Y H:i') }}</small>
+                </td>
+                <td>{{ $uploadDokumen->keterangan ?? '-' }}</td>
+            </tr>
+        @endforeach
+    @endif
+@endforeach
+
                         </tbody>
                     </table>
                 </div>

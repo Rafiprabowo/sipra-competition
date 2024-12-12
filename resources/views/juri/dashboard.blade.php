@@ -26,26 +26,31 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 14px;">
                         <thead>
                         <tr>
                             <th>No</th>
                             <th>Nama Pembina</th>
                             <th>Pangkalan</th>
-                            <th>Keterangan</th>
                             <th>Status</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {{-- @foreach($peserta as $index => $value) --}}
+                        @foreach($finalisasis as $index => $finalisasi)
+                            @php
+                            $status = $finalisasi->status;
+                            $statusDokumenLabel = $status === 1 ? 'badge-success': ($status === 0 ? 'badge-danger' : 'badge-warning');
+                            $statusDokumenText = $status === 1 ? 'Tervalidasi' : ($status === 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi');
+                            @endphp
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{$index + 1}}</td>
+                                <td>{{$finalisasi->pembina->nama}}</td>
+                                <td>{{$finalisasi->pembina->pangkalan}}</td>
+                                <td>
+                                    <span class="{{$statusDokumenLabel}}">{{$statusDokumenText}}</span>
+                                </td>
                             </tr>
-                        {{-- @endforeach --}}
+                        @endforeach
                         </tbody>
                         <tfoot>
                         <tr>
