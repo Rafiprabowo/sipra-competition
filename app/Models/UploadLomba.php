@@ -25,4 +25,9 @@ class UploadLomba extends Model
     {
         return $this->belongsTo(Pembina::class);
     }
+
+    public function regu_pembina()
+    {
+        return $this->belongsTo(ReguPembina::class);
+    }
 }

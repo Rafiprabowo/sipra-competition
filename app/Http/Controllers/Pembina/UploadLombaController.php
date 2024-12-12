@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Peserta;
+namespace App\Http\Controllers\Pembina;
 
 use App\Http\Controllers\Controller;
 use App\Models\UploadLomba;
 use App\Models\Peserta;
 use App\Models\MataLomba;
 use App\Models\Pembina;
+use App\Models\ReguPembina;
 use Illuminate\Http\Request;
 
 class UploadLombaController extends Controller
@@ -14,10 +15,10 @@ class UploadLombaController extends Controller
     public function upload_lombas()
     {
         // Ambil semua data dari tabel untuk ditampilkan di tabel frontend
-        $data = UploadLomba::with('peserta', 'mataLomba', 'pembina')->get();
+        $data = UploadLomba::with('peserta', 'mataLomba', 'pembina', 'regu_pembina')->get();
 
         // Kirim data ke view
-        return view('peserta.upload-lombas', compact('data'));
+        return view('pembina.upload-lombas', compact('data'));
     }
 
     public function store(Request $request)
@@ -29,6 +30,7 @@ class UploadLombaController extends Controller
             'peserta_id' => 'required|exists:pesertas,id',
             'mata_lomba_id' => 'required|exists:mata_lombas,id',
             'pembina_id' => 'required|exists:pembinas,id',
+            'regu_pembina_id' => 'required|exists:regu_pembinas,id',
         ]);
 
         // Buat instance baru dari model UploadLomba
@@ -50,6 +52,7 @@ class UploadLombaController extends Controller
             'peserta_id' => $request->peserta_id,
             'mata_lomba_id' => $request->mata_lomba_id,
             'pembina_id' => $request->pembina_id,
+            'regu_pembina_id' => $request->regu_pembina_id,
         ]);
 
         return redirect()->route('upload_lombas.form')->with('success', 'Data berhasil disimpan!');
@@ -63,6 +66,7 @@ class UploadLombaController extends Controller
         $pesertas = Peserta::all();
         $mataLombas = MataLomba::all();
         $pembinas = Pembina::all();
+        $reguPembinas = ReguPembina::all();
 
         return view('peserta.edit-upload-lombas', compact('uploadLomba', 'pesertas', 'mataLombas', 'pembinas'));
     }
@@ -76,6 +80,7 @@ class UploadLombaController extends Controller
             'peserta_id' => 'required|exists:pesertas,id',
             'mata_lomba_id' => 'required|exists:mata_lombas,id',
             'pembina_id' => 'required|exists:pembinas,id',
+            'regu_pembina_id' => 'required|exists:regu_pembinas,id',
         ]);
 
         // Temukan data yang ingin diupdate
@@ -95,6 +100,7 @@ class UploadLombaController extends Controller
         $uploadLomba->peserta_id = $request->peserta_id;
         $uploadLomba->mata_lomba_id = $request->mata_lomba_id;
         $uploadLomba->pembina_id = $request->pembina_id;
+        $uploadLomba->regu_pembina_id = $request->regu_pembina_id;
         $uploadLomba->save();
 
         return redirect()->route('upload_lombas.form')->with('success', 'Data berhasil diperbarui!');

@@ -49,10 +49,18 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="pembina_id" class="form-label">Pembina</label>
+                    <label for="pembina_id" class="form-label">Nama Pangkalan</label>
                     <select class="form-control" id="pembina_id" name="pembina_id" required>
                         @foreach (\App\Models\Pembina::all() as $pembina)
-                            <option value="{{ $pembina->id }}">{{ $pembina->nama }}</option>
+                            <option value="{{ $pembina->id }}">{{ $pembina->pangkalan }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="regu_pembina_id" class="form-label">Nama Regu</label>
+                    <select class="form-control" id="regu_pembina_id" name="regu_pembina_id" required>
+                        @foreach (\App\Models\ReguPembina::all() as $reguPembina)
+                            <option value="{{ $reguPembina->id }}">{{ $reguPembina->nama_regu }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -92,7 +100,9 @@
                                 <th>Video</th>
                                 <th>Peserta</th>
                                 <th>Mata Lomba</th>
-                                <th>Pembina</th>
+                                <th>Pangkalan</th>
+                                <th>Regu</th>
+                                <th>Tanggal Update</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -104,7 +114,9 @@
                                     <td>{{ $item->upload_video }}</td>
                                     <td>{{ $item->peserta->nama }}</td>
                                     <td>{{ $item->mataLomba->nama }}</td>
-                                    <td>{{ $item->pembina->nama }}</td>
+                                    <td>{{ $item->pembina->pangkalan }}</td>
+                                    <td>{{ $item->regu_pembina->nama_regu }}</td>
+                                    <td>{{ $item->updated_at }}</td>
                                     <td>
                                         <a href="{{ route('upload_lombas.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                         <form action="{{ route('upload_lombas.destroy', $item->id) }}" method="POST" style="display:inline;">
@@ -118,7 +130,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="7" class="text-center">
+                                <td colspan="9" class="text-center">
                                     <i class="fas fa-info-circle text-warning"></i> <strong>Pemberitahuan:</strong> Data Pangkalan yang belum lolos validasi tolong mengecek kelengkapan registrasi lomba oleh Pembina masing-masing.
                                 </td>
                             </tr>

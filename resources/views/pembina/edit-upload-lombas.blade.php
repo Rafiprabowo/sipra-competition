@@ -57,11 +57,21 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="pembina_id" class="form-label">Pembina</label>
+                    <label for="pembina_id" class="form-label">Pangkalan</label>
                     <select class="form-control" id="pembina_id" name="pembina_id" required>
                         @foreach ($pembinas as $pembina)
                             <option value="{{ $pembina->id }}" {{ $uploadLomba->pembina_id == $pembina->id ? 'selected' : '' }}>
-                                {{ $pembina->nama }}
+                                {{ $pembina->pangkalan }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="regu_pembina_id" class="form-label">Regu</label>
+                    <select class="form-control" id="regu_pembina_id" name="regu_pembina_id" required>
+                        @foreach ($reguPembinas as $regu_pembina)
+                            <option value="{{ $regu_pembina->id }}" {{ $uploadLomba->regu_pembina_id == $regu_pembina_id->id ? 'selected' : '' }}>
+                                {{ $regu_pembina->nama_regu }}
                             </option>
                         @endforeach
                     </select>
