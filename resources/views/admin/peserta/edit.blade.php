@@ -34,14 +34,14 @@
                         </div>
                         <div class="form-group">
                             <label for="pangkalan">Pangkalan</label>
-                            <input type="text" class="form-control @error('pangkalan') is-invalid @enderror" id="pangkalan" name="pangkalan" value="{{ old('pangkalan', $peserta->pangkalan) }}" required>
+                            <input type="text" class="form-control @error('pangkalan') is-invalid @enderror" id="pangkalan" name="pangkalan" value="{{ old('pangkalan', $peserta->regu_pembina->pembina->pangkalan) }}" required>
                             @error('pangkalan')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="regu">Regu</label>
-                            <input type="text" class="form-control @error('regu') is-invalid @enderror" id="regu" name="regu" value="{{ old('regu', $peserta->regu) }}" required>
+                            <input type="text" class="form-control @error('regu') is-invalid @enderror" id="regu" name="regu" value="{{ old('regu', $peserta->regu_pembina->nama_regu) }}" required>
                             @error('regu')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

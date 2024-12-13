@@ -36,12 +36,12 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $value->nama }}</td>
-                                <td></td>
+                                <td>{{ $value->kwartir_cabang }}</td>
                                 <td>{{ $value->pangkalan }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $value->nama_gudep }}</td>
+                                <td>{{ $value->tanggal_lahir }}</td>
+                                <td>{{ $value->jenis_kelamin }}</td>
+                                <td>{{ $value->no_hp }}</td>
                                 <td>
                                     <a href="{{ route('admin.pembina.show', $value->id) }}" class="btn btn-info btn-sm" title="Lihat">
                                         <i class="fas fa-eye"></i>

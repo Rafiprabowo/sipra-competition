@@ -29,7 +29,12 @@
                         <small class="form-text text-muted">Unggah template dokumen dalam format .doc, .docx, atau .pdf.
                             Kosongkan jika tidak ingin mengubah template.</small>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <div class="d-flex justify-content-start mt-5">
+                        <button type="submit" class="btn btn-primary mr-3">Update Dokumen</button>
+                        <a href="{{ route('dokumen.index') }}" class="btn btn-secondary ml-2">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>

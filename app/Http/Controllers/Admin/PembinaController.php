@@ -33,7 +33,12 @@ class PembinaController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
+            'kwartir_cabang' => 'required|string|max:255',
             'pangkalan' => 'required|string|max:255',
+            'nama_gudep' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:255',
         ]);
 
         $pembina = Pembina::findOrFail($id);
@@ -44,12 +49,22 @@ class PembinaController extends Controller
     public function store(Request $request){
         $validatedData = $request->validate([
             'nama' => 'required',
+            'kwartir_cabang' => 'required',
             'pangkalan' => 'required',
+            'nama_gudep' => 'required',
+            'tanggal_lahir' => 'required',
+            'jenis_kelamin' => 'required',
+            'no_hp' => 'required',
 
         ]);
         Pembina::create([
             'nama' => $validatedData['nama'],
+            'kwartir_cabang' => $validatedData['kwartir_cabang'],
             'pangkalan' => $validatedData['pangkalan'],
+            'nama_gudep' => $validatedData['nama_gudep'],
+            'tanggal_lahir' => $validatedData['tanggal_lahir'],
+            'jenis_kelamin' => $validatedData['jenis_kelamin'],
+            'no_hp' => $validatedData['no_hp'],
         ]);
         return redirect()->route('admin.pembina.index')->with('success', 'Data berhasil ditambahkan');
     }

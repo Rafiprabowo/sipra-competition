@@ -75,8 +75,6 @@ class FinalisasiController extends Controller
     return redirect()->route('admin.dashboard')->with('success', 'Status finalisasi berhasil diperbarui.');
 }
 
-
-
     public function approve($id)
 {
     $finalisasi = Finalisasi::findOrFail($id);

@@ -32,7 +32,8 @@
     <!-- Nav Item - Charts -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('upload_lombas.form')}}">
-            Upload Lomba Foto& Vidio</a>
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Upload Lomba Foto & Vidio</span></a>
     </li>
 
     <hr class="sidebar-divider">

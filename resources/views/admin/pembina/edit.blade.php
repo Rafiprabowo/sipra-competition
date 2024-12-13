@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="col-md-6 mx-auto">
+    <div class="col-sm-12 ms-2 me-2 mt-4">
         <h1 class="h3 mb-4 text-gray-800">Edit Pembina</h1>
 
         @if (session('success'))
@@ -40,6 +40,13 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <label for="kwartir_cabang">Kwartir Cabang</label>
+                            <input type="text" class="form-control @error('kwartir_cabang') is-invalid @enderror" id="kwartir_cabang" name="kwartir_cabang" value="{{ old('kwartir_cabang', $pembina->kwartir_cabang) }}" required>
+                            @error('kwartir_cabang')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
                         <!-- Pangkalan -->
                         <div class="form-group">
@@ -47,6 +54,34 @@
                             <input type="text" class="form-control @error('pangkalan') is-invalid @enderror"
                                    id="pangkalan" name="pangkalan" value="{{ old('pangkalan', $pembina->pangkalan) }}" required>
                             @error('pangkalan')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="nama_gudep">Nama Gudep</label>
+                            <input type="text" class="form-control @error('nama_gudep') is-invalid @enderror" id="nama_gudep" name="nama_gudep" value="{{ old('nama_gudep', $pembina->nama_gudep) }}" required>
+                            @error('nama_gudep')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal_lahir">Tanggal Lahir</label>
+                            <input type="text" class="form-control @error('tanggal_lahir') is-invalid @enderror" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir', $pembina->tanggal_lahir) }}" required>
+                            @error('tanggal_lahir')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="jenis_kelamin">Jenis Kelamin</label>
+                            <input type="text" class="form-control @error('jenis_kelamin') is-invalid @enderror" id="jenis_kelamin" name="jenis_kelamin" value="{{ old('jenis_kelamin', $pembina->jenis_kelamin) }}" required>
+                            @error('jenis_kelamin')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="no_hp">No HP</label>
+                            <input type="text" class="form-control @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" value="{{ old('no_hp', $pembina->no_hp) }}" required>
+                            @error('no_hp')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

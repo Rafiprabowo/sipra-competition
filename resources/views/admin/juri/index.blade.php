@@ -33,15 +33,15 @@
                             <tr>
                                 <td>{{$index + 1}}</td>
                                 <td>{{$value->nama}}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $value->kwartir_cabang }}</td>
+                                <td>{{ $value->pangkalan }}</td>
+                                <td>{{ $value->jenis_kelamin }}</td>
+                                <td>{{ $value->no_hp }}</td>
                                 <td>{{$value->mata_lomba->nama}}</td>
                                 <td>
-                                    <a href="{{route('juri.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">
+                                    {{-- <a href="{{route('juri.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">
                                         <i class="fas fa-eye"></i>
-                                    </a>
+                                    </a> --}}
                                     <a href="{{route('juri.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah">
                                         <i class="fas fa-edit"></i>
                                     </a>

@@ -25,11 +25,11 @@
                     </div>
                     <div class="form-group">
                         <label for="pangkalan">Pangkalan</label>
-                        <input type="text" class="form-control" id="pangkalan" name="pangkalan" value="{{ $peserta->pangkalan }}" readonly>
+                        <input type="text" class="form-control" id="pangkalan" name="pangkalan" value="{{ $peserta->regu_pembina->pembina->pangkalan }}" readonly>
                     </div>
                     <div class="form-group">
                         <label for="regu">Regu</label>
-                        <input type="text" class="form-control" id="regu" name="regu" value="{{ $peserta->regu }}" readonly>
+                        <input type="text" class="form-control" id="regu" name="regu" value="{{ $peserta->regu_pembina->nama_regu }}" readonly>
                     </div>
                     <div class="form-group">
                         <label for="jenis_kelamin">Jenis Kelamin</label>
