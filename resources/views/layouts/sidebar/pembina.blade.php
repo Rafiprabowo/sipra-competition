@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #1c294e; ">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('pembina.dashboard')}}">
@@ -27,11 +27,13 @@
             <span>Registrasi Pembina</span></a>
     </li>
 
+        <hr class="sidebar-divider my-0">
+
     <!-- Nav Item - Charts -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('upload_lombas.form')}}">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Upload Lomba</span></a>
+            <span>Upload Lomba Foto & Vidio</span></a>
     </li>
 
     <hr class="sidebar-divider">

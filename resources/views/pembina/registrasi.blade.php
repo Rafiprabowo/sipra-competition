@@ -18,6 +18,12 @@
             </div>
         @endif
 
+                  @if(session('warning'))
+            <div class="alert alert-warning">
+                {{ session('warning') }}
+            </div>
+        @endif
+
         <!-- Navigation Tabs -->
         <ul class="nav nav-tabs navbar-light" id="myTab" role="tablist">
             <li class="nav-item active">
@@ -716,144 +722,148 @@
             <!-- Tab Upload berkas -->
             <div class="tab-pane fade" id="data-dokumen" role="tabpanel" aria-labelledby="data-dokumen-tab">
                 <div class="container-fluid mt-4">
-    <!-- Pemberitahuan Jika Pembina atau Regu Belum Input Data -->
-    @if(!isset($pembina))
-        <div class="alert alert-warning">
-            <i class="fas fa-exclamation-triangle"></i> Harap lengkapi data pembina, regu, dan peserta terlebih dahulu
-        </div>
-    @endif
+                    <!-- Pemberitahuan Jika Pembina atau Regu Belum Input Data -->
+                    @if(!isset($pembina))
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i> Harap lengkapi data pembina, regu, dan peserta terlebih dahulu
+                        </div>
+                    @else
 
-    <div class="card mt-4">
-        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
-            <h5>Dokumen Syarat Umum</h5>
-            <!-- Tombol Finalisasi Pendaftaran -->
-            @if(!isset($pembina->finalisasi))
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#finalizeModal" {{ !isset($pembina) ? 'disabled' : '' }}>
-                    Finalisasi Pendaftaran
-                </button>
-            @endif
-        </div>
-
-        <div class="card-body">
-            <div class="row">
-                <!-- Tabel Data Dokumen -->
-                <div class="col-md-12 mb-5">
-                    <table class="table table-bordered" id="templateTable">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Dokumen</th>
-                                <th>Tipe</th>
-                                <th>Unduh Template</th>
-                                <th>File Dokumen</th>
-                                <th>Status Dokumen</th>
-                                <th>Keterangan Dokumen</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($templates as $template)
-                                @if($template->upload_dokumen->isEmpty())
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $template->nama }}</td>
-                                        <td>{{ $template->tipe }}</td>
-                                        <td>
-                                            <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm">
-                                                <i class="fa fa-download"></i> Unduh
-                                            </a>
-                                        </td>
-                                        <td colspan="3">
-                                            <span class="badge badge-secondary">Tidak Ada Dokumen</span>
-                                        </td>
-                                    </tr>
-                                @else
-                                    @foreach($template->upload_dokumen as $uploadDokumen)
-                                        @php
-                                            $statusDokumen = $uploadDokumen->status;
-                                            $statusDokumenLabel = $statusDokumen === 1 ? 'badge-success' : ($statusDokumen === 0 ? 'badge-danger' : 'badge-warning');
-                                            $statusDokumenText = $statusDokumen === 1 ? 'Tervalidasi' : ($statusDokumen === 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi');
-                                        @endphp
-                                        <tr>
-                                            <td>{{ $loop->parent->iteration }}</td>
-                                            <td>{{ $template->nama }}</td>
-                                            <td>{{ $template->tipe }}</td>
-                                            <td>
-                                                <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm">
-                                                    <i class="fa fa-download"></i> Unduh
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('viewFile', basename($uploadDokumen->file)) }}" class="btn btn-info btn-sm">
-                                                    <i class="fa fa-file"></i> Lihat
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <span class="badge {{ $statusDokumenLabel }}">{{ $statusDokumenText }}</span>
-                                            </td>
-                                            <td>{{ $uploadDokumen->keterangan ?? '-' }}</td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Form Unggah Dokumen -->
-                @if(!isset($pembina->finalisasi) || (isset($pembina->finalisasi) && $pembina->finalisasi->status === 0))
-                    <div class="col-md-12">
-                        <h5 class="font-weight-bold text-black-50 lead">Unggah Dokumen</h5>
-                        <hr class="mb-4">
-                        <form id="uploadForm" action="{{ route('upload_dokumen.store') }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label for="template_dokumen_id">Jenis Dokumen</label>
-                                <select class="form-control" id="template_dokumen_id" name="template_dokumen_id" required>
-                                    <option value="" disabled selected>Pilih jenis dokumen</option>
-                                    @foreach($templates as $template)
-                                        <option value="{{ $template->id }}">{{ $template->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="file">Unggah Dokumen</label>
-                                <input type="file" class="form-control-file" id="file" name="file" required>
-                                <small class="form-text text-muted">Silahkan pilih file dokumen yang sesuai. Ukuran maksimal file 2 MB.</small>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Unggah</button>
-                        </form>
-                    </div>
-                @else
-
-                @endif
-
-                <!-- Modal Konfirmasi Finalisasi Pendaftaran -->
-                <div class="modal fade" id="finalizeModal" tabindex="-1" role="dialog" aria-labelledby="finalizeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="finalizeModalLabel">Konfirmasi Finalisasi Pendaftaran</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                    <div class="card mt-4">
+                        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                            <h5>Dokumen Syarat Umum</h5>
+                            <!-- Tombol Finalisasi Pendaftaran -->
+                            @if(!isset($pembina->finalisasi))
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#finalizeModal" {{ !isset($pembina) ? 'disabled' : '' }}>
+                                    Finalisasi Pendaftaran
                                 </button>
-                            </div>
-                            <div class="modal-body">
-                                Apakah Anda yakin ingin finalisasi pendaftaran?
-                            </div>
-                            <div class="modal-footer">
-                                <form action="{{ route('finalisasi') }}" method="post">
-                                    @csrf
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-primary">Finalisasi</button>
-                                </form>
+                            @endif
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Tabel Data Dokumen -->
+                                <div class="col-md-12 mb-5">
+                                    <table class="table table-bordered" id="templateTable">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Dokumen</th>
+                                                <th>Tipe</th>
+                                                <th>Unduh Template</th>
+                                                <th>File Dokumen</th>
+                                                <th>Status Dokumen</th>
+                                                <th>Keterangan Dokumen</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                           @foreach($templates as $template)
+                    @if($template->upload_dokumen->isEmpty())
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $template->nama }}</td>
+                            <td>{{ $template->tipe }}</td>
+                            <td>
+                                <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm">
+                                    <i class="fa fa-download"></i> Unduh
+                                </a>
+                            </td>
+                            <td colspan="3">
+                                <span class="badge badge-secondary">Belum Unggah Dokumen</span>
+                            </td>
+                        </tr>
+                    @else
+                        @foreach($template->upload_dokumen as $uploadDokumen)
+                            @php
+                                $statusDokumen = $uploadDokumen->status;
+                                $statusDokumenLabel = $statusDokumen === 1 ? 'badge-success' : ($statusDokumen === 0 ? 'badge-danger' : 'badge-warning');
+                                $statusDokumenText = $statusDokumen === 1 ? 'Tervalidasi' : ($statusDokumen === 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi');
+                            @endphp
+                            <tr>
+                                <td>{{ $loop->parent->iteration }}</td>
+                                <td>{{ $template->nama }}</td>
+                                <td>{{ $template->tipe }}</td>
+                                <td>
+                                    <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm">
+                                        <i class="fa fa-download"></i> Unduh
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('viewFile', basename($uploadDokumen->file)) }}" class="btn btn-info btn-sm">
+                                        <i class="fa fa-file"></i> Lihat
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="badge {{ $statusDokumenLabel }}">{{ $statusDokumenText }}</span>
+                                    <br>
+                                    <small class="text-muted">Diunggah pada: {{ $uploadDokumen->updated_at->format('d-m-Y H:i') }}</small>
+                                </td>
+                                <td>{{ $uploadDokumen->keterangan ?? '-' }}</td>
+                            </tr>
+                        @endforeach
+                    @endif
+                @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Form Unggah Dokumen -->
+                                @if(!isset($pembina->finalisasi) || (isset($pembina->finalisasi) && $pembina->finalisasi->status === 0))
+                                    <div class="col-md-12">
+                                        <h5 class="font-weight-bold text-black-50 lead">Unggah Dokumen</h5>
+                                        <hr class="mb-4">
+                                        <form id="uploadForm" action="{{ route('upload_dokumen.store') }}" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="template_dokumen_id">Jenis Dokumen</label>
+                                                <select class="form-control" id="template_dokumen_id" name="template_dokumen_id" required>
+                                                    <option value="" disabled selected>Pilih jenis dokumen</option>
+                                                    @foreach($templates as $template)
+                                                        <option value="{{ $template->id }}">{{ $template->nama }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="file">Unggah Dokumen</label>
+                                                <input type="file" class="form-control-file" id="file" name="file" required>
+                                                <small class="form-text text-muted">Silahkan pilih file dokumen yang sesuai. Ukuran maksimal file 2 MB.</small>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Unggah</button>
+                                        </form>
+                                    </div>
+                                @else
+
+                                @endif
+
+                                <!-- Modal Konfirmasi Finalisasi Pendaftaran -->
+                                <div class="modal fade" id="finalizeModal" tabindex="-1" role="dialog" aria-labelledby="finalizeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="finalizeModalLabel">Konfirmasi Finalisasi Pendaftaran</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Apakah Anda yakin ingin finalisasi pendaftaran?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form action="{{ route('finalisasi') }}" method="post">
+                                                    @csrf
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-primary">Finalisasi</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 

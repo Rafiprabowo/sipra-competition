@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pembina;
 
 use App\Http\Controllers\Controller;
+use App\Models\Finalisasi;
 use App\Models\UploadLomba;
 use App\Models\Peserta;
 use App\Models\MataLomba;
@@ -14,11 +15,21 @@ class UploadLombaController extends Controller
 {
     public function upload_lombas()
     {
-        // Ambil semua data dari tabel untuk ditampilkan di tabel frontend
-        $data = UploadLomba::with('peserta', 'mataLomba', 'pembina', 'regu_pembina')->get();
+        $pembina = auth()->user()->pembina;
+        if(!$pembina || !$pembina->finalisasi){
+            return redirect()->route('registrasi.form')->with('warning', 'Harap registrasi terlebih dahulu sebelum mengakses Upload Lomba');
+        }
+        if($pembina->finalisasi->status != 1){
+            return redirect()->route('registrasi.form')->with('warning', 'Menunggu Hasil Verifikasi');
+        }
 
-        // Kirim data ke view
-        return view('pembina.upload-lombas', compact('data'));
+
+        $foto = strtoupper('foto');
+        $vidio = strtoupper('vidio');
+        $mataLombas = MataLomba::whereIn('nama', [$vidio, $foto])->get();
+
+
+        return view('pembina.upload-lombas', compact('pembina' , 'mataLombas' ));
     }
 
     public function store(Request $request)
@@ -41,7 +52,7 @@ class UploadLombaController extends Controller
             $posterPath = $request->file('upload_poster')->store('posters', 'public');
             $uploadLomba->upload_poster = $posterPath; // Menyimpan path file di database
         }
-    
+
         // Ambil link video dari inputan teks
         $videoLink = $request->upload_video;
 
@@ -90,7 +101,7 @@ class UploadLombaController extends Controller
         if ($request->hasFile('upload_poster')) {
             $posterPath = $request->file('upload_poster')->store('posters', 'public');
             $uploadLomba->upload_poster = $posterPath;  // Menyimpan path lengkap ke database
-        }        
+        }
 
         // Ambil link video dari inputan teks
         $videoLink = $request->upload_video;

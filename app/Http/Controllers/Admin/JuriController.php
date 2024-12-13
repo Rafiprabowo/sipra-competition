@@ -33,6 +33,10 @@ class JuriController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => 'required',
+            'kwartir_cabang' => 'required|string|max:255',
+            'pangkalan' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:255',
             'mata_lomba_id' => 'required',
         ]);
 
@@ -65,6 +69,10 @@ class JuriController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => 'required',
+            'kwartir_cabang' => 'required',
+            'pangkalan' => 'required',
+            'jenis_kelamin' => 'required',
+            'no_hp' => 'required',
             'mata_lomba_id' => 'required',
         ]);
 

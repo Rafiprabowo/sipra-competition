@@ -19,6 +19,7 @@ class MataLomba extends Controller
             'nama' => 'required',
             'deskripsi' => 'required',
         ]);
+        $validatedData['nama'] =strtoupper(trim($validatedData['nama']));
         \App\Models\MataLomba::create($validatedData);
         return redirect()->route('admin.mata-lomba.index')->with('success', 'Data berhasil ditambahkan!');
     }

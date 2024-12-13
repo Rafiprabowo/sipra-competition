@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\JuriController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Pembina\RegistrasiController;
+use App\Models\Finalisasi;
+use App\Models\Peserta;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +28,7 @@ Route::post('/register', \App\Http\Controllers\Auth\RegisterController::class)->
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout');
 Route::get('/download-template/{templateId}', [\App\Http\Controllers\Admin\TemplateDokumenController::class, 'downloadTemplate'])->name('downloadTemplate');
 Route::get('/view-file/{fileName}', [\App\Http\Controllers\Admin\TemplateDokumenController::class, 'viewFile'])->name('viewFile');
+
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         $finalisasis = \App\Models\Finalisasi::with('pembina.upload_dokumen')->get();
@@ -78,20 +81,15 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('juri')->group(function () {
         Route::resource('/juri', JuriController::class)->middleware(['role:admin']);
-        Route::get('/dashboard', function () {
-            return view('juri.dashboard');
-        })->name('juri.dashboard')->middleware(['role:juri']);
-        Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri')->middleware(['role:juri']);
-    });
+       });
 })->middleware(['role:admin']);
 
 // Route dengan prefix 'peserta' dan middleware 'role:peserta'
 Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
 
     // Dashboard peserta
-    Route::get('/dashboard', function () {
-        return view('peserta.dashboard');
-    })->name('peserta.dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\Peserta\DashboardController::class, 'index'])->name('peserta.dashboard');
+
 });
 
 Route::prefix('pembina')->group(function () {
@@ -104,7 +102,9 @@ Route::prefix('pembina')->group(function () {
     Route::delete('/upload-lombas/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'destroy'])->name('upload_lombas.destroy')->middleware(['role:pembina']);
     Route::get('/upload-lombas/edit/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'edit'])->name('upload_lombas.edit')->middleware(['role:pembina']);
     Route::put('/upload-lombas/update/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'update'])->name('upload_lombas.update')->middleware(['role:pembina']);
-
+    Route::post('/lomba-foto-vidio/store', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'store'])->name('lomba_foto_vidio.store')->middleware(['role:pembina']);
+    Route::get('/lomba-foto-vidio/{file}', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'showFile'])->name('lomba_foto_vidio.showFile')->middleware(['role:pembina']);
+    Route::delete('/lomba-foto-vidio/{id}', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'destroy'])->name('lomba_foto_vidio.destroy')->middleware(['role:pembina']);
     Route::get('/registrasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('registrasi.form')->middleware(['role:pembina']);
     Route::post('/pembina/store', [App\Http\Controllers\Pembina\RegistrasiController::class, 'storePembina'])->name('pembina.store')->middleware(['role:pembina']);
     Route::put('/pembina', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updatePembina'])->name('pembina.update')->middleware(['role:pembina']);
@@ -118,12 +118,15 @@ Route::prefix('pembina')->group(function () {
     Route::resource('data-peserta', \App\Http\Controllers\Pembina\PesertaController::class)->middleware(['role:pembina']);
     Route::post('/finalisasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'finalisasi'])->name('finalisasi')->middleware(['role:pembina']);
     Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
-})->middleware(['role:pembina']);
+})->middleware(['role:pembina'])->name('pesertaBylomba')->middleware(['role:pembina']);
+
 
 Route::prefix('juri')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('juri.dashboard');
-    })->name('juri.dashboard')->middleware(['role:juri']);
+      Route::get('/dashboard', function () {
+            $finalisasis = Finalisasi::with('pembina')->get();
+            return view('juri.dashboard', compact('finalisasis'));
+        })->name('juri.dashboard')->middleware(['role:juri']);
+        Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri')->middleware(['role:juri']);
     Route::resource('/penilaian-karikatur', \App\Http\Controllers\Juri\PenilaianKarikatur::class)->middleware(['role:juri']);
     Route::resource('/penilaian-pioneering', \App\Http\Controllers\Juri\PenilaianPioneering::class)->middleware(['role:juri']);
     Route::match(['get', 'post'], '/juri', [\App\Http\Controllers\Juri\ProfilJuriController::class, 'createOrUpdate'])->name('juri.profil_juri')->middleware(['role:juri']);
