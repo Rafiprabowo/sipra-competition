@@ -31,9 +31,9 @@
                                 <td>{{$value->nama}}</td>
                                 <td>{{$value->deskripsi}}</td>
                                 <td>
-                                    <a href="{{route('admin.mata-lomba.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">
+                                    {{-- <a href="{{route('admin.mata-lomba.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">
                                         <i class="fas fa-eye"></i>
-                                    </a>
+                                    </a> --}}
                                     <a href="{{route('admin.mata-lomba.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah">
                                         <i class="fas fa-edit"></i>
                                     </a>

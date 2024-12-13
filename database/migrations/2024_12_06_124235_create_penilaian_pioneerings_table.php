@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('penilaian_pioneerings', function (Blueprint $table) {
             $table->id();
-            $table->integer('kekuatan_struktur');
-            $table->integer('ketepatan_kerapian');
-            $table->integer('kreativitas_desain');
-            $table->integer('kesesuaian_fungsi');
-            $table->integer('waktu_penyelesaian');
+            $table->integer('nilai_lomba');
+            $table->foreignId('pembina_id')->constrained('pembinas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('regu_pembina_id')->constrained('regu_pembinas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('peserta_id')->constrained('pesertas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('juri_id')->constrained('juris')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('mata_lomba_id')->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('bobot_soal_id')->constrained('bobot_soals')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

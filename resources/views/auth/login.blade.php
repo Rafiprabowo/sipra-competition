@@ -34,7 +34,7 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Silahkan Login LOGIKA</h1>
                                     <!-- Display Flash Message -->
                                     @if(session('success'))
                                         <div class="alert alert-success">
@@ -77,6 +77,9 @@
                                 <hr>
                                 <div class="text-center">
                                     <a class="small" href="{{ route('register') }}">Don't have Account, Create an Account!</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" href="/">Back to home</a>
                                 </div>
                             </div>
                         </div>
