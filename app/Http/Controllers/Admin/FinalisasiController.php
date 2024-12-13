@@ -84,22 +84,30 @@ class FinalisasiController extends Controller
     $finalisasi->keterangan = "Finalisasi disetujui";
     $finalisasi->save();
 
-    // Loop through all participants and create a user for each
-    foreach ($finalisasi->pembina->regu->peserta as $peserta) {
-        // Create user
-        $user = User::create([
-            'username' => $peserta->nisn,
-            'password' => bcrypt($peserta->nisn), // Encrypt the password
-            'role' => 'peserta',
-        ]);
+    // Loop through each regu and then each peserta
+    foreach ($finalisasi->pembina->regu as $regu) {
+        foreach ($regu->peserta as $peserta) {
+            // Check if user already exists
+            $user = User::where('username', $peserta->nisn)->first();
 
-        // Update peserta with the newly created user_id
-        $peserta->user_id = $user->id;
-        $peserta->save();
+            if (!$user) {
+                // Create user if not exists
+                $user = User::create([
+                    'username' => $peserta->nisn,
+                    'password' => bcrypt($peserta->nisn), // Encrypt the password
+                    'role' => 'peserta',
+                ]);
+            }
+
+            // Update peserta with the newly created user_id
+            $peserta->user_id = $user->id;
+            $peserta->save();
+        }
     }
 
     return redirect()->route('admin.dashboard')->with('success', 'Status finalisasi berhasil disetujui dan pengguna telah dibuat untuk setiap peserta.');
 }
+
 
 
     public function reject($id)
