@@ -8,26 +8,41 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #0000ff, #ff00ff);
-            color: white;
+            background: white;
+            color: black;
         }
 
         header {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             padding: 10px 20px;
-            background: #ff00ff;
+            background: #332deb;
+            flex-wrap: wrap; /* Agar elemen bisa membungkus dalam beberapa baris jika tidak muat */
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
         }
 
         .logo-container img {
             height: 50px;
             margin-right: 10px;
+            border-radius: 50%; /* Memberikan efek rounded pada logo */
+            border: 2px solid white; /* Menambahkan border putih di sekitar logo */
+        }
+
+        nav {
+            flex: 1; /* Agar elemen nav mengisi ruang yang tersedia */
+            text-align: center;
         }
 
         nav ul {
             list-style: none;
             display: flex;
+            justify-content: center;
             margin: 0;
             padding: 0;
         }
@@ -40,6 +55,27 @@
             color: white;
             text-decoration: none;
             font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease; /* Animasi transisi */
+        }
+
+        nav ul li a:hover {
+            background-color: #1a1aff; /* Warna latar belakang saat hover */
+        }
+
+        .masuk-button {
+            background-color: #ff00ff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease; /* Animasi transisi */
+        }
+
+        .masuk-button:hover {
+            background-color: #cc00cc; /* Warna latar belakang saat hover */
         }
 
         main {
@@ -62,7 +98,7 @@
 
         h2 {
             font-size: 2em;
-            color: yellow;
+            color: black;
         }
 
         .countdown {
@@ -88,43 +124,82 @@
             padding: 2em;
             background-color: #f4f4f4;
             color: #000;
+            font-family: 'Arial', sans-serif;
         }
 
         .timeline-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            position: relative;
+            margin: 2em 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #003366;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
         }
 
         .timeline-item {
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin: 1em 0;
-            padding: 1em;
-            width: 80%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 1em 2em;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: #003366;
+            border: 3px solid #ffffff;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+            transform: translateX(-100%);
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 50%;
+            text-align: right;
         }
 
         .timeline-date {
             font-weight: bold;
             color: #003366;
+            margin-bottom: 0.5em;
+        }
+
+        .timeline-content {
+            padding: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .timeline-content h3 {
             margin: 0.5em 0;
         }
 
-        .timeline-content img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-
         #kategori {
             padding: 2em;
-            background-color: #0000ff;
-            color: #fff;
+            background-color: white;
+            color: black;
             text-align: center;
         }
 
@@ -155,26 +230,57 @@
             margin-top: 0.5em;
         }
 
+        .container { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 20px; 
+        } 
+        
+        .text { 
+            max-width: 50%; 
+        } 
+        
+        .text h1 { 
+            font-size: 24px; 
+            color: #333; 
+        } 
+        
+        .text p { 
+            font-size: 16px; 
+            color: #666; 
+        } 
+
+        .map { 
+            max-width: 45%; 
+        } 
+        
+        iframe { 
+            width: 100%; 
+            height: 300px; 
+            border: 0; 
+        }
+
     </style>
 </head>
 <body>
-    <header style="padding: 30px">
+    <header style="padding: 5px">
         <div class="logo-container">
-            <img src="logo1.png" alt="Logo 1">
-            <img src="logo2.png" alt="Logo 2">
-            <img src="logo3.png" alt="Logo 3">
+            <img src="{{ asset('img/bistik.jpg') }}" alt="Logo 1">
+            <img src="{{ asset('img/jaringan.jpg') }}" alt="Logo 2">
+            <img src="{{ asset('img/cipta.jpg') }}" alt="Logo 3">
         </div>
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="#sambutan">Sambutan</a></li>
                 <li><a href="#timeline">Timeline</a></li>
                 <li><a href="#kategori">Kategori</a></li>
-                <li><a href="#statistik">Statistik</a></li>
-                <li><a href="{{ route('login') }}">Masuk</a></li>
+                <li><a href="#lokasi">Lokasi</a></li>
+                <li><a href="{{ route('login') }}" class="masuk-button">Masuk</a></li>
             </ul>
         </nav>
     </header>
+    
     <main>
         <section class="content">
             <h1>LOMBA 2024</h1>
@@ -199,6 +305,7 @@
                 </div>
             </div> --}}
         </section>
+
         <section id="timeline">
             <h2>TIMELINE</h2>
             <div class="timeline-container">
@@ -206,7 +313,6 @@
                     <div class="timeline-date">15 Maret - 10 Mei 2023</div>
                     <div class="timeline-content">
                         <h3>PENDAFTARAN DAN SUBMIT PROPOSAL</h3>
-                        <img src="proposal_image.png" alt="Pendaftaran Submit Proposal">
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -223,46 +329,48 @@
                 </div>
             </div>
         </section>
+        
         <section id="kategori">
             <h2>LOMBA</h2>
             <div class="kategori-container">
                 <div class="kategori-item">
-                    <img src="iot.png" alt="Internet Of Things">
+                    <img src="{{ asset('img/iot.jpg') }}" alt="Internet Of Things">
                     <h3>Internet Of Things</h3>
                 </div>
                 <div class="kategori-item">
-                    <img src="business_planning.png" alt="Perencanaan Bisnis Bidang TIK">
+                    <img src="{{ asset('img/bistik.jpg') }}" alt="Perencanaan Bisnis Bidang TIK">
                     <h3>Perencanaan Bisnis Bidang TIK</h3>
                 </div>
                 <div class="kategori-item">
-                    <img src="hackathon.png" alt="Hackathon">
+                    <img src="{{ asset('img/hackathon.jpg') }}" alt="Hackathon">
                     <h3>Hackathon</h3>
                 </div>
                 <div class="kategori-item">
-                    <img src="animation.png" alt="Animasi">
+                    <img src="{{ asset('img/animasi.jpg') }}" alt="Animasi">
                     <h3>Animasi</h3>
                 </div>
                 <div class="kategori-item">
-                    <img src="game_development.png" alt="Pengembangan Aplikasi Bidang Permainan">
+                    <img src="{{ asset('img/game.jpg') }}" alt="Pengembangan Aplikasi Bidang Permainan">
                     <h3>Pengembangan Aplikasi Bidang Permainan</h3>
                 </div>
                 <div class="kategori-item">
-                    <img src="e_gov.png" alt="E-Government">
+                    <img src="{{ asset('img/egov.jpg') }}" alt="E-Government">
                     <h3>E-Government</h3>
-                </div>
-                <div class="kategori-item">
-                    <img src="cyber_security.png" alt="Keamanan Siber">
-                    <h3>Keamanan Siber</h3>
-                </div>
-                <div class="kategori-item">
-                    <img src="innovation.png" alt="Cipta Inovasi Bidang di Bidang TIK">
-                    <h3>Cipta Inovasi Bidang di Bidang TIK</h3>
                 </div>
             </div>
         </section>
-        <aside>
-            <img src="logo_kmipn.png" alt="KMIPN V Logo">
-        </aside>
+
+        <h2>Lokasi Kami</h2>
+        <div class="container" id="lokasi"> 
+            <div class="text"> 
+                <h1>SMP Negeri 4 Malang</h1> 
+                <p>Jl. Veteran No.37, Sumbersari, Kec. Lowokwaru, Kota Malang, Jawa Timur 65145</p> 
+                <p>Indonesia, Malang</p> 
+            </div> 
+            <div class="map"> 
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.059097145618!2d112.6135982!3d-7.9575145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7882792b507679%3A0x4d623f89a0f344ea!2sSMP%20Negeri%204%20Malang!5e0!3m2!1sen!2sid!4v1696931234567!5m2!1sen!2sid" allowfullscreen="" loading="lazy"></iframe> 
+            </div>
+        </div>
     </main>
     <script>
         // Countdown timer logic

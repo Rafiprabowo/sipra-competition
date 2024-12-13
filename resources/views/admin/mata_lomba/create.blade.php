@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="col-md-6 mx-auto">
+    <div class="col-sm-12 ms-2 me-2 mt-2">
         <h1 class="h3 mb-4 text-gray-800">Tambah Mata Lomba</h1>
 
         @if (session('success'))

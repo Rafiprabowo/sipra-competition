@@ -10,7 +10,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-primary">Data Bobot Soal</h6>
-                                <a href="{{route('admin.mata-lomba.create')}}" class="btn btn-primary btn-md">Tambah Bobot Soal</a>
+                                <a href="{{route('admin.bobot-soal.create')}}" class="btn btn-primary btn-md">Tambah Bobot Soal</a>
             </div>
 
             <div class="card-body">
@@ -19,25 +19,27 @@
                         <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama</th>
-                            <th>Deskripsi</th>
+                            <th>Mata Lomba</th>
+                            <th>Kriteria Nilai</th>
+                            <th>Bobot Soal</th>
                             <th>Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($mata_lomba as $index => $value)
+                        @foreach($bobot_soal as $index => $value)
                             <tr>
                                 <td>{{$index + 1}}</td>
-                                <td>{{$value->nama}}</td>
-                                <td>{{$value->deskripsi}}</td>
+                                <td>{{$value->mata_lomba->nama}}</td>
+                                <td>{{$value->kriteria_nilai}}</td>
+                                <td>{{$value->bobot_soal}}</td>
                                 <td>
-                                    <a href="{{route('admin.mata-lomba.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">
+                                    {{-- <a href="{{route('admin.bobot-soal.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">
                                         <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{route('admin.mata-lomba.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah">
+                                    </a> --}}
+                                    <a href="{{route('admin.bobot-soal.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="{{route('admin.mata-lomba.destroy', $value->id)}}" method="POST" style="display:inline;">
+                                    <form action="{{route('admin.bobot-soal.destroy', $value->id)}}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger  btn-sm" title="Delete" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?');">

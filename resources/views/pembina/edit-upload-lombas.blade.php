@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('sidebar')
-    @include('layouts.sidebar.peserta')
+    @include('layouts.sidebar.pembina')
 @endsection
 
 @section('content')
