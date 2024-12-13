@@ -118,8 +118,7 @@ Route::prefix('pembina')->group(function () {
     Route::resource('data-peserta', \App\Http\Controllers\Pembina\PesertaController::class)->middleware(['role:pembina']);
     Route::post('/finalisasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'finalisasi'])->name('finalisasi')->middleware(['role:pembina']);
     Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
-})->middleware(['role:pembina'])->name('pesertaBylomba')->middleware(['role:pembina']);
-
+})->middleware(['role:pembina']);
 
 Route::prefix('juri')->group(function () {
       Route::get('/dashboard', function () {
