@@ -25,8 +25,8 @@ class Pembina extends Model
     }
 
 
-    public function upload_lomba(){
-        return $this->hasOne(UploadLomba::class);
-    }    
-    
+    public function lomba_foto_vidio(){
+        return $this->hasMany(LombaFotoVidio::class);
+    }
+
 }

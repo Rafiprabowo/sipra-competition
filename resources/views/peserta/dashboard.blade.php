@@ -36,7 +36,7 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
-         .table {
+          .table {
             background-color: #fff; /* Set table background to white */
         }
         .btn-status-success {
@@ -44,7 +44,7 @@
             color: #fff;
             padding: 0.375rem 0.75rem;
             font-size: 0.875rem;
-            border-radius: 0.2rem;
+            border-radius: 1rem;
             display: inline-block;
         }
         .btn-status-danger {
@@ -52,7 +52,7 @@
             color: #fff;
             padding: 0.375rem 0.75rem;
             font-size: 0.875rem;
-            border-radius: 0.2rem;
+            border-radius: 1rem;
             display: inline-block;
         }
         .btn-status-warning {
@@ -60,7 +60,7 @@
             color: #212529;
             padding: 0.375rem 0.75rem;
             font-size: 0.875rem;
-            border-radius: 0.2rem;
+            border-radius: 1rem;
             display: inline-block;
         }
     </style>
@@ -69,19 +69,19 @@
     @include('layouts.sidebar.peserta')
 @endsection
 @section('content')
-   <div class="container-fluid " style="font-size: 14px;">
-        <nav class="mb-4" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">
-                    <a href="{{route('peserta.dashboard')}}">Mata Lomba</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="{{route('peserta.dashboard', ['tab' => 'listverifikasi'])}}" id="loadListVerifikasi">
-                        List Verifikasi Pangkalan
-                    </a>
-                </li>
-            </ol>
-        </nav>
+    <div class="container-fluid " style="font-size: 14px;">
+          <nav class="mb-4" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item {{ request('tab') == null ? 'active' : '' }}" {{ request('tab') == null ? 'aria-current=page' : '' }}>
+                        <a href="{{ route('peserta.dashboard') }}" class="text-decoration-none {{ request('tab') == null ? 'active' : '' }}">Mata Lomba</a>
+                    </li>
+                    <li class="breadcrumb-item {{ request('tab') == 'listverifikasi' ? 'active' : '' }}" {{ request('tab') == 'listverifikasi' ? 'aria-current=page' : '' }}>
+                        <a href="{{ route('peserta.dashboard', ['tab' => 'listverifikasi']) }}" class="text-decoration-none {{ request('tab') == 'listverifikasi' ? 'active' : '' }}" id="loadListVerifikasi">
+                            List Verifikasi Pangkalan
+                        </a>
+                    </li>
+                </ol>
+            </nav>
 
        @if(isset($finalisasis))
             <div class="container-fluid py-5" style="font-size: 14px;">

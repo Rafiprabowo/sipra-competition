@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\JuriController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Pembina\RegistrasiController;
 use App\Models\Finalisasi;
+use App\Models\Peserta;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -93,7 +94,9 @@ Route::prefix('pembina')->group(function () {
     Route::delete('/upload-lombas/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'destroy'])->name('upload_lombas.destroy')->middleware(['role:pembina']);
     Route::get('/upload-lombas/edit/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'edit'])->name('upload_lombas.edit')->middleware(['role:pembina']);
     Route::put('/upload-lombas/update/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'update'])->name('upload_lombas.update')->middleware(['role:pembina']);
-
+    Route::post('/lomba-foto-vidio/store', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'store'])->name('lomba_foto_vidio.store')->middleware(['role:pembina']);
+    Route::get('/lomba-foto-vidio/{file}', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'showFile'])->name('lomba_foto_vidio.showFile')->middleware(['role:pembina']);
+    Route::delete('/lomba-foto-vidio/{id}', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'destroy'])->name('lomba_foto_vidio.destroy')->middleware(['role:pembina']);
     Route::get('/registrasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('registrasi.form')->middleware(['role:pembina']);
     Route::post('/pembina/store', [App\Http\Controllers\Pembina\RegistrasiController::class, 'storePembina'])->name('pembina.store')->middleware(['role:pembina']);
     Route::put('/pembina', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updatePembina'])->name('pembina.update')->middleware(['role:pembina']);
@@ -107,7 +110,9 @@ Route::prefix('pembina')->group(function () {
     Route::resource('data-peserta', \App\Http\Controllers\Pembina\PesertaController::class)->middleware(['role:pembina']);
     Route::post('/finalisasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'finalisasi'])->name('finalisasi')->middleware(['role:pembina']);
     Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
-})->middleware(['role:pembina']);
+
+
+})->middleware(['role:pembina'])->name('pesertaBylomba')->middleware(['role:pembina']);
 
 
 Route::prefix('juri')->group(function () {
