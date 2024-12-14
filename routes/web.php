@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\JuriController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Pembina\RegistrasiController;
 use App\Models\Finalisasi;
@@ -34,6 +35,7 @@ Route::prefix('admin')->group(function () {
         $finalisasis = \App\Models\Finalisasi::with('pembina.upload_dokumen')->get();
         return view('admin.dashboard', compact('finalisasis'));
     })->name('admin.dashboard')->middleware(['role:admin']);
+    Route::resource('users', UserController::class)->middleware(['role:admin']);
     Route::post('/finalisasi/{id}/approve', [\App\Http\Controllers\Admin\FinalisasiController::class, 'approve'])->name('finalisasi.approve');
     Route::post('/finalisasi/{id}/reject', [\App\Http\Controllers\Admin\FinalisasiController::class, 'reject'])->name('finalisasi.reject');
     Route::get('/finalisasi/{id}/edit', [\App\Http\Controllers\Admin\FinalisasiController::class, 'edit'])->name('finalisasi.edit');
