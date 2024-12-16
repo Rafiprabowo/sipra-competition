@@ -1,3 +1,11 @@
+<style>
+    .disabled {
+        pointer-events: none;
+        color: grey;
+        text-decoration: none;
+    }
+
+</style>
 <!-- Sidebar -->
 <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #1c294e; ">
 
@@ -38,12 +46,22 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="buttons.html">Pionering</a>
-                <a class="collapse-item" href="{{route('penilaian-karikatur.index')}}">Karikatur</a>
-                <a class="collapse-item" href="cards.html">Duta Logika</a>
-                <a class="collapse-item" href="cards.html">LKFBB</a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        @php 
+                            $user = auth()->user(); $mataLombaUser = $user && $user->juri && $user->juri->mata_lomba ? $user->juri->mata_lomba->nama : null; 
+                        @endphp
+                
+                        <a class="collapse-item {{ $mataLombaUser != 'PIONERING' ? 'disabled' : '' }}" href="buttons.html">PIONERING</a>
+                        <a class="collapse-item {{ $mataLombaUser != 'KARIKATUR' ? 'disabled' : '' }}" href="{{route('penilaian-karikatur.index')}}">KARIKATUR</a>
+                        <a class="collapse-item {{ $mataLombaUser != 'DUTA LOGIKA' ? 'disabled' : '' }}" href="cards.html">DUTA LOGIKA</a>
+                        <a class="collapse-item {{ $mataLombaUser != 'LKFBB' ? 'disabled' : '' }}" href="cards.html">LKFBB</a>
+                        <a class="collapse-item {{ $mataLombaUser != 'FOTO' ? 'disabled' : '' }}" href="cards.html">FOTO</a>
+                        <a class="collapse-item {{ $mataLombaUser != 'VIDEO' ? 'disabled' : '' }}" href="cards.html">VIDEO</a>
+                    </div>
+                </div>                
             </div>
-        </div>
+        </div>        
     </li>
 
     <hr class="sidebar-divider">

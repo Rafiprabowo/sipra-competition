@@ -39,6 +39,25 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="jumlah_peserta">Jumlah Peserta</label>
+                            <input type="number" class="form-control @error('jumlah_peserta') is-invalid @enderror" id="jumlah_peserta" name="jumlah_peserta" value="{{ old('jumlah_peserta') }}" required>
+                            @error('jumlah_peserta')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group"> 
+                            <label for="ditujukan">Ditujukan</label> 
+                            <select class="form-control @error('ditujukan') is-invalid @enderror" id="ditujukan" name="ditujukan" required> 
+                                <option value="0" {{ old('ditujukan') == '0' ? 'selected' : '' }}>Peserta</option> 
+                                <option value="1" {{ old('ditujukan') == '1' ? 'selected' : '' }}>Pembina</option> 
+                            </select> 
+                            @error('ditujukan') 
+                            <div class="invalid-feedback">{{ $message }}</div> 
+                            @enderror 
+                        </div>
+
                         <!-- Input Deskripsi -->
                         <div class="form-group">
                             <label for="deskripsi">Deskripsi</label>

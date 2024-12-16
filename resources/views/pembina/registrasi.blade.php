@@ -437,12 +437,6 @@
                                             <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="form-group mb-3">
-                                            <label for="pembina_id">Nama Pembina</label>
-                                            <select id="pembina_id" name="pembina_id" class="form-control">
-                                                <option value="{{$pembina->id}}" selected>{{$pembina->nama}}</option>
-                                            </select>
-                                        </div>
                                     </div>
                                     <div class="card-footer">
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -549,114 +543,115 @@
                     @if(!isset($pembina->finalisasi))
                     <!-- Form Input atau Edit Data Peserta -->
                     @if(isset($pembina) && !$regus->isEmpty())
-                        <form
-                            action="{{ isset($pesertaToEdit) ? route('peserta.update', $pesertaToEdit->id) : route('peserta.store') }}"
-                            id="formPeserta" method="post">
-                            @csrf
-                            @if(isset($pesertaToEdit))
-                                @method('PUT')
-                            @endif
-                            <input type="hidden" name="pembina_id" value="{{ $pembina->id }}">
-                            <div class="card mb-4">
-                                <div
-                                    class="card-header bg-info text-white">{{ isset($pesertaToEdit) ? 'Edit Data Peserta' : 'Input Data Peserta' }}</div>
-                                <div class="card-body">
-                                    <div class="form-group mb-3">
-                                        <label for="nisn">NISN</label>
-                                        <input type="text" id="nisn" name="nisn" class="form-control"
-                                               placeholder="Masukkan NISN peserta"
-                                               value="{{ old('nisn', $pesertaToEdit->nisn ?? '') }}" required>
-                                        @error('nisn')
-                                        <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="nama">Nama Peserta</label>
-                                        <input type="text" id="nama_peserta" name="nama" class="form-control"
-                                               placeholder="Masukkan nama peserta"
-                                               value="{{ old('nama', $pesertaToEdit->nama ?? '') }}" required>
-                                        @error('nama')
-                                        <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="nama">Jenis Kelamin</label>
-                                        <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
-                                            <option value="">Jenis Kelamin</option>
-                                            <option value="L" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "L" ? 'selected' : '' }}>Laki-laki</option>
-                                            <option value="P" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "P" ? 'selected' : '' }}>Perempuan</option>
-                                        </select>
-                                        @error('jenis_kelamin')
-                                        <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="regu_pembina">Pilih Regu</label>
-                                        <select id="regu_pembina_id" name="regu_pembina_id" class="form-control"
-                                                required>
-                                            <option value="">Pilih Regu</option>
-                                            @foreach($regus as $regu)
-                                                <option
-                                                    value="{{ $regu->id }}" {{ old('regu_pembina_id', $pesertaToEdit->regu_pembina_id ?? '') == $regu->id ? 'selected' : '' }}>
-                                                    {{ $regu->nama_regu}} [{{$regu->kategori}}]
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('regu_pembina_id')
-                                        <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                    <form
+                        action="{{ isset($pesertaToEdit) ? route('peserta.update', $pesertaToEdit->id) : route('peserta.store') }}"
+                        id="formPeserta" method="post">
+                        @csrf
+                        @if(isset($pesertaToEdit))
+                            @method('PUT')
+                        @endif
+                        <input type="hidden" name="pembina_id" value="{{ $pembina->id }}">
+                        <div class="card mb-4">
+                            <div
+                                class="card-header bg-info text-white">{{ isset($pesertaToEdit) ? 'Edit Data Peserta' : 'Input Data Peserta' }}</div>
+                            <div class="card-body">
+                                <div class="form-group mb-3">
+                                    <label for="nisn">NISN</label>
+                                    <input type="text" id="nisn" name="nisn" class="form-control"
+                                        placeholder="Masukkan NISN peserta"
+                                        value="{{ old('nisn', $pesertaToEdit->nisn ?? '') }}" required>
+                                    @error('nisn')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="nama">Nama Peserta</label>
+                                    <input type="text" id="nama_peserta" name="nama" class="form-control"
+                                        placeholder="Masukkan nama peserta"
+                                        value="{{ old('nama', $pesertaToEdit->nama ?? '') }}" required>
+                                    @error('nama')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="nama">Jenis Kelamin</label>
+                                    <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
+                                        <option value="">Jenis Kelamin</option>
+                                        <option value="L" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "L" ? 'selected' : '' }}>Laki-laki</option>
+                                        <option value="P" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "P" ? 'selected' : '' }}>Perempuan</option>
+                                    </select>
+                                    @error('jenis_kelamin')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="regu_pembina">Pilih Regu</label>
+                                    <select id="regu_pembina_id" name="regu_pembina_id" class="form-control"
+                                            required>
+                                        <option value="">Pilih Regu</option>
+                                        @foreach($regus as $regu)
+                                            <option
+                                                value="{{ $regu->id }}" {{ old('regu_pembina_id', $pesertaToEdit->regu_pembina_id ?? '') == $regu->id ? 'selected' : '' }}>
+                                                {{ $regu->nama_regu}} [{{$regu->kategori}}]
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('regu_pembina_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-                                    <div class="form-group mb-3">
-                                        <label for="mata_lomba">Mata Lomba</label>
-                                        <select id="mata_lomba_id" name="mata_lomba_id" class="form-control" required>
-                                            <option value="">Pilih Nama Mata Lomba</option>
-                                            @foreach($mataLombas as $mataLomba)
-                                                <option
-                                                    value="{{$mataLomba->id}}" {{ old('mata_lomba_id', $pesertaToEdit->mata_lomba_id ?? '') == $mataLomba->id ? 'selected' : '' }}>
+                                <div class="form-group mb-3">
+                                    <label for="mata_lomba">Mata Lomba</label>
+                                    <select id="mata_lomba_id" name="mata_lomba_id" class="form-control" required>
+                                        <option value="">Pilih Nama Mata Lomba</option>
+                                        @foreach($mataLombas as $mataLomba)
+                                            @if($mataLomba->ditujukan == 0)
+                                                <option value="{{$mataLomba->id}}" {{ old('mata_lomba_id', $pesertaToEdit->mata_lomba_id ?? '') == $mataLomba->id ? 'selected' : '' }}>
                                                     {{$mataLomba->nama}}
                                                 </option>
-                                            @endforeach
-                                        </select>
-                                        @error('mata_lomba_id')
-                                        <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('mata_lomba_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>                                    
 
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#pesertaModal">
-                                        <i class="fas fa-save mr-1"></i> {{ isset($pesertaToEdit) ? 'Simpan Perubahan' : 'Simpan Peserta' }}
-                                    </button>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#pesertaModal">
+                                    <i class="fas fa-save mr-1"></i> {{ isset($pesertaToEdit) ? 'Simpan Perubahan' : 'Simpan Peserta' }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Modal Konfirmasi -->
+                        <div class="modal fade" id="pesertaModal" tabindex="-1" role="dialog"
+                            aria-labelledby="pesertaModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="pesertaModalLabel">Konfirmasi</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah Anda yakin data yang dimasukkan sudah benar?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal
+                                        </button>
+                                        <button type="submit" class="btn btn-primary"><i
+                                                class="fas fa-save mr-1"></i> Simpan
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-
-                            <!-- Modal Konfirmasi -->
-                            <div class="modal fade" id="pesertaModal" tabindex="-1" role="dialog"
-                                 aria-labelledby="pesertaModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="pesertaModalLabel">Konfirmasi</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Apakah Anda yakin data yang dimasukkan sudah benar?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal
-                                            </button>
-                                            <button type="submit" class="btn btn-primary"><i
-                                                    class="fas fa-save mr-1"></i> Simpan
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+                    </form>
                     @endif
                     @endif
                     <!-- Tabel Data Peserta -->
@@ -717,7 +712,6 @@
 
                 </div>
             </div>
-
 
             <!-- Tab Upload berkas -->
             <div class="tab-pane fade" id="data-dokumen" role="tabpanel" aria-labelledby="data-dokumen-tab">

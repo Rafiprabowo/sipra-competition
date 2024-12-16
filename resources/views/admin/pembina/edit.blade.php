@@ -66,18 +66,22 @@
                         </div>
                         <div class="form-group">
                             <label for="tanggal_lahir">Tanggal Lahir</label>
-                            <input type="text" class="form-control @error('tanggal_lahir') is-invalid @enderror" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir', $pembina->tanggal_lahir) }}" required>
+                            <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir', $pembina->tanggal_lahir) }}" required>
                             @error('tanggal_lahir')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="jenis_kelamin">Jenis Kelamin</label>
-                            <input type="text" class="form-control @error('jenis_kelamin') is-invalid @enderror" id="jenis_kelamin" name="jenis_kelamin" value="{{ old('jenis_kelamin', $pembina->jenis_kelamin) }}" required>
+                            <select class="form-control @error('jenis_kelamin') is-invalid @enderror" id="jenis_kelamin" name="jenis_kelamin" required>
+                                <option value="">Pilih Jenis Kelamin</option>
+                                <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
+                            </select>
                             @error('jenis_kelamin')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> 
                         <div class="form-group">
                             <label for="no_hp">No HP</label>
                             <input type="text" class="form-control @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" value="{{ old('no_hp', $pembina->no_hp) }}" required>
