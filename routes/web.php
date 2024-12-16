@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\JuriController;
+use App\Http\Controllers\Admin\PertanyaanTpkController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Pembina\RegistrasiController;
@@ -30,6 +31,7 @@ Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name
 Route::get('/download-template/{templateId}', [\App\Http\Controllers\Admin\TemplateDokumenController::class, 'downloadTemplate'])->name('downloadTemplate');
 Route::get('/view-file/{fileName}', [\App\Http\Controllers\Admin\TemplateDokumenController::class, 'viewFile'])->name('viewFile');
 
+//Admin
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         $finalisasis = \App\Models\Finalisasi::with('pembina.upload_dokumen')->get();
@@ -44,6 +46,9 @@ Route::prefix('admin')->group(function () {
 
     Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class)->middleware(['role:admin']);
     Route::resource('dokumen', \App\Http\Controllers\Admin\TemplateDokumenController::class)->middleware(['role:admin']);
+
+    Route::resource('pertanyaan-tpk', PertanyaanTpkController::class)->middleware(['role:admin']);
+
     Route::prefix('peserta')->group(function () {
         Route::get('/data-peserta', [\App\Http\Controllers\Admin\PesertaController::class, 'index'])->name('admin.peserta.index')->middleware(['role:admin']);
         Route::get('/peserta/{id}', [\App\Http\Controllers\Admin\PesertaController::class, 'show'])->name('admin.peserta.show')->middleware(['role:admin']);
@@ -85,15 +90,15 @@ Route::prefix('admin')->group(function () {
         Route::resource('/juri', JuriController::class)->middleware(['role:admin']);
        });
 })->middleware(['role:admin']);
-
-// Route dengan prefix 'peserta' dan middleware 'role:peserta'
+//Peserta
 Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
 
     // Dashboard peserta
     Route::get('/dashboard', [\App\Http\Controllers\Peserta\DashboardController::class, 'index'])->name('peserta.dashboard');
+    Route::get('/tes-pengetahuan-kepramukaan', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'index'])->name('peserta.tes-pengetahuan-kepramukaan');
 
 });
-
+//Pembina
 Route::prefix('pembina')->group(function () {
     Route::get('/dashboard', function () {
         return view('pembina.dashboard');
@@ -121,7 +126,7 @@ Route::prefix('pembina')->group(function () {
     Route::post('/finalisasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'finalisasi'])->name('finalisasi')->middleware(['role:pembina']);
     Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
 })->middleware(['role:pembina']);
-
+//Juri
 Route::prefix('juri')->group(function () {
       Route::get('/dashboard', function () {
             $finalisasis = Finalisasi::with('pembina')->get();

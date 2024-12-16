@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin;
+use App\Models\Exam;
 use App\Models\Juri;
 use App\Models\MataLomba;
 use App\Models\Pembina;
@@ -20,6 +21,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // \App\Models\User::factory(10)->create();
+
+        Exam::create([
+            'name' => 'Tes Pengetahuan Kepramukaan',
+            'duration' => 60
+        ]);
 
          $user_admin = \App\Models\User::create([
              'username' => 'admin',
