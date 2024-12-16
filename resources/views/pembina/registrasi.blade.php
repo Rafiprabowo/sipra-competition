@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div id="content" class="container-fluid mt-4">
+    <div id="content" class="container-fluid mt-4" style="font-size: 11px;">
         @if(session('success'))
             <div class="alert alert-success">
                 <i class="fas fa-check-circle"></i> {{ session('success') }}
@@ -58,7 +58,7 @@
                                     <form id="pembinaForm" action="{{ route('pembina.store') }}" method="post">
                                         @endif
                                         @csrf
-                                        <div class="card  mb-4">
+                                        <div class="card mb-4">
                                             <div class="card-header bg-info text-white">Input Data Pembina</div>
                                             <div class="card-body">
                                                 <div class="row">
@@ -69,7 +69,7 @@
                                                                class="form-control"
                                                                aria-describedby="namaHelp"
                                                                placeholder="Masukkan nama pembina"
-                                                               value="{{old('nama', $pembina['nama'] ?? '')}}"
+                                                               value="{{old('nama', $pembina['nama'] ?? '')}}" style="font-size: 11px;"
                                                                required>
                                                         <small id="namaHelp" class="form-text text-muted">Contoh:
                                                             Hanif</small>
@@ -84,7 +84,7 @@
                                                                class="form-control"
                                                                placeholder="Masukkan alamat pembina"
                                                                value="{{old('alamat', $pembina['alamat'] ?? '')}}"
-                                                               aria-describedby="alamatHelp" required>
+                                                               aria-describedby="alamatHelp" required style="font-size: 11px;">
                                                         <small id="alamatHelp" class="form-text text-muted">Contoh:
                                                             Jl.
                                                             Soekarno
@@ -101,7 +101,7 @@
                                                         <input type="date" id="tanggal_lahir" name="tanggal_lahir"
                                                                class="form-control"
                                                                value="{{old('tanggal_lahir', $pembina['tanggal_lahir'] ?? '')}}"
-                                                               required>
+                                                               required style="font-size: 11px;">
                                                         @error('tanggal_lahir')
                                                         <div class="text-danger">{{ $message }}</div>
                                                         @enderror
@@ -111,11 +111,11 @@
                                                                 class="text-danger">*</span></label>
                                                         <select name="jenis_kelamin" id="jenis_kelamin"
                                                                 class="form-control"
-                                                                required>
+                                                                required style="font-size: 11px;">
                                                             <option value="">Pilih Jenis Kelamin</option>
                                                             <option
                                                                 value="L"{{ (old('jenis_kelamin', $pembina['jenis_kelamin'] ?? '') == 'L') ? 'selected' : '' }}>
-                                                                Laki-laki
+                                                                Laki-Laki
                                                             </option>
                                                             <option
                                                                 value="P"{{ (old('jenis_kelamin', $pembina['jenis_kelamin'] ?? '') == 'P') ? 'selected' : '' }}>
@@ -135,7 +135,7 @@
                                                                class="form-control"
                                                                placeholder="Nomor handphone"
                                                                aria-describedby="no_hpHelp"
-                                                               value="{{old('no_hp', $pembina['no_hp'] ?? '')}}"
+                                                               value="{{old('no_hp', $pembina['no_hp'] ?? '')}}" style="font-size: 11px;"
                                                                required>
                                                         <small id="no_hpHelp" class="form-text text-muted">Contoh:
                                                             081946777222</small>
@@ -151,7 +151,7 @@
                                                                aria-describedby="kwartir_cabangHelp"
                                                                placeholder="Masukkan kwartir cabang"
                                                                value="{{old('kwartir_cabang', $pembina['kwartir_cabang'] ?? '')}}"
-                                                               required>
+                                                               style="font-size: 11px;" required>
                                                         <small id="kwartir_cabangHelp" class="form-text text-muted">Contoh:
                                                             Kwartir xyz</small>
                                                         @error('kwartir_cabang')
@@ -168,7 +168,7 @@
                                                                placeholder="Masukkan nama pangkalan"
                                                                aria-describedby="pangkalanHelp"
                                                                value="{{old('pangkalan', $pembina['pangkalan'] ?? '') }}"
-                                                               required>
+                                                               required style="font-size: 11px;">
                                                         <small id="pangkalanHelp" class="form-text text-muted">Contoh:
                                                             SMPN
                                                             4
@@ -185,7 +185,7 @@
                                                                placeholder="Masukkan nama gudep"
                                                                aria-describedby="nama_gudepHelp"
                                                                value="{{old('nama_gudep', $pembina['nama_gudep'] ?? '' )}}"
-                                                               required>
+                                                               required style="font-size: 11px;">
                                                         <small id="nama_gudepHelp"
                                                                class="form-text text-muted"></small>
                                                         @error('nama_gudep')
@@ -201,7 +201,7 @@
                                                                class="form-control"
                                                                placeholder="Masukkan pengalaman pembina"
                                                                value="{{old('pengalaman_pembina', $pembina->pengalaman_pembina ?? '')}}"
-                                                               aria-describedby="pengalaman_pembinaHelp">
+                                                               aria-describedby="pengalaman_pembinaHelp" style="font-size: 11px;">
                                                         <small class="form-text text-muted"></small>
                                                         @error('pengalaman_pembina')
                                                         <div class="text-danger">{{ $message }}</div>
@@ -213,7 +213,7 @@
                                                                class="form-control"
                                                                placeholder="Masukkan pekerjaan"
                                                                value="{{old('pekerjaan', $pembina['pekerjaan'] ?? '' ) }}"
-                                                               aria-describedby="pekerjaanHelp">
+                                                               aria-describedby="pekerjaanHelp" style="font-size: 11px;">
                                                         <small class="form-text text-muted"></small>
                                                         @error('pekerjaan')
                                                         <div class="text-danger">{{ $message }}</div>
@@ -228,13 +228,13 @@
                                                 <input type="hidden" name="pembina_id" value="{{ $pembina->id }}">
                                                 <button type="button" class="btn btn-success mb-3"
                                                         data-toggle="modal"
-                                                        data-target="#pembinaModal">
-                                                    <i class="fas fa-edit mr-1"></i> Simpan Perubahan
+                                                        data-target="#pembinaModal" title="Simpan" style="font-size: 11px;">
+                                                    <i class="fas fa-edit mr-1"></i>
                                                 </button>
                                             @else
                                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                        data-target="#pembinaModal">
-                                                    <i class="fas fa-save mr-1"></i> Simpan Pembina
+                                                        data-target="#pembinaModal" title="Simpan" style="font-size: 11px;">
+                                                    <i class="fas fa-save mr-1"></i>
                                                 </button>
                                             @endif
                                         </div>
@@ -273,7 +273,7 @@
                                     </form>
 
                                 @if(isset($pembina) && $pembina->exists)
-                                        <div class="card w-auto mt-4">
+                                        <div class="card w-auto mt-4" style="font-size: 11px;">
                                             <div class="card-header bg-info text-white">Data Pembina</div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
@@ -328,7 +328,7 @@
 
                                 @else
                                     @if(isset($pembina) && $pembina->exists)
-                                        <div class="card w-auto mt-4">
+                                        <div class="card w-auto mt-4" style="font-size: 11px;">
                                             <div class="card-header bg-info text-white">Data Pembina</div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
@@ -415,14 +415,14 @@
                                             <input type="text" id="nama_regu" name="nama_regu" class="form-control"
                                                    placeholder="Masukkan nama regu"
                                                    value="{{ old('nama_regu', $reguToEdit->nama_regu ?? '') }}"
-                                                   required>
+                                                   required style="font-size: 11px;">
                                             @error('nama_regu')
                                             <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="form-group mb-3">
                                             <label for="kategori">Kategori</label>
-                                            <select id="kategori" name="kategori" class="form-control" required>
+                                            <select id="kategori" name="kategori" class="form-control" required style="font-size: 11px;">
                                                 <option value="">Pilih Kategori</option>
                                                 <option
                                                     value="PA" {{ old('kategori', $reguToEdit->kategori ?? '') == 'PA' ? 'selected' : '' }}>
@@ -440,8 +440,8 @@
                                     </div>
                                     <div class="card-footer">
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                data-target="#confirmModal">
-                                            <i class="fas fa-save mr-1"></i> {{isset($reguToEdit) ? 'Simpan Perubahan' : 'Simpan Regu'}}
+                                                data-target="#confirmModal" title="Simpan" style="font-size: 11px;">
+                                            <i class="fas fa-save mr-1"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -478,7 +478,7 @@
 
                     <!-- Tabel Data Regu -->
                     @if(isset($regus) && $regus->count() > 0)
-                        <div class="card mb-4">
+                        <div class="card mb-4" style="font-size: 11px;">
                             <div class="card-header bg-info text-white">Data Regu</div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -502,16 +502,16 @@
                                                @if(!isset($pembina->finalisasi))
                                                 <td>
                                                     <a href="{{ route('registrasi.form', ['edit_regu_id' => $regu->id]) }}"
-                                                       class="btn btn-success btn-sm mr-3   ">
-                                                        <i class="fas fa-edit"></i> Ubah
+                                                       class="btn btn-success btn-sm mr-3" title="Ubah">
+                                                        <i class="fas fa-edit"></i>
                                                     </a>
                                                     <form action="{{ route('regu.destroy', $regu->id) }}" method="POST"
                                                           style="display:inline-block;">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"
-                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus regu ini?')">
-                                                            <i class="fas fa-trash-alt"></i> Hapus
+                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus regu ini?')" title="Hapus">
+                                                            <i class="fas fa-trash-alt"></i>
                                                         </button>
                                                     </form>
                                                 </td>
@@ -559,7 +559,7 @@
                                     <label for="nisn">NISN</label>
                                     <input type="text" id="nisn" name="nisn" class="form-control"
                                         placeholder="Masukkan NISN peserta"
-                                        value="{{ old('nisn', $pesertaToEdit->nisn ?? '') }}" required>
+                                        value="{{ old('nisn', $pesertaToEdit->nisn ?? '') }}" required style="font-size: 11px;">
                                     @error('nisn')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -568,17 +568,17 @@
                                     <label for="nama">Nama Peserta</label>
                                     <input type="text" id="nama_peserta" name="nama" class="form-control"
                                         placeholder="Masukkan nama peserta"
-                                        value="{{ old('nama', $pesertaToEdit->nama ?? '') }}" required>
+                                        value="{{ old('nama', $pesertaToEdit->nama ?? '') }}" required style="font-size: 11px;">
                                     @error('nama')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="nama">Jenis Kelamin</label>
-                                    <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
+                                    <select name="jenis_kelamin" id="jenis_kelamin" class="form-control" style="font-size: 11px;">
                                         <option value="">Jenis Kelamin</option>
-                                        <option value="L" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "L" ? 'selected' : '' }}>Laki-laki</option>
-                                        <option value="P" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "P" ? 'selected' : '' }}>Perempuan</option>
+                                        <option value="Putra" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "Putra" ? 'selected' : '' }}>Putra</option>
+                                        <option value="Putri" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "Putri" ? 'selected' : '' }}>Putri</option>
                                     </select>
                                     @error('jenis_kelamin')
                                     <div class="text-danger">{{ $message }}</div>
@@ -586,24 +586,22 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="regu_pembina">Pilih Regu</label>
-                                    <select id="regu_pembina_id" name="regu_pembina_id" class="form-control"
-                                            required>
+                                    <select id="regu_pembina_id" name="regu_pembina_id" class="form-control" required style="font-size: 11px;">
                                         <option value="">Pilih Regu</option>
                                         @foreach($regus as $regu)
-                                            <option
-                                                value="{{ $regu->id }}" {{ old('regu_pembina_id', $pesertaToEdit->regu_pembina_id ?? '') == $regu->id ? 'selected' : '' }}>
-                                                {{ $regu->nama_regu}} [{{$regu->kategori}}]
+                                            <option value="{{ $regu->id }}" {{ old('regu_pembina_id', $pesertaToEdit->regu_pembina_id ?? '') == $regu->id }}>
+                                                {{ $regu->nama_regu }} [{{ $regu->kategori }}]
                                             </option>
                                         @endforeach
                                     </select>
                                     @error('regu_pembina_id')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                </div>
+                                </div>                                                          
 
                                 <div class="form-group mb-3">
                                     <label for="mata_lomba">Mata Lomba</label>
-                                    <select id="mata_lomba_id" name="mata_lomba_id" class="form-control" required>
+                                    <select id="mata_lomba_id" name="mata_lomba_id" class="form-control" required style="font-size: 11px;">
                                         <option value="">Pilih Nama Mata Lomba</option>
                                         @foreach($mataLombas as $mataLomba)
                                             @if($mataLomba->ditujukan == 0)
@@ -621,8 +619,8 @@
                             </div>
                             <div class="card-footer">
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#pesertaModal">
-                                    <i class="fas fa-save mr-1"></i> {{ isset($pesertaToEdit) ? 'Simpan Perubahan' : 'Simpan Peserta' }}
+                                        data-target="#pesertaModal" style="font-size: 11px;" title="Simpan">
+                                    <i class="fas fa-save mr-1"></i>
                                 </button>
                             </div>
                         </div>
@@ -656,7 +654,7 @@
                     @endif
                     <!-- Tabel Data Peserta -->
                     @if(isset($pesertas) && $pesertas->count() > 0)
-                        <div class="card mb-4">
+                        <div class="card mb-4" style="font-size: 11px;">
                             <div class="card-header bg-info text-white">Data Peserta</div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -686,18 +684,18 @@
                                                @if(!isset($pembina->finalisasi))
                                                 <td>
                                                     <a href="{{ route('registrasi.form', ['edit_peserta_id' => $peserta->id]) }}"
-                                                       class="btn btn-success btn-sm mr-2">
-                                                        <i class="fas fa-edit"></i> Ubah
-                                                    </a>
-                                                    <form action="{{ route('peserta.destroy', $peserta->id) }}"
-                                                          method="POST" style="display:inline-block;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm"
-                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus peserta ini?')">
-                                                            <i class="fas fa-trash-alt"></i> Hapus
-                                                        </button>
-                                                    </form>
+                                                        class="btn btn-success btn-sm mr-2" title="Edit">
+                                                         <i class="fas fa-edit"></i>
+                                                     </a>
+                                                     <form action="{{ route('peserta.destroy', $peserta->id) }}"
+                                                           method="POST" style="display:inline-block;">
+                                                         @csrf
+                                                         @method('DELETE')
+                                                         <button type="submit" class="btn btn-danger btn-sm"
+                                                                 onclick="return confirm('Apakah Anda yakin ingin menghapus peserta ini?')" title="Hapus">
+                                                             <i class="fas fa-trash-alt"></i>
+                                                         </button>
+                                                     </form>                                                     
                                                 </td>
                                                 @endif
 
@@ -725,16 +723,16 @@
 
                     <div class="card mt-4">
                         <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
-                            <h5>Dokumen Syarat Umum</h5>
+                            <h5 style="font-size: 11px;">Dokumen Syarat Umum</h5>
                             <!-- Tombol Finalisasi Pendaftaran -->
                             @if(!isset($pembina->finalisasi))
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#finalizeModal" {{ !isset($pembina) ? 'disabled' : '' }}>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" style="font-size: 11px;" data-target="#finalizeModal" {{ !isset($pembina) ? 'disabled' : '' }}>
                                     Finalisasi Pendaftaran
                                 </button>
                             @endif
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" style="font-size: 11px;">
                             <div class="row">
                                 <!-- Tabel Data Dokumen -->
                                 <div class="col-md-12 mb-5">
@@ -758,8 +756,8 @@
                             <td>{{ $template->nama }}</td>
                             <td>{{ $template->tipe }}</td>
                             <td>
-                                <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm">
-                                    <i class="fa fa-download"></i> Unduh
+                                <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm" title="Unduh" style="margin-left:30px;">
+                                    <i class="fa fa-download"></i>
                                 </a>
                             </td>
                             <td colspan="3">
@@ -778,13 +776,13 @@
                                 <td>{{ $template->nama }}</td>
                                 <td>{{ $template->tipe }}</td>
                                 <td>
-                                    <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm">
-                                        <i class="fa fa-download"></i> Unduh
+                                    <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm" title="Unduh"  style="margin-left: 30px;">
+                                        <i class="fa fa-download"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{ route('viewFile', basename($uploadDokumen->file)) }}" class="btn btn-info btn-sm">
-                                        <i class="fa fa-file"></i> Lihat
+                                    <a href="{{ route('viewFile', basename($uploadDokumen->file)) }}" class="btn btn-info btn-sm" title="Lihat"  style="margin-left: 20px;">
+                                        <i class="fa fa-file"></i>
                                     </a>
                                 </td>
                                 <td>
@@ -805,13 +803,13 @@
                                 <!-- Form Unggah Dokumen -->
                                 @if(!isset($pembina->finalisasi) || (isset($pembina->finalisasi) && $pembina->finalisasi->status === 0))
                                     <div class="col-md-12">
-                                        <h5 class="font-weight-bold text-black-50 lead">Unggah Dokumen</h5>
+                                        <h5 class="font-weight-bold text-black-50 lead" style="font-size: 11px;">Unggah Dokumen</h5>
                                         <hr class="mb-4">
                                         <form id="uploadForm" action="{{ route('upload_dokumen.store') }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group">
                                                 <label for="template_dokumen_id">Jenis Dokumen</label>
-                                                <select class="form-control" id="template_dokumen_id" name="template_dokumen_id" required>
+                                                <select class="form-control" id="template_dokumen_id" name="template_dokumen_id" required style="font-size: 11px;">
                                                     <option value="" disabled selected>Pilih jenis dokumen</option>
                                                     @foreach($templates as $template)
                                                         <option value="{{ $template->id }}">{{ $template->nama }}</option>
@@ -823,7 +821,9 @@
                                                 <input type="file" class="form-control-file" id="file" name="file" required>
                                                 <small class="form-text text-muted">Silahkan pilih file dokumen yang sesuai. Ukuran maksimal file 2 MB.</small>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Unggah</button>
+                                            <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Simpan">
+                                                <i class="fas fa-save"></i>
+                                            </button>
                                         </form>
                                     </div>
                                 @else
@@ -875,7 +875,7 @@
             if (activeTab) {
                 $('#myTab a[href="' + activeTab + '"]').tab('show');
             }
-
+    
             // Save active tab to localStorage
             $('#myTab a').on('click', function (e) {
                 e.preventDefault();
@@ -883,13 +883,33 @@
                 localStorage.setItem('activeTab', tabName);
                 $(this).tab('show');
             });
-
-            $('#pesertaTable').DataTable()
-            $('#reguTable').DataTable()
+    
+            $('#pesertaTable').DataTable();
+            $('#reguTable').DataTable();
             $('#documentTable').DataTable();
-
+    
+            // Event listener for jenis_kelamin change
+            document.getElementById('jenis_kelamin').addEventListener('change', function () {
+                var jenisKelamin = this.value;
+                console.log('Selected gender:', jenisKelamin);
+                var reguPembinaSelect = document.getElementById('regu_pembina_id');
+                var regus = @json($regus);
+    
+                reguPembinaSelect.innerHTML = '<option value="">Pilih Regu</option>'; // Clear options
+                regus.forEach(function (regu) {
+                    console.log('Checking regu:', regu);
+                    if ((jenisKelamin === 'Putra' && regu.kategori === 'PA') || 
+                        (jenisKelamin === 'Putri' && regu.kategori === 'PI')) {
+                        var option = document.createElement('option');
+                        option.value = regu.id;
+                        option.text = regu.nama_regu + ' [' + regu.kategori + ']';
+                        reguPembinaSelect.appendChild(option);
+                        console.log('Added option:', option);
+                    }
+                });
+            });
         });
-    </script>
+    </script>     
 @endsection
 
 

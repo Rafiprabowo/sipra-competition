@@ -37,6 +37,8 @@ class JuriController extends Controller
             'pangkalan' => 'required|string|max:255',
             'jenis_kelamin' => 'required|string|max:255',
             'no_hp' => 'required|string|max:255',
+            'username' => 'required',
+            'password' => 'required',
             'mata_lomba_id' => 'required',
         ]);
 
@@ -73,6 +75,8 @@ class JuriController extends Controller
             'pangkalan' => 'required',
             'jenis_kelamin' => 'required',
             'no_hp' => 'required',
+            'username' => 'required',
+            'password' => 'required',
             'mata_lomba_id' => 'required',
         ]);
 
