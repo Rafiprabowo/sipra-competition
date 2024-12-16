@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('deskripsi');
+            $table->integer('jumlah_peserta');
+            $table->boolean('ditujukan');
             $table->timestamps();
         });
     }

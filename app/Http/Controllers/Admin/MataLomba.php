@@ -18,6 +18,8 @@ class MataLomba extends Controller
         $validatedData = $request->validate([
             'nama' => 'required',
             'deskripsi' => 'required',
+            'jumlah_peserta' => 'required',
+            'ditujukan' => 'required',
         ]);
         $validatedData['nama'] =strtoupper(trim($validatedData['nama']));
         \App\Models\MataLomba::create($validatedData);
@@ -31,6 +33,8 @@ class MataLomba extends Controller
         $validatedData = $request->validate([
             'nama' => 'required',
             'deskripsi' => 'required',
+            'jumlah_peserta' => 'required',
+            'ditujukan' => 'required',
         ]);
 
         $mata_lomba = \App\Models\MataLomba::findOrFail($id);
