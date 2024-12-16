@@ -98,6 +98,9 @@ Route::prefix('pembina')->group(function () {
     Route::get('/dashboard', function () {
         return view('pembina.dashboard');
     })->name('pembina.dashboard')->middleware(['role:pembina']);
+    Route::get('/lihat-anggota', function () {
+        return view('pembina.lihat-anggota');
+    })->name('pembina.lihat-anggota')->middleware(['role:pembina']);
     // Route untuk upload lomba
     Route::get('/upload-lombas', [App\Http\Controllers\Pembina\UploadLombaController::class, 'upload_lombas'])->name('upload_lombas.form')->middleware(['role:pembina']);
     Route::post('/upload-lombas/store', [App\Http\Controllers\Pembina\UploadLombaController::class, 'store'])->name('upload_lombas.store')->middleware(['role:pembina']);

@@ -5,14 +5,16 @@
 @endsection
 
 @section('content')
-    <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 12px;">
+    <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 11px;">
         @if (session('success'))
             <div class="alert alert-success" role="alert"> {{ session('success') }} </div>
         @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">Data Users</h6>
-                <a href="{{ route('users.create') }}" class="btn btn-primary btn-md">Tambah User</a>
+                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Data Users</h6>
+                <a href="{{ route('users.create') }}" class="btn btn-primary btn-md" style="font-size: 11px;" title="Tambah">
+                    <i class="fas fa-plus"></i>
+                </a>
             </div>
 
             <div class="card-body">

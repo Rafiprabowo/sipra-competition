@@ -32,10 +32,10 @@
     @include('layouts.sidebar.juri')
 @endsection
 @section('content')
-     <div class="container-fluid py-5" style="font-size: 14px;">
-        <h6 class="font-weight-bold text-primary mb-4">List Status Validasi Persyaratan Lomba</h6>
+     <div class="container-fluid py-5" style="font-size: 11px;">
+        <h6 class="font-weight-bold text-primary mb-4" style="font-size: 11px;">List Status Validasi Persyaratan Lomba</h6>
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 11px;">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -56,7 +56,7 @@
                             <td>{{$finalisasi->pembina->nama}}</td>
                             <td>{{$finalisasi->pembina->pangkalan}}</td>
                             <td>
-                                <span class="{{$statusDokumenLabel}}">{{$statusDokumenText}}</span>
+                                <span class="{{$statusDokumenLabel}}" style="font-size: 11px;">{{$statusDokumenText}}</span>
                             </td>
                         </tr>
                     @endforeach

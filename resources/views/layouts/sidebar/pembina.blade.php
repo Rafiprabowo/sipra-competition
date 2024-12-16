@@ -6,7 +6,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">LOGIKA</div>
+        <div class="sidebar-brand-text mx-3" style="font-size: 11px;">LOGIKA</div>
     </a>
 
     <!-- Divider -->
@@ -16,7 +16,7 @@
         
         <a class="nav-link" href="{{route('pembina.dashboard')}}">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Dashboard</span></a>
+            <span style="font-size: 11px;">Dashboard</span></a>
     </li>
 
     <hr class="sidebar-divider my-0">
@@ -24,7 +24,7 @@
     <li class="nav-item">
         <a href="{{route('registrasi.form')}}" class="nav-link">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Registrasi Pembina</span></a>
+            <span style="font-size: 11px;">Registrasi Pembina</span></a>
     </li>
 
         <hr class="sidebar-divider my-0">
@@ -33,7 +33,13 @@
     <li class="nav-item">
         <a class="nav-link" href="{{route('upload_lombas.form')}}">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Upload Lomba Foto & Vidio</span></a>
+            <span style="font-size: 11px;">Lomba Foto & Vidio</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('pembina.lihat-anggota')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span style="font-size: 11px;">Lihat Anggota</span></a>
     </li>
 
     <hr class="sidebar-divider">

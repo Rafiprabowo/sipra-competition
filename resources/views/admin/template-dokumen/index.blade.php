@@ -3,13 +3,13 @@
     @include('layouts.sidebar.admin')
 @endsection
 @section('content')
-    <div class="container-fluid mt-4">
+    <div class="container-fluid mt-4" style="font-size: 11px;">
         <div class="card">
             <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
-                <h5>Daftar Template Dokumen</h5>
+                <h5 style="font-size: 11px;">Daftar Template Dokumen</h5>
                 <!-- Tombol Tambah Dokumen -->
-                <a href="{{ route('dokumen.create') }}" class="btn btn-primary">
-                    <i class="fa fa-plus"></i> Tambah Dokumen
+                <a href="{{ route('dokumen.create') }}" class="btn btn-primary" style="font-size: 11px;" title="Tambah">
+                    <i class="fa fa-plus"></i>
                 </a>
             </div>
             <div class="card-body">
@@ -35,23 +35,22 @@
                                 <td>{{ $doc->nama }}</td>
                                 <td>{{ $doc->tipe }}</td>
                                 <td>
-                                   <a href="{{ route('downloadTemplate', $doc->id) }}"
-                                                        class="btn btn-info">
-                                                            <i class="fa fa-download"></i> Unduh
+                                   <a href="{{ route('downloadTemplate', $doc->id) }}" class="btn btn-info btn-sm" title="Unduh" style="font-size: 11px;">
+                                                            <i class="fa fa-download"></i>
                                                         </a>
                                 </td>
 
                                 <td>
-                                    <a href="{{ route('dokumen.edit', $doc->id) }}" class="btn btn-warning btn-sm mr-2">
-                                        <i class="fa fa-edit"></i> Edit
+                                    <a href="{{ route('dokumen.edit', $doc->id) }}" class="btn btn-warning btn-sm mr-2" style="font-size: 11px;" title="Edit">
+                                        <i class="fa fa-edit"></i>
                                     </a>
                                     <form action="{{ route('dokumen.destroy', $doc->id) }}" method="POST"
                                           style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Apakah Anda yakin?')">
-                                            <i class="fa fa-trash"></i> Hapus
+                                                onclick="return confirm('Apakah Anda yakin?')" style="font-size: 11px;" title="Hapus">
+                                            <i class="fa fa-trash"></i>
                                         </button>
                                     </form>
                                 </td>

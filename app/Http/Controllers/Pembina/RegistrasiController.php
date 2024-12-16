@@ -177,8 +177,8 @@ class RegistrasiController extends Controller
         $regu->load('peserta'); // Memastikan relasi pesertas dimuat
     
         // Cek kategori regu dan jenis kelamin peserta
-        if (($regu->kategori == 'PA' && $validatedData['jenis_kelamin'] != 'L') ||
-            ($regu->kategori == 'PI' && $validatedData['jenis_kelamin'] != 'P')) {
+        if (($regu->kategori == 'PA' && $validatedData['jenis_kelamin'] != 'Putra') ||
+            ($regu->kategori == 'PI' && $validatedData['jenis_kelamin'] != 'Putri')) {
             return redirect()->route('registrasi.form')->with('error', 'Jenis kelamin peserta harus sesuai dengan kategori regu.');
         }
     
@@ -220,8 +220,8 @@ class RegistrasiController extends Controller
         $regu = ReguPembina::findOrFail($validatedData['regu_pembina_id']);
 
         // Cek kategori regu dan jenis kelamin peserta
-        if (($regu->kategori == 'PA' && $validatedData['jenis_kelamin'] != 'L') ||
-            ($regu->kategori == 'PI' && $validatedData['jenis_kelamin'] != 'P')) {
+        if (($regu->kategori == 'PA' && $validatedData['jenis_kelamin'] != 'Putra') ||
+            ($regu->kategori == 'PI' && $validatedData['jenis_kelamin'] != 'Putri')) {
             return redirect()->route('registrasi.form')->with('error', 'Jenis kelamin peserta harus sesuai dengan kategori regu.');
         }
 
