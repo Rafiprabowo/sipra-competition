@@ -103,7 +103,6 @@ class RegistrasiController extends Controller
         $validatedData = $request->validate([
             'nama_regu' => 'required|string|max:255',
             'kategori' => 'required|in:PA,PI',
-            'pembina_id' => 'required|exists:pembinas,id',
         ]);
 
         $pembina = auth()->user()->pembina;
@@ -125,6 +124,7 @@ class RegistrasiController extends Controller
                     ->with('active_tab', 'regu');
             }
 
+            $validatedData['pembina_id'] = auth()->user()->pembina->id;
             $regu = ReguPembina::create($validatedData);
             return redirect()->route('registrasi.form')
             ->with('success', 'Regu berhasil disimpan.')
@@ -183,16 +183,23 @@ class RegistrasiController extends Controller
             return redirect()->route('registrasi.form')->with('error', 'Jenis kelamin peserta harus sesuai dengan kategori regu.');
         }
 
-        if ($regu->peserta->count() >= 8) {
-            return redirect()->route('registrasi.form')->with('error', 'Masing-masing regu hanya bisa memiliki maksimal 8 peserta.');
+        // Ambil data mata lomba untuk validasi jumlah peserta
+        $mataLomba = \App\Models\MataLomba::findOrFail($validatedData['mata_lomba_id']);
+
+        // Hitung jumlah peserta yang sudah ada di regu untuk mata lomba tersebut
+        $jumlahPeserta = \App\Models\Peserta::where('regu_pembina_id', $regu->id)
+            ->where('mata_lomba_id', $mataLomba->id)
+            ->count();
+
+        if ($jumlahPeserta >= $mataLomba->jumlah_peserta) {
+            return redirect()->route('registrasi.form')->with('error', 'Maaf, jumlah orang melebihi batas untuk mata lomba ' . $mataLomba->nama);
         }
 
-        Peserta::create($validatedData);
+        // Jika jumlah peserta belum melebihi batas, simpan data peserta baru
+        \App\Models\Peserta::create($validatedData);
 
         return redirect()->route('registrasi.form')->with('success', 'Peserta berhasil ditambahkan.');
     }
-
-
 
     public function destroyPeserta(Peserta $peserta)
     {
@@ -224,36 +231,49 @@ class RegistrasiController extends Controller
         return redirect()->route('registrasi.form')->with('success', 'Peserta berhasil diupdate.');
     }
 
-   public function storeDokumen(Request $request)
-{
-    // Validasi input dari form
-    $request->validate([
-        'template_dokumen_id' => 'required|exists:template_dokumens,id',
-        'file' => 'required|file|max:2048',  // Maksimal 2MB
-    ]);
-
-    // Proses penyimpanan file
-    if ($request->hasFile('file')) {
-        $filePath = $request->file('file')->store('dokumen_pendaftaran');
-
-        // Menggunakan updateOrCreate untuk menyimpan atau mengupdate data di tabel upload_dokumens
-        UploadDokumen::updateOrCreate(
-            [
-                'template_dokumens_id' => $request->template_dokumen_id,
-                'pembina_id' => auth()->user()->pembina->id, // Assume the pembina is logged in
-            ],
-            [
-                'keterangan' => null, // Initial description, can be updated later
-                'file' => $filePath,  // Ensure $filePath is correctly defined
-            ]
-        );
-
-        // Redirect ke halaman form registrasi dengan pesan sukses
-        return redirect()->route('registrasi.form')->with('success', 'Dokumen berhasil ditambahkan atau diupdate.');
-    } else {
-        return redirect()->route('registrasi.form')->with('error', 'Gagal mengunggah dokumen.');
-    }
-}
+    public function storeDokumen(Request $request)
+    {
+        // Validasi input dari form
+        $request->validate([
+            'template_dokumen_id' => 'required|exists:template_dokumens,id',
+            'file' => 'required|file|max:2048',  // Maksimal 2MB untuk file
+        ]);
+    
+        // Proses penyimpanan file
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('dokumen_pendaftaran');
+    
+            // Ambil data mata lomba berdasarkan ID
+            $mataLomba = TemplateDokumen::find($request->template_dokumen_id);
+    
+            // Cek apakah sudah ada dokumen dengan jenis yang sama
+            $existingFile = UploadDokumen::where('template_dokumen_id', $mataLomba->id)
+                                          ->where('pembina_id', auth()->user()->pembina->id)
+                                          ->first();
+    
+            if ($existingFile) {
+                // Hapus file lama
+                Storage::delete($existingFile->file);
+    
+                // Perbarui data dengan file baru
+                $existingFile->file = $filePath;
+                $existingFile->save();
+            } else {
+                // Simpan file baru
+                UploadDokumen::create([
+                    'template_dokumen_id' => $mataLomba->id,
+                    'pembina_id' => auth()->user()->pembina->id,
+                    'keterangan' => null, // Keterangan awal, dapat diupdate kemudian
+                    'file' => $filePath,
+                ]);
+            }
+    
+            // Redirect ke halaman form registrasi dengan pesan sukses
+            return redirect()->route('registrasi.form')->with('success', 'Dokumen berhasil ditambahkan atau diupdate.');
+        } else {
+            return redirect()->route('registrasi.form')->with('error', 'Gagal mengunggah dokumen.');
+        }
+    }    
 
 public function finalisasi(Request $request)
 {

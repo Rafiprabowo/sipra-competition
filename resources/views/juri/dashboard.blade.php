@@ -35,7 +35,7 @@
      <div class="container-fluid py-5" style="font-size: 11px;">
         <h6 class="font-weight-bold text-primary mb-4" style="font-size: 11px;">List Status Validasi Persyaratan Lomba</h6>
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 11px;">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 11px; text-align:center;">
                 <thead>
                     <tr>
                         <th>No</th>

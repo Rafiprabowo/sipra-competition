@@ -17,11 +17,13 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="text-align: center">
                         <thead>
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>Jumlah Peserta</th>
+                            <th>Ditujukan</th>
                             <th>Deskripsi</th>
                             <th>Aksi</th>
                         </tr>
@@ -31,6 +33,16 @@
                             <tr>
                                 <td>{{$index + 1}}</td>
                                 <td>{{$value->nama}}</td>
+                                <td>{{$value->jumlah_peserta}}</td>
+                                <td>
+                                    @if ($value->ditujukan == 0)
+                                        Peserta
+                                    @elseif ($value->ditujukan == 1)
+                                        Pembina
+                                    @else
+                                        Unknown
+                                    @endif
+                                </td>                                
                                 <td>{{$value->deskripsi}}</td>
                                 <td>
                                     {{-- <a href="{{route('admin.mata-lomba.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">

@@ -19,7 +19,7 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="text-align: center">
                         <thead>
                         <tr>
                             <th>No</th>
@@ -43,10 +43,10 @@
                                 <td>{{ $value->jenis_kelamin }}</td>
                                 <td>{{ $value->no_hp }}</td>
                                 <td>
-                                    <a href="{{ route('admin.pembina.show', $value->id) }}" class="btn btn-info btn-sm" title="Lihat">
+                                    <a href="{{ route('admin.pembina.show', $value->id) }}" class="btn btn-info btn-sm mr-2" title="Lihat">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('admin.pembina.edit', $value->id) }}" class="btn btn-warning btn-sm mx-3" title="Ubah">
+                                    <a href="{{ route('admin.pembina.edit', $value->id) }}" class="btn btn-warning btn-sm mr-2" title="Ubah">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <form action="{{ route('admin.pembina.destroy', $value->id) }}" method="POST" style="display:inline;">

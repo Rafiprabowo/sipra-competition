@@ -40,10 +40,10 @@ class DatabaseSeeder extends Seeder
             'role' => 'peserta'
         ]);
 
-         $pionering = MataLomba::create([
-             'nama' => 'Pionering',
-             'deskripsi' => 'pionering'
-         ]);
+        //  $pionering = MataLomba::create([
+        //      'nama' => 'Pionering',
+        //      'deskripsi' => 'pionering'
+        //  ]);
 //         $karikatur = MataLomba::create([
 //             'nama' => 'Karikatur',
 //             'deskripsi' => 'karikatur'

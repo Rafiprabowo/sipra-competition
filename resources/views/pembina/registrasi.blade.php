@@ -437,6 +437,7 @@
                                             <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
+                            
                                     </div>
                                     <div class="card-footer">
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -482,7 +483,7 @@
                             <div class="card-header bg-info text-white">Data Regu</div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="reguTable" class="table table-bordered">
+                                    <table id="reguTable" class="table table-bordered" style="text-align: center;">
                                         <thead class="thead-light">
                                         <tr>
                                             <th>Nama Regu</th>
@@ -610,11 +611,11 @@
                                                 </option>
                                             @endif
                                         @endforeach
-                                    </select>
-                                    @error('mata_lomba_id')
-                                    <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>                                    
+                                        </select>
+                                        @error('mata_lomba_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
                             </div>
                             <div class="card-footer">
@@ -658,7 +659,7 @@
                             <div class="card-header bg-info text-white">Data Peserta</div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="pesertaTable" class="table table-bordered">
+                                    <table id="pesertaTable" class="table table-bordered" style="text-align: center;">
                                         <thead class="thead-light">
                                         <tr>
                                             <th>No</th>
@@ -736,7 +737,7 @@
                             <div class="row">
                                 <!-- Tabel Data Dokumen -->
                                 <div class="col-md-12 mb-5">
-                                    <table class="table table-bordered" id="templateTable">
+                                    <table class="table table-bordered" id="templateTable" style="text-align: center;">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>No</th>
@@ -776,12 +777,12 @@
                                 <td>{{ $template->nama }}</td>
                                 <td>{{ $template->tipe }}</td>
                                 <td>
-                                    <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm" title="Unduh"  style="margin-left: 30px;">
+                                    <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm" title="Unduh">
                                         <i class="fa fa-download"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{ route('viewFile', basename($uploadDokumen->file)) }}" class="btn btn-info btn-sm" title="Lihat"  style="margin-left: 20px;">
+                                    <a href="{{ route('viewFile', basename($uploadDokumen->file)) }}" class="btn btn-info btn-sm" title="Lihat">
                                         <i class="fa fa-file"></i>
                                     </a>
                                 </td>

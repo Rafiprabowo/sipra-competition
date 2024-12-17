@@ -33,16 +33,18 @@
                             <th>NISN</th>
                             <th>Nama Peserta</th>
                             <th>Nama Regu</th>
+                            <th>Jenis Kelamin</th>
                             <th>Mata Lomba</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($pembina as $index => $value)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $value->nisn }}</td>
-                                <td>{{ $value->nama }}</td>
-                                <td>{{ $value->regu_pembina->nama_regu }}</td>
+                                <td>{{ $loop->iteration }}</td> 
+                                <td>{{ $value->nisn }}</td> 
+                                <td>{{ $value->nama }}</td> 
+                                <td>{{ $value->regu_pembina->nama_regu }}</td> 
+                                <td>{{ $value->jenis_kelamin }}</td> 
                                 <td>{{ $value->mata_lomba->nama }}</td>
                             </tr>
                         @endforeach

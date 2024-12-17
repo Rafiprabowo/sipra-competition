@@ -3,7 +3,6 @@
 @section('sidebar')
     @include('layouts.sidebar.admin')
 @endsection
-
 @section('content')
     <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 11px;">
         @if (session('success'))
@@ -44,3 +43,4 @@
         </div>
     </div>
 @endsection
+
