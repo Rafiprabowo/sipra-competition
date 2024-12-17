@@ -10,6 +10,8 @@ use App\Models\MataLomba;
 use App\Models\Pembina;
 use App\Models\Peserta;
 use App\Models\Pionering;
+use App\Models\TpkAnswer;
+use App\Models\TpkQuestion;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,14 +22,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        Exam::create([
-            'name' => 'Tes Pengetahuan Kepramukaan',
-            'duration' => 60
-        ]);
-
-         $user_admin = \App\Models\User::create([
+        $this->call(TpkQuestionSeeder::class);
+        $user_admin = \App\Models\User::create([
              'username' => 'admin',
              'password' => Hash::make('admin123'),
              'role' => 'admin'
@@ -44,10 +40,10 @@ class DatabaseSeeder extends Seeder
             'role' => 'peserta'
         ]);
 
-//         $pionering = MataLomba::create([
-//             'nama' => 'Pionering',
-//             'deskripsi' => 'pionering'
-//         ]);
+         $pionering = MataLomba::create([
+             'nama' => 'Pionering',
+             'deskripsi' => 'pionering'
+         ]);
 //         $karikatur = MataLomba::create([
 //             'nama' => 'Karikatur',
 //             'deskripsi' => 'karikatur'
@@ -57,15 +53,12 @@ class DatabaseSeeder extends Seeder
 //             'deskripsi' => 'duta'
 //         ]);
 
-        // $peserta = Peserta::create([
-        //     'nama' => 'Peserta',
-        //     'nisn' => '2141720239',
-        //     'pangkalan' => 'Polinema',
-        //     'regu' => 'semut',
-        //     'jenis_kelamin' => 'laki-laki',
-        //     'user_id' => $user_peserta->id,
-        //     'mata_lomba_id' => $pionering->id,
-        // ]);
+         $peserta = Peserta::create([
+             'nama' => 'Peserta',
+             'nisn' => '2141720239',
+             'jenis_kelamin' => 'L',
+             'user_id' => $user_peserta->id,
+         ]);
 
         $user_pembina = \App\Models\User::create([
             'username' => 'pembina',

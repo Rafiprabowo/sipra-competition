@@ -96,6 +96,9 @@ Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
     // Dashboard peserta
     Route::get('/dashboard', [\App\Http\Controllers\Peserta\DashboardController::class, 'index'])->name('peserta.dashboard');
     Route::get('/tes-pengetahuan-kepramukaan', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'index'])->name('peserta.tes-pengetahuan-kepramukaan');
+    Route::get('/tes-pengetahuan-kepramukaan/{exam_id}/start', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'startExam'])->name('peserta.exam.start');
+    Route::get('/tes/pengetahuan-kepramukaan/{exam_id}/question/{order}', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'showQuestion'])->name('peserta.exam.question');
+    Route::post('/tes/pengetahuan-kepramukaan/{exam_id}/question/{order}/answer', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'saveAnswer'])->name('peserta.exam.answer');
 
 });
 //Pembina

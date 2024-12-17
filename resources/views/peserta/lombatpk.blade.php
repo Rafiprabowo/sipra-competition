@@ -127,22 +127,41 @@
       </div>
     </nav>
 
-    <main class="container d-flex justify-content-center align-items-center vh-100">
+ <main class="container d-flex justify-content-center align-items-center vh-100">
     <div class="col-md-6">
-        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-            <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 text-primary-emphasis">World</strong>
-                <h3 class="mb-0">Featured post</h3>
-                <div class="mb-1 text-body-secondary">Nov 12</div>
-                <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
-                    Continue reading
-                    <svg class="bi"><use xlink:href="#chevron-right"/></svg>
-                </a>
-            </div>
+        <div class="border rounded shadow-sm p-4">
+            <h3 class="text-center mb-4">Informasi Tes</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">Nama</th>
+                        <td>{{ $exam->name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Deskripsi</th>
+                        <td>{{ $exam->description ?? 'Tidak ada deskripsi' }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Durasi</th>
+                        <td>{{ $exam->duration ? $exam->duration . ' menit' : 'Tidak ditentukan' }}</td>
+                    </tr>
+{{--                    <tr>--}}
+{{--                        <th scope="row">Tanggal Dibuat</th>--}}
+{{--                        <td>{{ $exam->created_at->setTimezone('Asia/Jakarta')->format('d-m-Y H:i') }}</td>--}}
+{{--                    </tr>--}}
+                </tbody>
+            </table>
+            <div class="text-center mt-3">
+            <a href="{{ route('peserta.exam.start', $exam->id) }}"
+               class="btn btn-primary">
+                Mulai Tes
+            </a>
+</div>
+
         </div>
     </div>
 </main>
+
 
     <script src="{{asset('assets/dist/js/bootstrap.bundle.min.js')}}"></script>
 
