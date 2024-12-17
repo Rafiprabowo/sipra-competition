@@ -6,7 +6,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">LOGIKA</div>
+        <div class="sidebar-brand-text mx-3" style="font-size: 11px;">LOGIKA</div>
     </a>
 
     <!-- Divider -->
@@ -16,7 +16,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{route('juri.dashboard')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span style="font-size: 11px;">Dashboard</span></a>
     </li>
 
     <!-- Divider -->
@@ -26,7 +26,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{route('juri.profil_juri')}}">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Profil Juri</span></a>
+            <span style="font-size: 11px;">Profil Juri</span></a>
     </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
@@ -34,14 +34,24 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
            aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-cog"></i>
-            <span>Penilaian Lomba</span>
+            <span style="font-size: 11px;">Penilaian Lomba</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="buttons.html">Pionering</a>
-                <a class="collapse-item" href="{{route('penilaian-karikatur.index')}}">Karikatur</a>
-                <a class="collapse-item" href="cards.html">Duta Logika</a>
-                <a class="collapse-item" href="cards.html">LKFBB</a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded" style="font-size: 11px;">
+                        @php 
+                            $user = auth()->user(); $mataLombaUser = $user && $user->juri && $user->juri->mata_lomba ? $user->juri->mata_lomba->nama : null; 
+                        @endphp
+                
+                        <a class="collapse-item {{ $mataLombaUser != 'PIONERING' ? 'disabled' : '' }}" href="buttons.html">PIONERING</a>
+                        <a class="collapse-item {{ $mataLombaUser != 'KARIKATUR' ? 'disabled' : '' }}" href="{{route('penilaian-karikatur.index')}}">KARIKATUR</a>
+                        <a class="collapse-item {{ $mataLombaUser != 'DUTA LOGIKA' ? 'disabled' : '' }}" href="cards.html">DUTA LOGIKA</a>
+                        <a class="collapse-item {{ $mataLombaUser != 'LKFBB' ? 'disabled' : '' }}" href="cards.html">LKFBB</a>
+                        <a class="collapse-item {{ $mataLombaUser != 'FOTO' ? 'disabled' : '' }}" href="cards.html">FOTO</a>
+                        <a class="collapse-item {{ $mataLombaUser != 'VIDEO' ? 'disabled' : '' }}" href="cards.html">VIDEO</a>
+                    </div>
+                </div>                
             </div>
         </div>
     </li>

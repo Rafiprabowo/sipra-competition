@@ -6,7 +6,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">LOGIKA</div>
+        <div class="sidebar-brand-text mx-3" style="font-size: 11px;">LOGIKA</div>
     </a>
 
     <!-- Divider -->
@@ -16,7 +16,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{route('peserta.dashboard')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span style="font-size: 11px;">Dashboard</span></a>
     </li>
 
     <!-- Divider -->
@@ -26,7 +26,7 @@
     <li class="nav-item">
         <a class="nav-link" href="charts.html">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Hasil Penilaian</span></a>
+            <span style="font-size: 11px;">Hasil Penilaian</span></a>
     </li>
     <hr class="sidebar-divider">
 

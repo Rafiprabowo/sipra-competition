@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('no_hp');
             $table->string('pengalaman_juri')->nullable();
             $table->string('pekerjaan')->nullable();
+            $table->string('username');
+            $table->string('password');
             $table->foreignId('mata_lomba_id')->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

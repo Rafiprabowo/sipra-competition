@@ -5,8 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="col-sm-12 ms-2 me-2 mt-4">
-        <h1 class="h3 mb-4 text-gray-800">Edit Juri</h1>
+    <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 11px;">
 
         @if (session('success'))
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
@@ -24,7 +23,7 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Form Edit Juri</h6>
+                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Form Edit Juri</h6>
             </div>
             <div class="card-body">
                 <form action="{{ route('juri.update', $juri->id) }}" method="POST">
@@ -34,14 +33,14 @@
                         <!-- Input Nama Juri -->
                         <div class="form-group">
                             <label for="nama">Nama Juri</label>
-                            <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ old('nama', $juri->nama) }}" required>
+                            <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ old('nama', $juri->nama) }}" style="font-size: 11px;" required>
                             @error('nama')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="kwartir_cabang">Kwartir Cabang</label>
-                            <input type="text" class="form-control @error('kwartir_cabang') is-invalid @enderror" id="kwartir_cabang" name="kwartir_cabang" value="{{ old('kwartir_cabang', $juri->kwartir_cabang) }}" required>
+                            <input type="text" class="form-control @error('kwartir_cabang') is-invalid @enderror" id="kwartir_cabang" name="kwartir_cabang" value="{{ old('kwartir_cabang', $juri->kwartir_cabang) }}" style="font-size: 11px;" required>
                             @error('kwartir_cabang')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -51,22 +50,40 @@
                         <div class="form-group">
                             <label for="pangkalan">Pangkalan</label>
                             <input type="text" class="form-control @error('pangkalan') is-invalid @enderror"
-                                   id="pangkalan" name="pangkalan" value="{{ old('pangkalan', $juri->pangkalan) }}" required>
+                                   id="pangkalan" name="pangkalan" value="{{ old('pangkalan', $juri->pangkalan) }}" style="font-size: 11px;" required>
                             @error('pangkalan')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="jenis_kelamin">Jenis Kelamin</label>
-                            <input type="text" class="form-control @error('jenis_kelamin') is-invalid @enderror" id="jenis_kelamin" name="jenis_kelamin" value="{{ old('jenis_kelamin', $juri->jenis_kelamin) }}" required>
+                            <select class="form-control @error('jenis_kelamin') is-invalid @enderror" id="jenis_kelamin" name="jenis_kelamin" style="font-size: 11px;" required>
+                                <option value="">Pilih Jenis Kelamin</option>
+                                <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
+                            </select>
                             @error('jenis_kelamin')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="no_hp">No HP</label>
-                            <input type="text" class="form-control @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" value="{{ old('no_hp', $juri->no_hp) }}" required>
+                            <input type="text" class="form-control @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" value="{{ old('no_hp', $juri->no_hp) }}" style="font-size: 11px;" required>
                             @error('no_hp')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" value="{{ old('username', $juri->username) }}" style="font-size: 11px;" required>
+                            @error('username')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ old('password', $juri->password) }}" style="font-size: 11px;" required>
+                            @error('password')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -74,7 +91,7 @@
                         <!-- Pilihan Mata Lomba -->
                         <div class="form-group">
                             <label for="mata_lomba_id">Mata Lomba</label>
-                            <select class="form-control @error('mata_lomba_id') is-invalid @enderror" id="mata_lomba_id" name="mata_lomba_id" required>
+                            <select class="form-control @error('mata_lomba_id') is-invalid @enderror" id="mata_lomba_id" name="mata_lomba_id" style="font-size: 11px;" required>
                                 <option value="" disabled>Pilih Mata Lomba</option>
                                 @foreach ($mataLombas as $mataLomba)
                                     <option value="{{ $mataLomba->id }}" {{ old('mata_lomba_id', $juri->mata_lomba_id) == $mataLomba->id ? 'selected' : '' }}>
@@ -88,10 +105,12 @@
                         </div>
 
                         <!-- Buttons -->
-                        <div class="d-flex justify-content-start mt-4">
-                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                            <a href="{{ route('juri.index') }}" class="btn btn-secondary ml-2">
-                                <i class="fas fa-arrow-left"></i> Kembali
+                        <div class="d-flex justify-content-start mt-3">
+                            <button type="submit" class="btn btn-primary mr-2" style="font-size: 11px;" title="Update">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <a href="{{ route('juri.index') }}" class="btn btn-secondary ml-2" style="font-size: 11px;" title="Kembali">
+                                <i class="fas fa-arrow-left"></i>
                             </a>
                         </div>
                     </div>
