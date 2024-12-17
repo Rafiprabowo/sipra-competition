@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mata_lombas', function (Blueprint $table) {
+        Schema::create('tpk_questions', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('deskripsi');
+            $table->text('question');
+            $table->text('answer_a');
+            $table->text('answer_b');
+            $table->text('answer_c');
+            $table->text('answer_d');
+            $table->text('answer_e');
+            $table->enum('correct_answer',['a','b','c','d', 'e']);
             $table->timestamps();
         });
     }
@@ -24,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mata_lombas');
+        Schema::dropIfExists('tpk_questions');
     }
 };

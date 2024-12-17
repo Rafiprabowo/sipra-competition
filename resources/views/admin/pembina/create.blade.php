@@ -73,7 +73,7 @@
                             @error('jenis_kelamin')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>                        
+                        </div>
                         <div class="form-group">
                             <label for="no_hp">No HP</label>
                             <input type="text" class="form-control @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" value="{{ old('no_hp') }}" style="font-size: 11px;" required>

@@ -437,6 +437,12 @@
                                             <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        <div class="form-group mb-3">
+                                            <label for="pembina_id">Nama Pembina</label>
+                                            <select id="pembina_id" name="pembina_id" class="form-control">
+                                                <option value="{{$pembina->id}}" selected>{{$pembina->nama}}</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="card-footer">
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -608,13 +614,12 @@
                                                 <option value="{{$mataLomba->id}}" {{ old('mata_lomba_id', $pesertaToEdit->mata_lomba_id ?? '') == $mataLomba->id ? 'selected' : '' }}>
                                                     {{$mataLomba->nama}}
                                                 </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                    @error('mata_lomba_id')
-                                    <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>                                    
+                                            @endforeach
+                                        </select>
+                                        @error('mata_lomba_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
                             </div>
                             <div class="card-footer">
@@ -625,31 +630,31 @@
                             </div>
                         </div>
 
-                        <!-- Modal Konfirmasi -->
-                        <div class="modal fade" id="pesertaModal" tabindex="-1" role="dialog"
-                            aria-labelledby="pesertaModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="pesertaModalLabel">Konfirmasi</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Apakah Anda yakin data yang dimasukkan sudah benar?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal
-                                        </button>
-                                        <button type="submit" class="btn btn-primary"><i
-                                                class="fas fa-save mr-1"></i> Simpan
-                                        </button>
+                            <!-- Modal Konfirmasi -->
+                            <div class="modal fade" id="pesertaModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="pesertaModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="pesertaModalLabel">Konfirmasi</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Apakah Anda yakin data yang dimasukkan sudah benar?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal
+                                            </button>
+                                            <button type="submit" class="btn btn-primary"><i
+                                                    class="fas fa-save mr-1"></i> Simpan
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
                     @endif
                     @endif
                     <!-- Tabel Data Peserta -->
@@ -710,6 +715,7 @@
 
                 </div>
             </div>
+
 
             <!-- Tab Upload berkas -->
             <div class="tab-pane fade" id="data-dokumen" role="tabpanel" aria-labelledby="data-dokumen-tab">

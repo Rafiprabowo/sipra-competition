@@ -1,11 +1,3 @@
-<style>
-    .disabled {
-        pointer-events: none;
-        color: grey;
-        text-decoration: none;
-    }
-
-</style>
 <!-- Sidebar -->
 <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #1c294e; ">
 
@@ -61,7 +53,7 @@
                     </div>
                 </div>                
             </div>
-        </div>        
+        </div>
     </li>
 
     <hr class="sidebar-divider">

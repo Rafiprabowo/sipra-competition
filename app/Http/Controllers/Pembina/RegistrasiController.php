@@ -103,6 +103,7 @@ class RegistrasiController extends Controller
         $validatedData = $request->validate([
             'nama_regu' => 'required|string|max:255',
             'kategori' => 'required|in:PA,PI',
+            'pembina_id' => 'required|exists:pembinas,id',
         ]);
 
         $pembina = auth()->user()->pembina;
@@ -124,7 +125,6 @@ class RegistrasiController extends Controller
                     ->with('active_tab', 'regu');
             }
 
-            $validatedData['pembina_id'] = auth()->user()->pembina->id;
             $regu = ReguPembina::create($validatedData);
             return redirect()->route('registrasi.form')
             ->with('success', 'Regu berhasil disimpan.')
@@ -163,6 +163,7 @@ class RegistrasiController extends Controller
         return redirect()->route('registrasi.form')->with('success', 'Regu berhasil dihapus.');
     }
 
+
     public function storePeserta(Request $request)
     {
         $validatedData = $request->validate([
@@ -172,33 +173,26 @@ class RegistrasiController extends Controller
             'mata_lomba_id' => 'required|exists:mata_lombas,id',
             'regu_pembina_id' => 'required|exists:regu_pembinas,id',
         ]);
-    
+
         $regu = ReguPembina::findOrFail($validatedData['regu_pembina_id']);
         $regu->load('peserta'); // Memastikan relasi pesertas dimuat
-    
+
         // Cek kategori regu dan jenis kelamin peserta
         if (($regu->kategori == 'PA' && $validatedData['jenis_kelamin'] != 'Putra') ||
             ($regu->kategori == 'PI' && $validatedData['jenis_kelamin'] != 'Putri')) {
             return redirect()->route('registrasi.form')->with('error', 'Jenis kelamin peserta harus sesuai dengan kategori regu.');
         }
-    
-        // Ambil data mata lomba untuk validasi jumlah peserta
-        $mataLomba = \App\Models\MataLomba::findOrFail($validatedData['mata_lomba_id']);
-    
-        // Hitung jumlah peserta yang sudah ada di regu untuk mata lomba tersebut
-        $jumlahPeserta = \App\Models\Peserta::where('regu_pembina_id', $regu->id)
-            ->where('mata_lomba_id', $mataLomba->id)
-            ->count();
-    
-        if ($jumlahPeserta >= $mataLomba->jumlah_peserta) {
-            return redirect()->route('registrasi.form')->with('error', 'Maaf, jumlah orang melebihi batas untuk mata lomba ' . $mataLomba->nama);
+
+        if ($regu->peserta->count() >= 8) {
+            return redirect()->route('registrasi.form')->with('error', 'Masing-masing regu hanya bisa memiliki maksimal 8 peserta.');
         }
-    
-        // Jika jumlah peserta belum melebihi batas, simpan data peserta baru
-        \App\Models\Peserta::create($validatedData);
-    
+
+        Peserta::create($validatedData);
+
         return redirect()->route('registrasi.form')->with('success', 'Peserta berhasil ditambahkan.');
-    }    
+    }
+
+
 
     public function destroyPeserta(Peserta $peserta)
     {

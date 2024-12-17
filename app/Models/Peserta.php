@@ -10,6 +10,11 @@ class Peserta extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function mata_lomba(){
         return $this->belongsTo(MataLomba::class);
     }
@@ -27,5 +32,8 @@ class Peserta extends Model
 
     public function upload_lomba(){
         return $this->hasOne(UploadLomba::class);
+    }
+    public function answers(){
+        return $this->hasMany(Answer::class);
     }
 }
