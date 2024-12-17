@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kriteria_nilai');
             $table->integer('bobot_soal');
+            $table->integer('total_bobot')->nullable();
             $table->foreignId('mata_lomba_id')->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

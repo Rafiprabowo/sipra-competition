@@ -30,22 +30,22 @@
                         <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Pembina</th>
-                            <th>Pangkalan</th>
-                            <th>Keterangan</th>
-                            <th>Status</th>
+                            <th>NISN</th>
+                            <th>Nama Peserta</th>
+                            <th>Nama Regu</th>
+                            <th>Mata Lomba</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {{-- @foreach($peserta as $index => $value) --}}
+                        @foreach($pembina as $index => $value)
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $value->nisn }}</td>
+                                <td>{{ $value->nama }}</td>
+                                <td>{{ $value->regu_pembina->nama_regu }}</td>
+                                <td>{{ $value->mata_lomba->nama }}</td>
                             </tr>
-                        {{-- @endforeach --}}
+                        @endforeach
                         </tbody>
                         <tfoot>
                         </tfoot>
