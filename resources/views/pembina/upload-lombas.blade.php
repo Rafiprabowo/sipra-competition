@@ -88,12 +88,10 @@
                         <tr>
                             <td>1</td>
                             <td>Upload Foto
+                                @foreach($pembina->lomba_foto_vidio as $index => $file)
+                                @if($file->mata_lomba->nama == 'FOTO')
                                 <span>
-                                    @foreach($pembina->lomba_foto_vidio as $index => $file)
-                                        @if($file->mata_lomba->nama == 'FOTO')
-                                        {{ $file->updated_at->format('d-m-Y H:i') }}
-                                        @endif
-                                    @endforeach
+                                    {{ $file->updated_at->format('d-m-Y H:i') }}
                                 </span> 
                                 <a href="{{ route('lomba_foto_vidio.showFile', basename($file->file)) }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px;" title="Lihat">
                                     <i class="fas fa-eye"></i>
@@ -105,28 +103,36 @@
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
+                                @endif
+                                @endforeach
                             </td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>Upload Video
-                                <span>
-                                    @foreach($pembina->lomba_foto_vidio as $index => $file)
-                                        @if($file->mata_lomba->nama == 'VIDIO')
-                                        {{ $file->updated_at->format('d-m-Y H:i') }}
+                                @foreach($pembina->lomba_foto_vidio as $index => $file)
+                                    @if($file->mata_lomba->nama == 'VIDIO')
+                                        <span>
+                                            {{ $file->updated_at->format('d-m-Y H:i') }}
+                                        </span>
+                                        @if (strpos($file->file, 'youtube.com') !== false)
+                                            <a href="{{ $file->file }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px;" title="Lihat">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('lomba_foto_vidio.showFile', basename($file->file)) }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px;" title="Lihat">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
                                         @endif
-                                    @endforeach
-                                </span> 
-                                <a href="{{ route('lomba_foto_vidio.showFile', basename($file->file)) }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px;" title="Lihat">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <form action="{{ route('lomba_foto_vidio.destroy', $file->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this file?')" style="font-size: 11px;" title="Hapus">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
+                                        <form action="{{ route('lomba_foto_vidio.destroy', $file->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this file?')" style="font-size: 11px;" title="Hapus">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                @endforeach
                             </td>
                         </tr>
                     </tbody>

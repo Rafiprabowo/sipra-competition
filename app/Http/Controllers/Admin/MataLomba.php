@@ -17,6 +17,8 @@ class MataLomba extends Controller
     public function store(Request $request){
         $validatedData = $request->validate([
             'nama' => 'required',
+            'jumlah_peserta' => 'required',
+            'ditujukan' => 'required',
             'deskripsi' => 'required',
         ]);
         $validatedData['nama'] =strtoupper(trim($validatedData['nama']));
@@ -30,6 +32,8 @@ class MataLomba extends Controller
     public function update(Request $request,  $id){
         $validatedData = $request->validate([
             'nama' => 'required',
+            'jumlah_peserta' => 'required',
+            'ditujukan' => 'required',
             'deskripsi' => 'required',
         ]);
 

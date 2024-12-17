@@ -15,8 +15,8 @@ return new class extends Migration {
             $table->string('nisn')->unique();
             $table->string('nama');
             $table->enum('jenis_kelamin', ['Putra', 'Putri']);
-            $table->foreignId('regu_pembina_id')->constrained('regu_pembinas')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('mata_lomba_id')->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('regu_pembina_id')->nullable()->constrained('regu_pembinas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('mata_lomba_id')->nullable()->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

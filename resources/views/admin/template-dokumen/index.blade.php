@@ -18,13 +18,12 @@
                 @endif
 
                 <div class="table-responsive">
-                    <table id="dokumenTable" class="table table-bordered">
+                    <table id="dokumenTable" class="table table-bordered" style="text-align: center">
                         <thead class="thead-light">
                         <tr>
                             <th>No</th>
                             <th>Nama Dokumen</th>
                             <th>Tipe</th>
-                            <th>Template</th>
                             <th>Aksi</th>
                         </tr>
                         </thead>
@@ -34,13 +33,11 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $doc->nama }}</td>
                                 <td>{{ $doc->tipe }}</td>
-                                <td>
-                                   <a href="{{ route('downloadTemplate', $doc->id) }}" class="btn btn-info btn-sm" title="Unduh" style="font-size: 11px;">
-                                                            <i class="fa fa-download"></i>
-                                                        </a>
-                                </td>
 
                                 <td>
+                                    <a href="{{ route('downloadTemplate', $doc->id) }}" class="btn btn-info btn-sm mr-2" title="Unduh" style="font-size: 11px;">
+                                        <i class="fa fa-download"></i>
+                                    </a>
                                     <a href="{{ route('dokumen.edit', $doc->id) }}" class="btn btn-warning btn-sm mr-2" style="font-size: 11px;" title="Edit">
                                         <i class="fa fa-edit"></i>
                                     </a>

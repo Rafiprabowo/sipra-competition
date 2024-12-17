@@ -49,6 +49,18 @@
                 <input type="text" class="form-control" id="pekerjaan" style="font-size: 11px;" name="pekerjaan" value="{{ $juri->pekerjaan ?? '' }}">
             </div>
             <div class="form-group">
+                <label for="pekerjaan">Pekerjaan</label>
+                <input type="text" class="form-control" id="pekerjaan" style="font-size: 11px;" name="pekerjaan" value="{{ $juri->pekerjaan ?? '' }}">
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" style="font-size: 11px;" name="username" value="{{ $juri->username ?? '' }}">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="text" class="form-control" id="password" style="font-size: 11px;" name="password" value="{{ $juri->password ?? '' }}">
+            </div>
+            <div class="form-group">
                 <label for="mata_lomba_id">Mata Lomba</label>
                 <select class="form-control" id="mata_lomba_id" name="mata_lomba_id" style="font-size: 11px;">
                     @foreach($mataLombas as $mataLomba)
@@ -101,6 +113,14 @@
                     <tr>
                         <td><strong>Pengalaman Juri</strong></td>
                         <td>{{ $juri->pengalaman_juri }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Username</strong></td>
+                        <td>{{ $juri->username }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Password</strong></td>
+                        <td>{{ $juri->password }}</td>
                     </tr>
                     <tr>
                         <td><strong>Pekerjaan</strong></td>
