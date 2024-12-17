@@ -21,7 +21,7 @@
         @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">List Status Validasi Persyaratan Lomba</h6>
+                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">List Anggota Peserta Lomba</h6>
             </div>
 
             <div class="card-body">
@@ -48,11 +48,6 @@
                         {{-- @endforeach --}}
                         </tbody>
                         <tfoot>
-                        <tr>
-                            <td colspan="8" class="text-center">
-                                <i class="fas fa-info-circle text-warning"></i> <strong>Pemberitahuan:</strong> Data Pangkalan yang belum lolos validasi tolong mengecek kelengkapan registrasi lomba oleh Pembina masing-masing.
-                            </td>
-                        </tr>
                         </tfoot>
                     </table>
                 </div>

@@ -69,7 +69,7 @@
     @include('layouts.sidebar.peserta')
 @endsection
 @section('content')
-    <div class="container-fluid " style="font-size: 14px;">
+    <div class="container-fluid " style="font-size: 11px;">
           <nav class="mb-4" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item {{ request('tab') == null ? 'active' : '' }}" {{ request('tab') == null ? 'aria-current=page' : '' }}>
@@ -84,10 +84,10 @@
             </nav>
 
        @if(isset($finalisasis))
-            <div class="container-fluid py-5" style="font-size: 14px;">
-        <h6 class="font-weight-bold text-primary mb-4">List Status Validasi Persyaratan Lomba</h6>
+            <div class="container-fluid py-5" style="font-size: 11px;">
+        <h6 class="font-weight-bold text-primary mb-4" style="font-size: 11px;">List Status Validasi Persyaratan Lomba</h6>
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 11px;">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -108,7 +108,7 @@
                             <td>{{$finalisasi->pembina->nama}}</td>
                             <td>{{$finalisasi->pembina->pangkalan}}</td>
                             <td>
-                                <span class="{{$statusDokumenLabel}}">{{$statusDokumenText}}</span>
+                                <span class="{{$statusDokumenLabel}}" style="font-size: 11px;">{{$statusDokumenText}}</span>
                             </td>
                         </tr>
                     @endforeach
@@ -130,7 +130,7 @@
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/iot.jpg') }}" class="card-img-top img-fluid p-3" alt="Internet of Things">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Pioneering</h5>
+                        <h5 class="card-title fw-bold" style="font-size: 11px;">Pioneering</h5>
                     </div>
                 </div>
             </div>
@@ -139,7 +139,7 @@
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/bistik.jpg') }}" class="card-img-top img-fluid p-3" alt="Perencanaan Bisnis">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Karikatur</h5>
+                        <h5 class="card-title fw-bold" style="font-size: 11px;">Karikatur</h5>
                     </div>
                 </div>
             </div>
@@ -148,7 +148,7 @@
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/hackathon.jpg') }}" class="card-img-top img-fluid p-3" alt="Hackathon">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Duta Logika</h5>
+                        <h5 class="card-title fw-bold" style="font-size: 11px;">Duta Logika</h5>
                     </div>
                 </div>
             </div>
@@ -160,7 +160,7 @@
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/animasi.jpg') }}" class="card-img-top img-fluid p-3" alt="Animasi">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Tes Kemampuan Kepramukaan</h5>
+                        <h5 class="card-title fw-bold" style="font-size: 11px;">Tes Kemampuan Kepramukaan</h5>
                     </div>
                 </div>
             </div>
@@ -169,7 +169,7 @@
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/game.jpg') }}" class="card-img-top img-fluid p-3" alt="Pengembangan Game">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Semaphore Morse</h5>
+                        <h5 class="card-title fw-bold" style="font-size: 11px;">Semaphore Morse</h5>
                     </div>
                 </div>
             </div>
@@ -178,7 +178,7 @@
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <img src="{{ asset('img/egov.jpg') }}" class="card-img-top img-fluid p-3" alt="E-Government">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">LKFBB</h5>
+                        <h5 class="card-title fw-bold" style="font-size: 11px;">LKFBB</h5>
                     </div>
                 </div>
             </div>

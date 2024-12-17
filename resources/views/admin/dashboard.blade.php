@@ -3,7 +3,7 @@
     @include('layouts.sidebar.admin')
 @endsection
 @section('content')
-  <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 12px;">
+  <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 11px;">
     @if (session('success'))
         <div class="alert alert-success" role="alert"> {{ session('success') }} </div>
     @endif
@@ -19,14 +19,14 @@
             </ul>
         </div>
     @endif
-    <div class="card shadow mb-4" style="font-size: 12px;">
+    <div class="card shadow mb-4" style="font-size: 10px;">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">List Status Validasi Persyaratan Lomba</h6>
+            <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">List Status Validasi Persyaratan Lomba</h6>
         </div>
 
         <div class="card-body">
             <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 14px;">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
     <thead>
         <tr>
             <th>No</th>
@@ -48,13 +48,13 @@
                         @foreach($finalisasi->pembina->upload_dokumen as $doc)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <div>
-                                    <strong>{{ $doc->template_dokumen->nama }}</strong><br/>
+                                    {{ $doc->template_dokumen->nama }}<br/>
                                     <span class="badge {{ $doc->status == 1 ? 'badge-success' : ($doc->status == 0 ? 'badge-danger' : 'badge-warning') }}">
                                         {{ $doc->status == 1 ? 'Tervalidasi' : ($doc->status == 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi') }}
                                     </span>
                                 </div>
-                                <a href="{{ route('viewFile', basename($doc->file)) }}" class="btn btn-info btn-sm">
-                                    <i class="fa fa-eye"></i> Lihat
+                                <a href="{{ route('viewFile', basename($doc->file)) }}" class="btn btn-info btn-sm" title="Lihat">
+                                    <i class="fa fa-eye"></i>
                                 </a>
                             </li>
                         @endforeach
@@ -70,8 +70,8 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('finalisasi.edit', $finalisasi->id) }}" class="btn btn-warning btn-sm">
-                        <i class="fas fa-edit"></i> Edit
+                    <a href="{{ route('finalisasi.edit', $finalisasi->id) }}" class="btn btn-warning btn-sm" title="Edit">
+                        <i class="fas fa-edit"></i>
                     </a>
                 </td>
             </tr>

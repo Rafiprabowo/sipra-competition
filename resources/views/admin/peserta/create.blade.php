@@ -8,7 +8,7 @@
         @if (session('success'))
             <div class="alert alert-success" role="alert"> {{ session('success') }} </div>
         @endif
-        <div class="card shadow mb-4">
+        <div class="card shadow mb-4" style="font-size: 11px;">
             <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Form Tambah Peserta</h6></div>
             <div class="card-body">
                 <form action="{{ route('admin.peserta.store') }}" method="POST"> @csrf
