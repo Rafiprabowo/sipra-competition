@@ -37,12 +37,12 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    <img src="{{ asset('storage/' . $user->foto_profil) }}" alt="Foto user" class="w-25">
+                                    <img src="{{basename($user->foto_profil)}}" alt=" Foto user" class="w-25">
                                 </td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->nama_lengkap ?? '-' }}</td>
-                                <td>{{ $user->email ?? '-' }}</td>
-                                <td>{{ $user->no_hp ?? '-' }}</td>
+                                <td>{{ $user->email ?? '-'}}</td>
+                                <td>{{ $user->no_hp ?? '-'}}</td>
                                 <td>{{ $user->role ?? '-' }}</td>
                                 <td>
                                     <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm mr-2" title="Lihat">
