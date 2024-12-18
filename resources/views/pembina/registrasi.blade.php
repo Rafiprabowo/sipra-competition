@@ -886,14 +886,12 @@
     
             $('#jenis-kelamin-peserta').change(function (){
                 let jenisKelamin = $(this).val()
-                let pembinaId = '{{auth()->user()->pembina->id}}'
-                let url = `/pembina/regu/${pembinaId}/${jenisKelamin}`
+                let url = `/pembina/regu/${jenisKelamin}`
                 $.ajax({
                     url: url,
                     method: 'GET',
                     success: function(response){
                         console.log(response.data)
-
                         if(response.data){
                             $('#regu_pembina_id').empty();
                             $('#regu_pembina_id').append('<option value="">Pilih Regu</option>');
