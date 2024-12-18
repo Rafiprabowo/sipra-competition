@@ -576,7 +576,7 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="nama">Jenis Kelamin</label>
-                                    <select name="jenis_kelamin" id="jenis_kelamin" class="form-control" style="font-size: 11px;">
+                                    <select name="jenis_kelamin" id="jenis-kelamin-peserta" class="form-control" style="font-size: 11px;">
                                         <option value="">Jenis Kelamin</option>
                                         <option value="Putra" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "Putra" ? 'selected' : '' }}>Putra</option>
                                         <option value="Putri" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "Putri" ? 'selected' : '' }}>Putri</option>
@@ -588,12 +588,7 @@
                                 <div class="form-group mb-3">
                                     <label for="regu_pembina">Pilih Regu</label>
                                     <select id="regu_pembina_id" name="regu_pembina_id" class="form-control" required style="font-size: 11px;">
-                                        <option value="">Pilih Regu</option>
-                                        @foreach($regus as $regu)
-                                            <option value="{{ $regu->id }}" {{ old('regu_pembina_id', $pesertaToEdit->regu_pembina_id ?? '') == $regu->id }}>
-                                                {{ $regu->nama_regu }} [{{ $regu->kategori }}]
-                                            </option>
-                                        @endforeach
+                                    
                                     </select>
                                     @error('regu_pembina_id')
                                     <div class="text-danger">{{ $message }}</div>
@@ -889,24 +884,23 @@
             $('#reguTable').DataTable();
             $('#documentTable').DataTable();
     
-            // Event listener for jenis_kelamin change
-            document.getElementById('jenis_kelamin').addEventListener('change', function () {
-                var jenisKelamin = this.value;
-                console.log('Selected gender:', jenisKelamin);
-                var reguPembinaSelect = document.getElementById('regu_pembina_id');
-                var regus = @json($regus);
-    
-                reguPembinaSelect.innerHTML = '<option value="">Pilih Regu</option>'; // Clear options
-                regus.forEach(function (regu) {
-                    console.log('Checking regu:', regu);
-                    if ((jenisKelamin === 'Putra' && regu.kategori === 'PA') || 
-                        (jenisKelamin === 'Putri' && regu.kategori === 'PI')) {
-                        var option = document.createElement('option');
-                        option.value = regu.id;
-                        option.text = regu.nama_regu + ' [' + regu.kategori + ']';
-                        reguPembinaSelect.appendChild(option);
-                        console.log('Added option:', option);
-                    }
+            $('#jenis-kelamin-peserta').change(function (){
+                let jenisKelamin = $(this).val()
+                let pembinaId = '{{auth()->user()->pembina->id}}'
+                let url = `/pembina/regu/${pembinaId}/${jenisKelamin}`
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(response){
+                        console.log(response.data)
+
+                        if(response.data){
+                            $('#regu_pembina_id').empty();
+                            $('#regu_pembina_id').append('<option value="">Pilih Regu</option>');
+                            $('#regu_pembina_id').append(`<option value="${response.data.id}">${response.data.nama_regu}</option>`);
+                        }
+                    },
+                    error: '',
                 });
             });
         });
