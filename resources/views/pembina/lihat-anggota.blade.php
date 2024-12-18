@@ -38,16 +38,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($pembina as $index => $value)
+                          @foreach($pembina->regu as $regu)
+                          @foreach($regu->peserta as $index => $p)
                             <tr>
-                                <td>{{ $index + 1 }}</td> 
-                                <td>{{ $value->nisn }}</td> 
-                                <td>{{ $value->nama }}</td> 
-                                <td>{{ $value->regu_pembina->nama_regu }}</td> 
-                                <td>{{ $value->jenis_kelamin }}</td> 
-                                <td>{{ $value->mata_lomba->nama }}</td>
+                                <td>{{$index ++}}</td>
+                                <td>{{$p->nama}}</td>
+                                <td>{{$regu->nama_regu}}</td>
+                                <td>{{$p->jenis_kelamin}}</td>
+                                <td>{{$p->mata_lomba->nama}}</td>
                             </tr>
-                        @endforeach
+                          @endforeach
+                          @endforeach
                         </tbody>
                         <tfoot>
                         </tfoot>
