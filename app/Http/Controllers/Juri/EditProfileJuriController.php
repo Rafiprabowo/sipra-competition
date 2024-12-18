@@ -1,34 +1,35 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Juri;
 
-use Illuminate\Http\Request; 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Facades\Hash; 
 use App\Models\User;
+use App\Models\Juri;
 
-class DashboardController extends Controller
+class EditProfileJuriController extends Controller
 {
-    public function editProfile() { 
-        $user = Auth::user(); 
-        return view('edit-profile', compact('user')); 
-    } 
-        
-    public function updateProfile(Request $request)
+    public function editProfileJuri()
+    {
+        $user = Auth::user();
+        $juri = Juri::where('user_id', $user->id)->first();
+
+        return view('juri.editProfile-juri', compact('user', 'juri'));
+    }
+
+    public function updateProfileJuri(Request $request)
     {
         $request->validate([
             'username' => 'required|string|unique:users,username,' . Auth::id(),
-            'email' => 'nullable|email',
-            'nama_lengkap' => 'nullable|string',
-            'no_hp' => 'nullable|string',
             'password' => 'nullable|string|confirmed',
+            'nama' => 'required|string',
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $user = Auth::user();
         $user->username = $request->username;
-        $user->email = $request->email;
-        $user->nama_lengkap = $request->nama_lengkap;
-        $user->no_hp = $request->no_hp;
 
         if ($request->password) {
             $user->password = Hash::make($request->password);
@@ -41,7 +42,10 @@ class DashboardController extends Controller
 
         $user->save();
 
+        $juri = Juri::where('user_id', $user->id)->first();
+        $juri->nama = $request->nama;
+        $juri->save();
+
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
-
 }

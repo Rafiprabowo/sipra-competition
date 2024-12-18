@@ -1,5 +1,9 @@
 @extends('layouts.template')
 
+@section('sidebar')
+    @include('layouts.sidebar.juri')
+@endsection
+
 @section('content')
 <div class="container" style="font-size: 11px;">
     <h2 style="font-size: 11px;">Edit Profile</h2>
@@ -8,23 +12,16 @@
         {{ session('success') }}
     </div>
     @endif
-    <form action="{{ route('updateProfile') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('updateProfileJuri') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" value="{{ $user->username }}" style="font-size: 11px;" required>
         </div>
         <div class="form-group">
-            <label for="nama_lengkap">Nama Lengkap</label>
-            <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" value="{{ $user->nama_lengkap }}" style="font-size: 11px;" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email ID</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" style="font-size: 11px;">
-        </div>
-        <div class="form-group">
-            <label for="no_hp">Phone Number</label>
-            <input type="text" class="form-control" id="no_hp" name="no_hp" value="{{ $user->no_hp }}" style="font-size: 11px;">
+            <label for="nama">Nama</label>
+            <input type="text" class="form-control" id="nama" name="nama" value="{{ $user->juri ? $user->juri->nama : '' }}" style="font-size: 11px;" required>
         </div>
         <div class="form-group">
             <label for="password">New Password</label>

@@ -23,10 +23,11 @@ class Pembina extends Model
     public function finalisasi(){
         return $this->hasOne(Finalisasi::class);
     }
-
-
     public function lomba_foto_vidio(){
         return $this->hasMany(LombaFotoVidio::class);
     }
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

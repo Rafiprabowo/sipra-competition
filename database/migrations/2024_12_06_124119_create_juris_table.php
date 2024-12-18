@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('nama');
             $table->string('kwartir_cabang');
             $table->string('pangkalan');
-            $table->string('tanggal_lahir');
+            $table->string('tanggal_lahir')->nullable();
             $table->string('jenis_kelamin');
-            $table->string('alamat');
+            $table->string('alamat')->nullable();
             $table->string('no_hp');
             $table->string('pengalaman_juri')->nullable();
             $table->string('pekerjaan')->nullable();

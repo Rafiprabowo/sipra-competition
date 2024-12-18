@@ -75,19 +75,24 @@
                         </div>
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" value="{{ old('username', $juri->username) }}" style="font-size: 11px;" required>
+                            <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" value="{{ old('username', $juri->user->username) }}" style="font-size: 11px;" required>
                             @error('username')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="text" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ old('password', $juri->password) }}" style="font-size: 11px;" required>
+                            <label for="password">New Password</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" style="font-size: 11px;">
                             @error('password')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            <small class="form-text text-muted">Kosongkan jika tidak ingin mengganti password</small>
                         </div>
-
+                        <div class="form-group">
+                            <label for="password_confirmation">Confirm New Password</label>
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" style="font-size: 11px;">
+                        </div>
+                
                         <!-- Pilihan Mata Lomba -->
                         <div class="form-group">
                             <label for="mata_lomba_id">Mata Lomba</label>

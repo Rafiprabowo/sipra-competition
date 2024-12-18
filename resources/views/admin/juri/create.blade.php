@@ -69,6 +69,34 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label for="tanggal_lahir">Tanggal Lahir</label>
+                            <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" style="font-size: 11px;">
+                            @error('tanggal_lahir')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat">Alamat</label>
+                            <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" value="{{ old('alamat') }}" style="font-size: 11px;">
+                            @error('alamat')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="pengalaman_juri">Pengalaman Juri</label>
+                            <input type="text" class="form-control @error('pengalaman_juri') is-invalid @enderror" id="pengalaman_juri" name="pengalaman_juri" value="{{ old('pengalaman_juri') }}" style="font-size: 11px;">
+                            @error('pengalaman_juri')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="pekerjaan">Pekerjaan</label>
+                            <input type="text" class="form-control @error('pekerjaan') is-invalid @enderror" id="pekerjaan" name="pekerjaan" value="{{ old('pekerjaan') }}" style="font-size: 11px;">
+                            @error('pekerjaan')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" value="{{ old('username') }}" style="font-size: 11px;" required>
                             @error('username')
@@ -79,6 +107,13 @@
                             <label for="password">Password</label>
                             <input type="text" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ old('password') }}" style="font-size: 11px;" required>
                             @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirmation">Konfirmasi Password</label>
+                            <input type="text" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" value="{{ old('password_confirmation') }}" style="font-size: 11px;" required>
+                            @error('password_confirmation')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

@@ -40,7 +40,7 @@
                         <tbody>
                         @foreach($pembina as $index => $value)
                             <tr>
-                                <td>{{ $loop->iteration }}</td> 
+                                <td>{{ $index + 1 }}</td> 
                                 <td>{{ $value->nisn }}</td> 
                                 <td>{{ $value->nama }}</td> 
                                 <td>{{ $value->regu_pembina->nama_regu }}</td> 

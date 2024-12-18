@@ -226,17 +226,49 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->nama_lengkap }}</span>
-                            <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('storage/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile">
+                           @if(Auth::user()->role == 'pembina')
+                                @if(Auth::user()->pembina)
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->pembina->nama }}</span>
+                                @else
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nama belum diisi</span>
+                                @endif
+                                <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('storage/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile">
+                            @elseif(Auth::user()->role == 'juri')
+                                @if(Auth::user()->juri)
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->juri->nama }}</span>
+                                @else
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nama belum diisi</span>
+                                @endif
+                                <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('storage/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile">
+                            @elseif(Auth::user()->role == 'peserta')
+                                @if(Auth::user()->peserta)
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->peserta->nama }}</span>
+                                @else
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nama belum diisi</span>
+                                @endif
+                                <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('storage/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile">
+                            @endif
 
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                              aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="{{ route('editProfile') }}">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                            </a>
+                             @if(Auth::user()->role == 'pembina')
+                                <a class="dropdown-item" href="{{ route('editProfilePembina') }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                            @elseif(Auth::user()->role == 'juri')
+                                <a class="dropdown-item" href="{{ route('editProfileJuri') }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                            @elseif(Auth::user()->role == 'peserta')
+                                <a class="dropdown-item" href="{{ route('editProfilePeserta') }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                            @endif
                             <a class="dropdown-item" href="#">
                                 <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Settings

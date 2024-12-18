@@ -44,7 +44,7 @@ Route::prefix('admin')->group(function () {
     Route::put('/finalisasi/{id}/update', [\App\Http\Controllers\Admin\FinalisasiController::class, 'update'])->name('finalisasi.update');
     Route::get('/view-file/{file}', [\App\Http\Controllers\Admin\FinalisasiController::class, 'view'])->name('viewFile');
 
-    Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class)->middleware(['role:admin']);
+    // Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class)->middleware(['role:admin']);
     Route::resource('dokumen', \App\Http\Controllers\Admin\TemplateDokumenController::class)->middleware(['role:admin']);
 
     Route::resource('pertanyaan-tpk', PertanyaanTpkController::class)->middleware(['role:admin']);
@@ -92,7 +92,8 @@ Route::prefix('admin')->group(function () {
 })->middleware(['role:admin']);
 //Peserta
 Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
-
+    Route::get('/peserta/edit-profile-peserta', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'editProfilePeserta'])->name('editProfilePeserta')->middleware(['role:peserta']);
+    Route::put('/peserta/update-profile-peserta', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'updateProfilePeserta'])->name('updateProfilePeserta')->middleware(['role:peserta']);
     // Dashboard peserta
     Route::get('/dashboard', [\App\Http\Controllers\Peserta\DashboardController::class, 'index'])->name('peserta.dashboard');
     Route::get('/tes-pengetahuan-kepramukaan', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'index'])->name('peserta.tes-pengetahuan-kepramukaan');
@@ -106,6 +107,8 @@ Route::prefix('pembina')->group(function () {
     Route::get('/dashboard', function () {
         return view('pembina.dashboard');
     })->name('pembina.dashboard')->middleware(['role:pembina']);
+    Route::get('/pembina/edit-profile-pembina', [App\Http\Controllers\Pembina\EditProfilePembinaController::class, 'editProfilePembina'])->name('editProfilePembina')->middleware(['role:pembina']);
+    Route::put('/pembina/update-profile-pembina', [App\Http\Controllers\Pembina\EditProfilePembinaController::class, 'updateProfilePembina'])->name('updateProfilePembina')->middleware(['role:pembina']);
     Route::get('/lihat-anggota', [App\Http\Controllers\Pembina\LihatAnggotaController::class, 'index'])->name('pembina.lihat-anggota')->middleware(['role:pembina']);
     // Route untuk upload lomba
     Route::get('/upload-lombas', [App\Http\Controllers\Pembina\UploadLombaController::class, 'upload_lombas'])->name('upload_lombas.form')->middleware(['role:pembina']);
@@ -132,16 +135,15 @@ Route::prefix('pembina')->group(function () {
 })->middleware(['role:pembina']);
 //Juri
 Route::prefix('juri')->group(function () {
-      Route::get('/dashboard', function () {
-            $finalisasis = Finalisasi::with('pembina')->get();
-            return view('juri.dashboard', compact('finalisasis'));
-        })->name('juri.dashboard')->middleware(['role:juri']);
-        Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri')->middleware(['role:juri']);
+    Route::get('/dashboard', function () {
+        $finalisasis = Finalisasi::with('pembina')->get();
+        return view('juri.dashboard', compact('finalisasis'));
+    })->name('juri.dashboard')->middleware(['role:juri']);
+    Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri')->middleware(['role:juri']);
+    Route::get('/juri/edit-profile-juri', [App\Http\Controllers\Juri\EditProfileJuriController::class, 'editProfileJuri'])->name('editProfileJuri')->middleware(['role:juri']);
+    Route::put('/juri/update-profile-juri', [App\Http\Controllers\Juri\EditProfileJuriController::class, 'updateProfileJuri'])->name('updateProfileJuri')->middleware(['role:juri']);
     Route::resource('/penilaian-karikatur', \App\Http\Controllers\Juri\PenilaianKarikatur::class)->middleware(['role:juri']);
-    Route::resource('/penilaian-pioneering', \App\Http\Controllers\Juri\PenilaianPioneeringController::class)->middleware(['role:juri']);
+    Route::resource('/penilaian-pioneering', \App\Http\Controllers\Juri\PenilaianPioneering::class)->middleware(['role:juri']);
     Route::match(['get', 'post'], '/juri', [\App\Http\Controllers\Juri\ProfilJuriController::class, 'createOrUpdate'])->name('juri.profil_juri')->middleware(['role:juri']);
 })->middleware(['role:juri']);
-
-Route::get('/edit-profile', [\App\Http\Controllers\DashboardController::class, 'editProfile'])->name('editProfile');
-Route::post('/update-profile', [\App\Http\Controllers\DashboardController::class, 'updateProfile'])->name('updateProfile');
 

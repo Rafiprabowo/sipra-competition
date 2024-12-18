@@ -49,17 +49,24 @@
                 <input type="text" class="form-control" id="pekerjaan" style="font-size: 11px;" name="pekerjaan" value="{{ $juri->pekerjaan ?? '' }}">
             </div>
             <div class="form-group">
-                <label for="pekerjaan">Pekerjaan</label>
-                <input type="text" class="form-control" id="pekerjaan" style="font-size: 11px;" name="pekerjaan" value="{{ $juri->pekerjaan ?? '' }}">
-            </div>
-            <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" style="font-size: 11px;" name="username" value="{{ $juri->username ?? '' }}">
+                <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" style="font-size: 11px;" name="username" value="{{ old('username', $juri->user->username ?? '') }}" required>
+                @error('username')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="text" class="form-control" id="password" style="font-size: 11px;" name="password" value="{{ $juri->password ?? '' }}">
+                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" style="font-size: 11px;" name="password">
+                @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+                <small class="form-text text-muted">Kosongkan jika tidak ingin mengganti password</small>
             </div>
+            <div class="form-group">
+                <label for="password_confirmation">Confirm Password</label>
+                <input type="password" class="form-control" id="password_confirmation" style="font-size: 11px;" name="password_confirmation">
+            </div>    
             <div class="form-group">
                 <label for="mata_lomba_id">Mata Lomba</label>
                 <select class="form-control" id="mata_lomba_id" name="mata_lomba_id" style="font-size: 11px;">
@@ -113,14 +120,6 @@
                     <tr>
                         <td><strong>Pengalaman Juri</strong></td>
                         <td>{{ $juri->pengalaman_juri }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Username</strong></td>
-                        <td>{{ $juri->username }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Password</strong></td>
-                        <td>{{ $juri->password }}</td>
                     </tr>
                     <tr>
                         <td><strong>Pekerjaan</strong></td>

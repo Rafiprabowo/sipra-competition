@@ -247,7 +247,7 @@ class RegistrasiController extends Controller
             $mataLomba = TemplateDokumen::find($request->template_dokumen_id);
     
             // Cek apakah sudah ada dokumen dengan jenis yang sama
-            $existingFile = UploadDokumen::where('template_dokumen_id', $mataLomba->id)
+            $existingFile = UploadDokumen::where('template_dokumens_id', $mataLomba->id)
                                           ->where('pembina_id', auth()->user()->pembina->id)
                                           ->first();
     
@@ -261,7 +261,7 @@ class RegistrasiController extends Controller
             } else {
                 // Simpan file baru
                 UploadDokumen::create([
-                    'template_dokumen_id' => $mataLomba->id,
+                    'template_dokumens_id' => $mataLomba->id,
                     'pembina_id' => auth()->user()->pembina->id,
                     'keterangan' => null, // Keterangan awal, dapat diupdate kemudian
                     'file' => $filePath,
