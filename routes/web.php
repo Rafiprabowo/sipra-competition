@@ -37,6 +37,8 @@ Route::prefix('admin')->group(function () {
         $finalisasis = \App\Models\Finalisasi::with('pembina.upload_dokumen')->get();
         return view('admin.dashboard', compact('finalisasis'));
     })->name('admin.dashboard')->middleware(['role:admin']);
+    Route::get('/admin/edit-profile-admin', [App\Http\Controllers\Admin\EditProfileAdminController::class, 'editProfileAdmin'])->name('editProfileAdmin')->middleware(['role:admin']);
+    Route::put('/admin/update-profile-admin', [App\Http\Controllers\Admin\EditProfileAdminController::class, 'updateProfileAdmin'])->name('updateProfileAdmin')->middleware(['role:admin']);
     Route::resource('users', UserController::class)->middleware(['role:admin']);
     Route::post('/finalisasi/{id}/approve', [\App\Http\Controllers\Admin\FinalisasiController::class, 'approve'])->name('finalisasi.approve');
     Route::post('/finalisasi/{id}/reject', [\App\Http\Controllers\Admin\FinalisasiController::class, 'reject'])->name('finalisasi.reject');
