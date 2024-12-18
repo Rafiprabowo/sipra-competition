@@ -1,52 +1,33 @@
-<!doctype html>
-<html lang="en" data-bs-theme="auto">
-<head>
-    <script src="{{asset('assets/js/color-modes.js')}}"></script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.122.0">
-    <title>Tes Pengetahuan Kepramukaan</title>
+<link href="{{ asset('assets/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
 
-    <link href="{{asset('assets/dist/css/bootstrap.min.css')}}" rel="stylesheet">
+<style>
+    .form-check-input {
+        margin-top: 0.3rem;
+    }
+    .form-check-label {
+        margin-bottom: 0;
+    }
+</style>
 
-    <style>
-        body {
-            padding-top: 56px;
-        }
-    </style>
-</head>
-<body class="bg-body-tertiary">
+@extends('layouts.template')
 
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Tes Pengetahuan Kepramukaan</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">{{auth()->user()->username}}</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+@section('sidebar')
+    @include('layouts.sidebar.peserta')
+@endsection
 
-<main class="container mt-4">
-    <!-- Header Soal -->
-    <div class="p-3 border bg-light">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5>Soal No. {{ $currentOrder }}</h5>
-            <span>Sisa Waktu: <b id="time-remaining">01:13:23</b></span>
-        </div>
-    </div>
-
+@section('content')
+<div class="container-fluid d-flex mt-4">
     <!-- Konten Soal -->
-    <div class="p-4 border border-top-0">
+    <div class="p-4 border bg-light flex-grow-1 me-4">
+        <!-- Header Soal -->
+        <div class="p-3 border-bottom">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Soal No. {{ $currentOrder }}</h5>
+                <span>Sisa Waktu: <b id="time-remaining">01:13:23</b></span>
+            </div>
+        </div>
+
         <form action="{{ route('peserta.exam.answer', ['exam_id' => $exam->id, 'order' => $currentOrder]) }}" method="POST">
             @csrf
             <!-- Teks Soal -->
@@ -77,24 +58,23 @@
     </div>
 
     <!-- Navigasi Nomor Soal -->
-    <div class="mt-4">
+    <div class="p-4 border bg-light" style="width: 200px;">
         <h6>Navigasi Soal</h6>
-        <div class="d-flex flex-wrap">
+        <div class="d-flex flex-column">
             @for ($i = 1; $i <= $totalQuestions; $i++)
                 <a href="{{ route('peserta.exam.question', ['exam_id' => $exam->id, 'order' => $i]) }}"
                    class="m-1 text-center btn
                    {{ $i == $currentOrder ? 'btn-primary text-white' : 'btn-outline-secondary' }}"
-                   style="width: 60px; height: 60px; line-height: 45px; font-size: 16px;">
+                   style="width: 100%; height: 60px; line-height: 45px; font-size: 16px;">
                     {{ $i }}
                 </a>
             @endfor
         </div>
     </div>
-</main>
+</div>
+@endsection
 
+<script src="{{ asset('assets/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/js/color-modes.js') }}"></script>
 
-
-
-<script src="{{asset('assets/dist/js/bootstrap.bundle.min.js')}}"></script>
-</body>
-</html>

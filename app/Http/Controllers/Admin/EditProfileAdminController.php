@@ -4,8 +4,48 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Hash; 
+use App\Models\User;
+use App\Models\Admin;
 
 class EditProfileAdminController extends Controller
 {
-    //
+    public function editProfileAdmin()
+    {
+        $user = Auth::user();
+        $admin = Admin::where('user_id', $user->id)->first();
+
+        return view('admin.editProfile-admin', compact('user', 'admin'));
+    }
+
+    public function updateProfileAdmin(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string|unique:users,username,' . Auth::id(),
+            'password' => 'nullable|string|confirmed',
+            'nama' => 'required|string',
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $user = Auth::user();
+        $user->username = $request->username;
+
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('foto_profil')) {
+            $path = $request->file('foto_profil')->store('profile_pictures', 'public');
+            $user->foto_profil = $path;
+        }
+
+        $user->save();
+
+        $admin = Admin::where('user_id', $user->id)->first();
+        $admin->nama = $request->nama;
+        $admin->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully.');
+    }
 }

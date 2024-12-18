@@ -247,6 +247,13 @@
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nama belum diisi</span>
                                 @endif
                                 <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('storage/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile">
+                            @elseif(Auth::user()->role == 'admin')
+                                @if(Auth::user()->admin)
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->admin->nama }}</span>
+                                @else
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nama belum diisi</span>
+                                @endif
+                                <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('storage/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile">
                             @endif
 
                         </a>
@@ -265,6 +272,11 @@
                                 </a>
                             @elseif(Auth::user()->role == 'peserta')
                                 <a class="dropdown-item" href="{{ route('editProfilePeserta') }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                            @elseif(Auth::user()->role == 'admin')
+                                <a class="dropdown-item" href="{{ route('editProfileAdmin') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
