@@ -14,9 +14,9 @@ class LihatAnggotaController extends Controller
     $pembinaId = optional($user->pembina)->id;
 
     // Jika pembinaId null, buat objek kosong atau tangani sesuai kebutuhan
-    if (!$pembinaId) {
-        return redirect()->route('error.page')->with('error', 'Pembina tidak ditemukan.');
-    }
+    // if (!$pembinaId) {
+    //     return redirect()->route('error.page')->with('error', 'Pembina tidak ditemukan.');
+    // }
 
     $pembina = \App\Models\Pembina::with('regu.peserta', 'finalisasi') // Eager load regu dan finalisasi
     ->whereHas('finalisasi', function ($query) {
