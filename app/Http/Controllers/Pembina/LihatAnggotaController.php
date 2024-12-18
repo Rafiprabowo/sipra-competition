@@ -13,10 +13,20 @@ class LihatAnggotaController extends Controller
     $user = auth()->user();
     $pembinaId = optional($user->pembina)->id;
 
-    // Mengambil data peserta dengan relasi ke regu_pembinas dan mata_lombas
-    $pembina = \App\Models\Pembina::with('regu.peserta')->find($pembinaId);
+    // Jika pembinaId null, buat objek kosong atau tangani sesuai kebutuhan
+    if (!$pembinaId) {
+        return redirect()->route('error.page')->with('error', 'Pembina tidak ditemukan.');
+    }
 
-    if (!$pembina) {
+    $pembina = \App\Models\Pembina::with('regu.peserta', 'finalisasi') // Eager load regu dan finalisasi
+    ->whereHas('finalisasi', function ($query) {
+        $query->where('status', true);
+    })
+    ->orWhereDoesntHave('finalisasi') // Membawa pembina yang tidak memiliki finalisasi
+    ->find($pembinaId);
+
+
+    if (!$pembina || !optional($pembina->finalisasi)->status) {
         // Jika pembina tidak ditemukan, buat objek kosong
         $pembina = new \App\Models\Pembina();
     }
