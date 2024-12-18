@@ -8,13 +8,16 @@ use App\Models\Exam;
 use App\Models\Peserta;
 use App\Models\TpkQuestion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LombaTpkController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $exam = Exam::find(1);
         return view('peserta.lombatpk', compact('exam'));
     }
+
     public function startExam($exam_id)
     {
         $exam = Exam::find($exam_id);
@@ -32,7 +35,6 @@ class LombaTpkController extends Controller
             return redirect()->back()->with('error', 'Ujian ini belum memiliki soal.');
         }
 
-
         // Arahkan ke soal pertama
         return redirect()->route('peserta.exam.question', [
             'exam_id' => $exam->id,
@@ -41,28 +43,43 @@ class LombaTpkController extends Controller
     }
 
     public function showQuestion($exam_id, $order)
-    {
-        $peserta = auth()->user()->peserta;
-        $exam = Exam::find($exam_id);
+{
+    $peserta = auth()->user()->peserta;
+    $exam = Exam::find($exam_id);
 
-        // Validasi apakah ujian dan peserta ditemukan
-        if (!$exam) {
-            abort(404, 'Data ujian tidak ditemukan.');
-        }
-
-        // Ambil soal berdasarkan urutan
-        $question = $exam->tpk_questions()->skip($order - 1)->first();
-
-
-        // Data untuk view
-       return view('peserta.exam.question', [
-            'exam' => $exam,
-            'question' => $question,
-            'currentOrder' => $order,
-            'totalQuestions' => $exam->tpk_questions()->count(),
-        ]);
-
+    // Validasi apakah ujian dan peserta ditemukan
+    if (!$exam) {
+        abort(404, 'Data ujian tidak ditemukan.');
     }
+
+    // Ambil soal berdasarkan urutan
+    $question = $exam->tpk_questions()->skip($order - 1)->first();
+
+    // Ambil jawaban yang sudah dipilih sebelumnya
+    $selectedAnswer = Answer::where('exam_id', $exam_id)
+                             ->where('peserta_id', $peserta->id)
+                             ->where('tpk_question_id', $question->id)
+                             ->first()
+                             ->selected_answer ?? null;
+
+    // Ambil semua jawaban peserta untuk navigasi soal
+    $answers = Answer::where('exam_id', $exam_id)
+                      ->where('peserta_id', $peserta->id)
+                      ->pluck('selected_answer', 'tpk_question_id')
+                      ->all();
+
+    // Data untuk view
+    return view('peserta.exam.question', [
+        'exam' => $exam,
+        'question' => $question,
+        'selectedAnswer' => $selectedAnswer,
+        'currentOrder' => $order,
+        'totalQuestions' => $exam->tpk_questions()->count(),
+        'answers' => $answers,
+        'duration' => $exam->duration * 60, // Convert minutes to seconds
+    ]);
+}
+
     public function saveAnswer(Request $request, $exam_id, $order)
     {
         $request->validate([
@@ -76,7 +93,7 @@ class LombaTpkController extends Controller
         $question = $exam->tpk_questions()->skip($order - 1)->first();
 
         if (!$question) {
-//            return redirect()->route('peserta.exam.result', $exam_id)->with('success', 'Ujian telah selesai.');
+            // return redirect()->route('peserta.exam.result', $exam_id)->with('success', 'Ujian telah selesai.');
         }
 
         // Simpan jawaban
@@ -98,7 +115,4 @@ class LombaTpkController extends Controller
             'order' => $order + 1,
         ]);
     }
-
-
-
 }

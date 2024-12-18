@@ -41,7 +41,8 @@
                           @foreach($pembina->regu as $regu)
                           @foreach($regu->peserta as $index => $p)
                             <tr>
-                                <td>{{$index ++}}</td>
+                                <td>{{$index + 1}}</td>
+                                <td>{{$p->nisn}}</td>
                                 <td>{{$p->nama}}</td>
                                 <td>{{$regu->nama_regu}}</td>
                                 <td>{{$p->jenis_kelamin}}</td>
