@@ -24,6 +24,7 @@
                             <th>Mata Lomba</th>
                             <th>Kriteria Nilai</th>
                             <th>Bobot Soal</th>
+                            <th>Total Bobot</th>
                             <th>Aksi</th>
                         </tr>
                         </thead>
@@ -34,6 +35,7 @@
                                 <td>{{$value->mata_lomba->nama}}</td>
                                 <td>{{$value->kriteria_nilai}}</td>
                                 <td>{{$value->bobot_soal}}</td>
+                                <td>{{$value->total_bobot}}</td>
                                 <td>
                                     {{-- <a href="{{route('admin.bobot-soal.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">
                                         <i class="fas fa-eye"></i>

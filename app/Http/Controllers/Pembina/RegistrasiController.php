@@ -24,8 +24,7 @@ class RegistrasiController extends Controller
     {
         $pembina = auth()->user()->pembina()->with('finalisasi')->first();
     
-        $ditujukan = 'peserta'; // Nama peserta untuk dicocokkan
-        $mataLombas = \App\Models\MataLomba::whereRaw('LOWER(ditujukan) = ?', [strtolower($ditujukan)])->get();
+        $mataLombas = \App\Models\MataLomba::where('ditujukan',false)->get();
         $templates = TemplateDokumen::with('upload_dokumen')->get();
         $uploadDokumens = UploadDokumen::with('template_dokumen')->get();
 

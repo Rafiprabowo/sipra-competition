@@ -39,7 +39,7 @@
                                 <td>{{ $value->pangkalan }}</td>
                                 <td>{{ $value->jenis_kelamin }}</td>
                                 <td>{{ $value->no_hp }}</td>
-                                <td>{{$value->mata_lomba->nama}}</td>
+                                <td>{{optional($value->mata_lomba)->nama}}</td>
                                 <td>
                                     {{-- <a href="{{route('juri.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">
                                         <i class="fas fa-eye"></i>

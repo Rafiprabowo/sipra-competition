@@ -76,6 +76,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/bobot-soal/{id}/edit', [App\Http\Controllers\Admin\BobotSoalController::class, 'edit'])->name('admin.bobot-soal.edit')->middleware(['role:admin']);
         Route::put('/bobot-soal/{id}', [App\Http\Controllers\Admin\BobotSoalController::class, 'update'])->name('admin.bobot-soal.update')->middleware(['role:admin']);
         Route::delete('/bobot-soal/{id}', [App\Http\Controllers\Admin\BobotSoalController::class, 'destroy'])->name('admin.bobot-soal.destroy')->middleware(['role:admin']);
+        Route::post('admin/bobot-soal/storeTemporary', [App\Http\Controllers\Admin\BobotSoalController::class, 'storeTemporary'])->name('admin.bobot-soal.storeTemporary')->middleware(['role:admin']);
+        Route::delete('admin/bobot-soal/removeTemporary/{index}', [App\Http\Controllers\Admin\BobotSoalController::class, 'removeTemporary'])->name('admin.bobot-soal.removeTemporary')->middleware(['role:admin']);
+
     });
 
     Route::prefix('pembina')->group(function () {

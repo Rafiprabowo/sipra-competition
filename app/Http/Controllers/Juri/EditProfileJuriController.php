@@ -60,10 +60,6 @@ class EditProfileJuriController extends Controller
                 'nama' => $request->nama,
             ]);
         }
-
-
-        
-
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 }

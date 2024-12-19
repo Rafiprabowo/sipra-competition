@@ -25,9 +25,6 @@
                             <th>No</th>
                             <th>Foto</th>
                             <th>Username</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>No Hp</th>
                             <th>Role</th>
                             <th>Aksi</th>
                         </tr>
@@ -37,17 +34,14 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    <img src="{{basename($user->foto_profil)}}" alt=" Foto user" class="w-25">
-                                </td>
+                                    <img src="{{ $user->foto_profil ? asset('storage/' . $user->foto_profil) : asset('images/default.png') }}" alt="Foto user" style="width:40px;">
+                                </td>                                
                                 <td>{{ $user->username }}</td>
-                                <td>{{ $user->nama_lengkap ?? '-' }}</td>
-                                <td>{{ $user->email ?? '-'}}</td>
-                                <td>{{ $user->no_hp ?? '-'}}</td>
                                 <td>{{ $user->role ?? '-' }}</td>
                                 <td>
-                                    <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm mr-2" title="Lihat">
+                                    {{-- <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm mr-2" title="Lihat">
                                         <i class="fas fa-eye"></i>
-                                    </a>
+                                    </a> --}}
                                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')

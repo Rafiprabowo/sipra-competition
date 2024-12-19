@@ -52,10 +52,10 @@ class EditProfileAdminController extends Controller
                 'user_id' => $user->id
             ]);
         }
-        $admin->update([
-            'nama' => $request->nama
-        ]);
 
-        return redirect()->back()->with('success', 'Profile updated successfully.');
+        $admin->nama = $request->nama;
+        $admin->save();
+
+        return redirect()->route('editProfileAdmin')->with('success', 'Profile updated successfully.');
     }
 }

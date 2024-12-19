@@ -1,36 +1,38 @@
+
 <link href="{{ asset('assets/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
 
-<style>
-    .form-check-label::before {
-        content: attr(data-option);
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border: 1px solid #ced4da;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 20px;
-        margin-right: 10px;
-        color: #6c757d;
-    }
-    .form-check-input {
-        display: none;
-    }
-    .form-check-input:checked + .form-check-label::before {
-        background-color: #6c757d;
-        color: white;
-    }
-    .btn-outline-secondary {
-        background-color: #6c757d;
-        color: white;
-    }
-    .btn-outline-secondary:hover {
-        background-color: #5a6268;
-        color: white;
-    }
-</style>
-
+    <style>
+        .form-check-label::before {
+            content: attr(data-option);
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            margin-right: 10px;
+            color: #6c757d;
+        }
+        .form-check-input {
+            display: none;
+        }
+        .form-check-input:checked + .form-check-label::before {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-outline-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #5a6268;
+            color: white;
+        }
+    </style>
+</head>
+<body>
 @extends('layouts.template')
 
 @section('sidebar')
@@ -38,11 +40,11 @@
 @endsection
 
 @section('content')
-<p> 
-    <span>NISN : </span>{{ $answers->first()->peserta->nisn }}
-    <span style="padding-left:80px;">Nama Peserta : </span>{{ $answers->first()->peserta->nama }} 
-    <span style="padding-left:80px;">Nama Regu : </span>{{ $answers->first()->peserta->regu_pembina->nama_regu }}
-    <span style="padding-left:80px;">Mata Lomba : </span>{{ $answers->first()->peserta->mata_lomba->nama }}
+<p style="text-align: center;"> 
+    <span>NISN : </span>{{ Auth::user()->peserta->nisn }}
+    <span style="padding-left:80px;">Nama Peserta : </span>{{ Auth::user()->peserta->nama }} 
+    <span style="padding-left:80px;">Nama Regu : </span>{{ Auth::user()->peserta->regu_pembina->nama_regu }}
+    <span style="padding-left:80px;">Pangkalan : </span>{{ Auth::user()->peserta->regu_pembina->pembina->pangkalan }}
 </p>
 
 <div class="container-fluid d-flex mt-3">
@@ -153,6 +155,12 @@
                     } else {
                         console.error('Error menyimpan jawaban');
                     }
+
+                    // Update button navigation color to green if answer is saved
+                    if (data.saved) {
+                        document.querySelector(`a[href='{{ route('peserta.exam.question', ['exam_id' => $exam->id, 'order' => $currentOrder]) }}']`)
+                            .classList.add('btn-success');
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -161,3 +169,4 @@
         });
     });
 </script>
+

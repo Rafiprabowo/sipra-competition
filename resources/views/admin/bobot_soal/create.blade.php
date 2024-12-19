@@ -25,7 +25,7 @@
                 <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Form Tambah Bobot Soal</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.bobot-soal.store') }}" method="POST">
+                <form action="{{ route('admin.bobot-soal.storeTemporary') }}" method="POST">
                     @csrf
                     <div class="container-md">
                         <!-- Input Nama -->
@@ -60,16 +60,63 @@
 
                         <!-- Buttons -->
                         <div class="d-flex justify-content-start mt-3">
-                            <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Simpan">
-                                <i class="fas fa-save"></i>
+                            <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Save Sementara">
+                                <i class="fas fa-save"></i> Save Sementara
                             </button> 
                             <a href="{{ route('admin.bobot-soal.index') }}" class="btn btn-secondary ml-2" style="font-size: 11px;" title="Kembali">
-                                <i class="fas fa-arrow-left"></i>
+                                <i class="fas fa-arrow-left"></i> Kembali
                             </a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+
+        @if (!empty($temporaryData))
+            <div class="card shadow mb-4" style="font-size: 11px;">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Lihat Form Tambah Bobot</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered" style="font-size: 11px;">
+                        <thead>
+                            <tr>
+                                <th>Nama Mata Lomba</th>
+                                <th>Kriteria Nilai</th>
+                                <th>Bobot</th>
+                                {{-- <th>Total Bobot</th> --}}
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($temporaryData as $index => $data)
+                                <tr>
+                                    <td>{{ $mata_lomba->firstWhere('id', $data['mata_lomba_id'])->nama ?? 'N/A' }}</td>
+                                    <td>{{ $data['kriteria_nilai'] }}</td>
+                                    <td>{{ $data['bobot_soal'] }}</td>
+                                    {{-- <td>{{ $data['total_bobot'] ?? 'N/A' }}</td> --}}
+                                    <td>
+                                        <form action="{{ route('admin.bobot-soal.removeTemporary', $index) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger" style="font-size: 11px;">Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td colspan="2"><strong>Total Bobot</strong></td>
+                                <td colspan="2">{{ array_sum(array_column($temporaryData, 'bobot_soal')) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <form action="{{ route('admin.bobot-soal.store') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success" style="font-size: 11px;">Simpan ke Database</button>
+                    </form>
+                </div>
+            </div>
+        @endif
     </div>
 @endsection

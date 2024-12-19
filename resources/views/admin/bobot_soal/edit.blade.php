@@ -29,20 +29,21 @@
                     @csrf
                     @method('PUT')
                     <div class="container-md">
-                        <!-- Input Nama -->
+                        <!-- Input Nama Mata Lomba -->
                         <div class="form-group">
                             <label for="mata_lomba_id">Nama Mata Lomba</label>
                             <select class="form-control @error('mata_lomba_id') is-invalid @enderror" id="mata_lomba_id" name="mata_lomba_id" style="font-size: 11px;" required>
                                 <option value="">Pilih Mata Lomba</option>
                                 @foreach ($mata_lomba as $mataLomba)
-                                    <option value="{{ $mataLomba->id }}" {{ old('mata_lomba_id', $bobotSoal->mata_lomba_id) == $mataLomba->id ? 'selected' : '' }}>{{ $mataLomba->nama }}</option>
+                                    <option value="{{ $mataLomba->id }}" {{ $bobotSoal->mata_lomba_id == $mataLomba->id ? 'selected' : '' }}>{{ $mataLomba->nama }}</option>
                                 @endforeach
                             </select>
                             @error('mata_lomba_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
+                        <!-- Input Kriteria Nilai -->
                         <div class="form-group">
                             <label for="kriteria_nilai">Kriteria Nilai</label>
                             <input type="text" class="form-control @error('kriteria_nilai') is-invalid @enderror" id="kriteria_nilai" name="kriteria_nilai" value="{{ old('kriteria_nilai', $bobotSoal->kriteria_nilai) }}" style="font-size: 11px;" required>
@@ -50,7 +51,8 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
+                        <!-- Input Bobot Soal -->
                         <div class="form-group">
                             <label for="bobot_soal">Bobot Soal</label>
                             <input type="number" class="form-control @error('bobot_soal') is-invalid @enderror" id="bobot_soal" name="bobot_soal" value="{{ old('bobot_soal', $bobotSoal->bobot_soal) }}" style="font-size: 11px;" required>
@@ -58,14 +60,14 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <!-- Buttons -->
                         <div class="d-flex justify-content-start mt-3">
-                            <button type="submit" class="btn btn-primary mr-2" style="font-size: 11px;" title="Update">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
+                            <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Update">
+                                <i class="fas fa-save"></i> Update
+                            </button> 
                             <a href="{{ route('admin.bobot-soal.index') }}" class="btn btn-secondary ml-2" style="font-size: 11px;" title="Kembali">
-                                <i class="fas fa-arrow-left"></i>
+                                <i class="fas fa-arrow-left"></i> Kembali
                             </a>
                         </div>
                     </div>
