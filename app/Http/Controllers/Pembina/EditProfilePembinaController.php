@@ -13,9 +13,10 @@ class EditProfilePembinaController extends Controller
 {
     public function editProfilePembina()
     {
-        $user = Auth::user();
-        $pembina = Pembina::where('user_id', $user->id)->first();
-
+        // $user = Auth::user();
+        $user = auth()->user();
+        // $pembina = Pembina::where('user_id', $user->id)->first();
+        $pembina = new \App\Models\Pembina();
         return view('pembina.editProfile-pembina', compact('user', 'pembina'));
     }
 
@@ -43,8 +44,15 @@ class EditProfilePembinaController extends Controller
         $user->save();
 
         $pembina = Pembina::where('user_id', $user->id)->first();
-        $pembina->nama = $request->nama;
-        $pembina->save();
+        if($pembina){
+            $pembina->nama = $request->nama;
+            $pembina->save();
+        }
+        Pembina::create([
+            'nama' => $request->nama,
+            'user_id' => $user->id
+        ]);
+      
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }

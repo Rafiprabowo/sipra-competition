@@ -600,11 +600,9 @@
                                     <select id="mata_lomba_id" name="mata_lomba_id" class="form-control" required style="font-size: 11px;">
                                         <option value="">Pilih Nama Mata Lomba</option>
                                         @foreach($mataLombas as $mataLomba)
-                                            @if($mataLomba->ditujukan == 0)
-                                                <option value="{{$mataLomba->id}}" {{ old('mata_lomba_id', $pesertaToEdit->mata_lomba_id ?? '') == $mataLomba->id ? 'selected' : '' }}>
-                                                    {{$mataLomba->nama}}
-                                                </option>
-                                            @endif
+                                            <option value="{{$mataLomba->id}}" {{ old('mata_lomba_id', $pesertaToEdit->mata_lomba_id ?? '') == $mataLomba->id ? 'selected' : '' }}>
+                                                {{$mataLomba->nama}}
+                                            </option>
                                         @endforeach
                                         </select>
                                         @error('mata_lomba_id')

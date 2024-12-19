@@ -14,7 +14,10 @@ class EditProfileJuriController extends Controller
     public function editProfileJuri()
     {
         $user = Auth::user();
-        $juri = Juri::where('user_id', $user->id)->first();
+        $juri = $user->juri;
+        if(!$juri){
+            $juri = new \App\Models\Juri();
+        }
 
         return view('juri.editProfile-juri', compact('user', 'juri'));
     }
@@ -42,9 +45,24 @@ class EditProfileJuriController extends Controller
 
         $user->save();
 
-        $juri = Juri::where('user_id', $user->id)->first();
-        $juri->nama = $request->nama;
-        $juri->save();
+        // Ambil data juri terkait user
+        $juri = $user->juri;
+
+        if (!$juri) {
+            // Jika juri tidak ada, buat baru
+            Juri::create([
+                'user_id' => $user->id, // Pastikan ada foreign key ke user
+                'nama' => $request->nama,
+            ]);
+        } else {
+            // Jika juri ada, perbarui datanya
+            $juri->update([
+                'nama' => $request->nama,
+            ]);
+        }
+
+
+        
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }

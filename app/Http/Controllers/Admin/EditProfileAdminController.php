@@ -14,7 +14,10 @@ class EditProfileAdminController extends Controller
     public function editProfileAdmin()
     {
         $user = Auth::user();
-        $admin = Admin::where('user_id', $user->id)->first();
+        $admin = $user->admin;
+        if(!$admin){
+            $admin = new \App\Models\Admin();
+        }
 
         return view('admin.editProfile-admin', compact('user', 'admin'));
     }
@@ -42,9 +45,16 @@ class EditProfileAdminController extends Controller
 
         $user->save();
 
-        $admin = Admin::where('user_id', $user->id)->first();
-        $admin->nama = $request->nama;
-        $admin->save();
+        $admin = $user->admin;
+        if(!$admin){
+            Admin::create([
+                'nama' => $request->nama,
+                'user_id' => $user->id
+            ]);
+        }
+        $admin->update([
+            'nama' => $request->nama
+        ]);
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }

@@ -23,7 +23,9 @@ class RegistrasiController extends Controller
     public function registrasi(Request $request)
     {
         $pembina = auth()->user()->pembina()->with('finalisasi')->first();
-        $mataLombas = \App\Models\MataLomba::all();
+    
+        $ditujukan = 'peserta'; // Nama peserta untuk dicocokkan
+        $mataLombas = \App\Models\MataLomba::whereRaw('LOWER(ditujukan) = ?', [strtolower($ditujukan)])->get();
         $templates = TemplateDokumen::with('upload_dokumen')->get();
         $uploadDokumens = UploadDokumen::with('template_dokumen')->get();
 
@@ -64,6 +66,10 @@ class RegistrasiController extends Controller
             'pekerjaan' => 'nullable',
         ]);
 
+        $pembina = Pembina::where('user_id', auth()->user()->id);
+        if($pembina){
+            $pembina->update($validatedData);
+        }
         //set id user to pembina
         $validatedData['user_id'] = auth()->user()->id;
 
