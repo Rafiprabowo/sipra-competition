@@ -154,16 +154,7 @@
             </div>
         </div>
 
-        <div class="row g-4 justify-content-center pt-4">
-            <!-- Card 4 -->
-            <div class="col-md-6 col-sm-6 col-lg-4 p-4">
-                <div class="card shadow-sm rounded-4 h-100 text-center">
-                    <img src="{{ asset('img/animasi.jpg') }}" class="card-img-top img-fluid p-3" alt="Animasi">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold" style="font-size: 11px;">Tes Kemampuan Kepramukaan</h5>
-                    </div>
-                </div>
-            </div>
+        <div class="row g-4 justify-content-center">
             <!-- Card 5 -->
             <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
@@ -182,15 +173,12 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row g-4 pt-4 justify-content-center">
             <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <a href="{{route('peserta.tes-pengetahuan-kepramukaan')}}" class="text-center text-lg text-decoration-none" >
                         <img src="{{asset('img/egov.jpg')}}" alt="Tes Pengetahuan Kepramukaan" class="card-img-top img-fluid p-3">
-                        <span class="card-title">Tes Pengetahuan Kepramukaan</span>
+                        <span class="card-title" style="font-size: 11px;">Tes Pengetahuan Kepramukaan</span>
                     </a>
-
                 </div>
             </div>
         </div>

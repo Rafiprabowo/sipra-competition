@@ -81,8 +81,8 @@
     <main class="container d-flex justify-content-center align-items-center">
         <div class="col-md-9">
             <div class="border rounded shadow-sm p-4">
-                <h3 class="text-center mb-4" style="color: black;">Informasi Tes</h3>
-                <table class="table table-bordered">
+                <h3 class="text-center mb-4" style="color: black; font-size:11px;"><b>Informasi Tes</b></h3>
+                <table class="table table-bordered" style="font-size: 11px;">
                     <tbody>
                         <tr>
                             <th scope="row" style="color:black; background-color:white;">Nama</th>
@@ -103,7 +103,7 @@
                     </tbody>
                 </table>
                 <div class="text-center mt-3">
-                    <a href="{{ route('peserta.exam.start', $exam->id) }}" class="btn btn-primary">Mulai Tes</a>
+                    <a href="{{ route('peserta.exam.start', $exam->id) }}" class="btn btn-primary"  style="font-size: 11px;">Mulai Tes</a>
                 </div>
             </div>
         </div>

@@ -65,8 +65,8 @@ class LombaTpkController extends Controller
     // Ambil semua jawaban peserta untuk navigasi soal
     $answers = Answer::where('exam_id', $exam_id)
                       ->where('peserta_id', $peserta->id)
-                      ->pluck('selected_answer', 'tpk_question_id')
-                      ->all();
+                      ->with('peserta') // Eager loading untuk relasi peserta
+                      ->get();
 
     // Data untuk view
     return view('peserta.exam.question', [

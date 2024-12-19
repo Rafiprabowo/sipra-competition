@@ -22,7 +22,7 @@
 
 <body class="bg-gradient-primary">
 
-<div class="container">
+<div class="container" style="font-size: 11px;">
     <!-- Outer Row -->
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-12 col-md-9">
@@ -34,7 +34,7 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Silahkan Login LOGIKA</h1>
+                                    <h1 class="h4 text-gray-900 mb-4" style="font-size: 11px;">Silahkan Login LOGIKA</h1>
                                     <!-- Display Flash Message -->
                                     @if(session('success'))
                                         <div class="alert alert-success">
@@ -49,7 +49,7 @@
                                     <div class="form-group">
                                         <input type="text" name="username" class="form-control form-control-user"
                                                id="exampleInputUsername" placeholder="Enter Username..."
-                                               value="{{ old('username') }}" required autofocus>
+                                               value="{{ old('username') }}" required autofocus style="font-size: 11px;">
                                         @error('username')
                                         <span class="text-danger small">{{ $message }}</span>
                                         @enderror
@@ -57,7 +57,7 @@
                                     <!-- Password Input -->
                                     <div class="form-group">
                                         <input type="password" name="password" class="form-control form-control-user"
-                                               id="exampleInputPassword" placeholder="Password" required>
+                                               id="exampleInputPassword" placeholder="Password" required style="font-size: 11px;">
                                         @error('password')
                                         <span class="text-danger small">{{ $message }}</span>
                                         @enderror
@@ -70,7 +70,7 @@
                                         </div>
                                     </div>
                                     <!-- Login Button -->
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                                    <button type="submit" class="btn btn-primary btn-user btn-block" style="font-size: 11px;">
                                         Login
                                     </button>
                                 </form>

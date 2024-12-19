@@ -2,11 +2,24 @@
 <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
 
 <style>
-    .form-check-input {
-        margin-top: 0.3rem;
+    .form-check-label::before {
+        content: attr(data-option);
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ced4da;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 20px;
+        margin-right: 10px;
+        color: #6c757d;
     }
-    .form-check-label {
-        margin-bottom: 0;
+    .form-check-input {
+        display: none;
+    }
+    .form-check-input:checked + .form-check-label::before {
+        background-color: #6c757d;
+        color: white;
     }
     .btn-outline-secondary {
         background-color: #6c757d;
@@ -25,7 +38,14 @@
 @endsection
 
 @section('content')
-<div class="container-fluid d-flex mt-4">
+<p> 
+    <span>NISN : </span>{{ $answers->first()->peserta->nisn }}
+    <span style="padding-left:80px;">Nama Peserta : </span>{{ $answers->first()->peserta->nama }} 
+    <span style="padding-left:80px;">Nama Regu : </span>{{ $answers->first()->peserta->regu_pembina->nama_regu }}
+    <span style="padding-left:80px;">Mata Lomba : </span>{{ $answers->first()->peserta->mata_lomba->nama }}
+</p>
+
+<div class="container-fluid d-flex mt-3">
     <!-- Konten Soal -->
     <div class="p-4 border bg-light flex-grow-1 me-4" style="font-size: 11px;">
         <!-- Header Soal -->
@@ -36,20 +56,22 @@
             </div>
         </div>
 
-        <form action="{{ route('peserta.exam.answer', ['exam_id' => $exam->id, 'order' => $currentOrder]) }}" method="POST">
+        <form id="question-form" action="{{ route('peserta.exam.answer', ['exam_id' => $exam->id, 'order' => $currentOrder]) }}" method="POST">
             @csrf
             <!-- Teks Soal -->
             <h5 style="font-size: 11px; padding:20px;">{{ $question->question }}</h5>
 
             <!-- Pilihan Jawaban -->
-            @foreach (['a', 'b', 'c', 'd', 'e'] as $option)
-                <div class="form-check mt-2">
-                    <input class="form-check-input" type="radio" name="answer" value="{{ $option }}" id="option_{{ $option }}" {{ $selectedAnswer == $option ? 'checked' : '' }} required>
-                    <label class="form-check-label" for="option_{{ $option }}">
-                        {{ $question->{'answer_' . $option} }}
-                    </label>
-                </div>
-            @endforeach
+            <div class="options">
+                @foreach (['a', 'b', 'c', 'd', 'e'] as $option)
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="radio" name="answer" value="{{ $option }}" id="option_{{ $option }}" {{ $selectedAnswer == $option ? 'checked' : '' }} required>
+                        <label class="form-check-label" for="option_{{ $option }}" data-option="{{ strtoupper($option) }}">
+                            {{ $question->{'answer_' . $option} }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
 
             <!-- Navigasi Soal Sebelumnya & Selanjutnya -->
             <div class="d-flex justify-content-between mt-4">
@@ -107,5 +129,35 @@
                 timer = duration;
             }
         }, 1000);
+
+        // Handle answer selection
+        document.querySelectorAll('.form-check-input').forEach(input => {
+            input.addEventListener('change', (event) => {
+                const selectedAnswer = event.target.value;
+                const questionId = {{ $question->id }};
+                const examId = {{ $exam->id }};
+                const csrfToken = document.querySelector('input[name="_token"]').value;
+
+                fetch(`/exam/${examId}/question/${questionId}/answer`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({ answer: selectedAnswer })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Jawaban tersimpan');
+                    } else {
+                        console.error('Error menyimpan jawaban');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
     });
 </script>

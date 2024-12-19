@@ -79,7 +79,7 @@
             <div class="table-container">
                 <table style="font-size: 11px;">
                     <thead>
-                        <tr>
+                        <tr style="text-align: center;">
                             <th>No</th>
                             <th>Jenis Dokumen</th>
                         </tr>
@@ -90,10 +90,10 @@
                             <td>Upload Foto
                                 @foreach($pembina->lomba_foto_vidio as $index => $file)
                                 @if($file->mata_lomba->nama == 'FOTO')
-                                <span>
+                                <span style="padding-left:70px;">
                                     {{ $file->updated_at->format('d-m-Y H:i') }}
                                 </span> 
-                                <a href="{{ route('lomba_foto_vidio.showFile', basename($file->file)) }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px;" title="Lihat">
+                                <a href="{{ route('lomba_foto_vidio.showFile', basename($file->file)) }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px; margin-left:70px;" title="Lihat">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 <form action="{{ route('lomba_foto_vidio.destroy', $file->id) }}" method="POST" style="display:inline;">
@@ -112,11 +112,11 @@
                             <td>Upload Video
                                 @foreach($pembina->lomba_foto_vidio as $index => $file)
                                     @if($file->mata_lomba->nama == 'VIDIO')
-                                        <span>
+                                        <span style="padding-left:60px;">
                                             {{ $file->updated_at->format('d-m-Y H:i') }}
                                         </span>
                                         @if (strpos($file->file, 'youtube.com') !== false)
-                                            <a href="{{ $file->file }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px;" title="Lihat">
+                                            <a href="{{ $file->file }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px; margin-left:70px;" title="Lihat">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         @else
@@ -176,52 +176,6 @@
             </div>
         </div>
     </div>
-
-     {{-- <div class="mt-4" style="font-size: 11px;">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Data Upload Berkas Lomba</h6>
-            </div>
-
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 11px;">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama File/Link Video</th>
-                                <th>Tanggal Update</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if(isset($pembina->lomba_foto_vidio))
-                                @foreach($pembina->lomba_foto_vidio as $index => $file)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ basename($file->file) }}</td>
-                                        <td>{{ $file->updated_at->format('d-m-Y H:i') }}</td>
-                                        <td>
-                                            <a href="{{ route('lomba_foto_vidio.showFile', basename($file->file)) }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px;" title="Lihat">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <form action="{{ route('lomba_foto_vidio.destroy', $file->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this file?')" style="font-size: 11px;" title="Hapus">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div> --}}
 </div>
 @endsection
 
