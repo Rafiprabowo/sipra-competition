@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
             <label for="nama">Nama</label>
-            <input type="text" class="form-control" id="nama" name="nama" value="{{ $user->admin ? $user->admin->nama : '' }}" style="font-size: 11px;" required>
+            <input type="text" class="form-control" id="nama" name="nama" value="{{$admin->nama}}" style="font-size: 11px;" required>
         </div>
         <div class="form-group">
             <label for="password">New Password</label>

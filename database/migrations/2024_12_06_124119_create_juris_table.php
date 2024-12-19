@@ -13,18 +13,16 @@ return new class extends Migration
     {
         Schema::create('juris', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('kwartir_cabang');
-            $table->string('pangkalan');
+            $table->string('nama')->nullable();
+            $table->string('kwartir_cabang')->nullable();
+            $table->string('pangkalan')->nullable();
             $table->string('tanggal_lahir')->nullable();
-            $table->string('jenis_kelamin');
+            $table->string('jenis_kelamin')->nullable();
             $table->string('alamat')->nullable();
-            $table->string('no_hp');
+            $table->string('no_hp')->nullable();
             $table->string('pengalaman_juri')->nullable();
             $table->string('pekerjaan')->nullable();
-            $table->string('username');
-            $table->string('password');
-            $table->foreignId('mata_lomba_id')->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('mata_lomba_id')->nullable()->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

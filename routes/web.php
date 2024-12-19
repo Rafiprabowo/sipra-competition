@@ -94,8 +94,8 @@ Route::prefix('admin')->group(function () {
 })->middleware(['role:admin']);
 //Peserta
 Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
-    Route::get('/peserta/edit-profile-peserta', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'editProfilePeserta'])->name('editProfilePeserta')->middleware(['role:peserta']);
-    Route::put('/peserta/update-profile-peserta', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'updateProfilePeserta'])->name('updateProfilePeserta')->middleware(['role:peserta']);
+    Route::get('/edit-profile', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'editProfilePeserta'])->name('editProfilePeserta')->middleware(['role:peserta']);
+    Route::put('/update-profile', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'updateProfilePeserta'])->name('updateProfilePeserta')->middleware(['role:peserta']);
     // Dashboard peserta
     Route::get('/dashboard', [\App\Http\Controllers\Peserta\DashboardController::class, 'index'])->name('peserta.dashboard');
     Route::get('/tes-pengetahuan-kepramukaan', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'index'])->name('peserta.tes-pengetahuan-kepramukaan');

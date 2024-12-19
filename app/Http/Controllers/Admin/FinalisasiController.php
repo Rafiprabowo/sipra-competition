@@ -21,10 +21,9 @@ class FinalisasiController extends Controller
     public function update(Request $request, $id)
 {
     $request->validate([
-        'status' => 'required|in:1,0', // Ensure the status is either 1 or 0
         'keterangan' => 'nullable|string',
-        'dokumen_status' => 'required|array',
-        'dokumen_status.*' => 'in:1,0', // Ensure each dokumen_status is either 1 or 0
+        'dokumen_status' => 'array',
+        'dokumen_status.*' => 'in:1,0', // Ensure each dokumen_status is either 1 or 0  
         'dokumen_keterangan' => 'nullable|array',
         'dokumen_keterangan.*' => 'string|nullable'
     ]);
@@ -105,8 +104,6 @@ class FinalisasiController extends Controller
 
     return redirect()->route('admin.dashboard')->with('success', 'Status finalisasi berhasil disetujui dan pengguna telah dibuat untuk setiap peserta.');
 }
-
-
 
     public function reject($id)
     {

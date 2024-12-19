@@ -14,7 +14,11 @@ class EditProfilePesertaController extends Controller
     public function editProfilePeserta()
     {
         $user = Auth::user();
-        $peserta = Peserta::where('user_id', $user->id)->first();
+        $peserta = $user->peserta;
+
+        if(!$peserta){
+            $peserta = new \App\Models\Peserta();
+        }
 
         return view('peserta.editProfile-peserta', compact('user', 'peserta'));
     }
@@ -42,8 +46,16 @@ class EditProfilePesertaController extends Controller
 
         $user->save();
 
-        $peserta = Peserta::where('user_id', $user->id)->first();
-        $peserta->nama = $request->nama;
+        $peserta = $user->peserta;
+        if(!$peserta){
+            Peserta::create([
+                'nama' => $request->nama,
+                'user_id' => $user->id
+            ]);
+        }
+        $peserta->update([
+            'nama' => $request->nama
+        ]);
         $peserta->save();
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
