@@ -56,6 +56,14 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label for="tanggal_lahir">Tanggal Lahir</label>
+                            <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror"
+                                   id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir', $juri->tanggal_lahir) }}" style="font-size: 11px;" required>
+                            @error('tanggal_lahir')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
                             <label for="jenis_kelamin">Jenis Kelamin</label>
                             <select class="form-control @error('jenis_kelamin') is-invalid @enderror" id="jenis_kelamin" name="jenis_kelamin" style="font-size: 11px;" required>
                                 <option value="">Pilih Jenis Kelamin</option>
@@ -70,6 +78,27 @@
                             <label for="no_hp">No HP</label>
                             <input type="text" class="form-control @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" value="{{ old('no_hp', $juri->no_hp) }}" style="font-size: 11px;" required>
                             @error('no_hp')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat">Alamat</label>
+                            <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" value="{{ old('alamat', $juri->alamat) }}" style="font-size: 11px;" required>
+                            @error('alamat')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="pengalaman_juri">Pengalaman Juri</label>
+                            <input type="text" class="form-control @error('pengalaman_juri') is-invalid @enderror" id="pengalaman_juri" name="pengalaman_juri" value="{{ old('pengalaman_juri', $juri->pengalaman_juri) }}" style="font-size: 11px;" required>
+                            @error('pengalaman_juri')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="pekerjaan">Pekerjaan</label>
+                            <input type="text" class="form-control @error('pekerjaan') is-invalid @enderror" id="pekerjaan" name="pekerjaan" value="{{ old('pekerjaan', $juri->pekerjaan) }}" style="font-size: 11px;" required>
+                            @error('pekerjaan')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

@@ -61,10 +61,10 @@
                         <!-- Buttons -->
                         <div class="d-flex justify-content-start mt-3">
                             <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Save Sementara">
-                                <i class="fas fa-save"></i> Save Sementara
+                                <i class="fas fa-save"></i>
                             </button> 
                             <a href="{{ route('admin.bobot-soal.index') }}" class="btn btn-secondary ml-2" style="font-size: 11px;" title="Kembali">
-                                <i class="fas fa-arrow-left"></i> Kembali
+                                <i class="fas fa-arrow-left"></i>
                             </a>
                         </div>
                     </div>
@@ -99,7 +99,9 @@
                                         <form action="{{ route('admin.bobot-soal.removeTemporary', $index) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" style="font-size: 11px;">Hapus</button>
+                                            <button type="submit" class="btn btn-danger" style="font-size: 11px;" title="Hapus">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -113,7 +115,9 @@
 
                     <form action="{{ route('admin.bobot-soal.store') }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-success" style="font-size: 11px;">Simpan ke Database</button>
+                        <button type="submit" class="btn btn-success" style="font-size: 11px;" title="Simpan Database">
+                            <i class="fas fa-save"></i>
+                        </button>
                     </form>
                 </div>
             </div>

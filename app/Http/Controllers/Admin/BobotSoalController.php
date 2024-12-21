@@ -106,8 +106,18 @@ class BobotSoalController extends Controller
         return redirect()->route('admin.bobot-soal.index')->with('success', 'Data berhasil diubah!');
     }
 
-    public function destroy($id) {
-        BobotSoal::destroy($id);
+    public function destroy($id)
+    {
+        $bobot_soal = BobotSoal::findOrFail($id);
+        $mataLombaId = $bobot_soal->mata_lomba_id; // Simpan mata_lomba_id
+
+        // Hapus data bobot soal
+        $bobot_soal->delete();
+
+        // Hitung ulang total_bobot untuk mata_lomba_id
+        $totalBobot = BobotSoal::where('mata_lomba_id', $mataLombaId)->sum('bobot_soal');
+        BobotSoal::where('mata_lomba_id', $mataLombaId)->update(['total_bobot' => $totalBobot]);
+
         return redirect()->route('admin.bobot-soal.index')->with('success', 'Data berhasil dihapus!');
     }
 }

@@ -26,14 +26,18 @@ class JuriController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nama' => 'required',
-            'kwartir_cabang' => 'required|string|max:255',
-            'pangkalan' => 'required|string|max:255',
-            'jenis_kelamin' => 'required|string|max:255',
-            'no_hp' => 'required|string|max:255',
-            'username' => 'required|unique:users,username',
-            'password' => 'required|confirmed',
-            'mata_lomba_id' => 'required',
+            'nama' => 'nullable',
+            'kwartir_cabang' => 'nullable|string|max:255',
+            'pangkalan' => 'nullable|string|max:255',
+            'tanggal_lahir' => 'nullable',
+            'jenis_kelamin' => 'nullable|string|max:255',
+            'alamat' => 'nullable|string|max:255',
+            'no_hp' => 'nullable|string|max:255',
+            'pengalaman_juri' => 'nullable|string|max:255',
+            'pekerjaan' => 'nullable|string|max:255',
+            'username' => 'nullable|unique:users,username',
+            'password' => 'nullable|confirmed',
+            'mata_lomba_id' => 'nullable',
         ]);
 
         // Create user
@@ -48,8 +52,12 @@ class JuriController extends Controller
             'nama' => $validatedData['nama'],
             'kwartir_cabang' => $validatedData['kwartir_cabang'],
             'pangkalan' => $validatedData['pangkalan'],
+            'tanggal_lahir' => $validatedData['tanggal_lahir'],
             'jenis_kelamin' => $validatedData['jenis_kelamin'],
+            'alamat' => $validatedData['alamat'],
             'no_hp' => $validatedData['no_hp'],
+            'pengalaman_juri' => $validatedData['pengalaman_juri'],
+            'pekerjaan' => $validatedData['pekerjaan'],
             'user_id' => $user->id,
             'mata_lomba_id' => $validatedData['mata_lomba_id']
         ]);
@@ -72,22 +80,30 @@ class JuriController extends Controller
         $user = User::findOrFail($juri->user_id);
 
         $validatedData = $request->validate([
-            'nama' => 'required',
-            'kwartir_cabang' => 'required',
-            'pangkalan' => 'required',
-            'jenis_kelamin' => 'required',
-            'no_hp' => 'required',
-            'username' => 'required|unique:users,username,' . $user->id,
+            'nama' => 'nullable',
+            'kwartir_cabang' => 'nullable',
+            'pangkalan' => 'nullable',
+            'tanggal_lahir' => 'nullable',
+            'jenis_kelamin' => 'nullable',
+            'alamat' => 'nullable',
+            'no_hp' => 'nullable',
+            'pengalaman_juri' => 'nullable',
+            'pekerjaan' => 'nullable',
+            'username' => 'nullable|unique:users,username,' . $user->id,
             'password' => 'nullable|confirmed',
-            'mata_lomba_id' => 'required',
+            'mata_lomba_id' => 'nullable',
         ]);
 
         $juri->update([
             'nama' => $validatedData['nama'],
             'kwartir_cabang' => $validatedData['kwartir_cabang'],
             'pangkalan' => $validatedData['pangkalan'],
+            'tanggal_lahir' => $validatedData['tanggal_lahir'],
             'jenis_kelamin' => $validatedData['jenis_kelamin'],
+            'alamat' => $validatedData['alamat'],
             'no_hp' => $validatedData['no_hp'],
+            'pengalaman_juri' => $validatedData['pengalaman_juri'],
+            'pekerjaan' => $validatedData['pekerjaan'],
             'mata_lomba_id' => $validatedData['mata_lomba_id']
         ]);
 
