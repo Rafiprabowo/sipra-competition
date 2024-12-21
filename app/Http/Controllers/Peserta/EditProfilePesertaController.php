@@ -46,17 +46,10 @@ class EditProfilePesertaController extends Controller
 
         $user->save();
 
-        $peserta = $user->peserta;
-        if(!$peserta){
-            Peserta::create([
-                'nama' => $request->nama,
-                'user_id' => $user->id
-            ]);
-        }
-        $peserta->update([
-            'nama' => $request->nama
-        ]);
-        $peserta->save();
+        Peserta::updateOrCreate(
+            ['user_id' => $user->id],
+            ['nama' => $request->nama]
+        );
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }

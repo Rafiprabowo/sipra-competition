@@ -64,15 +64,11 @@ class RegistrasiController extends Controller
             'pengalaman_pembina' => 'nullable',
             'pekerjaan' => 'nullable',
         ]);
-
-        $pembina = Pembina::where('user_id', auth()->user()->id);
-        if($pembina){
-            $pembina->update($validatedData);
-        }
-        //set id user to pembina
-        $validatedData['user_id'] = auth()->user()->id;
-
-        Pembina::create($validatedData);
+        
+        Pembina::updateOrCreate(
+            ['user_id' => auth()->user()->id],
+            $validatedData
+        );
 
         return redirect()->route('registrasi.form')->with('success', 'Pembina berhasil disimpan! ');
 

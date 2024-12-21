@@ -43,16 +43,10 @@ class EditProfilePembinaController extends Controller
 
         $user->save();
 
-        $pembina = Pembina::where('user_id', $user->id)->first();
-        if($pembina){
-            $pembina->nama = $request->nama;
-            $pembina->save();
-        }
-        Pembina::create([
-            'nama' => $request->nama,
-            'user_id' => $user->id
-        ]);
-      
+        Pembina::updateOrCreate(
+            ['user_id' => $user->id],
+            ['nama' => $request->nama]
+        );
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }

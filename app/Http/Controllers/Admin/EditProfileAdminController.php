@@ -45,16 +45,10 @@ class EditProfileAdminController extends Controller
 
         $user->save();
 
-        $admin = $user->admin;
-        if(!$admin){
-            Admin::create([
-                'nama' => $request->nama,
-                'user_id' => $user->id
-            ]);
-        }
-
-        $admin->nama = $request->nama;
-        $admin->save();
+    Admin::updateOrCreate(
+        ['user_id' => $user->id],
+        ['nama' => $request->nama]
+    );
 
         return redirect()->route('editProfileAdmin')->with('success', 'Profile updated successfully.');
     }
