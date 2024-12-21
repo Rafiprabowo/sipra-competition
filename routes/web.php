@@ -105,8 +105,6 @@ Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
     Route::get('/tes-pengetahuan-kepramukaan/{exam_id}/start', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'startExam'])->name('peserta.exam.start');
     Route::get('/tes/pengetahuan-kepramukaan/{exam_id}/question/{order}', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'showQuestion'])->name('peserta.exam.question');
     Route::post('/tes/pengetahuan-kepramukaan/{exam_id}/question/{order}/answer', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'saveAnswer'])->name('peserta.exam.answer');
-    Route::post('/exam/{exam_id}/question/{question_id}/answer', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'saveAnswerAjax'])->name('exam.saveAnswerAjax');
-
 });
 //Pembina
 Route::prefix('pembina')->group(function () {

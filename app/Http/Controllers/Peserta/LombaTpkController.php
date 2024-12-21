@@ -81,39 +81,48 @@ class LombaTpkController extends Controller
     ]);
 }
 
-    public function saveAnswer(Request $request, $exam_id, $order)
-    {
-        $request->validate([
-            'answer' => 'required|in:a,b,c,d,e',
-        ]);
+public function saveAnswer(Request $request, $exam_id, $order)
+{
+    // Validasi input jawaban
+    $request->validate([
+        'answer' => 'required|in:a,b,c,d,e',
+    ]);
 
-        $exam = Exam::find($exam_id);
-        $peserta = auth()->user()->peserta;
+    // Cari ujian berdasarkan exam_id
+    $exam = Exam::find($exam_id);
 
-        // Ambil soal berdasarkan urutan
-        $question = $exam->tpk_questions()->skip($order - 1)->first();
-
-        if (!$question) {
-            // return redirect()->route('peserta.exam.result', $exam_id)->with('success', 'Ujian telah selesai.');
-        }
-
-        // Simpan jawaban
-        Answer::updateOrCreate(
-            [
-                'peserta_id' => $peserta->id,
-                'exam_id' => $exam->id,
-                'tpk_question_id' => $question->id,
-            ],
-            [
-                'selected_answer' => $request->answer,
-                'is_correct' => $request->answer === $question->correct_answer, // Asumsikan ada kolom "correct_answer"
-            ]
-        );
-
-        // Redirect ke soal berikutnya
-        return redirect()->route('peserta.exam.question', [
-            'exam_id' => $exam->id,
-            'order' => $order + 1,
-        ]);
+    // Jika ujian tidak ditemukan
+    if (!$exam) {
+        return response()->json(['success' => false, 'message' => 'Exam not found'], 404);
     }
+
+    // Ambil peserta yang sedang login
+    $peserta = auth()->user()->peserta;
+
+    // Ambil soal berdasarkan urutan
+    $question = $exam->tpk_questions()->skip($order - 1)->first();
+
+    // Jika soal tidak ditemukan
+    if (!$question) {
+        return response()->json(['success' => false, 'message' => 'Question not found'], 404);
+    }
+
+    // Simpan atau update jawaban
+    Answer::updateOrCreate(
+        [
+            'peserta_id' => $peserta->id,
+            'exam_id' => $exam->id,
+            'tpk_question_id' => $question->id,
+        ],
+        [
+            'selected_answer' => $request->answer,
+            'is_correct' => $request->answer === $question->correct_answer, // Asumsikan ada kolom "correct_answer"
+        ]
+    );
+
+    // Kembalikan respons JSON
+    return response()->json(['success' => true]);
+}
+
+
 }

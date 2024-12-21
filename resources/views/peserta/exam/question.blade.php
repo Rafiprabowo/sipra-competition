@@ -1,38 +1,34 @@
 
 <link href="{{ asset('assets/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-<link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
-
-    <style>
-        .form-check-label::before {
-            content: attr(data-option);
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 1px solid #ced4da;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 20px;
-            margin-right: 10px;
-            color: #6c757d;
-        }
-        .form-check-input {
-            display: none;
-        }
-        .form-check-input:checked + .form-check-label::before {
-            background-color: #6c757d;
-            color: white;
-        }
-        .btn-outline-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-        .btn-outline-secondary:hover {
-            background-color: #5a6268;
-            color: white;
-        }
-    </style>
-</head>
-<body>
+<style>
+    .form-check-label::before {
+        content: attr(data-option);
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ced4da;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 20px;
+        margin-right: 10px;
+        color: #6c757d;
+    }
+    .form-check-input {
+        display: none;
+    }
+    .form-check-input:checked + .form-check-label::before {
+        background-color: #6c757d;
+        color: white;
+    }
+    .btn-outline-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+    .btn-outline-secondary:hover {
+        background-color: #5a6268;
+        color: white;
+    }
+</style>
 @extends('layouts.template')
 
 @section('sidebar')
@@ -58,7 +54,7 @@
             </div>
         </div>
 
-        <form id="question-form" action="{{ route('peserta.exam.answer', ['exam_id' => $exam->id, 'order' => $currentOrder]) }}" method="POST">
+        <form id="question-form" method="POST">
             @csrf
             <!-- Teks Soal -->
             <h5 style="font-size: 11px; padding:20px;">{{ $question->question }}</h5>
@@ -74,19 +70,21 @@
                     </div>
                 @endforeach
             </div>
-
-            <!-- Navigasi Soal Sebelumnya & Selanjutnya -->
-            <div class="d-flex justify-content-between mt-4">
-                @if ($currentOrder > 1)
-                    <a href="{{ route('peserta.exam.question', ['exam_id' => $exam->id, 'order' => $currentOrder - 1]) }}" class="btn btn-secondary" style="font-size: 11px;">
-                        &larr; Soal Sebelumnya
-                    </a>
-                @endif
-                <button type="submit" class="btn btn-primary" style="font-size: 11px;">
-                    Soal Selanjutnya &rarr;
-                </button>
-            </div>
         </form>
+
+        <!-- Navigasi Soal Sebelumnya & Selanjutnya -->
+        <div class="d-flex justify-content-between mt-4">
+            @if ($currentOrder > 1)
+                <a href="{{ route('peserta.exam.question', ['exam_id' => $exam->id, 'order' => $currentOrder - 1]) }}" class="btn btn-secondary" style="font-size: 11px;">
+                    &larr; Soal Sebelumnya
+                </a>
+            @endif
+            @if ($currentOrder < $totalQuestions)
+                <a href="{{ route('peserta.exam.question', ['exam_id' => $exam->id, 'order' => $currentOrder + 1]) }}" class="btn btn-primary" style="font-size: 11px;">
+                    Soal Selanjutnya &rarr;
+                </a>
+            @endif
+        </div>
     </div>
 
     <!-- Navigasi Nomor Soal -->
@@ -95,7 +93,7 @@
         <div class="d-grid gap-2" style="grid-template-columns: repeat(5, 1fr);">
             @for ($i = 1; $i <= $totalQuestions; $i++)
                 <a href="{{ route('peserta.exam.question', ['exam_id' => $exam->id, 'order' => $i]) }}"
-                   class="btn {{ isset($answers[$i]) ? 'btn-success text-white' : 'btn-outline-secondary' }}"
+                   class="btn {{ isset($answers[$i]) ? 'btn-success text-white' : 'btn-outline-secondary' }} "
                    style="font-size: 11px;">
                     {{ $i }}
                 </a>
@@ -105,10 +103,10 @@
         <div class="mt-3 text-warning">{{ count($answers) }} dikerjakan</div>
     </div>
 </div>
-@endsection
 
+@endsection
+@section('script')
 <script src="{{ asset('assets/dist/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('assets/js/custom.js') }}"></script>
 <script src="{{ asset('assets/js/color-modes.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
@@ -132,7 +130,7 @@
             }
         }, 1000);
 
-        // Handle answer selection
+        // Handle answer selection with Ajax
         document.querySelectorAll('.form-check-input').forEach(input => {
             input.addEventListener('change', (event) => {
                 const selectedAnswer = event.target.value;
@@ -140,33 +138,32 @@
                 const examId = {{ $exam->id }};
                 const csrfToken = document.querySelector('input[name="_token"]').value;
 
-                fetch(`/exam/${examId}/question/${questionId}/answer`, {
+                // Ajax request to save the answer
+                $.ajax({
+                    url: `{{ route('peserta.exam.answer', ['exam_id' => $exam->id, 'order' => $currentOrder]) }}`,
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
+                    data: {
+                        _token: csrfToken,
+                        answer: selectedAnswer
                     },
-                    body: JSON.stringify({ answer: selectedAnswer })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log('Jawaban tersimpan');
-                    } else {
-                        console.error('Error menyimpan jawaban');
+                    success: function(response) {
+                        if (response.success) {
+                            console.log('Jawaban tersimpan');
+                            // Update button navigation color to green if answer is saved
+                            $(`a[href='{{ route('peserta.exam.question', ['exam_id' => $exam->id, 'order' => $currentOrder]) }}']`)
+                                .addClass('btn-success');
+                        } else {
+                            console.error('Error menyimpan jawaban');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
                     }
-
-                    // Update button navigation color to green if answer is saved
-                    if (data.saved) {
-                        document.querySelector(`a[href='{{ route('peserta.exam.question', ['exam_id' => $exam->id, 'order' => $currentOrder]) }}']`)
-                            .classList.add('btn-success');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
                 });
             });
         });
     });
 </script>
+@endsection
+
 
