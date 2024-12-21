@@ -67,11 +67,6 @@ class PenilaianKarikatur extends Controller
             'peserta_id' => 'required|exists:pesertas,id',
             'juri_id' => 'required|exists:juris,id',
             'mata_lomba_id' => 'required|exists:mata_lombas,id',
-            'orisinalitas' => 'required|numeric|min:0|max:30',
-            'kesesuaian_tema' => 'required|numeric|min:0|max:25',
-            'kreativitas' => 'required|numeric|min:0|max:20',
-            'pesan_yang_disampaikan' => 'required|numeric|min:0|max:15',
-            'teknik' => 'required|numeric|min:0|max:10',
         ]);
 
         // Membuat penilaian baru
@@ -79,11 +74,6 @@ class PenilaianKarikatur extends Controller
             'peserta_id' => $request->peserta_id,
             'juri_id' => $request->juri_id,
             'mata_lomba_id' => $request->mata_lomba_id,
-            'orisinalitas' => $request->orisinalitas,
-            'kesesuaian_tema' => $request->kesesuaian_tema,
-            'kreativitas' => $request->kreativitas,
-            'pesan_yang_disampaikan' => $request->pesan_yang_disampaikan,
-            'teknik' => $request->teknik,
         ]);
 
         // Redirect dengan pesan sukses
