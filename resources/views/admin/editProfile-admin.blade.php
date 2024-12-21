@@ -12,7 +12,7 @@
         {{ session('success') }}
     </div>
     @endif
-    <form action="{{ route('updateProfileAdmin') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('updateProfileAdmin') }}" method="POST" enctype="multipart/form-data" onsubmit="return validatePasswords()">
         @csrf
         @method('PUT')
         <div class="form-group">
@@ -43,4 +43,17 @@
         </a>
     </form>
 </div>
+
+<script>
+    function validatePasswords() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('password_confirmation').value;
+
+        if (password !== confirmPassword) {
+            alert('Confirm Password harus sama dengan New Password!');
+            return false;
+        }
+        return true;
+    }
+</script>
 @endsection
