@@ -29,7 +29,7 @@ class ProfilJuriController extends Controller
             'pangkalan' => 'nullable|string|max:255',
             'pengalaman_juri' => 'nullable|string|max:255',
             'pekerjaan' => 'nullable|string|max:255',
-            'mata_lomba_id' => 'nullable|exists:mata_lombas,id',
+            // 'mata_lomba_id' => 'nullable|exists:mata_lombas,id',
         ]);
 
         if ($juri) {

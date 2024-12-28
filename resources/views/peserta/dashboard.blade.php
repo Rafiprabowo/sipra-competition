@@ -184,5 +184,16 @@
         </div>
        @endif
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('#dataTable').DataTable({
+                pageLength: 10, // Set number of rows per page
+                responsive: true,
+                searching: true,
+                ordering: true
+            });
+        });
+    </script>
 @endsection
 

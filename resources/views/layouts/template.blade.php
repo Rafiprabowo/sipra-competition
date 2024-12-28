@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>LOGIKA 2024</title>
+    <title>LOGIKA 2025</title>
 
     <!-- Custom fonts for this template-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -315,7 +315,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span style="font-size: 11px;"><strong>LOGIKA 2024</strong></span>
+                    <span style="font-size: 11px;"><strong>LOGIKA 2025</strong></span>
                 </div>
             </div>
         </footer>

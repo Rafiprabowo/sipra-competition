@@ -147,8 +147,14 @@ Route::prefix('juri')->group(function () {
     Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri')->middleware(['role:juri']);
     Route::get('/edit-profile-juri', [App\Http\Controllers\Juri\EditProfileJuriController::class, 'editProfileJuri'])->name('editProfileJuri')->middleware(['role:juri']);
     Route::put('/update-profile-juri', [App\Http\Controllers\Juri\EditProfileJuriController::class, 'updateProfileJuri'])->name('updateProfileJuri')->middleware(['role:juri']);
-    Route::resource('/penilaian-karikatur', \App\Http\Controllers\Juri\PenilaianKarikatur::class)->middleware(['role:juri']);
+    Route::resource('/penilaian-karikatur', \App\Http\Controllers\Juri\PenilaianKarikaturController::class)->middleware(['role:juri']);
+    Route::get('/penilaian-karikatur/create', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'createForm'])->name('penilaian-karikatur.create')->middleware(['role:juri']);
+    Route::post('/penilaian-karikatur', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'store'])->name('penilaian-karikatur.store')->middleware(['role:juri']);
     Route::resource('/penilaian-pioneering', \App\Http\Controllers\Juri\PenilaianPioneering::class)->middleware(['role:juri']);
     Route::match(['get', 'post'], '/juri', [\App\Http\Controllers\Juri\ProfilJuriController::class, 'createOrUpdate'])->name('juri.profil_juri')->middleware(['role:juri']);
+    Route::post('/filter-mata-lomba', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterMataLomba'])->name('mata-lomba.filter')->middleware(['role:juri']);
+    Route::post('/filter-nama-regu', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterNamaRegu'])->name('nama-regu.filter')->middleware(['role:juri']);
+    Route::post('/filter-peserta', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterPeserta'])->name('peserta.filter')->middleware(['role:juri']);
+    Route::post('/filter-kriteria', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterKriteria'])->name('kriteria.filter')->middleware(['role:juri']);
 })->middleware(['role:juri']);
 

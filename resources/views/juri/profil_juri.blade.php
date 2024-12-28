@@ -65,16 +65,6 @@
                 <label for="pekerjaan">Pekerjaan</label>
                 <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" value="{{ $juri->pekerjaan ?? '' }}" style="font-size: 11px;">
             </div>
-            <div class="form-group">
-                <label for="mata_lomba_id">Mata Lomba</label>
-                <select class="form-control" id="mata_lomba_id" name="mata_lomba_id" style="font-size: 11px;">
-                    @foreach($mataLombas as $mataLomba)
-                    <option value="{{ $mataLomba->id }}" {{ optional($juri?->mataLomba)->id == $mataLomba->id ? 'selected' : '' }}>
-                        {{ $mataLomba->nama }}
-                    </option>                    
-                    @endforeach
-                </select>
-            </div>
             <button type="submit" class="btn btn-primary" style="font-size: 11px;">Simpan</button>
         </form>
 

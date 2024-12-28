@@ -82,18 +82,23 @@
                         <tr style="text-align: center;">
                             <th>No</th>
                             <th>Jenis Dokumen</th>
+                            <th>Waktu</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>Upload Foto
-                                @foreach($pembina->lomba_foto_vidio as $index => $file)
-                                @if($file->mata_lomba->nama == 'FOTO')
-                                <span style="padding-left:70px;">
+                            <td>Upload Foto</td>
+                            @foreach($pembina->lomba_foto_vidio as $index => $file)
+                            @if($file->mata_lomba->nama == 'FOTO')
+                            <td>
+                                <span style="padding-left:20px;">
                                     {{ $file->updated_at->format('d-m-Y H:i') }}
                                 </span> 
-                                <a href="{{ route('lomba_foto_vidio.showFile', basename($file->file)) }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px; margin-left:70px;" title="Lihat">
+                            </td>
+                            <td>
+                                <a href="{{ route('lomba_foto_vidio.showFile', basename($file->file)) }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px; margin-left:20px;" title="Lihat">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 <form action="{{ route('lomba_foto_vidio.destroy', $file->id) }}" method="POST" style="display:inline;">
@@ -103,37 +108,40 @@
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
-                                @endif
-                                @endforeach
-                            </td>
+                            </td>  
+                            @endif
+                            @endforeach  
                         </tr>
                         <tr>
                             <td>2</td>
-                            <td>Upload Video
-                                @foreach($pembina->lomba_foto_vidio as $index => $file)
-                                    @if($file->mata_lomba->nama == 'VIDIO')
-                                        <span style="padding-left:60px;">
-                                            {{ $file->updated_at->format('d-m-Y H:i') }}
-                                        </span>
-                                        @if (strpos($file->file, 'youtube.com') !== false)
-                                            <a href="{{ $file->file }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px; margin-left:70px;" title="Lihat">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        @else
-                                            <a href="{{ route('lomba_foto_vidio.showFile', basename($file->file)) }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px;" title="Lihat">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        @endif
-                                        <form action="{{ route('lomba_foto_vidio.destroy', $file->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this file?')" style="font-size: 11px;" title="Hapus">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
-                                    @endif
-                                @endforeach
+                            <td>Upload Video</td>
+                            @foreach($pembina->lomba_foto_vidio as $index => $file)
+                            @if($file->mata_lomba->nama == 'VIDIO')
+                            <td>
+                                <span style="padding-left:20px;">
+                                    {{ $file->updated_at->format('d-m-Y H:i') }}
+                                </span>
                             </td>
+                            <td>
+                                @if (strpos($file->file, 'youtube.com') !== false)
+                                    <a href="{{ $file->file }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px; margin-left:20px;" title="Lihat">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                @else
+                                    <a href="{{ route('lomba_foto_vidio.showFile', basename($file->file)) }}" class="btn btn-info btn-sm" target="_blank" style="font-size: 11px;" title="Lihat">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                @endif
+                                <form action="{{ route('lomba_foto_vidio.destroy', $file->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this file?')" style="font-size: 11px;" title="Hapus">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                            @endif
+                            @endforeach
                         </tr>
                     </tbody>
                 </table>

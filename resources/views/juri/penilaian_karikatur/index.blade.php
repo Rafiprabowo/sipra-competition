@@ -39,25 +39,10 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $peserta->nisn }}</td>
                                     <td>{{ $peserta->nama }}</td>
-                                    <td>{{ $peserta->pangkalan }}</td>
-                                    <td>{{ $peserta->regu }}</td>
+                                    <td>{{ $peserta->regu_pembina->pembina->pangkalan }}</td>
+                                    <td>{{ $peserta->regu_pembina->nama_regu }}</td>
                                     <td></td>
                                     <td></td>
-                                    {{-- @foreach($pesertas as $peserta)
-                                        @if($peserta->penilaian_karikatur)
-                                            <td>{{ $peserta->penilaian_karikatur->orisinalitas }}</td>
-                                            <td>{{ $peserta->penilaian_karikatur->kesesuaian_tema }}</td>
-                                            <td>{{ $peserta->penilaian_karikatur->kreativitas }}</td>
-                                            <td>{{ $peserta->penilaian_karikatur->pesan_yang_disampaikan }}</td>
-                                            <td>{{ $peserta->penilaian_karikatur->teknik }}</td>
-                                        @else
-                                            <td>Belum dinilai</td>
-                                            <td>Belum dinilai</td>
-                                            <td>Belum dinilai</td>
-                                            <td>Belum dinilai</td>
-                                            <td>Belum dinilai</td>
-                                        @endif
-                                    @endforeach --}}
                                 </tr>
                             @endforeach
                             </tbody>
@@ -106,8 +91,10 @@
                         titleAttr: 'Export to PDF'
                     }
                 ],
-                pageLength: 5, // Set number of rows per page
-                responsive: true
+                pageLength: 10, // Set number of rows per page
+                responsive: true,
+                searching: true,
+                ordering: true
             });
         });
     </script>

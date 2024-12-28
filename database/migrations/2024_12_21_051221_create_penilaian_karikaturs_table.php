@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('rangking')->nullable();
             $table->foreignId('juri_id')->nullable()->constrained('juris')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('peserta_id')->nullable()->constrained('pesertas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('mata_lomba_id')->nullable()->constrained('mata_lombas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('bobot_soal_id')->nullable()->constrained('bobot_soals')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

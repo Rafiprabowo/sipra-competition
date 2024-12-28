@@ -730,7 +730,7 @@
                             <div class="row">
                                 <!-- Tabel Data Dokumen -->
                                 <div class="col-md-12 mb-5">
-                                    <table class="table table-bordered" id="templateTable" style="text-align: center;">
+                                    <table class="table table-bordered" id="documentTable" style="text-align: center;">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>No</th>

@@ -22,40 +22,50 @@
                         <tr>
                             <th>No</th>
                             <th>Mata Lomba</th>
-                            <th>Kriteria Nilai</th>
-                            <th>Bobot Soal</th>
                             <th>Total Bobot</th>
                             <th>Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($bobot_soal as $index => $value)
-                            <tr>
-                                <td>{{$index + 1}}</td>
-                                <td>{{$value->mata_lomba->nama}}</td>
-                                <td>{{$value->kriteria_nilai}}</td>
-                                <td>{{$value->bobot_soal}}</td>
-                                <td>{{$value->total_bobot}}</td>
-                                <td>
-                                    <a href="{{route('admin.bobot-soal.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form action="{{route('admin.bobot-soal.destroy', $value->id)}}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger  btn-sm" title="Hapus" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?');">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-
-                            </tr>
-                        @endforeach
-                        </tbody>
+                            @php
+                                $uniqueBobotSoal = $bobot_soal->unique('mata_lomba_id');
+                            @endphp
+                            @foreach($uniqueBobotSoal as $index => $value)
+                                <tr>
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{$value->mata_lomba->nama}}</td>
+                                    <td>{{$value->total_bobot}}</td>
+                                    <td>
+                                        <a href="{{route('admin.bobot-soal.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form action="{{route('admin.bobot-soal.destroy', $value->id)}}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Hapus" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?');">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                            
                     </table>
 
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('#dataTable').DataTable({
+                pageLength: 10, // Set number of rows per page
+                responsive: true,
+                searching: true,
+                ordering: true
+            });
+        });
+    </script>
 @endsection

@@ -5,67 +5,125 @@
 @endsection
 
 @section('content')
-    <div class="col-sm-10 mx-auto mt-4">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">Form Penilaian Karikatur</h6>
-            </div>
+<div class="container">
+    <h2 class="mb-4">Form Penilaian Karikatur</h2>
 
-            <div class="card-body">
-                <form action="{{ route('penilaian-karikatur.store') }}" method="POST">
-                    @csrf
+    <!-- Filter -->
+    <div class="mb-4">
+        <!-- Filter Pangkalan -->
+        <div class="mb-3">
+            <label for="filter-pangkalan" class="form-label">Filter Pangkalan</label>
+            <select id="filter-pangkalan" class="form-control">
+                <option value="">-- Pilih Pangkalan --</option>
+                @foreach($pangkalans as $pangkalan)
+                    <option value="{{ $pangkalan->id }}">{{ $pangkalan->pangkalan }}</option>
+                @endforeach
+            </select>
+        </div>
 
-                    @if($mata_lomba)
-                        <input type="hidden" name="mata_lomba_id" value="{{ $mata_lomba->id }}">
-                    @else
-                        <p>Mata lomba "karikatur" tidak ditemukan.</p>
-                    @endif
+        <!-- Filter Nama Regu -->
+        <div class="mb-3">
+            <label for="filter-nama-regu" class="form-label">Filter Nama Regu</label>
+            <select id="filter-nama-regu" class="form-control" disabled>
+                <option value="">-- Pilih Nama Regu --</option>
+            </select>
+        </div>
 
-                    <input type="hidden" name="juri_id" value="{{ $juris->id }}">
-
-                    <div class="form-group">
-                        <label for="peserta_id">Peserta</label>
-                        <select class="form-control" id="peserta_id" name="peserta_id" required>
-                            <option value="">Pilih Peserta</option>
-                            @foreach($pesertas as $peserta)
-                                <option value="{{ $peserta->id }}">{{ $peserta->nama }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="orisinalitas">Orisinalitas (0 - 30)</label>
-                        <input type="number" class="form-control" id="orisinalitas" name="orisinalitas" min="0" max="30" required>
-                        <small class="text-muted">Skala: 0 - 30</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="kesesuaian_tema">Kesesuaian Tema (0 - 25)</label>
-                        <input type="number" class="form-control" id="kesesuaian_tema" name="kesesuaian_tema" min="0" max="25" required>
-                        <small class="text-muted">Skala: 0 - 25</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="kreativitas">Kreativitas (0 - 20)</label>
-                        <input type="number" class="form-control" id="kreativitas" name="kreativitas" min="0" max="20" required>
-                        <small class="text-muted">Skala: 0 - 20</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pesan_yang_disampaikan">Pesan yang Disampaikan (0 - 15)</label>
-                        <input type="number" class="form-control" id="pesan_yang_disampaikan" name="pesan_yang_disampaikan" min="0" max="15" required>
-                        <small class="text-muted">Skala: 0 - 15</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="teknik">Teknik (0 - 10)</label>
-                        <input type="number" class="form-control" id="teknik" name="teknik" min="0" max="10" required>
-                        <small class="text-muted">Skala: 0 - 10</small>
-                    </div>
-
-                    <button type="submit" class="btn btn-success">Kirim Penilaian</button>
-                </form>
-            </div>
+        <!-- Filter Peserta -->
+        <div class="mb-3">
+            <label for="filter-peserta" class="form-label">Filter Peserta</label>
+            <select id="filter-peserta" class="form-control" disabled>
+                <option value="">-- Pilih Peserta --</option>
+            </select>
         </div>
     </div>
+
+    <!-- Form Penilaian -->
+    <form action="{{ route('penilaian-karikatur.store') }}" method="POST">
+        @csrf
+
+        <!-- Daftar kriteria nilai -->
+        <h5 class="mt-4">Kriteria Nilai</h5>
+        <div id="kriteria-container">
+            @foreach($bobot_soals as $bobot)
+            <div class="row align-items-center mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">{{ $bobot->kriteria_nilai }}</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="nilai[{{ $bobot->id }}]" class="form-control" placeholder="Masukkan Nilai" required>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <!-- Tombol Submit -->
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Simpan Penilaian</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterPangkalan = document.getElementById('filter-pangkalan');
+        const filterNamaRegu = document.getElementById('filter-nama-regu');
+        const filterPeserta = document.getElementById('filter-peserta');
+    
+        filterPangkalan.addEventListener('change', function () {
+            const pangkalanId = this.value;
+    
+            // Reset Nama Regu dan Peserta
+            filterNamaRegu.innerHTML = '<option value="">-- Pilih Nama Regu --</option>';
+            filterPeserta.innerHTML = '<option value="">-- Pilih Peserta --</option>';
+            filterNamaRegu.disabled = false;
+            filterPeserta.disabled = false;
+    
+            if (pangkalanId) {
+                // Panggil server untuk memuat Nama Regu berdasarkan Pangkalan
+                fetch(`/filter-nama-regu?pangkalan_id=${pangkalanId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            data.forEach(regu => {
+                                const option = document.createElement('option');
+                                option.value = regu.id;
+                                option.textContent = regu.nama_regu;
+                                filterNamaRegu.appendChild(option);
+                            });
+                            filterNamaRegu.disabled = false; // Aktifkan dropdown Nama Regu
+                        }
+                    })
+                    .catch(error => console.error('Error fetching Nama Regu:', error));
+            }
+        });
+    
+        filterNamaRegu.addEventListener('change', function () {
+            const reguPembinaId = this.value;
+    
+            // Reset Peserta
+            filterPeserta.innerHTML = '<option value="">-- Pilih Peserta --</option>';
+            filterPeserta.disabled = true;
+    
+            if (reguPembinaId) {
+                // Panggil server untuk memuat Peserta berdasarkan Nama Regu
+                fetch(`/filter-peserta?regu_pembina_id=${reguPembinaId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            data.forEach(peserta => {
+                                const option = document.createElement('option');
+                                option.value = peserta.id;
+                                option.textContent = peserta.nama;
+                                filterPeserta.appendChild(option);
+                            });
+                            filterPeserta.disabled = false; // Aktifkan dropdown Peserta
+                        }
+                    })
+                    .catch(error => console.error('Error fetching Peserta:', error));
+            }
+        });
+    });
+</script>    
+
 @endsection
