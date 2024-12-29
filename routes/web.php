@@ -156,5 +156,7 @@ Route::prefix('juri')->group(function () {
     Route::post('/filter-nama-regu', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterNamaRegu'])->name('nama-regu.filter')->middleware(['role:juri']);
     Route::post('/filter-peserta', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterPeserta'])->name('peserta.filter')->middleware(['role:juri']);
     Route::post('/filter-kriteria', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterKriteria'])->name('kriteria.filter')->middleware(['role:juri']);
+    Route::get('/regu/{pangkalan_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getReguPangkalan'])->name('getReguPangkalan');
+    Route::get('/peserta/{regu_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getPesertaRegu'])->name('getPesertaRegu');
 })->middleware(['role:juri']);
 

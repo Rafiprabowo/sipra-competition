@@ -9,12 +9,12 @@ use App\Models\MataLomba;
 use App\Models\BobotSoal;
 use App\Models\Peserta;
 use App\Models\Pembina;
-use App\Models\PenilaianKarikatur;
+use App\Models\PenilaianPioneering;
 use App\Models\ReguPembina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PenilaianKarikaturController extends Controller
+class PenilaianPioneringController extends Controller
 {
 
     public function index()
@@ -73,7 +73,7 @@ class PenilaianKarikaturController extends Controller
 
     // Simpan data jika validasi lulus
     foreach ($nilai as $bobot_id => $nilai_input) {
-        PenilaianKarikatur::create([
+        PenilaianPioneering::create([
             'juri_id' => $juri_id,
             'mata_lomba_id' => $mata_lomba_id,
             'peserta_id' => $peserta_id,

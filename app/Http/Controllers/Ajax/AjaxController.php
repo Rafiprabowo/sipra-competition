@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ajax;
 
 use App\Http\Controllers\Controller;
 use App\Models\ReguPembina;
+use App\Models\Peserta;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -43,6 +44,36 @@ class AjaxController extends Controller
     
         return response()->json(['data' => $regu]);
     }
-    
+
+    public function getReguPangkalan($pangkalan_id)
+    {
+        // Mengambil regu berdasarkan ID pangkalan
+        $regu = ReguPembina::where('pembina_id', $pangkalan_id)->get();
+        
+        if ($regu->isEmpty()) {
+            return response()->json([
+                'data' => [],
+                'error' => 'Data regu tidak ditemukan.',
+            ], 404);
+        }
+
+        return response()->json(['data' => $regu]);
+    }
+
+    public function getPesertaRegu($regu_id, $mata_lomba)
+    {
+        // Mengambil regu berdasarkan ID pangkalan
+        $regu = ReguPembina::with('peserta')->where($mata_lomba);
+        $peserta = $regu->peserta;
+        
+        if ($peserta->isEmpty()) {
+            return response()->json([
+                'data' => [],
+                'error' => 'Data peserta tidak ditemukan.',
+            ], 404);
+        }
+
+        return response()->json(['data' => $peserta]);
+    }
 
 }
