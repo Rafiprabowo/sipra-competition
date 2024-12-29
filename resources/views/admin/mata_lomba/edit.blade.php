@@ -37,6 +37,14 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <label for="kategori">Kategori</label>
+                            <select name="kategori" id="kategori" class="form-control">
+                                <option value="">--Pilih Kategori--</option>
+                                <option value="cbt" {{($mataLomba->kategori == 'cbt') ? 'selected' : ''}}>Computer Based Test</option>
+                                <option value="non-cbt" {{($mataLomba->kategori == 'non-cbt') ? 'selected' : ''}}>Non Computer Based Test</option>
+                            </select>
+                        </div>
 
                         <div class="form-group">
                             <label for="jumlah_peserta">Jumlah Peserta</label>

@@ -33,7 +33,12 @@ class Peserta extends Model
     public function upload_lomba(){
         return $this->hasOne(UploadLomba::class);
     }
-    public function answers(){
-        return $this->hasMany(Answer::class);
+
+    public function cbtSessions()
+    {
+        return $this->belongsToMany(CbtSession::class, 'peserta_sessions')
+                    ->withPivot('nilai', 'status', 'completed_at')
+                    ->withTimestamps();
     }
+
 }

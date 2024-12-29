@@ -22,6 +22,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>Kategori</th>
                             <th>Jumlah Peserta</th>
                             <th>Ditujukan</th>
                             <th>Deskripsi</th>
@@ -33,6 +34,7 @@
                             <tr>
                                 <td>{{$index + 1}}</td>
                                 <td>{{$value->nama}}</td>
+                                <td>{{$value->kategori}}</td>
                                 <td>{{$value->jumlah_peserta}}</td>
                                 <td>
                                     @if ($value->ditujukan == 0)

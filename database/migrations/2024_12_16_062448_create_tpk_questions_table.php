@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('tpk_questions', function (Blueprint $table) {
             $table->id();
-            $table->text('question');
+            $table->text('question_text');
+            $table->string('question_image')->nullable();
             $table->text('answer_a');
             $table->text('answer_b');
             $table->text('answer_c');
             $table->text('answer_d');
-            $table->text('answer_e');
-            $table->enum('correct_answer',['a','b','c','d', 'e']);
+            $table->enum('correct_answer',['a','b','c','d']);
+            $table->enum('difficulty', [\App\Enums\Difficulty::LOTS->value,\App\Enums\Difficulty::MOTS->value]);
             $table->timestamps();
         });
     }

@@ -52,11 +52,16 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" href="{{route('sesi-cbt.index')}}">
+            <span style="font-size: 11px;">Manajemen CBT</span></a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="{{route('admin.bobot-soal.index')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span style="font-size: 11px;">Manajemen Bobot Soal</span></a>
     </li>
-    <hr class="sidebar-divider my-2">
+
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('dokumen.index')}}">
@@ -64,7 +69,8 @@
             <span style="font-size: 11px;">Template Dokumen</span></a>
     </li>
 
-    <hr class="sidebar-divider my-2">
+
+    
 
 
     <!-- Sidebar Toggler (Sidebar) -->

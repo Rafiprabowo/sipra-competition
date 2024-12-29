@@ -31,4 +31,8 @@ class MataLomba extends Model
         return $this->hasMany(BobotSoal::class);
     }
 
+    public function cbtSessions(){
+        return $this->hasMany(CbtSession::class);
+    }
+
 }

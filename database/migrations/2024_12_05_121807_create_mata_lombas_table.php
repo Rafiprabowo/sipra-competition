@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('deskripsi');
             $table->integer('jumlah_peserta');
             $table->string('ditujukan');
+            $table->enum('kategori', ['cbt', 'non-cbt'])->default('non-cbt');
             $table->timestamps();
         });
     }

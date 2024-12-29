@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exams', function (Blueprint $table) {
+        Schema::create('cbt_sessions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->integer('duration')->nullable();
+            $table->string('nama');
+            $table->time('waktu_mulai');
+            $table->time('waktu_selesai');
+            $table->foreignId('mata_lomba_id')->constrained('mata_lombas')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exams');
+        Schema::dropIfExists('cbt_sessions');
     }
 };

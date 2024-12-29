@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(TpkQuestionSeeder::class);
         $user_admin = \App\Models\User::create([
              'username' => 'admin',
              'password' => Hash::make('admin123'),
@@ -35,20 +34,28 @@ class DatabaseSeeder extends Seeder
             'role' => 'peserta'
         ]);
 
-        //  $pionering = MataLomba::create([
-        //      'nama' => 'Pionering',
-        //      'deskripsi' => 'pionering'
-        //  ]);
-//         $karikatur = MataLomba::create([
-//             'nama' => 'Karikatur',
-//             'deskripsi' => 'karikatur'
-//         ]);
-        $dutaLogika = MataLomba::create([
-            'nama' => 'Duta Logika',
-            'deskripsi' => 'duta',
-            'ditujukan' => 'peserta',
-            'jumlah_peserta' => 1
+        $tpk = MataLomba::create([
+            'nama' => \App\Enums\MataLomba::TPK->value,
+            'deskripsi' => \App\Enums\MataLomba::TPK->value,
+            'ditujukan' => '0',
+            'jumlah_peserta' => 1,
+            'kategori' => 'cbt'
         ]);
+        $morse = MataLomba::create([
+            'nama' => \App\Enums\MataLomba::SandiMorse->value,
+            'deskripsi' => \App\Enums\MataLomba::SandiMorse->value,
+            'ditujukan' => '0',
+            'jumlah_peserta' => 1,
+            'kategori' => 'cbt'
+        ]);
+        $semaphore = MataLomba::create([
+            'nama' => \App\Enums\MataLomba::Semaphore->value,
+            'deskripsi' => \App\Enums\MataLomba::Semaphore->value,
+            'ditujukan' => '0',
+            'jumlah_peserta' => 1,
+            'kategori' => 'cbt'
+        ]);
+
 
 
         $user_pembina = \App\Models\User::create([

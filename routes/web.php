@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ImportSoalTpkController;
 use App\Http\Controllers\Admin\JuriController;
 use App\Http\Controllers\Admin\PertanyaanTpkController;
 use App\Http\Controllers\Admin\UserController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Pembina\RegistrasiController;
 use App\Models\Finalisasi;
 use App\Models\Peserta;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Row;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +71,21 @@ Route::prefix('admin')->group(function () {
         Route::delete('/mata-lomba/{id}', [App\Http\Controllers\Admin\MataLomba::class, 'destroy'])->name('admin.mata-lomba.destroy')->middleware(['role:admin']);
     });
 
+    Route::prefix('sesi-cbt')->group(function(){
+        Route::get('/index', [\App\Http\Controllers\Admin\ManajemenSesiCbtController::class, 'index'])->name('sesi-cbt.index');
+        Route::get('/create', [\App\Http\Controllers\Admin\ManajemenSesiCbtController::class, 'create'])->name('sesi-cbt.create');
+        Route::post('/store', [\App\Http\Controllers\Admin\ManajemenSesiCbtController::class, 'store'])->name('sesi-cbt.store');
+        Route::get('/{id}/edit', [\App\Http\Controllers\Admin\ManajemenSesiCbtController::class, 'edit'])->name('sesi-cbt.edit');
+        Route::put('/{id}/update', [\App\Http\Controllers\Admin\ManajemenSesiCbtController::class, 'update'])->name('sesi-cbt.update');
+        Route::delete('/{id}/delete', [\App\Http\Controllers\Admin\ManajemenSesiCbtController::class, 'destroy'])->name('sesi-cbt.destroy');
+        Route::get('/{id}/peserta', [\App\Http\Controllers\Admin\ParticipantsSessionController::class, 'index'])->name('sesi-peserta.index');
+        Route::get('/{id}/peserta/create', [\App\Http\Controllers\Admin\ParticipantsSessionController::class, 'create'])->name('sesi-peserta.create');
+        Route::get('/{id}/soal', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'index'])->name('sesi-soal.index');
+        Route::get('/{id}/soal/create', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'create'])->name('sesi-soal.create');
+        Route::post('/{id}/soal-tpk/import',\App\Http\Controllers\Admin\ImportSoalTpkController::class)->name('soal-tpk.import');
+        Route::post('/{id}/soal-tpk/store', \App\Http\Controllers\Admin\SimpanSoalTpkController::class)->name('soal-tpk.store');
+    });
+
     Route::prefix('bobot-soal')->group(function () {
         Route::get('/data-bobot-soal', [\App\Http\Controllers\Admin\BobotSoalController::class, 'index'])->name('admin.bobot-soal.index')->middleware(['role:admin']);
         Route::post('/bobot-soal', [\App\Http\Controllers\Admin\BobotSoalController::class, 'store'])->name('admin.bobot-soal.store')->middleware(['role:admin']);
@@ -101,10 +118,7 @@ Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
     Route::put('/update-profile', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'updateProfilePeserta'])->name('updateProfilePeserta')->middleware(['role:peserta']);
     // Dashboard peserta
     Route::get('/dashboard', [\App\Http\Controllers\Peserta\DashboardController::class, 'index'])->name('peserta.dashboard');
-    Route::get('/tes-pengetahuan-kepramukaan', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'index'])->name('peserta.tes-pengetahuan-kepramukaan');
-    Route::get('/tes-pengetahuan-kepramukaan/{exam_id}/start', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'startExam'])->name('peserta.exam.start');
-    Route::get('/tes/pengetahuan-kepramukaan/{exam_id}/question/{order}', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'showQuestion'])->name('peserta.exam.question');
-    Route::post('/tes/pengetahuan-kepramukaan/{exam_id}/question/{order}/answer', [\App\Http\Controllers\Peserta\LombaTpkController::class, 'saveAnswer'])->name('peserta.exam.answer');
+    
 });
 //Pembina
 Route::prefix('pembina')->group(function () {

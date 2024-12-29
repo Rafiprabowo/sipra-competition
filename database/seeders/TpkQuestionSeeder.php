@@ -14,11 +14,6 @@ class TpkQuestionSeeder extends Seeder
      */
        public function run()
     {
-         $exam = Exam::create([
-            'name' => 'Tes Pengetahuan Kepramukaan',
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto aut illo in minima molestias quaerat similique sint tempore totam voluptatibus.',
-            'duration' => 60
-         ]);
 
         $questions = [
             [
