@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\EditSoalTpkController;
 use App\Http\Controllers\Admin\ImportSoalTpkController;
 use App\Http\Controllers\Admin\JuriController;
 use App\Http\Controllers\Admin\PertanyaanTpkController;
@@ -83,8 +84,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/{id}/soal', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'index'])->name('sesi-soal.index');
         Route::get('/{id}/soal/create', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'create'])->name('sesi-soal.create');
         Route::post('/{id}/soal-tpk/import',\App\Http\Controllers\Admin\ImportSoalTpkController::class)->name('soal-tpk.import');
-        Route::post('/{id}/soal-tpk/store', \App\Http\Controllers\Admin\SimpanSoalTpkController::class)->name('soal-tpk.store');
-    });
+        Route::get('/{session_id}/soal/{id}/edit', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'edit'])->name('sesi-soal.edit');
+        Route::put('/{session_id}/soal/{id}/update', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'update'])->name('sesi-soal.update');
+       
+        });
 
     Route::prefix('bobot-soal')->group(function () {
         Route::get('/data-bobot-soal', [\App\Http\Controllers\Admin\BobotSoalController::class, 'index'])->name('admin.bobot-soal.index')->middleware(['role:admin']);

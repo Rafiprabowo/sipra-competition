@@ -19,9 +19,9 @@
                         <i class="fas fa-file-excel"></i> Import Excel
                     </button>
                     <!-- Tambah Soal -->
-                    <a href="{{ route('sesi-soal.create', ['id' => $session->id, 'nama' => $session->mataLomba->nama]) }}" class="btn btn-primary">
+                    {{-- <a href="{{ route('sesi-soal.create', ['id' => $session->id, 'nama' => $session->mataLomba->nama]) }}" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Tambah Soal
-                    </a>
+                    </a> --}}
                 </div>
             </div>
             <div class="card-body">
@@ -47,10 +47,12 @@
                                     <td>{{$loop->iteration}}</td>
                                     <td>
                                         @if($question->question_image)
-                                            <img src="" alt="Question Image" width="50">
+                                            <img src="{{ Storage::url($question->question_image) }}" alt="Question Image" width="50">
                                         @else
                                             -
                                         @endif
+
+
                                     </td>
                                     <td>{{$question->question_text}}</td>
                                     <td>{{$question->answer_a}}</td>
@@ -59,14 +61,15 @@
                                     <td>{{$question->answer_d}}</td>
                                     <td>{{$question->correct_answer}}</td>
                                     <td>{{$question->difficulty}}</td>
-                                    <td>
-                                        <a href="" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit">
+                                    <td class="d-flex flex-column align-items-center">
+                                        <a href="{{route('sesi-soal.edit', ['session_id' => $session->id, 'id' => $question->id, 'nama' => $session->mataLomba->nama])}}" class="btn btn-warning btn-sm mb-2" data-toggle="tooltip" data-placement="top" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{$question->id}}" title="Delete">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </td>
+                                    
                                 </tr>
                             @endforeach
                         </tbody>
