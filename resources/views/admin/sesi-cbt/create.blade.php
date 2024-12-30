@@ -30,13 +30,6 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="nama">Nama Sesi</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required>
-                        @error('nama')
-                            <div class="alert alert-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
                         <label for="waktu_mulai">Waktu Mulai</label>
                         <div class="input-group">
                             <input type="text" class="form-control timepicker" id="waktu_mulai" name="waktu_mulai" required>
@@ -60,12 +53,29 @@
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="d-flex ">
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" name="status" id="status" required>
+                            <option value="{{\App\Enums\StatusSesiCbt::Draft->value}}">Ditutup</option>
+                            <option value="{{\App\Enums\StatusSesiCbt::Active->value}}">Dibuka</option>
+                        </select>
+                        @error('status')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="kode_akses">Kode Akses (opsional)</label>
+                        <input type="text" class="form-control" id="kode_akses" name="kode_akses">
+                        @error('kode_akses')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="d-flex">
                         <a href="{{ route('sesi-cbt.index') }}" class="btn btn-secondary mr-2">
-                            <i class="fas fa-arrow-left"></i>
+                            <i class="fas fa-arrow-left"></i> Kembali
                         </a>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i>
+                            <i class="fas fa-save"></i> Simpan
                         </button>
                     </div>
                 </form>

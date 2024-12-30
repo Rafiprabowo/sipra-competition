@@ -14,61 +14,79 @@
             <div class="card-header d-flex justify-content-between">
                 <h5>Sesi Computer Based Test</h5>
                 <a href="{{route('sesi-cbt.create')}}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i>
+                    <i class="fas fa-plus"></i> Tambah
                 </a>
             </div>
             <div class="card-body">
-               <div class="table-responsive">
-                <table class="table table-bordered text-center" id="dataTable">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Waktu Mulai</th>
-                            <th>Waktu Selesai</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($sessions as $session)
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" id="dataTable">
+                        <thead>
                             <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$session->nama}}</td>
-                                <td>{{$session->waktu_mulai}}</td>
-                                <td>{{$session->waktu_selesai}}</td>
-                                <td>
-                                    <a href="{{ route('sesi-peserta.index', $session->id) }}" class="btn btn-info btn-sm">
-                                        <i class="fas fa-users"></i>
-                                    </a>
-                                    <a href="{{ route('sesi-cbt.edit', $session->id) }}" class="btn btn-warning btn-sm">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="{{route('sesi-soal.index', ['id' => $session->id, 'nama' => $session->mataLomba->nama])}}" class="btn btn-primary btn-sm">
-                                        <i class="fas fa-question-circle"></i>
-                                    </a>
-                                    <form action="{{ route('sesi-cbt.destroy', $session->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus sesi ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                                
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Waktu Mulai</th>
+                                <th>Waktu Selesai</th>
+                                <th>Durasi</th>
+                                <th>Status</th>
+                                <th>Kode Akses</th>
+                                <th>Aksi</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-               </div>
+                        </thead>
+                        <tbody>
+                            @foreach($sessions as $session)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$session->nama}}</td>
+                                    <td>
+                                        <span class="badge badge-info">{{$session->waktu_mulai}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info">{{$session->waktu_selesai}}</span>
+                                    </td>                                    
+                                    <td>{{$session->durasi}} Menit</td>  
+                                    <td>
+                                        @if($session->status == 'draft')
+                                            <span class="badge badge-danger">Ditutup</span>
+                                        @elseif($session->status == 'active')
+                                            <span class="badge badge-success">Dibuka</span>
+                                        @else
+                                            <span class="badge badge-info">{{ ucfirst($session->status) }}</span>
+                                        @endif
+                                    </td>                                       
+                                                                
+                                    <td >{{$session->kode_akses}}</td>
+                                    <td>
+                                        <a href="{{ route('sesi-peserta.index', $session->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" title="Lihat Peserta">
+                                            <i class="fas fa-users"></i>
+                                        </a>
+                                        <a href="{{ route('sesi-cbt.edit', $session->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit Sesi">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{{ route('sesi-soal.index', ['id' => $session->id, 'nama' => $session->mataLomba->nama]) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Lihat Soal">
+                                            <i class="fas fa-question-circle"></i>
+                                        </a>
+                                        <form action="{{ route('sesi-cbt.destroy', $session->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus sesi ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hapus Sesi">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 @endsection
 @section('script')
-
     <script>
         $(function(){
             $('#dataTable').DataTable();
-        })
+            $('[data-toggle="tooltip"]').tooltip(); // Initialize tooltips
+        });
     </script>
 @endsection

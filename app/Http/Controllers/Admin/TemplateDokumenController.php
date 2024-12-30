@@ -35,7 +35,7 @@ class TemplateDokumenController extends Controller
         $request->validate([
             'nama' => 'nullable|string|max:255',
             'tipe' => 'nullable|string|max:255',
-            'template' => 'nullable|file|mimes:doc,docx,pdf|max:2048',
+            'template' => 'nullable|file|mimes:pdf,jpg,png,jpeg|max:2048',
         ]);
 
         // Proses penyimpanan file template jika ada
@@ -108,7 +108,7 @@ public function downloadTemplate($templateId)
         $request->validate([
             'nama' => 'nullable|string|max:255',
             'tipe' => 'nullable|string|max:255',
-            'template' => 'nullable|file|mimes:doc,docx,pdf,jpg,png,jpeg    |max:2048',
+            'template' => 'nullable|file|mimes:pdf,jpg,png,jpeg|max:2048',
         ]);
 
         $data = $request->only(['nama', 'tipe']);

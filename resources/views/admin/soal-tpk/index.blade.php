@@ -52,7 +52,6 @@
                                             -
                                         @endif
 
-
                                     </td>
                                     <td>{{$question->question_text}}</td>
                                     <td>{{$question->answer_a}}</td>
@@ -60,7 +59,14 @@
                                     <td>{{$question->answer_c}}</td>
                                     <td>{{$question->answer_d}}</td>
                                     <td>{{$question->correct_answer}}</td>
-                                    <td>{{$question->difficulty}}</td>
+                                    <td>
+                                        @if($question->difficulty == 'LOW')
+                                            Mudah
+                                        @elseif($question->difficulty == 'MIDDLE')
+                                            Sulit                            
+                                        @endif
+                                    </td>
+                                    
                                     <td class="d-flex flex-column align-items-center">
                                         <a href="{{route('sesi-soal.edit', ['session_id' => $session->id, 'id' => $question->id, 'nama' => $session->mataLomba->nama])}}" class="btn btn-warning btn-sm mb-2" data-toggle="tooltip" data-placement="top" title="Edit">
                                             <i class="fas fa-edit"></i>

@@ -53,7 +53,7 @@
 
     <li class="nav-item">
         <a class="nav-link" href="{{route('sesi-cbt.index')}}">
-            <span style="font-size: 11px;">Manajemen CBT</span></a>
+            <span style="font-size: 11px;">Lomba CBT SMS & TPK</span></a>
     </li>
 
     <li class="nav-item">

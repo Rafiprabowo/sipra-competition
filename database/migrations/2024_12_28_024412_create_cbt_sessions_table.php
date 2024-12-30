@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('nama');
             $table->time('waktu_mulai');
             $table->time('waktu_selesai');
+            $table->integer('durasi');
+            $table->enum('status', [\App\Enums\StatusSesiCbt::Draft->value, \App\Enums\StatusSesiCbt::Active->value, \App\Enums\StatusSesiCbt::Completed->value])->default('draft');
+            $table->string('kode_akses')->nullable()->unique(); 
             $table->foreignId('mata_lomba_id')->constrained('mata_lombas')->cascadeOnDelete();
             $table->timestamps();
         });

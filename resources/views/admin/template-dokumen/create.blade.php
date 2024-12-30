@@ -24,8 +24,8 @@
                     <div class="form-group">
                         <label for="template">Template Dokumen</label>
                         <input type="file" class="form-control-file" id="template" name="template"
-                               accept=".doc, .docx, .pdf" style="font-size: 11px;">
-                        <small class="form-text text-muted">Unggah template dokumen dalam format .doc, .docx,
+                               accept=".docx, .pdf, .jpg, .jpeg, .png" style="font-size: 11px;">
+                        <small class="form-text text-muted">Unggah template dokumen dalam format
                             .pdf, atau .jpg, .jpeg, .png</small>
                     </div>
                     <div class="d-flex justify-content-start mt-3">

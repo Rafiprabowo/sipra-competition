@@ -41,16 +41,10 @@ class DatabaseSeeder extends Seeder
             'jumlah_peserta' => 1,
             'kategori' => 'cbt'
         ]);
-        $morse = MataLomba::create([
-            'nama' => \App\Enums\MataLomba::SandiMorse->value,
-            'deskripsi' => \App\Enums\MataLomba::SandiMorse->value,
-            'ditujukan' => '0',
-            'jumlah_peserta' => 1,
-            'kategori' => 'cbt'
-        ]);
-        $semaphore = MataLomba::create([
-            'nama' => \App\Enums\MataLomba::Semaphore->value,
-            'deskripsi' => \App\Enums\MataLomba::Semaphore->value,
+
+        $tpk = MataLomba::create([
+            'nama' => \App\Enums\MataLomba::SMS->value,
+            'deskripsi' => \App\Enums\MataLomba::SMS->value,
             'ditujukan' => '0',
             'jumlah_peserta' => 1,
             'kategori' => 'cbt'

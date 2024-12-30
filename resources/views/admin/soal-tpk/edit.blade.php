@@ -68,8 +68,8 @@
                         <label for="difficulty">Tingkat Kesulitan</label>
                         <select name="difficulty" id="difficulty" class="form-control" required>
                             <option value="">-- Pilih Tingkat Kesulitan --</option>
-                            <option value="LOW" @if($tpk_question->difficulty == 'LOW') selected @endif>LOTS</option>
-                            <option value="MIDDLE" @if($tpk_question->difficulty == 'MIDDLE') selected @endif>MOTS</option>
+                            <option value="LOW" @if($tpk_question->difficulty == 'LOW') selected @endif>Mudah</option>
+                            <option value="MIDDLE" @if($tpk_question->difficulty == 'MIDDLE') selected @endif>Sulit</option>
                         </select>
                     </div>
 

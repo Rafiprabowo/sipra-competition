@@ -17,10 +17,6 @@ class ManajemenSoalCbtController extends Controller
 
         if($namaMataLomba == \App\Enums\MataLomba::TPK->value){
             return view('admin.soal-tpk.index', compact('session'));
-        }else if($namaMataLomba == \App\Enums\MataLomba::SandiMorse->value){    
-            
-        }else if($namaMataLomba == \App\Enums\MataLomba::Semaphore->value){
-
         }else{
             return redirect()->route('sesi-soal.index', ['session_id' => $session, 'nama' => $session->mataLomba->nama])->with('error', 'Kategori lomba tidak valid.');
         }
@@ -31,10 +27,6 @@ class ManajemenSoalCbtController extends Controller
 
         if($namaMataLomba == \App\Enums\MataLomba::TPK->value){
             return view('admin.soal-tpk.create', compact('session'));
-        }else if($namaMataLomba == \App\Enums\MataLomba::SandiMorse->value){
-
-        }else if($namaMataLomba == \App\Enums\MataLomba::Semaphore->value){
-
         }else{
             return redirect()->route('sesi-soal.index', ['session_id' => $session, 'nama' => $session->mataLomba->nama])->with('error', 'Kategori lomba tidak valid.');
         }
