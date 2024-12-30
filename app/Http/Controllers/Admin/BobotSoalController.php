@@ -10,9 +10,23 @@ use App\Models\MataLomba;
 class BobotSoalController extends Controller
 {
     public function index() {
+        // Ambil semua data bobot soal dengan relasi mata lomba
         $bobot_soal = BobotSoal::with('mata_lomba')->get();
+    
+        // Ambil semua mata lomba yang unik
+        $uniqueBobotSoal = $bobot_soal->unique('mata_lomba_id');
+    
+        // Loop melalui setiap mata lomba yang unik untuk menghitung ulang bobot soal
+        foreach ($uniqueBobotSoal as $bobot) {
+            $total_bobot = BobotSoal::where('mata_lomba_id', $bobot->mata_lomba_id)->sum('bobot_soal');
+    
+            // Perbarui total bobot di tabel bobot_soals untuk mata_lomba_id yang sesuai
+            BobotSoal::where('mata_lomba_id', $bobot->mata_lomba_id)->update(['total_bobot' => $total_bobot]);
+        }
+    
+        // Kembali ke halaman dengan data bobot soal
         return view('admin.bobot_soal.index', compact('bobot_soal'));
-    }
+    }    
 
     public function create() {
         $mata_lomba = MataLomba::all();
@@ -108,16 +122,62 @@ class BobotSoalController extends Controller
 
     public function destroy($id)
     {
+        // Ambil data bobot soal berdasarkan ID
         $bobot_soal = BobotSoal::findOrFail($id);
         $mataLombaId = $bobot_soal->mata_lomba_id; // Simpan mata_lomba_id
 
-        // Hapus data bobot soal
-        $bobot_soal->delete();
+        // Hapus semua data dengan mata_lomba_id yang sama
+        BobotSoal::where('mata_lomba_id', $mataLombaId)->delete();
 
-        // Hitung ulang total_bobot untuk mata_lomba_id
-        $totalBobot = BobotSoal::where('mata_lomba_id', $mataLombaId)->sum('bobot_soal');
-        BobotSoal::where('mata_lomba_id', $mataLombaId)->update(['total_bobot' => $totalBobot]);
+        return redirect()->route('admin.bobot-soal.index')->with('success', 'Semua data dengan mata lomba yang sama berhasil dihapus!');
+    }
 
-        return redirect()->route('admin.bobot-soal.index')->with('success', 'Data berhasil dihapus!');
+    public function show($id)
+    {
+        // Ambil data dari tabel bobot_soals berdasarkan mata_lomba_id
+        $bobot_soals = BobotSoal::where('mata_lomba_id', $id)->get();
+        $totalBobot = $bobot_soals->sum('bobot');
+
+        // Redirect ke view bobot-soal.show dengan data
+        return view('admin.bobot_soal.show', [
+            'bobot_soals' => $bobot_soals,
+            'totalBobot' => $totalBobot,
+            'mata_lomba_id' => $id,
+        ]);
+    }
+
+    public function deleteRow(Request $request, $id)
+    {
+        // Validasi input kriteria_nilai
+        $validatedData = $request->validate([
+            'kriteria_nilai' => 'required|string',
+        ]);
+
+        // Ambil data berdasarkan ID bobot soal
+        $bobot_soal = BobotSoal::findOrFail($id);
+
+        // Ambil nilai bobot dari kriteria_nilai yang akan dihapus
+        $nilaiKriteria = BobotSoal::where('mata_lomba_id', $bobot_soal->mata_lomba_id)
+            ->where('kriteria_nilai', $validatedData['kriteria_nilai'])
+            ->value('bobot_soal');
+
+        if ($nilaiKriteria === null) {
+            return redirect()->route('admin.bobot-soal.show', $id)->with('error', 'Kriteria tidak ditemukan.');
+        }
+
+        // Hapus row berdasarkan kriteria_nilai dan mata_lomba
+        BobotSoal::where('mata_lomba_id', $bobot_soal->mata_lomba_id)
+            ->where('kriteria_nilai', $validatedData['kriteria_nilai'])
+            ->delete();
+
+        // Hitung ulang total_bobot untuk mata_lomba yang sama
+        $totalBobot = BobotSoal::where('mata_lomba_id', $bobot_soal->mata_lomba_id)->sum('bobot_soal');
+
+        // Update total_bobot di mata_lomba terkait
+        $mataLomba = MataLomba::findOrFail($bobot_soal->mata_lomba_id);
+        $mataLomba->penilaian_karikatur->total_bobot = $totalBobot; // Sesuaikan kolom total_bobot di tabel MataLomba
+        $mataLomba->save();
+
+        return redirect()->route('admin.bobot-soal.index')->with('success', 'Kriteria berhasil dihapus dan total bobot diperbarui!');
     }
 }

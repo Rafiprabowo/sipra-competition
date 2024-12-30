@@ -60,20 +60,20 @@ class AjaxController extends Controller
         return response()->json(['data' => $regu]);
     }
 
-    public function getPesertaRegu($regu_id, $mata_lomba)
+    public function getPesertaRegu($regu_id)
     {
-        // Mengambil regu berdasarkan ID pangkalan
-        $regu = ReguPembina::with('peserta')->where($mata_lomba);
-        $peserta = $regu->peserta;
+        // Mengambil peserta berdasarkan ID regu dan mata lomba 'KARIKATUR'
+        $peserta = Peserta::where('regu_pembina_id', $regu_id)
+            ->whereHas('mata_lomba', function ($query) {$query->where('nama', 'KARIKATUR');})
+        ->get();
         
         if ($peserta->isEmpty()) {
             return response()->json([
                 'data' => [],
-                'error' => 'Data peserta tidak ditemukan.',
+                'error' => 'Tidak ada peserta dengan mata lomba KARIKATUR.',
             ], 404);
         }
 
         return response()->json(['data' => $peserta]);
     }
-
 }

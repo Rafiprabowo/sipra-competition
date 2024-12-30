@@ -84,7 +84,6 @@
                                 <th>Nama Mata Lomba</th>
                                 <th>Kriteria Nilai</th>
                                 <th>Bobot</th>
-                                {{-- <th>Total Bobot</th> --}}
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -94,7 +93,6 @@
                                     <td>{{ $mata_lomba->firstWhere('id', $data['mata_lomba_id'])->nama ?? 'N/A' }}</td>
                                     <td>{{ $data['kriteria_nilai'] }}</td>
                                     <td>{{ $data['bobot_soal'] }}</td>
-                                    {{-- <td>{{ $data['total_bobot'] ?? 'N/A' }}</td> --}}
                                     <td>
                                         <form action="{{ route('admin.bobot-soal.removeTemporary', $index) }}" method="POST">
                                             @csrf

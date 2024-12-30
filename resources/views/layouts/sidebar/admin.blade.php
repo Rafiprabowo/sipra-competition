@@ -59,6 +59,28 @@
     <hr class="sidebar-divider my-2">
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span style="font-size: 11px;">Hasil Penilaian</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white collapse-inner rounded">
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white collapse-inner rounded" style="font-size: 11px;">
+                        <a class="collapse-item" href="{{route('admin.hasil_nilai.nilai_karikatur')}}">KARIKATUR</a>
+                        <a class="collapse-item" href="buttons.html">PIONERING</a>
+                        <a class="collapse-item" href="cards.html">DUTA LOGIKA</a>
+                        <a class="collapse-item" href="cards.html">LKFBB</a>
+                        <a class="collapse-item" href="cards.html">FOTO</a>
+                        <a class="collapse-item" href="cards.html">VIDIO</a>
+                        <a class="collapse-item" href="cards.html">TPK</a>
+                        <a class="collapse-item" href="cards.html">Semaphore & Morse</a>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{route('dokumen.index')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span style="font-size: 11px;">Template Dokumen</span></a>

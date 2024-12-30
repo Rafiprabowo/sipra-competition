@@ -50,19 +50,87 @@ class PenilaianKarikaturController extends Controller
     }
 
     public function store(Request $request)
-{
-    $mata_lomba_id = $request->mata_lomba_id;
-    $juri_id = $request->juri_id;
-    $peserta_id = $request->peserta_id;
-    $nilai = $request->input('nilai'); // Nilai dari input array
+    {
+        $mata_lomba_id = $request->mata_lomba_id;
+        $peserta_id = $request->peserta_id;
+        $nilai = $request->input('nilai'); // Nilai dari input array
 
-    // Validasi setiap nilai berdasarkan bobot_soal
-    foreach ($nilai as $bobot_id => $nilai_input) {
-        $bobotSoal = BobotSoal::find($bobot_id);
+        // Ambil juri yang sedang login
+        $juri_id = Auth::user()->juri->id;
 
-        if (!$bobotSoal) {
-            return back()->withErrors(['error' => 'Bobot soal tidak valid.']);
+        // Validasi peserta_id
+        $peserta = Peserta::find($peserta_id);
+        if (!$peserta) {
+            return back()->withErrors(['error' => 'Peserta tidak valid atau tidak ditemukan.']);
         }
+
+        // Validasi nilai input berdasarkan bobot_soal
+        foreach ($nilai as $bobot_id => $nilai_input) {
+            $bobotSoal = BobotSoal::find($bobot_id);
+
+            if (!$bobotSoal) {
+                return back()->withErrors(['error' => 'Bobot soal tidak valid.']);
+            }
+
+            if ($nilai_input < 0 || $nilai_input > $bobotSoal->bobot_soal) {
+                return back()->withErrors([
+                    'error' => "Nilai untuk kriteria {$bobotSoal->kriteria_nilai} harus antara 0 dan {$bobotSoal->bobot_soal}."
+                ]);
+            }
+        }
+
+        // Simpan data ke tabel penilaian_karikaturs
+        $total_nilai = 0; // Variabel untuk menghitung total nilai
+        foreach ($nilai as $bobot_id => $nilai_input) {
+            PenilaianKarikatur::create([
+                'juri_id' => $juri_id,
+                'mata_lomba_id' => $mata_lomba_id,
+                'peserta_id' => $peserta_id,
+                'bobot_soal_id' => $bobot_id,
+                'nilai' => $nilai_input,
+            ]);
+
+            // Tambahkan nilai ke total_nilai
+            $total_nilai += $nilai_input;
+        }
+
+        // Update atau buat entri total_nilai di tabel penilaian_karikaturs
+        PenilaianKarikatur::updateOrCreate(
+            [
+                'mata_lomba_id' => $mata_lomba_id,
+                'peserta_id' => $peserta_id,
+                'juri_id' => $juri_id,
+            ],
+            [
+                'total_nilai' => $total_nilai,
+            ]
+        );
+
+        // Duplikasi nilai total_nilai ke semua entri lain dengan mata_lomba_id yang sama
+        PenilaianKarikatur::where('peserta_id', $peserta_id)
+            ->update(['total_nilai' => $total_nilai]);
+
+        return redirect()->route('penilaian-karikatur.index')->with('success', 'Penilaian berhasil disimpan.');
+    }
+
+    public function show(string $id)
+    {
+        //
+    }
+
+    public function edit($id)
+{
+    $penilaian = PenilaianKarikatur::with(['nilai.bobot_soal'])->findOrFail($id);
+    return view('penilaian_karikatur.edit', compact('penilaian'));
+}
+
+public function update(Request $request, $id)
+{
+    $penilaian = PenilaianKarikatur::findOrFail($id);
+
+    // Validasi nilai input berdasarkan bobot_soal
+    foreach ($request->nilai as $bobot_id => $nilai_input) {
+        $bobotSoal = BobotSoal::findOrFail($bobot_id);
 
         if ($nilai_input < 0 || $nilai_input > $bobotSoal->bobot_soal) {
             return back()->withErrors([
@@ -71,49 +139,48 @@ class PenilaianKarikaturController extends Controller
         }
     }
 
-    // Simpan data jika validasi lulus
-    foreach ($nilai as $bobot_id => $nilai_input) {
-        PenilaianKarikatur::create([
-            'juri_id' => $juri_id,
-            'mata_lomba_id' => $mata_lomba_id,
-            'peserta_id' => $peserta_id,
+    // Update nilai
+    $total_nilai = 0;
+    foreach ($request->nilai as $bobot_id => $nilai_input) {
+        $penilaianItem = PenilaianKarikatur::where([
+            'juri_id' => $penilaian->juri_id,
+            'mata_lomba_id' => $penilaian->mata_lomba_id,
+            'peserta_id' => $penilaian->peserta_id,
             'bobot_soal_id' => $bobot_id,
-            'nilai' => $nilai_input,
-        ]);
+        ])->first();
+
+        if ($penilaianItem) {
+            $penilaianItem->update(['nilai' => $nilai_input]);
+        } else {
+            PenilaianKarikatur::create([
+                'juri_id' => $penilaian->juri_id,
+                'mata_lomba_id' => $penilaian->mata_lomba_id,
+                'peserta_id' => $penilaian->peserta_id,
+                'bobot_soal_id' => $bobot_id,
+                'nilai' => $nilai_input,
+            ]);
+        }
+
+        $total_nilai += $nilai_input;
     }
 
-    return redirect()->route('penilaian-karikatur.index')->with('success', 'Penilaian berhasil disimpan.');
+    // Update total nilai
+    $penilaian->update(['total_nilai' => $total_nilai]);
+
+    return redirect()->route('penilaian-karikatur.index')->with('success', 'Penilaian berhasil diperbarui.');
 }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $penilaian = PenilaianKarikatur::findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        // Hapus semua nilai terkait penilaian ini
+        PenilaianKarikatur::where([
+            'juri_id' => $penilaian->juri_id,
+            'mata_lomba_id' => $penilaian->mata_lomba_id,
+            'peserta_id' => $penilaian->peserta_id,
+        ])->delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('penilaian-karikatur.index')->with('success', 'Penilaian berhasil dihapus.');
     }
 }

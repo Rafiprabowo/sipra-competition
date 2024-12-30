@@ -10,46 +10,44 @@
 @section('content')
 <div class="container">
     <h2 class="mb-4">Form Penilaian Karikatur</h2>
-
-    <!-- Filter -->
-    <div class="mb-4">
-        <!-- Filter Pangkalan -->
-        <div class="mb-3">
-            <label for="filter-pangkalan" class="form-label">Filter Pangkalan</label>
-            <select id="filter-pangkalan" class="form-control">
-                <option value="">-- Pilih Pangkalan --</option>
-                @foreach($pangkalans as $pangkalan)
-                    <option value="{{ $pangkalan->id }}">{{ $pangkalan->pangkalan }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <!-- Filter Nama Regu -->
-        <div class="mb-3">
-            <label for="regu_pembina" class="form-label">Filter Nama Regu</label>
-            <select id="regu_pembina_id" name="regu_pembina_id" class="form-control">
-
-            </select>
-            @error('regu_pembina_id')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <!-- Filter Peserta -->
-        <div class="mb-3">
-            <label for="peserta" class="form-label">Filter Peserta</label>
-            <select id="peserta_id" name="peserta_id" class="form-control">
-
-            </select>
-            @error('peserta_id')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-
     <!-- Form Penilaian -->
     <form action="{{ route('penilaian-karikatur.store') }}" method="POST" id="penilaianForm">
         @csrf
+        <!-- Filter -->
+        <div class="mb-4">
+            <!-- Filter Pangkalan -->
+            <div class="mb-3">
+                <label for="filter-pangkalan" class="form-label">Filter Pangkalan</label>
+                <select id="filter-pangkalan" class="form-control">
+                    <option value="">-- Pilih Pangkalan --</option>
+                    @foreach($pangkalans as $pangkalan)
+                        <option value="{{ $pangkalan->id }}">{{ $pangkalan->pangkalan }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Filter Nama Regu -->
+            <div class="mb-3">
+                <label for="regu_pembina" class="form-label">Filter Nama Regu</label>
+                <select id="regu_pembina_id" name="regu_pembina_id" class="form-control">
+
+                </select>
+                @error('regu_pembina_id')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Filter Peserta -->
+            <div class="mb-3">
+                <label for="peserta" class="form-label">Filter Peserta</label>
+                <select id="peserta_id" name="peserta_id" class="form-control">
+
+                </select>
+                @error('peserta_id')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
 
         <!-- Daftar kriteria nilai -->
         <input type="hidden" name="mata_lomba_id" value="{{$mata_lomba->id}}">
@@ -59,7 +57,7 @@
             <div class="row align-items-center mb-3">
                 <div class="col-md-4">
                     <label class="form-label">{{ $bobot->kriteria_nilai }}</label>
-                    <span>Nilai (1 - {{ $bobot->bobot_soal }})</span>
+                    <span>Nilai (0 - {{ $bobot->bobot_soal }})</span>
                 </div>
                 <div class="col-md-3">
                     <input 
@@ -95,16 +93,13 @@
                 url: url,
                 method: 'GET',
                 success: function(response) {
-                    console.log(response.data);
                     if (response.data && response.data.length > 0) {
-                        $('#regu_pembina_id').empty();
-                        $('#regu_pembina_id').append('<option value="">Pilih Regu</option>');
+                        $('#regu_pembina_id').empty().append('<option value="">Pilih Regu</option>');
                         response.data.forEach(function(regu) {
                             $('#regu_pembina_id').append(`<option value="${regu.id}">${regu.nama_regu}</option>`);
                         });
                     } else {
-                        $('#regu_pembina_id').empty();
-                        $('#regu_pembina_id').append('<option value="">Tidak ada regu tersedia</option>');
+                        $('#regu_pembina_id').empty().append('<option value="">Tidak ada regu tersedia</option>');
                     }
                 },
                 error: function() {
@@ -116,23 +111,17 @@
         $('#regu_pembina_id').change(function () {
             let regu_id = $(this).val();
             let url = `/juri/peserta/${regu_id}`;
-            let mata_lomba = @json($mata_lomba);
-            console.log(mata_lomba.id);
-            
             $.ajax({
                 url: url,
                 method: 'GET',
                 success: function(response) {
-                    console.log(response.data);
                     if (response.data && response.data.length > 0) {
-                        $('#peserta_id').empty();
-                        $('#peserta_id').append('<option value="">Pilih Peserta</option>');
+                        $('#peserta_id').empty().append('<option value="">Pilih Peserta</option>');
                         response.data.forEach(function(peserta) {
                             $('#peserta_id').append(`<option value="${peserta.id}">${peserta.nama}</option>`);
                         });
                     } else {
-                        $('#peserta_id').empty();
-                        $('#peserta_id').append('<option value="">Tidak ada peserta tersedia</option>');
+                        $('#peserta_id').empty().append('<option value="">Tidak ada peserta tersedia</option>');
                     }
                 },
                 error: function() {
@@ -157,7 +146,7 @@
                 const kriteria = input.dataset.kriteria; // Nama kriteria
                 const value = parseFloat(input.value);
 
-                if (value < 1 || value > maxValue) {
+                if (value < 0 || value > maxValue) {
                     isValid = false;
                     invalidFields.push({ kriteria, maxValue });
                 }
@@ -169,7 +158,7 @@
                     icon: 'error',
                     title: 'Validasi Gagal',
                     html: invalidFields.map(field => 
-                        `Nilai untuk kriteria "<strong>${field.kriteria}</strong>" harus berada di antara 1 dan ${field.maxValue}.`
+                        `Nilai untuk kriteria "<strong>${field.kriteria}</strong>" harus berada di antara 0 dan ${field.maxValue}.`
                     ).join('<br>'),
                     confirmButtonColor: '#d33'
                 });

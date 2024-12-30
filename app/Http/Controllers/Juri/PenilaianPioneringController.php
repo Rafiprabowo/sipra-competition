@@ -9,7 +9,7 @@ use App\Models\MataLomba;
 use App\Models\BobotSoal;
 use App\Models\Peserta;
 use App\Models\Pembina;
-use App\Models\PenilaianPioneering;
+use App\Models\PenilaianPionering;
 use App\Models\ReguPembina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,10 +23,10 @@ class PenilaianPioneringController extends Controller
         $juris = Auth::user()->juri;
 
         // Ambil mata lomba "karikatur"
-        $mata_lomba = MataLomba::where('nama', 'Karikatur')->first();
+        $mata_lomba = MataLomba::where('nama', 'Pionering')->first();
 
         // Ambil peserta yang terdaftar pada mata lomba "karikatur" dan sudah memiliki penilaian
-        $pesertas = Peserta::with('penilaian_karikatur') // Eager load penilaian_karikatur
+        $pesertas = Peserta::with('penilaian_pionering') // Eager load penilaian_karikatur
         ->where('mata_lomba_id', $mata_lomba->id)
             ->whereHas('penilaian_karikatur')  // Mengambil peserta yang sudah memiliki penilaian
             ->get();
@@ -73,7 +73,7 @@ class PenilaianPioneringController extends Controller
 
     // Simpan data jika validasi lulus
     foreach ($nilai as $bobot_id => $nilai_input) {
-        PenilaianPioneering::create([
+        PenilaianPionering::create([
             'juri_id' => $juri_id,
             'mata_lomba_id' => $mata_lomba_id,
             'peserta_id' => $peserta_id,
