@@ -23,7 +23,6 @@ use Maatwebsite\Excel\Row;
 |
 */
 Route::get('/', function () { return view('home'); });
-Route::get('/login', function () {return redirect()->route('login');});
 Route::get('/login', function () {return view('auth.login');})->name('login');
 Route::post('/login', \App\Http\Controllers\Auth\LoginController::class)->name('login.attempt');
 Route::get('/register', function () {
@@ -51,8 +50,6 @@ Route::prefix('admin')->group(function () {
 
     // Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class)->middleware(['role:admin']);
     Route::resource('dokumen', \App\Http\Controllers\Admin\TemplateDokumenController::class)->middleware(['role:admin']);
-
-    Route::resource('pertanyaan-tpk', PertanyaanTpkController::class)->middleware(['role:admin']);
 
     Route::prefix('peserta')->group(function () {
         Route::get('/data-peserta', [\App\Http\Controllers\Admin\PesertaController::class, 'index'])->name('admin.peserta.index')->middleware(['role:admin']);
@@ -122,6 +119,13 @@ Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
     // Dashboard peserta
     Route::get('/dashboard', [\App\Http\Controllers\Peserta\DashboardController::class, 'index'])->name('peserta.dashboard');
     
+    // Computer Based Test
+    Route::get('/tes-pengetahuan-kepramukaan', [\App\Http\Controllers\Peserta\SesiLombaTpkController::class, 'index'])->name('peserta.sesi-tpk.index');
+    Route::post('/cbt/{session_id}/token', \App\Http\Controllers\Peserta\AttemptTokenController::class )->name('token.cbt');
+    Route::get('/cbt/{session_id}/start/{question_number}', \App\Http\Controllers\Peserta\StartCbtController::class )->name('start.cbt');
+    Route::post('/cbt/{session_id}/{question_number}/answer', \App\Http\Controllers\Peserta\SaveAnswerCbtController::class)->name('answer.cbt');
+    Route::get('/cbt/{session_id}/finish', \App\Http\Controllers\Peserta\EndCbtController::class)->name('end.cbt');
+    Route::get('/cbt/{session_id}/review', \App\Http\Controllers\Peserta\ReviewCbtController::class)->name('review.cbt');
 });
 //Pembina
 Route::prefix('pembina')->group(function () {

@@ -10,8 +10,12 @@ use App\Models\MataLomba;
 use App\Models\Pembina;
 use App\Models\Peserta;
 use App\Models\Pionering;
+use App\Models\ReguPembina;
 use App\Models\TpkAnswer;
 use App\Models\TpkQuestion;
+use App\Models\User;
+use Database\Factories\PembinaFactory;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -33,45 +37,35 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('peserta123'),
             'role' => 'peserta'
         ]);
+        
+        $user_juri  = \App\Models\User::create([
+            'username' => 'juri',
+            'password' => Hash::make('juri123'),
+            'role' => 'juri'
+        ]);
 
         $tpk = MataLomba::create([
             'nama' => \App\Enums\MataLomba::TPK->value,
             'deskripsi' => \App\Enums\MataLomba::TPK->value,
             'ditujukan' => '0',
             'jumlah_peserta' => 1,
-            'kategori' => 'cbt'
+            'kategori' => 'cbt',
         ]);
-
-        $tpk = MataLomba::create([
+        
+        $sms = MataLomba::create([
             'nama' => \App\Enums\MataLomba::SMS->value,
             'deskripsi' => \App\Enums\MataLomba::SMS->value,
             'ditujukan' => '0',
             'jumlah_peserta' => 1,
-            'kategori' => 'cbt'
+            'kategori' => 'cbt',
         ]);
 
+        $user = User::factory()
+    ->state(['role' => 'pembina'])
+    ->has(
+        Pembina::factory()
+    )
+    ->create();
 
-
-        $user_pembina = \App\Models\User::create([
-            'username' => 'pembina',
-            'password' => Hash::make('pembina123'),
-            'role' => 'pembina'
-        ]);
-        // $pembina = Pembina::create([
-        //     'nama' => 'Pembina',
-        //     'pangkalan' => 'Polinema',
-        //     'user_id' => $user_pembina->id,
-        // ]);
-
-        $user_juri  = \App\Models\User::create([
-            'username' => 'juri',
-            'password' => Hash::make('juri123'),
-            'role' => 'juri'
-        ]);
-        // $juri = Juri::create([
-        //     'nama' => 'Juri',
-        //     'mata_lomba_id' => $pionering->id,
-        //     'user_id' => $user_juri->id,
-        // ]);
-    }
+         }
 }

@@ -33,9 +33,9 @@ class TemplateDokumenController extends Controller
     {
         // Validasi input dari form
         $request->validate([
-            'nama' => 'nullable|string|max:255',
-            'tipe' => 'nullable|string|max:255',
-            'template' => 'nullable|file|mimes:pdf,jpg,png,jpeg|max:2048',
+            'nama' => 'required|string|max:255',
+            'tipe' => 'required|string|max:255',
+            'template' => 'required|file|mimes:pdf,jpg,png,jpeg|max:2048',
         ]);
 
         // Proses penyimpanan file template jika ada
@@ -106,9 +106,9 @@ public function downloadTemplate($templateId)
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'nullable|string|max:255',
-            'tipe' => 'nullable|string|max:255',
-            'template' => 'nullable|file|mimes:pdf,jpg,png,jpeg|max:2048',
+            'nama' => 'required|string|max:255',
+            'tipe' => 'required|string|max:255',
+            'template' => 'required|file|mimes:pdf,jpg,png,jpeg|max:2048',
         ]);
 
         $data = $request->only(['nama', 'tipe']);
@@ -127,6 +127,7 @@ public function downloadTemplate($templateId)
      */
     public function destroy(string $id)
     {
-        //
+        TemplateDokumen::destroy($id);
+        return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil dihapus!');
     }
 }

@@ -14,20 +14,29 @@
                     @method('PUT')
                     <div class="form-group">
                         <label for="nama">Nama Dokumen</label>
-                        <input type="text" class="form-control" id="nama" name="nama"
+                        <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama"
                                value="{{ old('nama', $dokumen->nama) }}" placeholder="Masukkan nama dokumen" style="font-size: 11px;">
+                        @error('nama')
+                            <div class="invalid-feedback" style="font-size: 11px;">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="tipe">Tipe Dokumen</label>
-                        <input type="text" class="form-control" id="tipe" name="tipe"
+                        <input type="text" class="form-control @error('tipe') is-invalid @enderror" id="tipe" name="tipe"
                                value="{{ old('tipe', $dokumen->tipe) }}" placeholder="Masukkan tipe dokumen" style="font-size: 11px;">
+                        @error('tipe')
+                            <div class="invalid-feedback" style="font-size: 11px;">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="template">Template Dokumen</label>
-                        <input type="file" class="form-control-file" id="template" name="template"
+                        <input type="file" class="form-control-file @error('template') is-invalid @enderror" id="template" name="template"
                                accept=".doc, .docx, .pdf" style="font-size: 11px;">
                         <small class="form-text text-muted">Unggah template dokumen dalam format .doc, .docx, atau .pdf.
                             Kosongkan jika tidak ingin mengubah template.</small>
+                        @error('template')
+                            <div class="invalid-feedback d-block" style="font-size: 11px;">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="d-flex justify-content-start mt-3">
                         <button type="submit" class="btn btn-primary mr-2" style="font-size: 11px;" title="Update">

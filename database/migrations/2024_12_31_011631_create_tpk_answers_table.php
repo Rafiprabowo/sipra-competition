@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('peserta_sessions', function (Blueprint $table) {
+        Schema::create('tpk_answers', function (Blueprint $table) {
             $table->id();
-            $table->float('score');
-            $table->enum('status', ['in_progress', 'completed'])->default('in_progress');
-            $table->timestamp('completed_at')->nullable();
-            $table->foreignId('cbt_session_id')->constrained('cbt_sessions')->cascadeOnDelete();
             $table->foreignId('peserta_id')->constrained('pesertas')->cascadeOnDelete();
+            $table->foreignId('cbt_session_id')->constrained('cbt_sessions')->cascadeOnDelete();
+            $table->foreignId('tpk_question_id')->constrained('tpk_questions')->cascadeOnDelete();
+            $table->enum('answer', ['a', 'b', 'c', 'd']);
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('peserta_sessions');
+        Schema::dropIfExists('tpk_answers');
     }
 };

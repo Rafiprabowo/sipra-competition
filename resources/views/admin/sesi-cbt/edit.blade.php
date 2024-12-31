@@ -40,7 +40,7 @@
                     <div class="form-group">
                         <label for="waktu_mulai">Waktu Mulai</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" id="waktu_mulai" name="waktu_mulai" value="{{ $session->waktu_mulai }}" required>
+                            <input type="text" class="form-control timepicker" id="waktu_mulai" name="waktu_mulai" value="{{ \Carbon\Carbon::parse($session->waktu_mulai)->format('H:i') }}" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-clock"></i></span>
                             </div>
@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <label for="waktu_selesai">Waktu Selesai</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" id="waktu_selesai" name="waktu_selesai" value="{{ $session->waktu_selesai }}" required>
+                            <input type="text" class="form-control timepicker" id="waktu_selesai" name="waktu_selesai" value="{{ \Carbon\Carbon::parse($session->waktu_selesai)->format('H:i') }}" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-clock"></i></span>
                             </div>
@@ -61,12 +61,24 @@
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" name="status" id="status" required>
+                            <option value="{{ \App\Enums\StatusSesiCbt::Draft->value }}" @if($session->status == \App\Enums\StatusSesiCbt::Draft->value) selected @endif>Ditutup</option>
+                            <option value="{{ \App\Enums\StatusSesiCbt::Active->value }}" @if($session->status == \App\Enums\StatusSesiCbt::Active->value) selected @endif>Dibuka</option>
+                            <option value="{{ \App\Enums\StatusSesiCbt::Completed->value }}" @if($session->status == \App\Enums\StatusSesiCbt::Completed->value) selected @endif>Selesai</option>
+                        </select>
+                        @error('status')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <div class="d-flex ">
                         <a href="{{ route('sesi-cbt.index') }}" class="btn btn-secondary mr-2">
-                            <i class="fas fa-arrow-left"></i>
+                            <i class="fas fa-arrow-left"></i> Kembali
                         </a>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-sync-alt"></i>
+                            <i class="fas fa-sync-alt"></i> Update
                         </button>
                     </div>
                 </form>
@@ -87,11 +99,12 @@
  <script>
     $(document).ready(function(){
         $('#waktu_mulai').pickatime({
-            format: 'HH:i'
+            format: 'H:i'
         });
         $('#waktu_selesai').pickatime({
-            format: 'HH:i'
+            format: 'H:i'
         });
     });
- </script>
+</script>
+
 @endsection

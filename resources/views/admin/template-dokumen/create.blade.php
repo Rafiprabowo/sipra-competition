@@ -13,21 +13,33 @@
                     @csrf
                     <div class="form-group">
                         <label for="nama">Nama Dokumen</label>
-                        <input type="text" class="form-control" id="nama" name="nama"
-                               placeholder="Masukkan nama dokumen" style="font-size: 11px;">
+                        <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama"
+                               placeholder="Masukkan nama dokumen" style="font-size: 11px;" value="{{ old('nama') }}">
+                        @error('nama')
+                            <div class="invalid-feedback" style="font-size: 11px;">{{ $message }}</div>
+                        @enderror
                     </div>
+                    
                     <div class="form-group">
                         <label for="tipe">Tipe Dokumen</label>
-                        <input type="text" class="form-control" id="tipe" name="tipe"
-                               placeholder="Masukkan tipe dokumen" style="font-size: 11px;">
+                        <input type="text" class="form-control @error('tipe') is-invalid @enderror" id="tipe" name="tipe"
+                               placeholder="Masukkan tipe dokumen" style="font-size: 11px;" value="{{ old('tipe') }}">
+                        @error('tipe')
+                            <div class="invalid-feedback" style="font-size: 11px;">{{ $message }}</div>
+                        @enderror
                     </div>
+                    
                     <div class="form-group">
                         <label for="template">Template Dokumen</label>
-                        <input type="file" class="form-control-file" id="template" name="template"
+                        <input type="file" class="form-control-file @error('template') is-invalid @enderror" id="template" name="template"
                                accept=".docx, .pdf, .jpg, .jpeg, .png" style="font-size: 11px;">
+                        @error('template')
+                            <div class="invalid-feedback d-block" style="font-size: 11px;">{{ $message }}</div>
+                        @enderror
                         <small class="form-text text-muted">Unggah template dokumen dalam format
                             .pdf, atau .jpg, .jpeg, .png</small>
                     </div>
+                    
                     <div class="d-flex justify-content-start mt-3">
                         <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Simpan">
                             <i class="fas fa-save"></i>

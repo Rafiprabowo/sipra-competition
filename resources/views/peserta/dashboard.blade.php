@@ -175,7 +175,7 @@
             </div>
             <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
-                    <a href="{{route('peserta.tes-pengetahuan-kepramukaan')}}" class="text-center text-lg text-decoration-none" >
+                    <a href="{{route('peserta.sesi-tpk.index')}}" class="text-center text-lg text-decoration-none" >
                         <img src="{{asset('img/egov.jpg')}}" alt="Tes Pengetahuan Kepramukaan" class="card-img-top img-fluid p-3">
                         <span class="card-title" style="font-size: 11px;">Tes Pengetahuan Kepramukaan</span>
                     </a>
