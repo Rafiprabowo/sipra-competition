@@ -22,8 +22,8 @@ class Peserta extends Model
         return $this->hasOne(PenilaianKarikatur::class);
     }
 
-    public function penilaian_pioneering(){
-        return $this->hasOne(PenilaianPioneering::class);
+    public function penilaian_pionering(){
+        return $this->hasOne(PenilaianPionering::class);
     }
 
     public function regu_pembina(){

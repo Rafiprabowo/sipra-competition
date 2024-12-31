@@ -27,9 +27,8 @@
                                 <th>No</th>
                                 <th>NISN</th>
                                 <th>Nama</th>
-                                <th>Pangkalan</th>
-                                <th>Regu</th>
                                 <th>Nama Juri</th>
+                                <th>Total Nilai</th>
                                 <th>Aksi</th>
                             </tr>
                             </thead>
@@ -39,10 +38,26 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $peserta->nisn }}</td>
                                     <td>{{ $peserta->nama }}</td>
-                                    <td>{{ $peserta->regu_pembina->pembina->pangkalan }}</td>
-                                    <td>{{ $peserta->regu_pembina->nama_regu }}</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ Auth::user()->juri->nama }}</td>
+                                    <td>{{ $peserta->penilaian_karikatur->total_nilai }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-info btn-sm" title="Lihat">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <!-- Tombol Edit -->
+                                        <a href="{{ route('penilaian-karikatur.edit', $peserta->penilaianKarikatur->id ?? 0) }}" class="btn btn-warning btn-sm mx-2" title="Ubah">
+                                            <i class="fas fa-edit"></i>
+                                        </a>                                        
+                                    
+                                        <!-- Form Hapus -->
+                                        <form action="{{ route('penilaian-karikatur.destroy', $peserta->penilaian_karikatur->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus penilaian ini?')" title="Hapus">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>                                  
                                 </tr>
                             @endforeach
                             </tbody>

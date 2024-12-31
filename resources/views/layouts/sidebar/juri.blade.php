@@ -45,20 +45,48 @@
             <span style="font-size: 11px;">Penilaian Lomba</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div class="bg-white pt-2 collapse-inner rounded">
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded" style="font-size: 11px;">
-                        @php 
-                            $user = auth()->user(); $mataLombaUser = $user && $user->juri && $user->juri->mata_lomba ? $user->juri->mata_lomba->nama : null; 
+                    @php 
+                            $user = auth()->user(); 
+                            $mataLombaUser = $user && $user->juri && $user->juri->mata_lomba ? $user->juri->mata_lomba->nama : null; 
                         @endphp
-                
-                        <a class="collapse-item {{ $mataLombaUser != 'PIONERING' ? 'disabled' : '' }}" href="buttons.html">PIONERING</a>
-                        <a class="collapse-item {{ $mataLombaUser != 'KARIKATUR' ? 'disabled' : '' }}" href="{{route('penilaian-karikatur.index')}}">KARIKATUR</a>
-                        <a class="collapse-item {{ $mataLombaUser != 'DUTA LOGIKA' ? 'disabled' : '' }}" href="cards.html">DUTA LOGIKA</a>
-                        <a class="collapse-item {{ $mataLombaUser != 'LKFBB' ? 'disabled' : '' }}" href="cards.html">LKFBB</a>
-                        <a class="collapse-item {{ $mataLombaUser != 'FOTO' ? 'disabled' : '' }}" href="cards.html">FOTO</a>
-                        <a class="collapse-item {{ $mataLombaUser != 'VIDEO' ? 'disabled' : '' }}" href="cards.html">VIDEO</a>
-                    </div>
+
+                        @if ($mataLombaUser == 'KARIKATUR')
+                            <div class="bg-white pt-2 collapse-inner rounded" style="font-size: 11px;">
+                                <a class="collapse-item" href="{{route('penilaian-karikatur.index')}}">KARIKATUR</a>
+                            </div>
+                        @endif
+
+                        @if ($mataLombaUser == 'PIONERING')
+                            <div class="bg-white pt-2 collapse-inner rounded" style="font-size: 11px;">
+                                <a class="collapse-item" href="buttons.html">PIONERING</a>
+                            </div>
+                        @endif
+
+                        @if ($mataLombaUser == 'DUTA LOGIKA')
+                            <div class="bg-white pt-2 collapse-inner rounded" style="font-size: 11px;">
+                                <a class="collapse-item" href="cards.html">DUTA LOGIKA</a>
+                            </div>
+                        @endif
+
+                        @if ($mataLombaUser == 'LKFBB')
+                            <div class="bg-white pt-2 collapse-inner rounded" style="font-size: 11px;">
+                                <a class="collapse-item" href="cards.html">LKFBB</a>
+                            </div>
+                        @endif
+
+                        @if ($mataLombaUser == 'FOTO')
+                            <div class="bg-white pt-2 collapse-inner rounded" style="font-size: 11px;">
+                                <a class="collapse-item" href="cards.html">FOTO</a>
+                            </div>
+                        @endif
+
+                        @if ($mataLombaUser == 'VIDEO')
+                            <div class="bg-white pt-2 collapse-inner rounded" style="font-size: 11px;">
+                                <a class="collapse-item" href="cards.html">VIDEO</a>
+                            </div>
+                        @endif
                 </div>                
             </div>
         </div>        
