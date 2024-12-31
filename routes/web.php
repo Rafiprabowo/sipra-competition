@@ -83,7 +83,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/{id}/soal-tpk/import',\App\Http\Controllers\Admin\ImportSoalTpkController::class)->name('soal-tpk.import');
         Route::get('/{session_id}/soal/{id}/edit', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'edit'])->name('sesi-soal.edit');
         Route::put('/{session_id}/soal/{id}/update', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'update'])->name('sesi-soal.update');
-       
+        Route::delete('/{session_id}/soal/{id}/delete', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'destroy'])->name('sesi-soal.delete');
+        Route::delete('/{session_id}/soal/delete-all', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'destroyAll'])->name('sesi-soal.delete-all');
         });
 
     Route::prefix('bobot-soal')->group(function () {

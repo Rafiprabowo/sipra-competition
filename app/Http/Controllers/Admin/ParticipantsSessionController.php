@@ -12,9 +12,14 @@ class ParticipantsSessionController extends Controller
 {
     public function index($id)
     {
-        $session = CbtSession::with('peserta')->find($id);
-        return view('admin.sesi-peserta.index', compact('session'));
+        $session = CbtSession::find($id);
+        $participants = PesertaSession::with('peserta.regu_pembina.pembina')
+                                        ->where('cbt_session_id', $id)
+                                        ->get();
+    
+        return view('admin.sesi-peserta.index', compact('session', 'participants'));
     }
+    
 
     public function create($id){
         $session = CbtSession::find($id);

@@ -50,7 +50,7 @@ class AttemptTokenController extends Controller
          PesertaSession::create([
              'peserta_id' => $peserta->id,
              'cbt_session_id' => $session->id,
-             'nilai' => 0, // Default value for 'nilai'
+             'score' => 0, // Default value for 'nilai'
              'status' => 'in_progress',
          ]);
      

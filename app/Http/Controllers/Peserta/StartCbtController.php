@@ -20,7 +20,7 @@ class StartCbtController extends Controller
         if($session->mataLomba->nama == \App\Enums\MataLomba::TPK->value){
             $tpk_question = $session->tpk_questions()->skip($question_number - 1)->first();
             if(!$tpk_question){
-                return redirect()->route('peserta.sesi-tpk.index')->with('error', 'Tidak ada pertanyaan lagi');
+                return redirect()->route('peserta.sesi-tpk.index')->with('error', 'Tidak ada pertanyaan');
             } 
 
             // Get the authenticated participant

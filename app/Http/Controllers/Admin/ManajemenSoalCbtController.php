@@ -12,31 +12,27 @@ use Illuminate\Support\Facades\Storage;
 class ManajemenSoalCbtController extends Controller
 {
     public function index(Request $request, $id){
-        $namaMataLomba =  $request->query('nama');
         $session = CbtSession::findOrFail($id);
 
-        if($namaMataLomba == \App\Enums\MataLomba::TPK->value){
+        if($session->mataLomba->nama == \App\Enums\MataLomba::TPK->value){
             return view('admin.soal-tpk.index', compact('session'));
         }else{
             return redirect()->route('sesi-soal.index', ['session_id' => $session, 'nama' => $session->mataLomba->nama])->with('error', 'Kategori lomba tidak valid.');
         }
     }
     public function create(Request $request, $id){
-        $namaMataLomba = $request->query('nama');
         $session = CbtSession::findOrFail($id);
 
-        if($namaMataLomba == \App\Enums\MataLomba::TPK->value){
+        if($session->mataLomba->nama == \App\Enums\MataLomba::TPK->value){
             return view('admin.soal-tpk.create', compact('session'));
         }else{
             return redirect()->route('sesi-soal.index', ['session_id' => $session, 'nama' => $session->mataLomba->nama])->with('error', 'Kategori lomba tidak valid.');
         }
     }
     public function edit(Request $request, $session_id, $id){
-        $namaMataLomba = $request->query('nama');
         $session = CbtSession::find($session_id);
         
-
-        if($namaMataLomba == \App\Enums\MataLomba::TPK->value){
+        if($session->mataLomba->nama == \App\Enums\MataLomba::TPK->value){
             $tpk_question = TpkQuestion::find($id);
             return view('admin.soal-tpk.edit', compact('session', 'tpk_question'));
         }
@@ -45,10 +41,9 @@ class ManajemenSoalCbtController extends Controller
 
     public function update(Request $request, $session_id, $id)
     {
-        $namaMataLomba = $request->query('nama');
         $session = CbtSession::findOrFail($session_id);
     
-        if ($namaMataLomba == \App\Enums\MataLomba::TPK->value) {
+        if ($session->mataLomba->nama == \App\Enums\MataLomba::TPK->value) {
             $tpk_question = TpkQuestion::findOrFail($id);
     
             $validated = $request->validate([
@@ -81,6 +76,29 @@ class ManajemenSoalCbtController extends Controller
     
         return redirect()->route('sesi-soal.index', ['session_id' => $session_id, 'nama' => $session->mataLomba->nama])->with('error', 'Kategori lomba tidak valid.');
     }
+
+    public function destroy(Request $request, $session_id, $id)
+    {
+        $session = CbtSession::findOrFail($session_id);
+
+        if ($session->mataLomba->nama == \App\Enums\MataLomba::TPK->value) {
+            TpkQuestion::destroy($id);
+            return redirect()->route('sesi-soal.index', ['id' => $session->id, 'nama' => $session->mataLomba->nama])
+                ->with('success', 'Soal berhasil dihapus!');
+        }
+    }
+
+    public function destroyAll($session_id)
+    {
+        $session = CbtSession::findOrFail($session_id);
+
+        if ($session->mataLomba->nama == \App\Enums\MataLomba::TPK->value) {
+            TpkQuestion::where('cbt_session_id', $session_id)->delete();
+            return redirect()->route('sesi-soal.index', ['id' => $session->id, 'nama' => $session->mataLomba->nama])
+                ->with('success', 'Semua soal berhasil dihapus!');
+        }
+    }
+
     
 
 

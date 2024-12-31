@@ -70,7 +70,7 @@
                                             <a href="{{ route('sesi-cbt.edit', $session->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit Sesi">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a href="{{ route('sesi-soal.index', ['id' => $session->id, 'nama' => $session->mataLomba->nama]) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Lihat Soal">
+                                            <a href="{{ route('sesi-soal.index', ['id' => $session->id]) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Lihat Soal">
                                                 <i class="fas fa-question-circle"></i>
                                             </a>
                                             <form action="{{ route('sesi-cbt.destroy', $session->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus sesi ini?');">

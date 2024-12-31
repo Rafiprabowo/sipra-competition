@@ -13,7 +13,6 @@
             </ol>
         </nav>
         
-        
         @if (session('success'))
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
@@ -22,16 +21,16 @@
         @endif
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h5>Soal {{$session->nama}} Computer Based Test </h5>
+                <h5>Soal {{$session->nama}} Computer Based Test</h5>
                 <div class="d-flex">
                     <!-- Tombol Import Excel -->
                     <button class="btn btn-success mr-2" data-toggle="modal" data-target="#importModal">
                         <i class="fas fa-file-excel"></i> Import Excel
                     </button>
-                    <!-- Tambah Soal -->
-                    {{-- <a href="{{ route('sesi-soal.create', ['id' => $session->id, 'nama' => $session->mataLomba->nama]) }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Tambah Soal
-                    </a> --}}
+                    <!-- Tombol Hapus Semua Soal -->
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteAllModal">
+                        <i class="fas fa-trash-alt"></i> Hapus Semua Soal
+                    </button>
                 </div>
             </div>
             <div class="card-body">
@@ -61,7 +60,6 @@
                                         @else
                                             -
                                         @endif
-
                                     </td>
                                     <td>{{$question->question_text}}</td>
                                     <td>{{$question->answer_a}}</td>
@@ -76,16 +74,14 @@
                                             Sulit                            
                                         @endif
                                     </td>
-                                    
                                     <td class="d-flex flex-column align-items-center">
-                                        <a href="{{route('sesi-soal.edit', ['session_id' => $session->id, 'id' => $question->id, 'nama' => $session->mataLomba->nama])}}" class="btn btn-warning btn-sm mb-2" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <a href="{{route('sesi-soal.edit', ['session_id' => $session->id, 'id' => $question->id])}}" class="btn btn-warning btn-sm mb-2" data-toggle="tooltip" data-placement="top" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{$question->id}}" title="Delete">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </td>
-                                    
                                 </tr>
                             @endforeach
                         </tbody>
@@ -127,7 +123,7 @@
         <div class="modal fade" id="deleteModal{{$question->id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{$question->id}}" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form action="" method="POST">
+                    <form action="{{route('sesi-soal.delete', ['session_id' => $session->id, 'id' => $question->id])}}" method="POST">
                         @csrf
                         @method('DELETE')
                         <div class="modal-header">
@@ -148,16 +144,31 @@
             </div>
         </div>
     @endforeach
-@endsection
-@section('script')
-    <script>
-        $(function(){
-            $('#dataTable').DataTable({
-                scrollX: true, // Aktifkan scroll horizontal
-                autoWidth: false // Nonaktifkan pengaturan otomatis lebar kolom
-            });
 
-            $('[data-toggle="tooltip"]').tooltip(); // Initialize tooltips
-        });
-    </script>
+    <!-- Modal Hapus Semua Soal -->
+    <div class="modal fade" id="deleteAllModal" tabindex="-1" role="dialog" aria-labelledby="deleteAllModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('sesi-soal.delete-all', ['session_id' => $session->id]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteAllModalLabel">Konfirmasi Hapus Semua Soal</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin menghapus semua soal untuk sesi ini?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Hapus Semua</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
+
+                        

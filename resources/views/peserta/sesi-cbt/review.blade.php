@@ -15,44 +15,6 @@
                 <p><strong>Waktu Mulai:</strong> {{ $session->waktu_mulai }}</p>
                 <p><strong>Waktu Selesai:</strong> {{ $session->waktu_selesai }}</p>
                 <hr>
-
-                <h6>Hasil Tes</h6>
-                <p><strong>Skor:</strong> {{ $score }}</p>
-                <hr>
-
-                <h6>Ulasan Jawaban</h6>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Pertanyaan</th>
-                                <th>Jawaban Anda</th>
-                                <th>Jawaban Benar</th>
-                                <th>Hasil</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($answers as $index => $answer)
-                                <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ $answer->question_text }}</td>
-                                    <td>{{ $answer->user_answer }}</td>
-                                    <td>{{ $answer->correct_answer }}</td>
-                                    <td>
-                                        @if($answer->user_answer == $answer->correct_answer)
-                                            <span class="text-success">Benar</span>
-                                        @else
-                                            <span class="text-danger">Salah</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <hr>
-
                 <h6>Feedback</h6>
                 <p>Terima kasih telah mengikuti tes ini. Berdasarkan hasil yang Anda peroleh, berikut beberapa saran untuk meningkatkan performa Anda:</p>
                 <ul>

@@ -42,7 +42,7 @@ class EndCbtController extends Controller
                       ]);
 
         // Redirect to a completion or summary page with the score
-        return redirect()->route('peserta.review', ['session_id' => $session_id])->with('success', 'Tes berhasil diakhiri. Terima kasih telah mengikuti!')->with('score', $score);
+        return redirect()->route('review.cbt', ['session_id' => $session_id])->with('success', 'Tes berhasil diakhiri. Terima kasih telah mengikuti!')->with('score', $score);
 
     }
    

@@ -16,7 +16,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Form Pertanyaan</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('sesi-soal.update', ['id' => $tpk_question->id, 'session_id' => $session->id, 'nama' => $session->mataLomba->nama]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('sesi-soal.update', ['id' => $tpk_question->id, 'session_id' => $session->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
