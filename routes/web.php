@@ -156,7 +156,18 @@ Route::prefix('juri')->group(function () {
     Route::delete('/penilaian-karikatur/{id}', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'destroy'])->name('penilaian-karikatur.destroy')->middleware(['role:juri']);
 
     Route::resource('/penilaian-pionering', \App\Http\Controllers\Juri\PenilaianPioneringController::class)->middleware(['role:juri']);
+    Route::get('/penilaian-pionering/create', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'createForm'])->name('penilaian-pionering.create')->middleware(['role:juri']);
+    Route::post('/penilaian-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'store'])->name('penilaian-pionering.store')->middleware(['role:juri']);
+    Route::get('/penilaian-pionering/{id}', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'edit'])->name('penilaian-pionering.edit')->middleware(['role:juri']);
+    Route::put('/penilaian-pionering/{id}', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'update'])->name('penilaian-pionering.update')->middleware(['role:juri']);
+    Route::delete('/penilaian-pionering/{id}', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'destroy'])->name('penilaian-pionering.destroy')->middleware(['role:juri']);
     Route::match(['get', 'post'], '/juri', [\App\Http\Controllers\Juri\ProfilJuriController::class, 'createOrUpdate'])->name('juri.profil_juri')->middleware(['role:juri']);
+    
+    Route::post('/filter-mata-lomba', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterMataLomba'])->name('mata-lomba.filter')->middleware(['role:juri']);
+    Route::post('/filter-nama-regu', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterNamaRegu'])->name('nama-regu.filter')->middleware(['role:juri']);
+    Route::post('/filter-peserta', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterPeserta'])->name('peserta.filter')->middleware(['role:juri']);
+    Route::post('/filter-kriteria', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterKriteria'])->name('kriteria.filter')->middleware(['role:juri']);
+
     Route::post('/filter-mata-lomba', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterMataLomba'])->name('mata-lomba.filter')->middleware(['role:juri']);
     Route::post('/filter-nama-regu', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterNamaRegu'])->name('nama-regu.filter')->middleware(['role:juri']);
     Route::post('/filter-peserta', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterPeserta'])->name('peserta.filter')->middleware(['role:juri']);

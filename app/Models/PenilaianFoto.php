@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PenilaianDutaLogika extends Model
+class PenilaianFoto extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    public function peserta()
+    public function pembina()
     {
-        $this->belongsTo(Peserta::class);
+        $this->belongsTo(Pembina::class);
     }
     public function juri(){
         $this->belongsTo(Juri::class);
