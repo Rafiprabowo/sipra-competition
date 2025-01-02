@@ -32,10 +32,7 @@ class StartCbtController extends Controller
                         ->where('tpk_question_id', $tpk_question->id)
                         ->value('answer');
 
-                        // Get total number of questions $total_questions = $session->tpk_questions()->count
-            $total_questions = $session->tpk_questions->count(); 
-
-            return view('peserta.sesi-cbt.tpk.exam', compact('session', 'tpk_question', 'question_number', 'answer', 'total_questions'));
+            return view('peserta.sesi-cbt.tpk.exam', compact('session', 'tpk_question', 'question_number', 'answer'));
         }
     }
 }

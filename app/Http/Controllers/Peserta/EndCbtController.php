@@ -38,7 +38,7 @@ class EndCbtController extends Controller
                       ->update([
                           'status' => 'completed',
                           'completed_at' => now(),
-                          'score' => $score
+                          'score' => $score * 2
                       ]);
 
         // Redirect to a completion or summary page with the score
