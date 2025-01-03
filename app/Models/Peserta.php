@@ -26,6 +26,14 @@ class Peserta extends Model
         return $this->hasOne(PenilaianPionering::class);
     }
 
+    public function penilaian_duta_logika(){
+        return $this->hasOne(PenilaianDutaLogika::class);
+    }
+
+    public function penilaian_lkfbb(){
+        return $this->hasOne(PenilaianLkfbb::class);
+    }
+
     public function regu_pembina(){
         return $this->belongsTo(ReguPembina::class, 'regu_pembina_id');
     }

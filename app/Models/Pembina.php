@@ -36,4 +36,12 @@ class Pembina extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function penilaian_foto(){
+        return $this->hasOne(PenilaianFoto::class);
+    }
+
+    public function penilaian_vidio(){
+        return $this->hasOne(PenilaianVidio::class);
+    }
 }
