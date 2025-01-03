@@ -9,9 +9,14 @@ class ReguPembina extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    public function pembina(){
-        return $this->belongsTo(Pembina::class);
-    }
+    
+
+    // ReguPembina.php
+public function pembina()
+{
+    return $this->belongsTo(Pembina::class, 'pembina_id', 'id');
+}
+
 
     public function peserta(){
         return $this->hasMany(Peserta::class);

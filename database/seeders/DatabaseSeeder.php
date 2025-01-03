@@ -2,20 +2,12 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Admin;
-use App\Models\Exam;
-use App\Models\Juri;
-use App\Models\MataLomba;
-use App\Models\Pembina;
+use App\Models\CbtSession;
 use App\Models\Peserta;
-use App\Models\Pionering;
+use App\Models\PesertaSession;
+use App\Models\Pembina;
 use App\Models\ReguPembina;
-use App\Models\TpkAnswer;
-use App\Models\TpkQuestion;
 use App\Models\User;
-use Database\Factories\PembinaFactory;
-use GuzzleHttp\Promise\Create;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,46 +18,54 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Membuat User Admin
         $user_admin = \App\Models\User::create([
              'username' => 'admin',
              'password' => Hash::make('admin123'),
              'role' => 'admin'
          ]);
 
-        $user_peserta = \App\Models\User::create([
-            'username' => 'peserta',
-            'password' => Hash::make('peserta123'),
-            'role' => 'peserta'
-        ]);
-        
-        $user_juri  = \App\Models\User::create([
-            'username' => 'juri',
-            'password' => Hash::make('juri123'),
-            'role' => 'juri'
-        ]);
+        // Membuat User Pembina dengan Regu dan Peserta terkait
+        User::factory()
+        ->state(['role' => 'pembina'])
+        ->has(
+            Pembina::factory()
+                ->has(
+                    ReguPembina::factory()
+                        ->count(1)
+                        ->withKategoriPA() // Kategori PA
+                        ->has(Peserta::factory()->putra()->count(1)) // Regu PA memiliki 1 peserta putra
+                )
+                ->has(
+                    ReguPembina::factory()
+                        ->count(1)
+                        ->withKategoriPI() // Kategori PI
+                        ->has(Peserta::factory()->putri()->count(1)) // Regu PI memiliki 1 peserta putri
+                )
+        )
+        ->count(5) // Buat 5 user dengan role pembina
+        ->afterCreating(function (User $user) {
+            dump($user->toArray()); // Debug statement
+        })
+        ->create();
+    
+        // Buat beberapa sesi CBT
+        $cbtSessions = CbtSession::factory()->count(3)->create();
 
-        $tpk = MataLomba::create([
-            'nama' => \App\Enums\MataLomba::TPK->value,
-            'deskripsi' => \App\Enums\MataLomba::TPK->value,
-            'ditujukan' => '0',
-            'jumlah_peserta' => 1,
-            'kategori' => 'cbt',
-        ]);
-        
-        $sms = MataLomba::create([
-            'nama' => \App\Enums\MataLomba::SMS->value,
-            'deskripsi' => \App\Enums\MataLomba::SMS->value,
-            'ditujukan' => '0',
-            'jumlah_peserta' => 1,
-            'kategori' => 'cbt',
-        ]);
+        // Ambil semua peserta yang dibuat sebelumnya
+        $pesertas = Peserta::all();
 
-        $user = User::factory()
-    ->state(['role' => 'pembina'])
-    ->has(
-        Pembina::factory()
-    )
-    ->create();
+        // Hubungkan peserta dengan sesi CBT melalui tabel pivot peserta_sessions
+        $cbtSessions->each(function ($cbtSession) use ($pesertas) {
+            // Pilih beberapa peserta secara acak untuk setiap sesi
+            $selectedPesertas = $pesertas->random(rand(5, 10)); // Ambil 5-10 peserta secara acak
 
-         }
+            foreach ($selectedPesertas as $peserta) {
+                PesertaSession::factory()->create([
+                    'cbt_session_id' => $cbtSession->id,
+                    'peserta_id' => $peserta->id,
+                ]);
+            }
+        });
+    }
 }

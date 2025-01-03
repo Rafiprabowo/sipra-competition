@@ -19,16 +19,12 @@ class ReviewCbtController extends Controller
         $session = CbtSession::findOrFail($session_id);
         $peserta = Auth::user()->peserta;
 
-        // Get all answers for the participant in this session
-        $answers = TpkAnswer::where('peserta_id', $peserta->id)
-                            ->where('cbt_session_id', $session_id)
-                            ->get();
-
         // Get the score from PesertaSession
-        $score = PesertaSession::where('peserta_id', $peserta->id)
+        $completed_at = PesertaSession::where('peserta_id', $peserta->id)
                               ->where('cbt_session_id', $session_id)
-                              ->value('score');
+                              ->value('completed_at');
 
-        return view('peserta.sesi-cbt.review', compact('session', 'answers', 'score'));
+
+        return view('peserta.sesi-cbt.review', compact('session', 'completed_at'));
     }
 }

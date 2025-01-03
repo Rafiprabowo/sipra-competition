@@ -15,6 +15,10 @@ class PesertaSession extends Model
         return $this->belongsTo(Peserta::class, 'peserta_id');
     }
 
+    public function cbtSession(){
+        return $this->belongsTo(CbtSession::class, 'cbt_session_id');
+    }
+
     public function answers(){
         return $this->hasMany(Answer::class, 'peserta_session_id');
     }

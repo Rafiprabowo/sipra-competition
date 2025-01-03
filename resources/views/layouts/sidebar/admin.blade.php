@@ -78,7 +78,7 @@
                         <a class="collapse-item" href="cards.html">LKFBB</a>
                         <a class="collapse-item" href="cards.html">FOTO</a>
                         <a class="collapse-item" href="cards.html">VIDIO</a>
-                        <a class="collapse-item" href="cards.html">TPK</a>
+                        <a class="collapse-item" href="{{route('hasil-tpk')}}">TPK</a>
                         <a class="collapse-item" href="cards.html">Semaphore & Morse</a>
                     </div>
                 </div>                

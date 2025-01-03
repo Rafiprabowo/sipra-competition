@@ -10,18 +10,10 @@
             </div>
             <div class="card-body">
                 <h6>Ringkasan Tes</h6>
-                <p><strong>Sesi:</strong> {{ $session->nama }}</p>
-                <p><strong>Tanggal:</strong> {{ $session->tanggal }}</p>
-                <p><strong>Waktu Mulai:</strong> {{ $session->waktu_mulai }}</p>
-                <p><strong>Waktu Selesai:</strong> {{ $session->waktu_selesai }}</p>
+                <p><strong>Sesi:</strong> {{ $session->nama }}</p>        
+                <p><strong>Waktu Selesai:</strong> {{$completed_at}}</p>
                 <hr>
-                <h6>Feedback</h6>
-                <p>Terima kasih telah mengikuti tes ini. Berdasarkan hasil yang Anda peroleh, berikut beberapa saran untuk meningkatkan performa Anda:</p>
-                <ul>
-                    <li>Perhatikan konsep yang belum dipahami dengan benar.</li>
-                    <li>Latih kemampuan mengerjakan soal serupa secara berkala.</li>
-                    <li>Baca ulang materi yang berkaitan dengan pertanyaan yang dijawab salah.</li>
-                </ul>
+                <p>Terima kasih telah mengikuti tes ini.</p>
                 <hr>
 
                 <h6>Langkah Selanjutnya</h6>

@@ -13,7 +13,13 @@ class Pembina extends Model
 
     public function regu()
     {
-        return $this->hasMany(ReguPembina::class);
+        return $this->hasMany(ReguPembina::class, 'pembina_id');
+    }
+
+    // Relasi dengan ReguPembina (dengan nama reguPembina) jika ingin tetap menggunakan nama tersebut di tempat lain
+    public function reguPembina()
+    {
+        return $this->hasMany(ReguPembina::class, 'pembina_id');
     }
 
     public function upload_dokumen()

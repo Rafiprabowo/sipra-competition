@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\JuriController;
 use App\Http\Controllers\Admin\PertanyaanTpkController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\HasilLombaTpkController;
 use App\Http\Controllers\Pembina\RegistrasiController;
 use App\Models\Finalisasi;
 use App\Models\Peserta;
@@ -113,6 +114,10 @@ Route::prefix('admin')->group(function () {
     Route::prefix('juri')->group(function () {
         Route::resource('/juri', JuriController::class)->middleware(['role:admin']);
        });
+
+
+    Route::get('/hasil-lomba-tpk', HasilLombaTpkController::class)->name('hasil-tpk');
+
 })->middleware(['role:admin']);
 //Peserta
 Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {

@@ -24,15 +24,11 @@ class ReguPembinaFactory extends Factory
         ];
     }
 
-    public function kategoriPA(){
-        return $this->state([
-            'kategori' => 'PA'
-        ]);
+    public function withKategoriPa(){
+        return $this->state(fn() => ['kategori' => 'PA']);
     }
 
-    public function kategoriPI(){
-        return $this->state([
-            'kategori' => 'PI'
-        ]);
+    public function withKategoriPi(){
+        return $this->state(fn() => ['kategori' => 'PI']);
     }
 }

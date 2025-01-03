@@ -27,7 +27,7 @@ class Peserta extends Model
     }
 
     public function regu_pembina(){
-        return $this->belongsTo(ReguPembina::class);
+        return $this->belongsTo(ReguPembina::class, 'regu_pembina_id');
     }
 
     public function upload_lomba(){
@@ -37,7 +37,7 @@ class Peserta extends Model
     public function cbtSessions()
     {
         return $this->belongsToMany(CbtSession::class, 'peserta_sessions')
-                    ->withPivot('nilai', 'status', 'completed_at')
+                    ->withPivot('score', 'status', 'completed_at')
                     ->withTimestamps();
     }
 
