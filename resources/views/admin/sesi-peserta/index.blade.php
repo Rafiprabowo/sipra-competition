@@ -27,7 +27,6 @@
                                 <th>Pangkalan</th>
                                 <th>Regu</th>
                                 <th>Jenis Kelamin</th>
-                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,21 +37,7 @@
                                     <td>{{ $participant->peserta->regu_pembina->pembina->nama }}</td>
                                     <td>{{ $participant->peserta->regu_pembina->nama_regu }}</td>
                                     <td>{{ $participant->peserta->jenis_kelamin }}</td>
-                                    <td>
-                                        <a href="{{ route('sesi-peserta.index', $session->id) }}" class="btn btn-info btn-sm" style="font-size: 11px;" title="Peserta">
-                                            <i class="fas fa-users"></i>
-                                        </a>
-                                        <a href="{{ route('sesi-cbt.edit', $session->id) }}" class="btn btn-warning btn-sm" style="font-size: 11px;" title="Ubah">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="{{ route('sesi-cbt.destroy', $session->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus sesi ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" style="font-size: 11px;" title="Hapus">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
-                                    </td>
+                                    
                                 </tr>
                             @endforeach
                         </tbody>
