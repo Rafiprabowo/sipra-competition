@@ -103,5 +103,69 @@
             </tbody>
         </table>
     @endif
+
+    @if(isset($tab) && ($tab == 'penilaian_foto'))
+        @if($mata_lomba->nama == 'FOTO')
+            <h3 style="text-align: center;">Hasil Lomba Foto LOGIKA 2025</h3>
+        @endif
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Nama Regu</th>
+                    <th>Pangkalan</th>
+                    <th>Nilai Akhir</th>
+                    <th>Rangking</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if($mata_lomba->nama == 'FOTO')
+                @foreach($penilaianFotos as $index => $penilaian_foto)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $penilaian_foto->juri->nama }}</td>
+                        <td>{{ $penilaian_foto->pembina->nama }}</td>
+                        <td>{{ $penilaian_foto->pembina->pangkalan }}</td>
+                        <td>{{ $penilaian_foto->total_nilai }}</td>
+                        <td>{{ $penilaian_foto->rangking }}</td>
+                    </tr>
+                @endforeach
+                @endif
+            </tbody>
+        </table>
+    @endif
+
+    @if(isset($tab) && ($tab == 'penilaian_vidio'))
+        @if($mata_lomba->nama == 'VIDIO')
+            <h3 style="text-align: center;">Hasil Lomba Vidio LOGIKA 2025</h3>
+        @endif
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Nama Regu</th>
+                    <th>Pangkalan</th>
+                    <th>Nilai Akhir</th>
+                    <th>Rangking</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if($mata_lomba->nama == 'VIDIO')
+                @foreach($penilaianVidios as $index => $penilaian_vidio)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $penilaian_vidio->juri->nama }}</td>
+                        <td>{{ $penilaian_vidio->pembina->nama }}</td>
+                        <td>{{ $penilaian_vidio->pembina->pangkalan }}</td>
+                        <td>{{ $penilaian_vidio->total_nilai }}</td>
+                        <td>{{ $penilaian_vidio->rangking }}</td>
+                    </tr>
+                @endforeach
+                @endif
+            </tbody>
+        </table>
+    @endif
 </body>
 </html>

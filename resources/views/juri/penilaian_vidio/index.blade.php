@@ -18,7 +18,7 @@
             </div>
 
             <div class="card-body">
-                <!-- Tabel Penilaian Foto -->
+                <!-- Tabel Penilaian Vidio -->
                 <div class="mb-5">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="penilaianVidioTable" width="100%" cellspacing="0">
@@ -28,29 +28,27 @@
                                 <th>Nama Juri</th>
                                 <th>Nama Pembina</th>
                                 <th>Total Nilai</th>
-                                <th>Rangking</th>
                                 <th>Aksi</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($penilaianVidios as $index => $penilaianVidio)
-                                <tr>
+                                <tr class="penilaian-vidio-row" data-id="{{ $penilaianVidio->id }}">
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $penilaianVidio->juri->nama }}</td>
                                     <td>{{ $penilaianVidio->pembina->nama }}</td>
                                     <td>{{ $penilaianVidio->total_nilai }}</td>
-                                    <td>{{ $penilaianVidio->rangking }}</td>
                                     <td>
                                         {{-- <a href="#" class="btn btn-info btn-sm" title="Lihat">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <!-- Tombol Edit -->
-                                        <a href="{{ route('penilaian-foto.edit', $penilaianVidio->id) }}" class="btn btn-warning btn-sm mx-2" title="Ubah">
+                                        <a href="{{ route('penilaian-vidio.edit', $penilaianVidio->id) }}" class="btn btn-warning btn-sm mx-2" title="Ubah">
                                             <i class="fas fa-edit"></i>
                                         </a>                                         --}}
                                     
                                         <!-- Form Hapus -->
-                                        <form action="{{ route('penilaian-foto.destroy', $penilaianVidio->id) }}" method="POST" style="display: inline;">
+                                        <form action="{{ route('penilaian-vidio.destroy', $penilaianVidio->id) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus penilaian ini?')" title="Hapus">

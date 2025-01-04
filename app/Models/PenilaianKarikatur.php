@@ -11,10 +11,10 @@ class PenilaianKarikatur extends Model
     protected $guarded = [];
     public function peserta()
     {
-        $this->belongsTo(Peserta::class);
+        return $this->belongsTo(Peserta::class);
     }
     public function juri(){
-        $this->belongsTo(Juri::class);
+        return $this->belongsTo(Juri::class);
     }
     public function mata_lomba(){
         return $this->belongsTo(MataLomba::class);
