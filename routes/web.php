@@ -49,9 +49,31 @@ Route::prefix('admin')->group(function () {
     Route::put('/finalisasi/{id}/update', [\App\Http\Controllers\Admin\FinalisasiController::class, 'update'])->name('finalisasi.update');
     Route::get('/view-file/{file}', [\App\Http\Controllers\Admin\FinalisasiController::class, 'view'])->name('viewFile');
 
+    Route::post('/upload-template', [\App\Http\Controllers\Admin\HasilNilaiPioneringController::class, 'uploadTemplate'])->name('uploadTemplate');
+    Route::get('/export-pdf', [\App\Http\Controllers\Admin\HasilNilaiPioneringController::class, 'exportPDF'])->name('exportPDF');
+    Route::get('/export-excel', [\App\Http\Controllers\Admin\HasilNilaiPioneringController::class, 'exportExcel'])->name('exportExcel');
+
+    Route::post('/upload-template-karikatur', [\App\Http\Controllers\Admin\HasilNilaiKarikaturController::class, 'uploadTemplateKarikatur'])->name('uploadTemplateKarikatur');
+    Route::get('/export-pdf-karikatur', [\App\Http\Controllers\Admin\HasilNilaiKarikaturController::class, 'exportPDFKarikatur'])->name('exportPDFKarikatur');
+    Route::get('/export-excel-karikatur', [\App\Http\Controllers\Admin\HasilNilaiKarikaturController::class, 'exportExcelKarikatur'])->name('exportExcelKarikatur');
+
+    Route::post('/upload-template-duta-logika', [\App\Http\Controllers\Admin\HasilNilaiDutaLogikaController::class, 'uploadTemplateDutaLogika'])->name('uploadTemplateDutaLogika');
+    Route::get('/export-pdf-duta-logika', [\App\Http\Controllers\Admin\HasilNilaiDutaLogikaController::class, 'exportPDFDutaLogika'])->name('exportPDFDutaLogika');
+    Route::get('/export-excel-duta-logika', [\App\Http\Controllers\Admin\HasilNilaiDutaLogikaController::class, 'exportExcelDutaLogika'])->name('exportExcelDutaLogika');
+
+    Route::post('/upload-template-lkfbb', [\App\Http\Controllers\Admin\HasilNilaiLkfbbController::class, 'uploadTemplateLkfbb'])->name('uploadTemplateLkfbb');
+    Route::get('/export-pdf-lkfbb', [\App\Http\Controllers\Admin\HasilNilaiLkfbbController::class, 'exportPDFLkfbb'])->name('exportPDFLkfbb');
+    Route::get('/export-excel-lkfbb', [\App\Http\Controllers\Admin\HasilNilaiLkfbbController::class, 'exportExcelLkfbb'])->name('exportExcelLkfbb');
+
     // Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class)->middleware(['role:admin']);
     Route::resource('dokumen', \App\Http\Controllers\Admin\TemplateDokumenController::class)->middleware(['role:admin']);
     Route::get('/hasil-nilai/nilai-karikatur', [\App\Http\Controllers\Admin\HasilNilaiKarikaturController::class, 'index'])->name('admin.hasil_nilai.nilai_karikatur');
+    Route::get('/hasil-nilai/nilai-pionering', [\App\Http\Controllers\Admin\HasilNilaiPioneringController::class, 'index'])->name('admin.hasil_nilai.nilai_pionering');
+    Route::get('/hasil-nilai/nilai-lkfbb', [\App\Http\Controllers\Admin\HasilNilaiLkfbbController::class, 'index'])->name('admin.hasil_nilai.nilai_lkfbb');
+    Route::get('/hasil-nilai/nilai-duta-logika', [\App\Http\Controllers\Admin\HasilNilaiDutaLogikaController::class, 'index'])->name('admin.hasil_nilai.nilai_duta_logika');
+    Route::get('/hasil-nilai/nilai-foto', [\App\Http\Controllers\Admin\HasilNilaiFotoController::class, 'index'])->name('admin.hasil_nilai.nilai_foto');
+    Route::get('/hasil-nilai/nilai-vidio', [\App\Http\Controllers\Admin\HasilNilaiVidioController::class, 'index'])->name('admin.hasil_nilai.nilai_vidio');
+
     Route::prefix('peserta')->group(function () {
         Route::get('/data-peserta', [\App\Http\Controllers\Admin\PesertaController::class, 'index'])->name('admin.peserta.index')->middleware(['role:admin']);
         Route::get('/peserta/{id}', [\App\Http\Controllers\Admin\PesertaController::class, 'show'])->name('admin.peserta.show')->middleware(['role:admin']);
@@ -164,7 +186,7 @@ Route::prefix('pembina')->group(function () {
     Route::resource('data-peserta', \App\Http\Controllers\Pembina\PesertaController::class)->middleware(['role:pembina']);
     Route::post('/finalisasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'finalisasi'])->name('finalisasi')->middleware(['role:pembina']);
     Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
-    Route::get('/regu/{jenisKelamin}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getRegu'])->name('getRegu');
+    Route::get('/regu/{jenisKelamin}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getRegu'])->name('getRegu')->middleware(['role:pembina']);
 })->middleware(['role:pembina']);
 //Juri
 Route::prefix('juri')->group(function () {
@@ -175,6 +197,7 @@ Route::prefix('juri')->group(function () {
     Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri')->middleware(['role:juri']);
     Route::get('/edit-profile-juri', [App\Http\Controllers\Juri\EditProfileJuriController::class, 'editProfileJuri'])->name('editProfileJuri')->middleware(['role:juri']);
     Route::put('/update-profile-juri', [App\Http\Controllers\Juri\EditProfileJuriController::class, 'updateProfileJuri'])->name('updateProfileJuri')->middleware(['role:juri']);
+    
     Route::resource('/penilaian-karikatur', \App\Http\Controllers\Juri\PenilaianKarikaturController::class)->middleware(['role:juri']);
     Route::get('/penilaian-karikatur/create', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'createForm'])->name('penilaian-karikatur.create')->middleware(['role:juri']);
     Route::post('/penilaian-karikatur', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'store'])->name('penilaian-karikatur.store')->middleware(['role:juri']);
@@ -190,16 +213,70 @@ Route::prefix('juri')->group(function () {
     Route::delete('/penilaian-pionering/{id}', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'destroy'])->name('penilaian-pionering.destroy')->middleware(['role:juri']);
     Route::match(['get', 'post'], '/juri', [\App\Http\Controllers\Juri\ProfilJuriController::class, 'createOrUpdate'])->name('juri.profil_juri')->middleware(['role:juri']);
     
-    Route::post('/filter-mata-lomba', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterMataLomba'])->name('mata-lomba.filter')->middleware(['role:juri']);
-    Route::post('/filter-nama-regu', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterNamaRegu'])->name('nama-regu.filter')->middleware(['role:juri']);
-    Route::post('/filter-peserta', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterPeserta'])->name('peserta.filter')->middleware(['role:juri']);
-    Route::post('/filter-kriteria', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterKriteria'])->name('kriteria.filter')->middleware(['role:juri']);
+    Route::resource('/penilaian-duta-logika', \App\Http\Controllers\Juri\PenilaianDutaLogikaController::class)->middleware(['role:juri']);
+    Route::get('/penilaian-duta-logika/create', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'createForm'])->name('penilaian-duta-logika.create')->middleware(['role:juri']);
+    Route::post('/penilaian-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'store'])->name('penilaian-duta-logika.store')->middleware(['role:juri']);
+    Route::get('/penilaian-duta-logika/{id}', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'edit'])->name('penilaian-duta-logika.edit')->middleware(['role:juri']);
+    Route::put('/penilaian-duta-logika/{id}', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'update'])->name('penilaian-duta-logika.update')->middleware(['role:juri']);
+    Route::delete('/penilaian-duta-logika/{id}', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'destroy'])->name('penilaian-duta-logika.destroy')->middleware(['role:juri']);
+
+    Route::resource('/penilaian-lkfbb', \App\Http\Controllers\Juri\PenilaianLkfbbController::class)->middleware(['role:juri']);
+    Route::get('/penilaian-lkfbb/create', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'createForm'])->name('penilaian-lkfbb.create')->middleware(['role:juri']);
+    Route::post('/penilaian-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'store'])->name('penilaian-lkfbb.store')->middleware(['role:juri']);
+    Route::get('/penilaian-lkfbb/{id}', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'edit'])->name('penilaian-lkfbb.edit')->middleware(['role:juri']);
+    Route::put('/penilaian-lkfbb/{id}', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'update'])->name('penilaian-lkfbb.update')->middleware(['role:juri']);
+    Route::delete('/penilaian-lkfbb/{id}', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'destroy'])->name('penilaian-lkfbb.destroy')->middleware(['role:juri']);
+
+    Route::resource('/penilaian-foto', \App\Http\Controllers\Juri\PenilaianFotoController::class)->middleware(['role:juri']);
+    Route::get('/penilaian-foto/create', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'createForm'])->name('penilaian-foto.create')->middleware(['role:juri']);
+    Route::post('/penilaian-foto', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'store'])->name('penilaian-foto.store')->middleware(['role:juri']);
+    Route::get('/penilaian-foto/{id}', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'edit'])->name('penilaian-foto.edit')->middleware(['role:juri']);
+    Route::put('/penilaian-foto/{id}', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'update'])->name('penilaian-foto.update')->middleware(['role:juri']);
+    Route::delete('/penilaian-foto/{id}', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'destroy'])->name('penilaian-foto.destroy')->middleware(['role:juri']);
+
+    Route::resource('/penilaian-vidio', \App\Http\Controllers\Juri\PenilaianVidioController::class)->middleware(['role:juri']);
+    Route::get('/penilaian-vidio/create', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'createForm'])->name('penilaian-vidio.create')->middleware(['role:juri']);
+    Route::post('/penilaian-vidio', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'store'])->name('penilaian-vidio.store')->middleware(['role:juri']);
+    Route::get('/penilaian-vidio/{id}', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'edit'])->name('penilaian-vidio.edit')->middleware(['role:juri']);
+    Route::put('/penilaian-vidio/{id}', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'update'])->name('penilaian-vidio.update')->middleware(['role:juri']);
+    Route::delete('/penilaian-vidio/{id}', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'destroy'])->name('penilaian-vidio.destroy')->middleware(['role:juri']);
 
     Route::post('/filter-mata-lomba', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterMataLomba'])->name('mata-lomba.filter')->middleware(['role:juri']);
     Route::post('/filter-nama-regu', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterNamaRegu'])->name('nama-regu.filter')->middleware(['role:juri']);
     Route::post('/filter-peserta', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterPeserta'])->name('peserta.filter')->middleware(['role:juri']);
     Route::post('/filter-kriteria', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterKriteria'])->name('kriteria.filter')->middleware(['role:juri']);
+
+    Route::post('/filter-mata-lomba-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterMataLomba'])->name('mata-lomba-pionering.filter')->middleware(['role:juri']);
+    Route::post('/filter-nama-regu-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterNamaRegu'])->name('nama-regu-pionering.filter')->middleware(['role:juri']);
+    Route::post('/filter-peserta-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterPeserta'])->name('peserta-pionering.filter')->middleware(['role:juri']);
+    Route::post('/filter-kriteria-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterKriteria'])->name('kriteria-pionering.filter')->middleware(['role:juri']);
+    
+    Route::post('/filter-mata-lomba-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterMataLomba'])->name('mata-lomba-duta-logika.filter')->middleware(['role:juri']);
+    Route::post('/filter-nama-regu-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterNamaRegu'])->name('nama-regu-duta-logika.filter')->middleware(['role:juri']);
+    Route::post('/filter-peserta-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterPeserta'])->name('peserta-duta-logika.filter')->middleware(['role:juri']);
+    Route::post('/filter-kriteria-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterKriteria'])->name('kriteria-duta-logika.filter')->middleware(['role:juri']);
+
+    Route::post('/filter-mata-lomba-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterMataLomba'])->name('mata-lomba-lkfbb.filter')->middleware(['role:juri']);
+    Route::post('/filter-nama-regu-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterNamaRegu'])->name('nama-regu-lkfbb.filter')->middleware(['role:juri']);
+    Route::post('/filter-peserta-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterPeserta'])->name('peserta-lkfbb.filter')->middleware(['role:juri']);
+    Route::post('/filter-kriteria-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterKriteria'])->name('kriteria-lkfbb.filter')->middleware(['role:juri']);
+
+    Route::post('/filter-mata-lomba-foto', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'filterMataLomba'])->name('mata-lomba-foto.filter')->middleware(['role:juri']);
+    Route::post('/filter-mata-lomba-vidio', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'filterMataLomba'])->name('mata-lomba-vidio.filter')->middleware(['role:juri']);
+
     Route::get('/regu/{pangkalan_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getReguPangkalan'])->name('getReguPangkalan');
     Route::get('/peserta/{regu_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getPesertaRegu'])->name('getPesertaRegu');
+
+    Route::get('/regu/pionering/{pangkalan_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getReguPangkalan2'])->name('getReguPangkalan2');
+    Route::get('/peserta/pionering/{regu_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getPesertaRegu2'])->name('getPesertaRegu2');
+
+    Route::get('/regu/duta_logika/{pangkalan_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getReguPangkalan3'])->name('getReguPangkalan3');
+    Route::get('/peserta/duta_logika/{regu_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getPesertaRegu3'])->name('getPesertaRegu3');
+
+    Route::get('/regu/lkfbb/{pangkalan_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getReguPangkalan4'])->name('getReguPangkalan4');
+    Route::get('/peserta/lkfbb/{regu_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getPesertaRegu4'])->name('getPesertaRegu4');
+
+    Route::get('/foto/{pembina_id}', \App\Http\Controllers\Juri\GetPembinaByIDController::class)->name('getPembinaById');
+    Route::get('/vidio/{pembina_id}', \App\Http\Controllers\Juri\GetPembinaByID2Controller::class)->name('getPembinaById2');
 })->middleware(['role:juri']);
 

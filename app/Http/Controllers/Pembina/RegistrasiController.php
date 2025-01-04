@@ -164,7 +164,6 @@ class RegistrasiController extends Controller
         return redirect()->route('registrasi.form')->with('success', 'Regu berhasil dihapus.');
     }
 
-
     public function storePeserta(Request $request)
     {
         $validatedData = $request->validate([
@@ -232,6 +231,18 @@ class RegistrasiController extends Controller
         return redirect()->route('registrasi.form')->with('success', 'Peserta berhasil diupdate.');
     }
 
+    public function index()
+    {
+        $pembina = Auth::user()->pembina;  // Ambil pembina yang sedang login
+        $templates = Template::whereHas('upload_dokumen', function($query) use ($pembina) {
+            $query->where('pembina_id', $pembina->id);  // Filter berdasarkan pembina yang sedang login
+        })->with(['upload_dokumen' => function($query) use ($pembina) {
+            $query->where('pembina_id', $pembina->id);  // Filter berdasarkan pembina yang sedang login
+        }])->get();
+
+        return view('juri.penilaian_foto.index', compact('templates'));
+    }
+
     public function storeDokumen(Request $request)
     {
         // Validasi input dari form
@@ -239,42 +250,42 @@ class RegistrasiController extends Controller
             'template_dokumen_id' => 'required|exists:template_dokumens,id',
             'file' => 'required|file|max:2048',  // Maksimal 2MB untuk file
         ]);
-    
+
         // Proses penyimpanan file
         if ($request->hasFile('file')) {
             $filePath = $request->file('file')->store('dokumen_pendaftaran');
-    
-            // Ambil data mata lomba berdasarkan ID
-            $mataLomba = TemplateDokumen::find($request->template_dokumen_id);
-    
+
+            // Ambil data template dokumen berdasarkan ID
+            $templateDokumen = TemplateDokumen::find($request->template_dokumen_id);
+
             // Cek apakah sudah ada dokumen dengan jenis yang sama
-            $existingFile = UploadDokumen::where('template_dokumens_id', $mataLomba->id)
-                                          ->where('pembina_id', auth()->user()->pembina->id)
-                                          ->first();
-    
+            $existingFile = UploadDokumen::where('template_dokumens_id', $templateDokumen->id)
+                                        ->where('pembina_id', auth()->user()->pembina->id)
+                                        ->first();
+
             if ($existingFile) {
                 // Hapus file lama
                 Storage::delete($existingFile->file);
-    
+
                 // Perbarui data dengan file baru
                 $existingFile->file = $filePath;
                 $existingFile->save();
             } else {
                 // Simpan file baru
                 UploadDokumen::create([
-                    'template_dokumens_id' => $mataLomba->id,
+                    'template_dokumens_id' => $templateDokumen->id,
                     'pembina_id' => auth()->user()->pembina->id,
                     'keterangan' => null, // Keterangan awal, dapat diupdate kemudian
                     'file' => $filePath,
                 ]);
             }
-    
+
             // Redirect ke halaman form registrasi dengan pesan sukses
             return redirect()->route('registrasi.form')->with('success', 'Dokumen berhasil ditambahkan atau diupdate.');
         } else {
             return redirect()->route('registrasi.form')->with('error', 'Gagal mengunggah dokumen.');
         }
-    }    
+    }
 
 public function finalisasi(Request $request)
 {
@@ -290,24 +301,6 @@ public function finalisasi(Request $request)
     if ($regus->count() < 2) {
         return redirect()->route('registrasi.form')->with('error', 'Jumlah regu minimal adalah 2.');
     }
-
-    // Cek apakah setiap regu memiliki 8 peserta
-    // foreach ($regus as $regu) {
-    //     if ($regu->pesertas()->count() < 8) {
-    //         return redirect()->route('registrasi.form')->with('error', 'Setiap regu harus memiliki minimal 8 peserta.');
-    //     }
-    // }
-
-    // Cek apakah upload dokumen sudah lengkap
-//    $requiredDocuments = TemplateDokumen::all();
-//    foreach ($requiredDocuments as $document) {
-//        $uploadedDokumen = UploadDokumen::where('template_dokumens_id', $document->id)
-//                                         ->where('pembina_id', $pembina->id)
-//                                         ->first();
-//        if (!$uploadedDokumen) {
-//            return redirect()->route('registrasi.form')->with('error', 'Semua dokumen wajib harus diunggah.');
-//        }
-//    }
 
     // Finalisasi pendaftaran
     Finalisasi::updateOrCreate(

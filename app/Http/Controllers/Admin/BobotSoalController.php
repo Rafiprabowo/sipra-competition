@@ -53,39 +53,28 @@ class BobotSoalController extends Controller
 
     public function store(Request $request) {
         $temporaryData = session('temporary_bobot_soal', []);
-        $mataLombaIds = array_column($temporaryData, 'mata_lomba_id');
-
-        foreach ($mataLombaIds as $mataLombaId) {
-            $totalBobot = array_sum(array_column(array_filter($temporaryData, function($data) use ($mataLombaId) {
-                return $data['mata_lomba_id'] == $mataLombaId;
-            }), 'bobot_soal'));
-
-            foreach ($temporaryData as &$data) {
-                if ($data['mata_lomba_id'] == $mataLombaId) {
-                    $data['total_bobot'] = $totalBobot;
-                }
-            }
-        }
-
+    
+        // Process each mata_lomba_id separately to ensure correct total_bobot
         foreach ($temporaryData as $data) {
+            // Calculate the total bobot for each mata_lomba_id
+            $mataLombaId = $data['mata_lomba_id'];
+            $totalBobot = array_sum(array_column(array_filter($temporaryData, function ($tempData) use ($mataLombaId) {
+                return $tempData['mata_lomba_id'] == $mataLombaId;
+            }), 'bobot_soal'));
+    
+            // Update total_bobot in each data item
+            $data['total_bobot'] = $totalBobot;
+    
+            // Create a new BobotSoal record
             BobotSoal::create($data);
         }
-
-        // Hapus data sementara dari session
+    
+        // Clear the temporary session data
         session()->forget('temporary_bobot_soal');
-
+    
         return redirect()->route('admin.bobot-soal.index')->with('success', 'Data berhasil ditambahkan!');
     }
-
-    public function removeTemporary($index) {
-        $temporaryData = session('temporary_bobot_soal', []);
-        unset($temporaryData[$index]);
-        
-        // Simpan ulang data sementara setelah menghapus
-        session(['temporary_bobot_soal' => array_values($temporaryData)]);
-
-        return redirect()->route('admin.bobot-soal.create')->with('success', 'Data berhasil dihapus dari sementara!');
-    }
+    
 
     public function edit($id) {
         $bobotSoal = BobotSoal::findOrFail($id);

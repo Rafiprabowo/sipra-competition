@@ -27,8 +27,8 @@
                             <thead>
                                 <tr>
                                     <th>Nama Peserta</th>
-                                    <th>Nama Regu</th>
-                                    <th>Nama Pangkalan</th>
+                                    <th>Regu</th>
+                                    <th>Pangkalan</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Nilai</th>
                                 </tr>

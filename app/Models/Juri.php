@@ -23,4 +23,20 @@ class Juri extends Model
     public function penilaian_pionering(){
         return $this->hasMany(PenilaianPionering::class);
     }
+
+    public function penilaian_duta_logika(){
+        return $this->hasMany(PenilaianDutaLogika::class);
+    }
+
+    public function penilaian_lkfbb(){
+        return $this->hasMany(PenilaianLkfbb::class);
+    }
+
+    public function penilaian_foto(){
+        return $this->hasMany(PenilaianFoto::class);
+    }
+
+    public function penilaian_vidio(){
+        return $this->hasMany(PenilaianVidio::class);
+    }
 }

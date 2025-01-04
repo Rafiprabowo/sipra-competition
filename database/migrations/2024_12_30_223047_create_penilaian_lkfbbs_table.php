@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('penilaian_lkfbbs', function (Blueprint $table) {
             $table->id();
             $table->integer('nilai');
+            $table->string('total_nilai')->nullable();
             $table->string('rangking')->nullable();
             $table->foreignId('juri_id')->nullable()->constrained('juris')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('peserta_id')->nullable()->constrained('pesertas')->cascadeOnDelete()->cascadeOnUpdate();

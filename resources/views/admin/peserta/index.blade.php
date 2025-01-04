@@ -44,9 +44,9 @@
                                     <a href="{{route('admin.peserta.show', $value->id)}}" class="btn btn-info btn-sm" title="Lihat">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{route('admin.peserta.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah">
+                                    {{-- <a href="{{route('admin.peserta.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah">
                                         <i class="fas fa-edit"></i>
-                                    </a>
+                                    </a> --}}
                                     <form action="{{route('admin.peserta.destroy', $value->id)}}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')

@@ -9,17 +9,17 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.6.4/compressed/themes/default.time.css" rel="stylesheet">
 @endsection
 @section('content')
-    <div class="container">
+    <div class="container" style="font-size: 11px;">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Sesi Computer Based Test</h6>
+                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Sesi Computer Based Test</h6>
             </div>
             <div class="card-body">
                 <form action="{{ route('sesi-cbt.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label for="mata_lomba_id">Lomba Computer Based Test</label>
-                        <select class="form-control" name="mata_lomba_id" id="mata_lomba_id" required>
+                        <select class="form-control" name="mata_lomba_id" id="mata_lomba_id" style="font-size: 11px;" required>
                             <option value="">--Pilih--</option>
                             @foreach ($mataLombas as $item)
                                 <option value="{{ $item->id }}">{{ $item->nama }}</option>
@@ -32,7 +32,7 @@
                     <div class="form-group">
                         <label for="waktu_mulai">Waktu Mulai</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" id="waktu_mulai" name="waktu_mulai" required>
+                            <input type="text" class="form-control timepicker" id="waktu_mulai" name="waktu_mulai" style="font-size: 11px;" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-clock"></i></span>
                             </div>
@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label for="waktu_selesai">Waktu Selesai</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" id="waktu_selesai" name="waktu_selesai" required>
+                            <input type="text" class="form-control timepicker" id="waktu_selesai" name="waktu_selesai" style="font-size: 11px;" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-clock"></i></span>
                             </div>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <select class="form-control" name="status" id="status" required>
+                        <select class="form-control" name="status" id="status" style="font-size: 11px;" required>
                             <option value="{{\App\Enums\StatusSesiCbt::Draft->value}}">Ditutup</option>
                             <option value="{{\App\Enums\StatusSesiCbt::Active->value}}">Dibuka</option>
                         </select>
@@ -65,17 +65,17 @@
                     </div>
                     <div class="form-group">
                         <label for="kode_akses">Kode Akses (opsional)</label>
-                        <input type="text" class="form-control" id="kode_akses" name="kode_akses">
+                        <input type="text" class="form-control" id="kode_akses" name="kode_akses" style="font-size: 11px;">
                         @error('kode_akses')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="d-flex">
-                        <a href="{{ route('sesi-cbt.index') }}" class="btn btn-secondary mr-2">
-                            <i class="fas fa-arrow-left"></i> Kembali
+                        <a href="{{ route('sesi-cbt.index') }}" class="btn btn-secondary mr-2" style="font-size: 11px;" title="Kembali">
+                            <i class="fas fa-arrow-left"></i>
                         </a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Simpan
+                        <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Simpan">
+                            <i class="fas fa-save"></i>
                         </button>
                     </div>
                 </form>

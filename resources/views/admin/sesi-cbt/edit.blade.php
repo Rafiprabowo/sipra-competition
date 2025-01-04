@@ -9,10 +9,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.6.4/compressed/themes/default.time.css" rel="stylesheet">
 @endsection
 @section('content')
-    <div class="container">
+    <div class="container" style="font-size: 11px;">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Edit Sesi Computer Based Test</h6>
+                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Edit Sesi Computer Based Test</h6>
             </div>
             <div class="card-body">
                 <form action="{{ route('sesi-cbt.update', $session->id) }}" method="POST">
@@ -20,7 +20,7 @@
                     @method('PUT')
                     <div class="form-group">
                         <label for="mata_lomba_id">Lomba Computer Based Test</label>
-                        <select class="form-control" name="mata_lomba_id" id="mata_lomba_id" required>
+                        <select class="form-control" name="mata_lomba_id" id="mata_lomba_id" style="font-size: 11px;" required>
                             <option value="">--Pilih--</option>
                             @foreach ($mataLombas as $item)
                                 <option value="{{ $item->id }}" @if($item->id == $session->mata_lomba_id) selected @endif>{{ $item->nama }}</option>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-group">
                         <label for="nama">Nama Sesi</label>
-                        <input type="text" class="form-control" id="nama" name="nama" value="{{ $session->nama }}" required>
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ $session->nama }}" style="font-size: 11px;" required>
                         @error('nama')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
@@ -40,7 +40,7 @@
                     <div class="form-group">
                         <label for="waktu_mulai">Waktu Mulai</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" id="waktu_mulai" name="waktu_mulai" value="{{ \Carbon\Carbon::parse($session->waktu_mulai)->format('H:i') }}" required>
+                            <input type="text" class="form-control timepicker" id="waktu_mulai" name="waktu_mulai" value="{{ \Carbon\Carbon::parse($session->waktu_mulai)->format('H:i') }}" style="font-size: 11px;" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-clock"></i></span>
                             </div>
@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <label for="waktu_selesai">Waktu Selesai</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" id="waktu_selesai" name="waktu_selesai" value="{{ \Carbon\Carbon::parse($session->waktu_selesai)->format('H:i') }}" required>
+                            <input type="text" class="form-control timepicker" id="waktu_selesai" name="waktu_selesai" value="{{ \Carbon\Carbon::parse($session->waktu_selesai)->format('H:i') }}" style="font-size: 11px;" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-clock"></i></span>
                             </div>
@@ -64,7 +64,7 @@
                     
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <select class="form-control" name="status" id="status" required>
+                        <select class="form-control" name="status" id="status" style="font-size: 11px;" required>
                             <option value="{{ \App\Enums\StatusSesiCbt::Draft->value }}" @if($session->status == \App\Enums\StatusSesiCbt::Draft->value) selected @endif>Ditutup</option>
                             <option value="{{ \App\Enums\StatusSesiCbt::Active->value }}" @if($session->status == \App\Enums\StatusSesiCbt::Active->value) selected @endif>Dibuka</option>
                             <option value="{{ \App\Enums\StatusSesiCbt::Completed->value }}" @if($session->status == \App\Enums\StatusSesiCbt::Completed->value) selected @endif>Selesai</option>
@@ -74,11 +74,11 @@
                         @enderror
                     </div>
                     <div class="d-flex ">
-                        <a href="{{ route('sesi-cbt.index') }}" class="btn btn-secondary mr-2">
-                            <i class="fas fa-arrow-left"></i> Kembali
+                        <a href="{{ route('sesi-cbt.index') }}" class="btn btn-secondary mr-2" style="font-size: 11px;" title="Kembali">
+                            <i class="fas fa-arrow-left"></i>
                         </a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-sync-alt"></i> Update
+                        <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Ubah">
+                            <i class="fas fa-sync-alt"></i>
                         </button>
                     </div>
                 </form>

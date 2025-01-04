@@ -575,11 +575,11 @@
                                     @enderror
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="nama">Jenis Kelamin</label>
+                                    <label for="jenis-kelamin-peserta">Jenis Kelamin</label>
                                     <select name="jenis_kelamin" id="jenis-kelamin-peserta" class="form-control" style="font-size: 11px;">
                                         <option value="">Jenis Kelamin</option>
-                                        <option value="Putra" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "Putra" ? 'selected' : '' }}>Putra</option>
-                                        <option value="Putri" {{old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "Putri" ? 'selected' : '' }}>Putri</option>
+                                        <option value="Putra" {{ old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "Putra" ? 'selected' : '' }}>Putra</option>
+                                        <option value="Putri" {{ old('jenis_kelamin', $pesertaToEdit->jenis_kelamin ?? '') == "Putri" ? 'selected' : '' }}>Putri</option>
                                     </select>
                                     @error('jenis_kelamin')
                                     <div class="text-danger">{{ $message }}</div>
@@ -588,12 +588,17 @@
                                 <div class="form-group mb-3">
                                     <label for="regu_pembina">Pilih Regu</label>
                                     <select id="regu_pembina_id" name="regu_pembina_id" class="form-control" required style="font-size: 11px;">
-                                    
+                                        <option value="">Pilih Regu</option>
+                                        @foreach($regus as $regu)
+                                            <option value="{{$regu->id}}" {{ old('regu_pembina_id', $pesertaToEdit->regu_pembina_id ?? '') == $regu->id ? 'selected' : '' }}>
+                                                {{$regu->nama_regu}}
+                                            </option>
+                                        @endforeach
                                     </select>
-                                    @error('regu_pembina_id')
+                                    @error('regu_pembina_id1')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                </div>                                                          
+                                </div>                                                                                             
 
                                 <div class="form-group mb-3">
                                     <label for="mata_lomba">Mata Lomba</label>
@@ -604,12 +609,11 @@
                                                 {{$mataLomba->nama}}
                                             </option>
                                         @endforeach
-                                        </select>
+                                    </select>
                                         @error('mata_lomba_id')
                                         <div class="text-danger">{{ $message }}</div>
                                         @enderror
-                                    </div>
-
+                                </div>
                             </div>
                             <div class="card-footer">
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -743,54 +747,53 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           @foreach($templates as $template)
-                    @if($template->upload_dokumen->isEmpty())
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $template->nama }}</td>
-                            <td>{{ $template->tipe }}</td>
-                            <td>
-                                <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm" title="Unduh" style="margin-left:30px;">
-                                    <i class="fa fa-download"></i>
-                                </a>
-                            </td>
-                            <td colspan="3">
-                                <span class="badge badge-secondary">Belum Unggah Dokumen</span>
-                            </td>
-                        </tr>
-                    @else
-                        @foreach($template->upload_dokumen as $uploadDokumen)
-                            @php
-                                $statusDokumen = $uploadDokumen->status;
-                                $statusDokumenLabel = $statusDokumen === 1 ? 'badge-success' : ($statusDokumen === 0 ? 'badge-danger' : 'badge-warning');
-                                $statusDokumenText = $statusDokumen === 1 ? 'Tervalidasi' : ($statusDokumen === 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi');
-                            @endphp
-                            <tr>
-                                <td>{{ $loop->parent->iteration }}</td>
-                                <td>{{ $template->nama }}</td>
-                                <td>{{ $template->tipe }}</td>
-                                <td>
-                                    <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm" title="Unduh">
-                                        <i class="fa fa-download"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{ route('viewFile', basename($uploadDokumen->file)) }}" class="btn btn-info btn-sm" title="Lihat">
-                                        <i class="fa fa-file"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <span class="badge {{ $statusDokumenLabel }}">{{ $statusDokumenText }}</span>
-                                    <br>
-                                    <small class="text-muted">Diunggah pada: {{ $uploadDokumen->updated_at->format('d-m-Y H:i') }}</small>
-                                </td>
-                                <td>{{ $uploadDokumen->keterangan ?? '-' }}</td>
-                            </tr>
-                        @endforeach
-                    @endif
-                @endforeach
-
-                                        </tbody>
+                                            @foreach($templates as $template)
+                                                @if($template->upload_dokumen->isEmpty())
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $template->nama }}</td>
+                                                        <td>{{ $template->tipe }}</td>
+                                                        <td>
+                                                            <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm" title="Unduh" style="margin-left:30px;">
+                                                                <i class="fa fa-download"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td colspan="3">
+                                                            <span class="badge badge-secondary">Belum Unggah Dokumen</span>
+                                                        </td>
+                                                    </tr>
+                                                @else
+                                                    @foreach($template->upload_dokumen as $index => $uploadDokumen)
+                                                        @php
+                                                            $statusDokumen = $uploadDokumen->status;
+                                                            $statusDokumenLabel = $statusDokumen === 1 ? 'badge-success' : ($statusDokumen === 0 ? 'badge-danger' : 'badge-warning');
+                                                            $statusDokumenText = $statusDokumen === 1 ? 'Tervalidasi' : ($statusDokumen === 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi');
+                                                        @endphp
+                                                        <tr>
+                                                            <td>{{ $index + 1 }}</td>
+                                                            <td>{{ $template->nama }}</td>
+                                                            <td>{{ $template->tipe }}</td>
+                                                            <td>
+                                                                <a href="{{ route('downloadTemplate', $template->id) }}" class="btn btn-info btn-sm" title="Unduh">
+                                                                    <i class="fa fa-download"></i>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ route('viewFile', basename($uploadDokumen->file)) }}" class="btn btn-info btn-sm" title="Lihat">
+                                                                    <i class="fa fa-file"></i>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <span class="badge {{ $statusDokumenLabel }}">{{ $statusDokumenText }}</span>
+                                                                <br>
+                                                                <small class="text-muted">Diunggah pada: {{ $uploadDokumen->updated_at->format('d-m-Y H:i') }}</small>
+                                                            </td>
+                                                            <td>{{ $uploadDokumen->keterangan ?? '-' }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
+                                        </tbody>                                        
                                     </table>
                                 </div>
 
@@ -852,9 +855,6 @@
                     </div>
                     @endif
                 </div>
-
-
-
             </div>
         </div>
     </div>
@@ -882,24 +882,33 @@
             $('#reguTable').DataTable();
             $('#documentTable').DataTable();
     
-            $('#jenis-kelamin-peserta').change(function (){
-                let jenisKelamin = $(this).val()
-                let url = `/pembina/regu/${jenisKelamin}`
-                $.ajax({
-                    url: url,
-                    method: 'GET',
-                    success: function(response){
-                        console.log(response.data)
-                        if(response.data){
-                            $('#regu_pembina_id').empty();
-                            $('#regu_pembina_id').append('<option value="">Pilih Regu</option>');
-                            $('#regu_pembina_id').append(`<option value="${response.data.id}">${response.data.nama_regu}</option>`);
-                        }
-                    },
-                    error: '',
-                });
-            });
+            // $('#jenis-kelamin-peserta').change(function() {
+            // let jenisKelamin = $(this).val();
+            // let url = `/pembina/regu/${jenisKelamin}`;
+
+            // $.ajax({
+            //     url: url,
+            //     method: 'GET',
+            //     success: function(response) {
+            //         console.log('AJAX response:', response); // Debug statement
+
+            //         $('#regu_pembina_id1').empty();
+            //         $('#regu_pembina_id1').append('<option value="">Pilih Regu</option>');
+
+            //         if (response.data) {
+            //             $('#regu_pembina_id1').append(`<option value="${response.data.id}">${response.data.nama_regu}</option>`);
+            //         } else {
+            //             console.error('Error: No data found');
+            //         }
+            //     },
+            //     error: function(xhr, status, error) {
+            //         console.error('AJAX Error: ', xhr.responseText);
+            //     }
+            // });
         });
+
+        // Trigger change event on page load if there's a preselected value
+        // $('#jenis-kelamin-peserta').trigger('change');
     </script>     
 @endsection
 

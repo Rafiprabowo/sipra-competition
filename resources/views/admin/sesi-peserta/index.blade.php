@@ -3,7 +3,7 @@
     @include('layouts.sidebar.admin')
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" style="font-size: 11px;">
         @if (session('success'))
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
@@ -12,8 +12,8 @@
         @endif
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h5>Peserta {{ $session->nama }} Computer Based Test</h5>
-                <a href="{{ route('sesi-peserta.create', $session->id) }}" class="btn btn-primary">
+                <h5 style="font-size: 11px;">Peserta {{ $session->nama }} Computer Based Test</h5>
+                <a href="{{ route('sesi-peserta.create', $session->id) }}" class="btn btn-primary" style="font-size: 11px;" title="Tambah">
                     <i class="fas fa-plus"></i>
                 </a>
             </div>
@@ -39,16 +39,16 @@
                                     <td>{{ $participant->peserta->regu_pembina->nama_regu }}</td>
                                     <td>{{ $participant->peserta->jenis_kelamin }}</td>
                                     <td>
-                                        <a href="{{ route('sesi-peserta.index', $session->id) }}" class="btn btn-info btn-sm">
+                                        <a href="{{ route('sesi-peserta.index', $session->id) }}" class="btn btn-info btn-sm" style="font-size: 11px;" title="Peserta">
                                             <i class="fas fa-users"></i>
                                         </a>
-                                        <a href="{{ route('sesi-cbt.edit', $session->id) }}" class="btn btn-warning btn-sm">
+                                        <a href="{{ route('sesi-cbt.edit', $session->id) }}" class="btn btn-warning btn-sm" style="font-size: 11px;" title="Ubah">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <form action="{{ route('sesi-cbt.destroy', $session->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus sesi ini?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
+                                            <button type="submit" class="btn btn-danger btn-sm" style="font-size: 11px;" title="Hapus">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>

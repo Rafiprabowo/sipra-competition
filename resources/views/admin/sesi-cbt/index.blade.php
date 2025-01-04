@@ -3,7 +3,7 @@
         @include('layouts.sidebar.admin')
     @endsection
     @section('content')
-        <div class="container-fluid">
+        <div class="container-fluid" style="font-size: 11px;">
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -20,9 +20,9 @@
             
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <h5>Sesi Computer Based Test</h5>
-                    <a href="{{route('sesi-cbt.create')}}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Tambah
+                    <h5 style="font-size: 11px;">Sesi Computer Based Test</h5>
+                    <a href="{{route('sesi-cbt.create')}}" class="btn btn-primary" style="font-size: 11px;" title="Tambah">
+                        <i class="fas fa-plus"></i>
                     </a>
                 </div>
                 <div class="card-body">

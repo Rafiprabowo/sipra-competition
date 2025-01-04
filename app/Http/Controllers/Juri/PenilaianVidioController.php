@@ -7,31 +7,29 @@ use App\Models\Admin;
 use App\Models\Juri;
 use App\Models\MataLomba;
 use App\Models\BobotSoal;
-use App\Models\Peserta;
 use App\Models\Pembina;
-use App\Models\PenilaianPionering;
+use App\Models\PenilaianVidio;
 use App\Models\ReguPembina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PenilaianPioneringController extends Controller
+class PenilaianVidioController extends Controller
 {
-
     public function index()
     {
         // Ambil juri yang sedang login
-        $juris = Auth::user()->juri;
+        $juri = Auth::user()->juri;
 
         // Ambil mata lomba
-        $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::PIONERING->value)->first();
+        $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::VIDIO->value)->first();
 
-        $pesertas = Peserta::with('penilaian_pionering') 
-        ->where('mata_lomba_id', $mata_lomba->id)
-            ->whereHas('penilaian_pionering')  
+        // Ambil penilaian vidio dengan relasi
+        $penilaianVidios = PenilaianVidio::with('juri', 'pembina')
+            ->where('mata_lomba_id', $mata_lomba->id)
             ->get();
 
         // Mengirim data ke view
-        return view('juri.penilaian_pionering.index', compact('pesertas'));
+        return view('juri.penilaian_vidio.index', compact('penilaianVidios'));
     }
 
     public function createForm()
@@ -39,28 +37,24 @@ class PenilaianPioneringController extends Controller
         // Ambil semua pangkalan dari tabel pembinas
         $pangkalans = Pembina::all();
 
-        $mata_lomba = MataLomba::where('nama', 'PIONERING')->first();
+        $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::VIDIO->value)->first();
 
         // Ambil kriteria nilai dari bobot_soals untuk mata lomba 
         $bobot_soals = BobotSoal::where('mata_lomba_id', $mata_lomba->id)->get();
 
-        return view('juri.penilaian_pionering.create', compact('pangkalans', 'mata_lomba', 'bobot_soals'));
+        return view('juri.penilaian_vidio.create', compact('pangkalans', 'mata_lomba', 'bobot_soals'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $mata_lomba_id = $request->mata_lomba_id;
-        $peserta_id = $request->peserta_id;
+        $pembina_id = $request->pembina_id;
         $nilai = $request->input('nilai'); // Nilai dari input array
 
-        // Ambil juri yang sedang login
         $juri_id = Auth::user()->juri->id;
-
-        // Validasi peserta_id
-        $peserta = Peserta::find($peserta_id);
-        if (!$peserta) {
-            return back()->withErrors(['error' => 'Peserta tidak valid atau tidak ditemukan.']);
-        }
+        $request->validate([
+            'pembina_id'=>'required|exists:pembinas,id',
+        ]);
+        // dd($request->pembina_id);
 
         // Validasi nilai input berdasarkan bobot_soal
         foreach ($nilai as $bobot_id => $nilai_input) {
@@ -77,13 +71,13 @@ class PenilaianPioneringController extends Controller
             }
         }
 
-        // Simpan data ke tabel 
+        // Simpan data ke tabel penilaian_vidios
         $total_nilai = 0; // Variabel untuk menghitung total nilai
         foreach ($nilai as $bobot_id => $nilai_input) {
-            PenilaianPionering::create([
+            PenilaianVidio::create([
                 'juri_id' => $juri_id,
                 'mata_lomba_id' => $mata_lomba_id,
-                'peserta_id' => $peserta_id,
+                'pembina_id' => $pembina_id,
                 'bobot_soal_id' => $bobot_id,
                 'nilai' => $nilai_input,
             ]);
@@ -92,11 +86,11 @@ class PenilaianPioneringController extends Controller
             $total_nilai += $nilai_input;
         }
 
-        // Update atau buat entri total_nilai di tabel 
-        PenilaianPionering::updateOrCreate(
+        // Update atau buat entri total_nilai di tabel penilaian_vidios
+        PenilaianVidio::updateOrCreate(
             [
                 'mata_lomba_id' => $mata_lomba_id,
-                'peserta_id' => $peserta_id,
+                'pembina_id' => $pembina_id,
                 'juri_id' => $juri_id,
             ],
             [
@@ -105,10 +99,11 @@ class PenilaianPioneringController extends Controller
         );
 
         // Duplikasi nilai total_nilai ke semua entri lain dengan mata_lomba_id yang sama
-        PenilaianPionering::where('peserta_id', $peserta_id)
+        PenilaianVidio::where('pembina_id', $pembina_id)
             ->update(['total_nilai' => $total_nilai]);
 
-        return redirect()->route('penilaian-pionering.index')->with('success', 'Penilaian berhasil disimpan.');
+        return redirect()->route('penilaian-vidio.index')->with('success', 'Penilaian berhasil disimpan.');
+        // return response()->json(['data' => $request->all()])->setStatusCode(200);
     }
 
     public function show(string $id)
@@ -118,13 +113,13 @@ class PenilaianPioneringController extends Controller
 
     public function edit($id)
 {
-    $penilaian = PenilaianPionering::with(['nilai.bobot_soal'])->findOrFail($id);
-    return view('penilaian_pionering.edit', compact('penilaian'));
+    $penilaian = PenilaianVidio::with(['nilai.bobot_soal'])->findOrFail($id);
+    return view('penilaian_vidio.edit', compact('penilaian'));
 }
 
 public function update(Request $request, $id)
 {
-    $penilaian = PenilaianPionering::findOrFail($id);
+    $penilaian = PenilaianVidio::findOrFail($id);
 
     // Validasi nilai input berdasarkan bobot_soal
     foreach ($request->nilai as $bobot_id => $nilai_input) {
@@ -140,20 +135,20 @@ public function update(Request $request, $id)
     // Update nilai
     $total_nilai = 0;
     foreach ($request->nilai as $bobot_id => $nilai_input) {
-        $penilaianItem = PenilaianPionering::where([
+        $penilaianItem = PenilaianVidio::where([
             'juri_id' => $penilaian->juri_id,
             'mata_lomba_id' => $penilaian->mata_lomba_id,
-            'peserta_id' => $penilaian->peserta_id,
+            'pembina_id' => $penilaian->pembina_id,
             'bobot_soal_id' => $bobot_id,
         ])->first();
 
         if ($penilaianItem) {
             $penilaianItem->update(['nilai' => $nilai_input]);
         } else {
-            PenilaianPionering::create([
+            PenilaianVidio::create([
                 'juri_id' => $penilaian->juri_id,
                 'mata_lomba_id' => $penilaian->mata_lomba_id,
-                'peserta_id' => $penilaian->peserta_id,
+                'pembina_id' => $penilaian->pembina_id,
                 'bobot_soal_id' => $bobot_id,
                 'nilai' => $nilai_input,
             ]);
@@ -165,20 +160,20 @@ public function update(Request $request, $id)
     // Update total nilai
     $penilaian->update(['total_nilai' => $total_nilai]);
 
-    return redirect()->route('penilaian-pionering.index')->with('success', 'Penilaian berhasil diperbarui.');
+    return redirect()->route('penilaian-vidio.index')->with('success', 'Penilaian berhasil diperbarui.');
 }
 
     public function destroy($id)
     {
-        $penilaian = PenilaianPionering::findOrFail($id);
+        $penilaian = PenilaianVidio::findOrFail($id);
 
         // Hapus semua nilai terkait penilaian ini
-        PenilaianPionering::where([
+        PenilaianVidio::where([
             'juri_id' => $penilaian->juri_id,
             'mata_lomba_id' => $penilaian->mata_lomba_id,
-            'peserta_id' => $penilaian->peserta_id,
+            'pembina_id' => $penilaian->pembina_id,
         ])->delete();
 
-        return redirect()->route('penilaian-pionering.index')->with('success', 'Penilaian berhasil dihapus.');
+        return redirect()->route('penilaian-vidio.index')->with('success', 'Penilaian berhasil dihapus.');
     }
 }
