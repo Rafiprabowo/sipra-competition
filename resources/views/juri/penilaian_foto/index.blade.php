@@ -27,8 +27,8 @@
                                 <th>No</th>
                                 <th>Nama Juri</th>
                                 <th>Nama Pembina</th>
+                                <th>Pangkalan</th>
                                 <th>Total Nilai</th>
-                                <th>Rangking</th>
                                 <th>Aksi</th>
                             </tr>
                             </thead>
@@ -38,8 +38,8 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $penilaianFoto->juri->nama }}</td>
                                     <td>{{ $penilaianFoto->pembina->nama }}</td>
+                                    <td>{{ $penilaianFoto->pembina->pangkalan }}</td>
                                     <td>{{ $penilaianFoto->total_nilai }}</td>
-                                    <td>{{ $penilaianFoto->rangking }}</td>
                                     <td>
                                         {{-- <a href="#" class="btn btn-info btn-sm" title="Lihat">
                                             <i class="fas fa-eye"></i>
