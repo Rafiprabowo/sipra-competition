@@ -13,8 +13,6 @@
             <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
         @endif
 
-        <h5>Hasil Lomba TPK</h5>
-
         @if($top_peserta->isEmpty())
             <div class="alert alert-info" role="alert">
                 Tidak ada data peserta yang tersedia saat ini.
@@ -26,26 +24,34 @@
                         <table id="table-peserta" class="table table-bordered">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Nama Peserta</th>
-                                    <th>Regu</th>
-                                    <th>Pangkalan</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Nilai</th>
+                                    <th>Nama Regu</th>
+                                    <th>Nama Pangkalan</th>
+                                    <th>Peringkat</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($top_peserta as $peserta)
+                                @foreach($top_peserta as $index => $peserta)
                                     <tr>
+                                        <td>{{ $index + 1 }}</td>
                                         <td>{{ $peserta['nama_peserta'] }}</td>
+                                        <td>{{ $peserta['jenis_kelamin'] }}</td>
+                                        <td>{{ $peserta['score'] }}</td>
                                         <td>{{ $peserta['nama_regu'] }}</td>
                                         <td>{{ $peserta['nama_pangkalan'] }}</td>
-                                        <td>{{ $peserta['jenis_kelamin']}}</td>
-                                        <td>{{ $peserta['score'] }}</td>
+                                        <td>{{ $peserta['peringkat'] }}</td> <!-- Menampilkan Peringkat -->
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
+                    <!-- Tombol untuk ekspor PDF -->
+                    <a href="{{ route('pdf.lomba-tpk') }}" class="btn btn-primary mt-4">
+                        <i class="fas fa-file-pdf"></i> Ekspor PDF
+                    </a>
                 </div>
             </div>
         @endif

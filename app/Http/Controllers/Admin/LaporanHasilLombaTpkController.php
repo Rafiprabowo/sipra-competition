@@ -1,11 +1,15 @@
 <?php
-namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 use App\Models\CbtSession;
 use App\Models\PesertaSession;
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
-class HasilLombaTpkController extends Controller
+
+class LaporanHasilLombaTpkController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -52,11 +56,15 @@ class HasilLombaTpkController extends Controller
     
         // Gabungkan data laki-laki dan perempuan dalam satu array
         $combinedTopPeserta = $topPeserta->collapse();
-    
-        // Kembalikan view dengan data yang diambil
-        return view('hasil-lomba-tpk', [
-            'top_peserta' => $combinedTopPeserta,
-        ]);
+
+        // Buat PDF dari tampilan
+        $pdf = Pdf::loadView('pdf.laporan-lomba-tpk', ['top_peserta' => $combinedTopPeserta]);
+        
+        // Mengatur ukuran kertas dan orientasi PDF (Opsional)
+        $pdf->setPaper('A4', 'potrait'); // Atur ukuran dan orientasi kertas (A4 dan landscape)
+
+        return $pdf->download('laporan-hasil-lomba-tpk.pdf');
+       
     }
 }
 
