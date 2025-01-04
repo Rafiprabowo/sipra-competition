@@ -148,6 +148,10 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/hasil-lomba-tpk', HasilLombaTpkController::class)->name('hasil-tpk');
 
+    Route::prefix('laporan')->group(function(){
+        Route::get('/tes-pengetahuan-kepramukaan', \App\Http\Controllers\Admin\LaporanHasilLombaTpkController::class)->name('pdf.lomba-tpk');
+    });
+
 })->middleware(['role:admin']);
 //Peserta
 Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
