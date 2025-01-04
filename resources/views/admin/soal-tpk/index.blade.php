@@ -171,4 +171,12 @@
     </div>
 @endsection
 
+@section('script')
+    <script>
+        $(function(){
+            $('#dataTable').DataTable();
+        })
+    </script>
+@endsection
+
                         

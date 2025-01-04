@@ -51,7 +51,7 @@
         @endif
 
         <div class="d-flex justify-content-start mt-4">
-            <a href="{{ route('peserta.dashboard') }}" class="btn btn-secondary">
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
             </a>
         </div>
@@ -61,7 +61,6 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            // Initialize DataTable
             $('#table-peserta').DataTable();
         });
     </script>
