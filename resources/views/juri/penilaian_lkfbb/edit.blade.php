@@ -6,9 +6,9 @@
 
 @section('content')
 <div class="container">
-    <h2 class="mb-4">Edit Penilaian Karikatur</h2>
+    <h2 class="mb-4">Edit Penilaian Lkfbb</h2>
     <!-- Form Edit Penilaian -->
-    <form action="{{ route('penilaian-karikatur.update', $penilaian->id) }}" method="POST">
+    <form action="{{ route('penilaian-lkfbb.update', $penilaian->id) }}" method="POST">
         @csrf
         @method('PUT')
         <!-- Peserta -->

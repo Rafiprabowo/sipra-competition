@@ -8,8 +8,8 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <h2 class="mb-4">Form Penilaian Pionering</h2>
+<div class="container" style="font-size: 11px;">
+    <h2 class="mb-4" style="font-size: 11px;">Form Penilaian Pionering</h2>
     <!-- Form Penilaian -->
     <form action="{{ route('penilaian-pionering.store') }}" method="POST" id="penilaianForm">
         @csrf
@@ -18,7 +18,7 @@
             <!-- Filter Pangkalan -->
             <div class="mb-3">
                 <label for="filter-pangkalan" class="form-label">Filter Pangkalan</label>
-                <select id="filter-pangkalan" class="form-control">
+                <select id="filter-pangkalan" class="form-control" style="font-size: 11px;">
                     <option value="">-- Pilih Pangkalan --</option>
                     @foreach($pangkalans as $pangkalan)
                         <option value="{{ $pangkalan->id }}">{{ $pangkalan->pangkalan }}</option>
@@ -29,7 +29,7 @@
             <!-- Filter Nama Regu -->
             <div class="mb-3">
                 <label for="regu_pembina" class="form-label">Filter Nama Regu</label>
-                <select id="regu_pembina_id" name="regu_pembina_id" class="form-control">
+                <select id="regu_pembina_id" name="regu_pembina_id" class="form-control" style="font-size: 11px;">
 
                 </select>
                 @error('regu_pembina_id')
@@ -40,7 +40,7 @@
             <!-- Filter Peserta -->
             <div class="mb-3">
                 <label for="peserta" class="form-label">Filter Peserta</label>
-                <select id="peserta_id" name="peserta_id" class="form-control">
+                <select id="peserta_id" name="peserta_id" class="form-control" style="font-size: 11px;">
 
                 </select>
                 @error('peserta_id')
@@ -51,7 +51,7 @@
 
         <!-- Daftar kriteria nilai -->
         <input type="hidden" name="mata_lomba_id" value="{{$mata_lomba->id}}">
-        <h5 class="mt-4">Kriteria Nilai</h5>
+        <h5 class="mt-4" style="font-size: 11px;">Kriteria Nilai</h5>
         <div id="kriteria-container">
             @foreach($bobot_soals as $bobot)
             <div class="row align-items-center mb-3">
@@ -66,7 +66,7 @@
                         class="form-control nilai-input" 
                         placeholder="Masukkan Nilai" 
                         data-max="{{ $bobot->bobot_soal }}" 
-                        data-kriteria="{{ $bobot->kriteria_nilai }}" 
+                        data-kriteria="{{ $bobot->kriteria_nilai }}" style="font-size: 11px;"
                         required>
                 </div>
             </div>
@@ -76,7 +76,9 @@
 
         <!-- Tombol Submit -->
         <div class="mt-4">
-            <button type="submit" class="btn btn-primary">Simpan Penilaian</button>
+            <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Simpan">
+                <i class="fas fa-save"></i>
+            </button>
         </div>
     </form>
 </div>
@@ -87,7 +89,7 @@
     $(document).ready(function () {
         $('#filter-pangkalan').change(function () {
             let pangkalan_id = $(this).val();
-            let url = `/juri/regu/${pangkalan_id}`;
+            let url = `/juri/regu/pionering/${pangkalan_id}`;
             
             $.ajax({
                 url: url,
@@ -110,7 +112,7 @@
 
         $('#regu_pembina_id').change(function () {
             let regu_id = $(this).val();
-            let url = `/juri/peserta/${regu_id}`;
+            let url = `/juri/peserta/pionering/${regu_id}`;
             $.ajax({
                 url: url,
                 method: 'GET',

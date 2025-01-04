@@ -32,7 +32,7 @@
 
         <div class="card shadow mb-4 mt-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Lihat Hasil Penilaian Karikatur</h6>
+                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Lihat Hasil Penilaian Duta Logika</h6>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a class="nav-link active" id="putra-tab" data-toggle="tab" href="#putra" role="tab" aria-controls="putra" aria-selected="true">Putra</a>
@@ -43,13 +43,13 @@
                 </ul>
                 <!-- Tombol Ekspor -->
                 <div>
-                    <a href="{{ route('exportPDFKarikatur', ['tab' => 'putra']) }}" class="btn btn-danger btn-md" title="Export PDF Putra" style="font-size: 11px;">
+                    <a href="{{ route('exportPDFDutaLogika', ['tab' => 'putra']) }}" class="btn btn-danger btn-md" title="Export PDF Putra" style="font-size: 11px;">
                         <i class="fas fa-file-pdf"></i> Export PDF Putra
                     </a>
-                    <a href="{{ route('exportPDFKarikatur', ['tab' => 'putri']) }}" class="btn btn-danger btn-md" title="Export PDF Putri" style="font-size: 11px;">
+                    <a href="{{ route('exportPDFDutaLogika', ['tab' => 'putri']) }}" class="btn btn-danger btn-md" title="Export PDF Putri" style="font-size: 11px;">
                         <i class="fas fa-file-pdf"></i> Export PDF Putri
                     </a>
-                    <a href="{{ route('exportExcelKarikatur') }}" class="btn btn-success btn-md" title="Export Excel" style="font-size: 11px;">
+                    <a href="{{ route('exportExcelDutaLogika') }}" class="btn btn-success btn-md" title="Export Excel" style="font-size: 11px;">
                         <i class="fas fa-file-excel"></i> Export Excel
                     </a>
                 </div>
@@ -81,7 +81,7 @@
                                         <td>{{ $peserta->regu_pembina->pembina->pangkalan }}</td>
                                         <td>{{ $peserta->jenis_kelamin }}</td>
                                         <td>{{ $peserta->highest_total_nilai }}</td>
-                                        <td>{{ $peserta->penilaian_karikatur->rangking }}</td>
+                                        <td>{{ $peserta->penilaian_duta_logika->rangking }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -112,7 +112,7 @@
                                         <td>{{ $peserta->regu_pembina->pembina->pangkalan }}</td>
                                         <td>{{ $peserta->jenis_kelamin }}</td>
                                         <td>{{ $peserta->highest_total_nilai }}</td>
-                                        <td>{{ $peserta->penilaian_karikatur->rangking }}</td>
+                                        <td>{{ $peserta->penilaian_duta_logika->rangking }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

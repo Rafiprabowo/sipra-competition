@@ -3,10 +3,10 @@
     @include('layouts.sidebar.admin')
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" style="font-size: 11px;">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Peserta Computer Based Test</h6>
+                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Peserta Computer Based Test</h6>
             </div>
             <div class="card-body">
                 <form action="" method="POST">
@@ -40,11 +40,11 @@
                         </table>
                     </div>
                     <div class="d-flex justify-content-between mt-3">
-                        <a href="" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Kembali
+                        <a href="" class="btn btn-secondary" style="font-size: 11px;" title="Kembali">
+                            <i class="fas fa-arrow-left"></i>
                         </a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Simpan
+                        <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Simpan">
+                            <i class="fas fa-plus"></i>
                         </button>
                     </div>
                 </form>

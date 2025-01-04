@@ -60,31 +60,31 @@
 
                         @if ($mataLombaUser == 'PIONERING')
                             <div class="bg-white pt-2 collapse-inner rounded" style="font-size: 11px;">
-                                <a class="collapse-item" href="buttons.html">PIONERING</a>
+                                <a class="collapse-item" href="{{route('penilaian-pionering.index')}}">PIONERING</a>
                             </div>
                         @endif
 
                         @if ($mataLombaUser == 'DUTA LOGIKA')
                             <div class="bg-white pt-2 collapse-inner rounded" style="font-size: 11px;">
-                                <a class="collapse-item" href="cards.html">DUTA LOGIKA</a>
+                                <a class="collapse-item" href="{{route('penilaian-duta-logika.index')}}">DUTA LOGIKA</a>
                             </div>
                         @endif
 
                         @if ($mataLombaUser == 'LKFBB')
                             <div class="bg-white pt-2 collapse-inner rounded" style="font-size: 11px;">
-                                <a class="collapse-item" href="cards.html">LKFBB</a>
+                                <a class="collapse-item" href="{{route('penilaian-lkfbb.index')}}">LKFBB</a>
                             </div>
                         @endif
 
                         @if ($mataLombaUser == 'FOTO')
                             <div class="bg-white pt-2 collapse-inner rounded" style="font-size: 11px;">
-                                <a class="collapse-item" href="cards.html">FOTO</a>
+                                <a class="collapse-item" href="{{route('penilaian-foto.index')}}">FOTO</a>
                             </div>
                         @endif
 
-                        @if ($mataLombaUser == 'VIDEO')
+                        @if ($mataLombaUser == 'VIDIO')
                             <div class="bg-white pt-2 collapse-inner rounded" style="font-size: 11px;">
-                                <a class="collapse-item" href="cards.html">VIDEO</a>
+                                <a class="collapse-item" href="{{route('penilaian-vidio.index')}}">VIDIO</a>
                             </div>
                         @endif
                 </div>                

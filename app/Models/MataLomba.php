@@ -23,6 +23,22 @@ class MataLomba extends Model
         return $this->hasMany(PenilaianPionering::class);
     }
 
+    public function penilaian_lkfbb(){
+        return $this->hasMany(PenilaianLkfbb::class);
+    }
+
+    public function penilaian_duta_logika(){
+        return $this->hasMany(PenilaianDutaLogika::class);
+    }
+
+    public function penilaian_foto(){
+        return $this->hasMany(PenilaianFoto::class);
+    }
+
+    public function penilaian_vidio(){
+        return $this->hasMany(PenilaianVidio::class);
+    }
+
     public function lomba_foto_vidio(){
         return $this->hasMany(LombaFotoVidio::class);
     }

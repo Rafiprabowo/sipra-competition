@@ -9,12 +9,12 @@ use App\Models\MataLomba;
 use App\Models\BobotSoal;
 use App\Models\Peserta;
 use App\Models\Pembina;
-use App\Models\PenilaianPionering;
+use App\Models\PenilaianDutaLogika;
 use App\Models\ReguPembina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PenilaianPioneringController extends Controller
+class PenilaianDutaLogikaController extends Controller
 {
 
     public function index()
@@ -22,16 +22,17 @@ class PenilaianPioneringController extends Controller
         // Ambil juri yang sedang login
         $juris = Auth::user()->juri;
 
-        // Ambil mata lomba
-        $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::PIONERING->value)->first();
+        // Ambil mata lomba "duta logika"
+        $mata_lomba = MataLomba::where('nama', 'Duta Logika')->first();
 
-        $pesertas = Peserta::with('penilaian_pionering') 
+        // Ambil peserta yang terdaftar pada mata lomba "duta logika" dan sudah memiliki penilaian
+        $pesertas = Peserta::with('penilaian_duta_logika') // Eager load penilaian_duta logika
         ->where('mata_lomba_id', $mata_lomba->id)
-            ->whereHas('penilaian_pionering')  
+            ->whereHas('penilaian_duta_logika')  // Mengambil peserta yang sudah memiliki penilaian
             ->get();
 
         // Mengirim data ke view
-        return view('juri.penilaian_pionering.index', compact('pesertas'));
+        return view('juri.penilaian_duta_logika.index', compact('pesertas'));
     }
 
     public function createForm()
@@ -39,12 +40,13 @@ class PenilaianPioneringController extends Controller
         // Ambil semua pangkalan dari tabel pembinas
         $pangkalans = Pembina::all();
 
-        $mata_lomba = MataLomba::where('nama', 'PIONERING')->first();
+        // Ambil mata lomba "duta logika"
+        $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::DUTALOGIKA->value)->first();
 
-        // Ambil kriteria nilai dari bobot_soals untuk mata lomba 
+        // Ambil kriteria nilai dari bobot_soals untuk mata lomba "duta logika"
         $bobot_soals = BobotSoal::where('mata_lomba_id', $mata_lomba->id)->get();
 
-        return view('juri.penilaian_pionering.create', compact('pangkalans', 'mata_lomba', 'bobot_soals'));
+        return view('juri.penilaian_duta_logika.create', compact('pangkalans', 'mata_lomba', 'bobot_soals'));
     }
 
     public function store(Request $request)
@@ -77,10 +79,10 @@ class PenilaianPioneringController extends Controller
             }
         }
 
-        // Simpan data ke tabel 
+        // Simpan data ke tabel penilaian_duta_logikas
         $total_nilai = 0; // Variabel untuk menghitung total nilai
         foreach ($nilai as $bobot_id => $nilai_input) {
-            PenilaianPionering::create([
+            PenilaianDutaLogika::create([
                 'juri_id' => $juri_id,
                 'mata_lomba_id' => $mata_lomba_id,
                 'peserta_id' => $peserta_id,
@@ -92,8 +94,8 @@ class PenilaianPioneringController extends Controller
             $total_nilai += $nilai_input;
         }
 
-        // Update atau buat entri total_nilai di tabel 
-        PenilaianPionering::updateOrCreate(
+        // Update atau buat entri total_nilai di tabel penilaian_duta logikas
+        PenilaianDutaLogika::updateOrCreate(
             [
                 'mata_lomba_id' => $mata_lomba_id,
                 'peserta_id' => $peserta_id,
@@ -105,10 +107,10 @@ class PenilaianPioneringController extends Controller
         );
 
         // Duplikasi nilai total_nilai ke semua entri lain dengan mata_lomba_id yang sama
-        PenilaianPionering::where('peserta_id', $peserta_id)
+        PenilaianDutaLogika::where('peserta_id', $peserta_id)
             ->update(['total_nilai' => $total_nilai]);
 
-        return redirect()->route('penilaian-pionering.index')->with('success', 'Penilaian berhasil disimpan.');
+        return redirect()->route('penilaian-duta-logika.index')->with('success', 'Penilaian berhasil disimpan.');
     }
 
     public function show(string $id)
@@ -118,13 +120,13 @@ class PenilaianPioneringController extends Controller
 
     public function edit($id)
 {
-    $penilaian = PenilaianPionering::with(['nilai.bobot_soal'])->findOrFail($id);
-    return view('penilaian_pionering.edit', compact('penilaian'));
+    $penilaian = PenilaianDutaLogika::with(['nilai.bobot_soal'])->findOrFail($id);
+    return view('penilaian_duta_logika.edit', compact('penilaian'));
 }
 
 public function update(Request $request, $id)
 {
-    $penilaian = PenilaianPionering::findOrFail($id);
+    $penilaian = PenilaianDutaLogika::findOrFail($id);
 
     // Validasi nilai input berdasarkan bobot_soal
     foreach ($request->nilai as $bobot_id => $nilai_input) {
@@ -140,7 +142,7 @@ public function update(Request $request, $id)
     // Update nilai
     $total_nilai = 0;
     foreach ($request->nilai as $bobot_id => $nilai_input) {
-        $penilaianItem = PenilaianPionering::where([
+        $penilaianItem = PenilaianDutaLogika::where([
             'juri_id' => $penilaian->juri_id,
             'mata_lomba_id' => $penilaian->mata_lomba_id,
             'peserta_id' => $penilaian->peserta_id,
@@ -150,7 +152,7 @@ public function update(Request $request, $id)
         if ($penilaianItem) {
             $penilaianItem->update(['nilai' => $nilai_input]);
         } else {
-            PenilaianPionering::create([
+            PenilaianDutaLogika::create([
                 'juri_id' => $penilaian->juri_id,
                 'mata_lomba_id' => $penilaian->mata_lomba_id,
                 'peserta_id' => $penilaian->peserta_id,
@@ -165,20 +167,20 @@ public function update(Request $request, $id)
     // Update total nilai
     $penilaian->update(['total_nilai' => $total_nilai]);
 
-    return redirect()->route('penilaian-pionering.index')->with('success', 'Penilaian berhasil diperbarui.');
+    return redirect()->route('penilaian-duta-logika.index')->with('success', 'Penilaian berhasil diperbarui.');
 }
 
     public function destroy($id)
     {
-        $penilaian = PenilaianPionering::findOrFail($id);
+        $penilaian = PenilaianDutaLogika::findOrFail($id);
 
         // Hapus semua nilai terkait penilaian ini
-        PenilaianPionering::where([
+        PenilaianDutaLogika::where([
             'juri_id' => $penilaian->juri_id,
             'mata_lomba_id' => $penilaian->mata_lomba_id,
             'peserta_id' => $penilaian->peserta_id,
         ])->delete();
 
-        return redirect()->route('penilaian-pionering.index')->with('success', 'Penilaian berhasil dihapus.');
+        return redirect()->route('penilaian-duta-logika.index')->with('success', 'Penilaian berhasil dihapus.');
     }
 }

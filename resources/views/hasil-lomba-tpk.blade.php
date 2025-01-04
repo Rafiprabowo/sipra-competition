@@ -27,8 +27,8 @@
                             <thead>
                                 <tr>
                                     <th>Nama Peserta</th>
-                                    <th>Nama Regu</th>
-                                    <th>Nama Pangkalan</th>
+                                    <th>Regu</th>
+                                    <th>Pangkalan</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Nilai</th>
                                 </tr>
@@ -51,7 +51,7 @@
         @endif
 
         <div class="d-flex justify-content-start mt-4">
-            <a href="{{ route('peserta.dashboard') }}" class="btn btn-secondary">
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
             </a>
         </div>

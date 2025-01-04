@@ -11,8 +11,8 @@
         @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Data Penilaian Karikatur</h6>
-                <a href="{{ route('penilaian-karikatur.create') }}" class="btn btn-primary btn-md" title="Tambah" style="font-size: 11px;">
+                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Data Penilaian Duta Logika</h6>
+                <a href="{{ route('penilaian-duta-logika.create') }}" class="btn btn-primary btn-md" title="Tambah" style="font-size: 11px;">
                     <i class="fas fa-plus"></i>
                 </a>
             </div>
@@ -39,18 +39,18 @@
                                     <td>{{ $peserta->nisn }}</td>
                                     <td>{{ $peserta->nama }}</td>
                                     <td>{{ Auth::user()->juri->nama }}</td>
-                                    <td>{{ $peserta->penilaian_karikatur->total_nilai }}</td>
+                                    <td>{{ $peserta->penilaian_duta_logika->total_nilai }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-info btn-sm" title="Lihat">
+                                        {{-- <a href="#" class="btn btn-info btn-sm" title="Lihat">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <!-- Tombol Edit -->
-                                        <a href="{{ route('penilaian-karikatur.edit', $peserta->penilaianKarikatur->id ?? 0) }}" class="btn btn-warning btn-sm mx-2" title="Ubah">
+                                        <a href="{{ route('penilaian-duta-logika.edit', $peserta->penilaianDutaLogika->id ?? 0) }}" class="btn btn-warning btn-sm mx-2" title="Ubah">
                                             <i class="fas fa-edit"></i>
-                                        </a>                                        
+                                        </a>                                         --}}
                                     
                                         <!-- Form Hapus -->
-                                        <form action="{{ route('penilaian-karikatur.destroy', $peserta->penilaian_karikatur->id) }}" method="POST" style="display: inline;">
+                                        <form action="{{ route('penilaian-duta-logika.destroy', $peserta->penilaian_duta_logika->id) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus penilaian ini?')" title="Hapus">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
 
-                <!-- Tabel Penilaian Karikatur -->
+                <!-- Tabel Penilaian Duta Logika -->
                 
             </div>
         </div>
@@ -88,29 +88,12 @@
                         titleAttr: 'Export to PDF'
                     }
                 ],
-                pageLength: 5, // Set number of rows per page
-                responsive: true
-            });
-
-            $('#penilaianTable').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="fas fa-file-excel"></i> Export Excel',
-                        titleAttr: 'Export to Excel'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: '<i class="fas fa-file-pdf"></i> Export PDF',
-                        titleAttr: 'Export to PDF'
-                    }
-                ],
                 pageLength: 10, // Set number of rows per page
                 responsive: true,
                 searching: true,
                 ordering: true
             });
+
         });
     </script>
 @endsection

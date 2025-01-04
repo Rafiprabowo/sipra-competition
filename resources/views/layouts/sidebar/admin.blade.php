@@ -73,9 +73,9 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white collapse-inner rounded" style="font-size: 11px;">
                         <a class="collapse-item" href="{{route('admin.hasil_nilai.nilai_karikatur')}}">KARIKATUR</a>
-                        <a class="collapse-item" href="buttons.html">PIONERING</a>
-                        <a class="collapse-item" href="cards.html">DUTA LOGIKA</a>
-                        <a class="collapse-item" href="cards.html">LKFBB</a>
+                        <a class="collapse-item" href="{{route('admin.hasil_nilai.nilai_pionering')}}">PIONERING</a>
+                        <a class="collapse-item" href="{{route('admin.hasil_nilai.nilai_duta_logika')}}">DUTA LOGIKA</a>
+                        <a class="collapse-item" href="{{route('admin.hasil_nilai.nilai_lkfbb')}}">LKFBB</a>
                         <a class="collapse-item" href="cards.html">FOTO</a>
                         <a class="collapse-item" href="cards.html">VIDIO</a>
                         <a class="collapse-item" href="{{route('hasil-tpk')}}">TPK</a>

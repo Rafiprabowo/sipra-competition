@@ -6,15 +6,15 @@
 
 @section('content')
 <div class="container">
-    <h2 class="mb-4">Edit Penilaian Karikatur</h2>
+    <h2 class="mb-4">Edit Penilaian Foto</h2>
     <!-- Form Edit Penilaian -->
-    <form action="{{ route('penilaian-karikatur.update', $penilaian->id) }}" method="POST">
+    <form action="{{ route('penilaian-foto.update', $penilaian->id) }}" method="POST">
         @csrf
         @method('PUT')
         <!-- Peserta -->
         <div class="mb-4">
-            <label class="form-label">Peserta</label>
-            <input type="text" class="form-control" value="{{ $penilaian->peserta->nama }}" readonly>
+            <label class="form-label">Pembina</label>
+            <input type="text" class="form-control" value="{{ $penilaian->pembina->nama }}" readonly>
         </div>
 
         <!-- Daftar kriteria nilai -->

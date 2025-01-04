@@ -39,7 +39,7 @@
                         </div>
                         <div class="form-group">
                             <label for="kategori">Kategori</label>
-                            <select name="kategori" id="kategori" class="form-control">
+                            <select name="kategori" id="kategori" class="form-control" style="font-size: 11px;">
                                 <option value="">--Pilih Kategori--</option>
                                 <option value="cbt" {{($mataLomba->kategori == 'cbt') ? 'selected' : ''}}>Computer Based Test</option>
                                 <option value="non-cbt" {{($mataLomba->kategori == 'non-cbt') ? 'selected' : ''}}>Non Computer Based Test</option>

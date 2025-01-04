@@ -8,17 +8,17 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <h2 class="mb-4">Form Penilaian Karikatur</h2>
+<div class="container" style="font-size: 11px;">
+    <h2 class="mb-4" style="font-size: 11px;">Form Penilaian Vidio</h2>
     <!-- Form Penilaian -->
-    <form action="{{ route('penilaian-karikatur.store') }}" method="POST" id="penilaianForm">
+    <form action="{{ route('penilaian-vidio.store') }}" method="POST" id="penilaianForm">
         @csrf
         <!-- Filter -->
         <div class="mb-4">
             <!-- Filter Pangkalan -->
             <div class="mb-3">
                 <label for="filter-pangkalan" class="form-label">Filter Pangkalan</label>
-                <select id="filter-pangkalan" class="form-control">
+                <select id="filter-pangkalan" name="pembina_id" class="form-control" style="font-size: 11px;">
                     <option value="">-- Pilih Pangkalan --</option>
                     @foreach($pangkalans as $pangkalan)
                         <option value="{{ $pangkalan->id }}">{{ $pangkalan->pangkalan }}</option>
@@ -26,32 +26,16 @@
                 </select>
             </div>
 
-            <!-- Filter Nama Regu -->
+            <!-- Filter Nama Pembina -->
             <div class="mb-3">
-                <label for="regu_pembina" class="form-label">Filter Nama Regu</label>
-                <select id="regu_pembina_id" name="regu_pembina_id" class="form-control">
-
-                </select>
-                @error('regu_pembina_id')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <!-- Filter Peserta -->
-            <div class="mb-3">
-                <label for="peserta" class="form-label">Filter Peserta</label>
-                <select id="peserta_id" name="peserta_id" class="form-control">
-
-                </select>
-                @error('peserta_id')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+                <label for="pembina" class="form-label">Nama Pembina</label>
+                <input type="text" id="nama_pembina" class="form-control" style="font-size: 11px;" readonly>
             </div>
         </div>
 
         <!-- Daftar kriteria nilai -->
         <input type="hidden" name="mata_lomba_id" value="{{$mata_lomba->id}}">
-        <h5 class="mt-4">Kriteria Nilai</h5>
+        <h5 class="mt-4" style="font-size: 11px;">Kriteria Nilai</h5>
         <div id="kriteria-container">
             @foreach($bobot_soals as $bobot)
             <div class="row align-items-center mb-3">
@@ -66,7 +50,7 @@
                         class="form-control nilai-input" 
                         placeholder="Masukkan Nilai" 
                         data-max="{{ $bobot->bobot_soal }}" 
-                        data-kriteria="{{ $bobot->kriteria_nilai }}" 
+                        data-kriteria="{{ $bobot->kriteria_nilai }}"  style="font-size: 11px;"
                         required>
                 </div>
             </div>
@@ -76,7 +60,9 @@
 
         <!-- Tombol Submit -->
         <div class="mt-4">
-            <button type="submit" class="btn btn-primary">Simpan Penilaian</button>
+            <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Simpan">
+                <i class="fas fa-save"></i>
+            </button>
         </div>
     </form>
 </div>
@@ -86,46 +72,18 @@
 <script>
     $(document).ready(function () {
         $('#filter-pangkalan').change(function () {
-            let pangkalan_id = $(this).val();
-            let url = `/juri/regu/${pangkalan_id}`;
+            let pembina_id = $(this).val();
+            let url = `/juri/vidio/${pembina_id}`;
             
             $.ajax({
                 url: url,
                 method: 'GET',
                 success: function(response) {
-                    if (response.data && response.data.length > 0) {
-                        $('#regu_pembina_id').empty().append('<option value="">Pilih Regu</option>');
-                        response.data.forEach(function(regu) {
-                            $('#regu_pembina_id').append(`<option value="${regu.id}">${regu.nama_regu}</option>`);
-                        });
-                    } else {
-                        $('#regu_pembina_id').empty().append('<option value="">Tidak ada regu tersedia</option>');
-                    }
+                    console.log(response.data.nama)
+                    $('#nama_pembina').val(response.data.nama)
                 },
                 error: function() {
-                    alert('Terjadi kesalahan saat mengambil data regu.');
-                },
-            });
-        });
-
-        $('#regu_pembina_id').change(function () {
-            let regu_id = $(this).val();
-            let url = `/juri/peserta/${regu_id}`;
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function(response) {
-                    if (response.data && response.data.length > 0) {
-                        $('#peserta_id').empty().append('<option value="">Pilih Peserta</option>');
-                        response.data.forEach(function(peserta) {
-                            $('#peserta_id').append(`<option value="${peserta.id}">${peserta.nama}</option>`);
-                        });
-                    } else {
-                        $('#peserta_id').empty().append('<option value="">Tidak ada peserta tersedia</option>');
-                    }
-                },
-                error: function() {
-                    alert('Terjadi kesalahan saat mengambil data peserta.');
+                    alert('Terjadi kesalahan saat mengambil data pembina.');
                 },
             });
         });

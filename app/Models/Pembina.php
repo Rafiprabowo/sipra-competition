@@ -38,7 +38,7 @@ class Pembina extends Model
     }
 
     public function penilaian_foto(){
-        return $this->hasOne(PenilaianFoto::class);
+        return $this->hasOne(PenilaianFoto::class, 'pembina_id');
     }
 
     public function penilaian_vidio(){

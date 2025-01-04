@@ -3,7 +3,7 @@
     @include('layouts.sidebar.admin')
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" style="font-size: 11px;">
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -21,15 +21,15 @@
         @endif
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h5>Soal {{$session->nama}} Computer Based Test</h5>
+                <h5 style="font-size: 11px;">Soal {{$session->nama}} Computer Based Test</h5>
                 <div class="d-flex">
                     <!-- Tombol Import Excel -->
-                    <button class="btn btn-success mr-2" data-toggle="modal" data-target="#importModal">
-                        <i class="fas fa-file-excel"></i> Import Excel
+                    <button class="btn btn-success mr-2" data-toggle="modal" data-target="#importModal" style="font-size: 11px;" title="Import Excel">
+                        <i class="fas fa-file-excel"></i>
                     </button>
                     <!-- Tombol Hapus Semua Soal -->
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteAllModal">
-                        <i class="fas fa-trash-alt"></i> Hapus Semua Soal
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteAllModal" style="font-size: 11px;" style="font-size: 11px;" title="Hapus Soal">
+                        <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
             </div>

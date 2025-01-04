@@ -41,13 +41,13 @@
                                     <td>{{ Auth::user()->juri->nama }}</td>
                                     <td>{{ $peserta->penilaian_karikatur->total_nilai }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-info btn-sm" title="Lihat">
+                                        {{-- <a href="#" class="btn btn-info btn-sm" title="Lihat">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <!-- Tombol Edit -->
                                         <a href="{{ route('penilaian-karikatur.edit', $peserta->penilaianKarikatur->id ?? 0) }}" class="btn btn-warning btn-sm mx-2" title="Ubah">
                                             <i class="fas fa-edit"></i>
-                                        </a>                                        
+                                        </a>                                         --}}
                                     
                                         <!-- Form Hapus -->
                                         <form action="{{ route('penilaian-karikatur.destroy', $peserta->penilaian_karikatur->id) }}" method="POST" style="display: inline;">
@@ -75,24 +75,6 @@
         document.addEventListener("DOMContentLoaded", function() {
             // Initialize DataTable with Export buttons
             $('#pesertaTable').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="fas fa-file-excel"></i> Export Excel',
-                        titleAttr: 'Export to Excel'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: '<i class="fas fa-file-pdf"></i> Export PDF',
-                        titleAttr: 'Export to PDF'
-                    }
-                ],
-                pageLength: 5, // Set number of rows per page
-                responsive: true
-            });
-
-            $('#penilaianTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
                     {
