@@ -23,10 +23,11 @@ class PenilaianFotoController extends Controller
         // Ambil mata lomba
         $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::FOTO->value)->first();
 
-        // Ambil penilaian foto dengan relasi
+        // Ambil penilaian foto dengan relasi dan filter duplikat berdasarkan mata_lomba_id
         $penilaianFotos = PenilaianFoto::with('juri', 'pembina')
             ->where('mata_lomba_id', $mata_lomba->id)
-            ->get();
+            ->get()
+            ->unique('pembina_id');  // Menghapus duplikat berdasarkan mata_lomba_id
 
         // Mengirim data ke view
         return view('juri.penilaian_foto.index', compact('penilaianFotos'));

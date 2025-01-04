@@ -11,10 +11,10 @@ class PenilaianFoto extends Model
     protected $guarded = [];
     public function pembina()
     {
-        $this->belongsTo(Pembina::class, 'pembina_id');
+        return $this->belongsTo(Pembina::class, 'pembina_id');
     }
     public function juri(){
-        $this->belongsTo(Juri::class, 'juri_id');
+        return $this->belongsTo(Juri::class, 'juri_id');
     }
     public function mata_lomba(){
         return $this->belongsTo(MataLomba::class, 'mata_lomba_id');

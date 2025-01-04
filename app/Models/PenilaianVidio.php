@@ -11,10 +11,10 @@ class PenilaianVidio extends Model
     protected $guarded = [];
     public function pembina()
     {
-        $this->belongsTo(Pembina::class);
+        return $this->belongsTo(Pembina::class);
     }
     public function juri(){
-        $this->belongsTo(Juri::class);
+        return $this->belongsTo(Juri::class);
     }
     public function mata_lomba(){
         return $this->belongsTo(MataLomba::class);

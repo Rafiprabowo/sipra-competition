@@ -23,10 +23,11 @@ class PenilaianVidioController extends Controller
         // Ambil mata lomba
         $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::VIDIO->value)->first();
 
-        // Ambil penilaian vidio dengan relasi
+        // Ambil penilaian vidio dengan relasi dan filter duplikat berdasarkan mata_lomba_id
         $penilaianVidios = PenilaianVidio::with('juri', 'pembina')
             ->where('mata_lomba_id', $mata_lomba->id)
-            ->get();
+            ->get()
+            ->unique('pembina_id');  // Menghapus duplikat berdasarkan mata_lomba_id
 
         // Mengirim data ke view
         return view('juri.penilaian_vidio.index', compact('penilaianVidios'));

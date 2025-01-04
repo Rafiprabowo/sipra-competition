@@ -65,6 +65,14 @@ Route::prefix('admin')->group(function () {
     Route::get('/export-pdf-lkfbb', [\App\Http\Controllers\Admin\HasilNilaiLkfbbController::class, 'exportPDFLkfbb'])->name('exportPDFLkfbb');
     Route::get('/export-excel-lkfbb', [\App\Http\Controllers\Admin\HasilNilaiLkfbbController::class, 'exportExcelLkfbb'])->name('exportExcelLkfbb');
 
+    Route::post('/upload-template-foto', [\App\Http\Controllers\Admin\HasilNilaiFotoController::class, 'uploadTemplateFoto'])->name('uploadTemplateFoto');
+    Route::get('/export-pdf-foto', [\App\Http\Controllers\Admin\HasilNilaiFotoController::class, 'exportPDFFoto'])->name('exportPDFFoto');
+    Route::get('/export-excel-foto', [\App\Http\Controllers\Admin\HasilNilaiFotoController::class, 'exportExcelFoto'])->name('exportExcelFoto');
+
+    Route::post('/upload-template-vidio', [\App\Http\Controllers\Admin\HasilNilaiVidioController::class, 'uploadTemplateVidio'])->name('uploadTemplateVidio');
+    Route::get('/export-pdf-vidio', [\App\Http\Controllers\Admin\HasilNilaiVidioController::class, 'exportPDFVidio'])->name('exportPDFVidio');
+    Route::get('/export-excel-vidio', [\App\Http\Controllers\Admin\HasilNilaiVidioController::class, 'exportExcelVidio'])->name('exportExcelVidio');
+
     // Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class)->middleware(['role:admin']);
     Route::resource('dokumen', \App\Http\Controllers\Admin\TemplateDokumenController::class)->middleware(['role:admin']);
     Route::get('/hasil-nilai/nilai-karikatur', [\App\Http\Controllers\Admin\HasilNilaiKarikaturController::class, 'index'])->name('admin.hasil_nilai.nilai_karikatur');
