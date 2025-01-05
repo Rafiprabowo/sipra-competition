@@ -2,23 +2,15 @@
 
 use App\Exports\HasilLombaSms;
 use App\Exports\HasilLombaTpk;
-use App\Http\Controllers\Admin\EditSoalTpkController;
-use App\Http\Controllers\Admin\ImportSoalTpkController;
 use App\Http\Controllers\Admin\JuriController;
 use App\Http\Controllers\Admin\KelolaSymbolSmsController;
-use App\Http\Controllers\Admin\PertanyaanTpkController;
 use App\Http\Controllers\Admin\SmsQuestionSmsController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HasilLombaSmsController;
 use App\Http\Controllers\HasilLombaTpkController;
-use App\Http\Controllers\Pembina\RegistrasiController;
 use App\Models\Finalisasi;
-use App\Models\Peserta;
 use Illuminate\Support\Facades\Route;
-use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Row;
 
 /*
 |--------------------------------------------------------------------------
@@ -192,7 +184,6 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
 });
 
-
 //Peserta
 Route::prefix('peserta')->middleware(['auth', 'role:peserta'])->group(function () {
     Route::get('/edit-profile', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'editProfilePeserta'])->name('editProfilePeserta');
@@ -214,9 +205,6 @@ Route::prefix('peserta')->middleware(['auth', 'role:peserta'])->group(function (
     Route::get('/cbt/{session_id}/finish', \App\Http\Controllers\Peserta\EndCbtController::class)->name('end.cbt');
     Route::get('/cbt/{session_id}/review', \App\Http\Controllers\Peserta\ReviewCbtController::class)->name('review.cbt');
 });
-
-
-
 
 //Pembina
 Route::prefix('pembina')->middleware(['auth', 'role:pembina'])->group(function () {
@@ -251,10 +239,6 @@ Route::prefix('pembina')->middleware(['auth', 'role:pembina'])->group(function (
     Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
     Route::get('/regu/{jenisKelamin}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getRegu'])->name('getRegu');
 });
-
-
-
-
 
 //Juri
 Route::prefix('juri')->middleware(['auth', 'role:juri'])->group(function () {

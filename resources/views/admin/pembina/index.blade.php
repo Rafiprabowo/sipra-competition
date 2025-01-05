@@ -6,9 +6,22 @@
 
 @section('content')
     <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 11px;">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>        
+                <li class="breadcrumb-item active" aria-current="page">Data Pembina</li>
+            </ol>
+        </nav>
+
         @if (session('success'))
             <div class="alert alert-success" role="alert"> {{ session('success') }} </div>
         @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert"> {{ session('error') }} </div>
+        @endif
+
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Data Pembina</h6>

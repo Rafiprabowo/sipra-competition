@@ -4,6 +4,15 @@
 @endsection
 @section('content')
     <div class="container-fluid" style="font-size: 11px;">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('sesi-cbt.index') }}">Sesi Computer Based Test</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Peserta {{ $session->nama }}</li>
+            </ol>
+        </nav>
+
         @if (session('success'))
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
