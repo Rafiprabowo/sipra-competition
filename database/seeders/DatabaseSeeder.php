@@ -35,6 +35,8 @@ class DatabaseSeeder extends Seeder
             'ditujukan' => 0,
             'kategori' => 'non-cbt'
          ])->create();
+
+         
        
 
         // Membuat User Pembina dengan Regu dan Peserta terkait
