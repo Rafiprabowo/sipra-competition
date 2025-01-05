@@ -221,7 +221,8 @@ Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
 //Pembina
 Route::prefix('pembina')->group(function () {
     Route::get('/dashboard', function () {
-        return view('pembina.dashboard');
+        $finalisasis = \App\Models\Finalisasi::with('pembina.upload_dokumen')->get();
+        return view('pembina.dashboard', compact('finalisasis'));
     })->name('pembina.dashboard')->middleware(['role:pembina']);
     Route::get('/edit-profile-pembina', [App\Http\Controllers\Pembina\EditProfilePembinaController::class, 'editProfilePembina'])->name('editProfilePembina')->middleware(['role:pembina']);
     Route::put('/update-profile-pembina', [App\Http\Controllers\Pembina\EditProfilePembinaController::class, 'updateProfilePembina'])->name('updateProfilePembina')->middleware(['role:pembina']);

@@ -45,22 +45,27 @@
                 <td>{{ $finalisasi->pembina->pangkalan }}</td>
                 <td>
                     <ul class="list-group">
-                        @foreach($finalisasi->pembina->upload_dokumen as $doc)
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    {{ $doc->template_dokumen->nama }}
+                        @forelse($finalisasi->pembina->upload_dokumen as $doc)
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        {{ $doc->template_dokumen->nama }}
+                                    </div>
+                                    <span class="badge ml-2 {{ $doc->status == 1 ? 'badge-success' : ($doc->status == 0 ? 'badge-danger' : 'badge-warning') }}">
+                                        {{ $doc->status == 1 ? 'Tervalidasi' : ($doc->status == 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi') }}
+                                    </span>
                                 </div>
-                                <span class="badge ml-2 {{ $doc->status == 1 ? 'badge-success' : ($doc->status == 0 ? 'badge-danger' : 'badge-warning') }}">
-                                    {{ $doc->status == 1 ? 'Tervalidasi' : ($doc->status == 0 ? 'Tidak Tervalidasi' : 'Menunggu Verifikasi') }}
-                                </span>
-                            </div>
-                            <a href="{{ route('viewFile', basename($doc->file)) }}" class="btn btn-info btn-sm" title="Lihat">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </li>                        
-                        @endforeach
+                                <a href="{{ route('viewFile', basename($doc->file)) }}" class="btn btn-info btn-sm" title="Lihat">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </li>
+                        @empty
+                            <li class="list-group-item text-center">
+                                Tidak ada data.
+                            </li>
+                        @endforelse
                     </ul>
+                    
                 </td>
                 <td>
                     @if($finalisasi && $finalisasi->status == 1)
