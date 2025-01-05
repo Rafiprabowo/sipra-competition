@@ -59,7 +59,7 @@
                                         @endif
                                         @csrf
                                         <div class="card mb-4">
-                                            <div class="card-header bg-info text-white">Input Data Pembina</div>
+                                            <div class="card-header bg-warning text-white">Input Data Pembina</div>
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
@@ -274,7 +274,7 @@
 
                                 @if(isset($pembina) && $pembina->exists)
                                         <div class="card w-auto mt-4" style="font-size: 11px;">
-                                            <div class="card-header bg-info text-white">Data Pembina</div>
+                                            <div class="card-header bg-warning text-white">Data Pembina</div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered">
@@ -329,7 +329,7 @@
                                 @else
                                     @if(isset($pembina) && $pembina->exists)
                                         <div class="card w-auto mt-4" style="font-size: 11px;">
-                                            <div class="card-header bg-info text-white">Data Pembina</div>
+                                            <div class="card-header bg-warning text-white">Data Pembina</div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered">
@@ -408,7 +408,7 @@
                                 @endif
                                 @csrf
                                 <div class="card mb-4">
-                                    <div class="card-header bg-info text-white">Input Data Regu</div>
+                                    <div class="card-header bg-warning text-white">Input Data Regu</div>
                                     <div class="card-body">
                                         <div class="form-group mb-3">
                                             <label for="nama_regu">Nama Regu</label>
@@ -480,7 +480,7 @@
                     <!-- Tabel Data Regu -->
                     @if(isset($regus) && $regus->count() > 0)
                         <div class="card mb-4" style="font-size: 11px;">
-                            <div class="card-header bg-info text-white">Data Regu</div>
+                            <div class="card-header bg-warning text-white">Data Regu</div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table id="reguTable" class="table table-bordered" style="text-align: center;">
@@ -554,7 +554,7 @@
                         <input type="hidden" name="pembina_id" value="{{ $pembina->id }}">
                         <div class="card mb-4">
                             <div
-                                class="card-header bg-info text-white">{{ isset($pesertaToEdit) ? 'Edit Data Peserta' : 'Input Data Peserta' }}</div>
+                                class="card-header bg-warning text-white">{{ isset($pesertaToEdit) ? 'Edit Data Peserta' : 'Input Data Peserta' }}</div>
                             <div class="card-body">
                                 <div class="form-group mb-3">
                                     <label for="nisn">NISN</label>
@@ -653,7 +653,7 @@
                     <!-- Tabel Data Peserta -->
                     @if(isset($pesertas) && $pesertas->count() > 0)
                         <div class="card mb-4" style="font-size: 11px;">
-                            <div class="card-header bg-info text-white">Data Peserta</div>
+                            <div class="card-header bg-warning text-white">Data Peserta</div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table id="pesertaTable" class="table table-bordered" style="text-align: center;">
@@ -720,7 +720,7 @@
                     @else
 
                     <div class="card mt-4">
-                        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                        <div class="card-header bg-warning text-white d-flex justify-content-between align-items-center">
                             <h5 style="font-size: 11px;">Dokumen Syarat Umum</h5>
                             <!-- Tombol Finalisasi Pendaftaran -->
                             @if(!isset($pembina->finalisasi))

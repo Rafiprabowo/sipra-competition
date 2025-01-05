@@ -64,8 +64,8 @@
                                 <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama</th>
-                                    <th>Nama Regu</th>
+                                    <th>Nama Peserta</th>
+                                    <th>Regu</th>
                                     <th>Pangkalan</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Nilai akhir</th>

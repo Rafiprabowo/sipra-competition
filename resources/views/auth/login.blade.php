@@ -30,11 +30,13 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image">
+                            <img src="{{ asset('img/CENDRA 1.png') }}" alt="Login" style="width: 350px; margin-left:100px;">
+                        </div>
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4" style="font-size: 11px;">Silahkan Login LOGIKA</h1>
+                                    <h1 class="h4 text-gray-900 mb-4" style="font-size: 20px;"><b>LOGIN LOGIKA 2025</b></h1>
                                     <!-- Display Flash Message -->
                                     @if(session('success'))
                                         <div class="alert alert-success">
@@ -48,7 +50,7 @@
                                     <!-- Username Input -->
                                     <div class="form-group">
                                         <input type="text" name="username" class="form-control form-control-user"
-                                               id="exampleInputUsername" placeholder="Enter Username..."
+                                               id="exampleInputUsername" placeholder="Masukkan Username"
                                                value="{{ old('username') }}" required autofocus style="font-size: 11px;">
                                         @error('username')
                                         <span class="text-danger small">{{ $message }}</span>
@@ -57,7 +59,7 @@
                                     <!-- Password Input -->
                                     <div class="form-group">
                                         <input type="password" name="password" class="form-control form-control-user"
-                                               id="exampleInputPassword" placeholder="Password" required style="font-size: 11px;">
+                                               id="exampleInputPassword" placeholder="Masukkan Password" required style="font-size: 11px;">
                                         @error('password')
                                         <span class="text-danger small">{{ $message }}</span>
                                         @enderror
@@ -66,20 +68,20 @@
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
                                             <input type="checkbox" class="custom-control-input" id="customCheck" name="remember">
-                                            <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                            <label class="custom-control-label" for="customCheck">Ingatkan Saya</label>
                                         </div>
                                     </div>
                                     <!-- Login Button -->
-                                    <button type="submit" class="btn btn-primary btn-user btn-block" style="font-size: 11px;">
-                                        Login
+                                    <button type="submit" class="btn btn-primary btn-user btn-block" style="font-size: 11px; background-color: #FCA82B">
+                                        Masuk
                                     </button>
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="{{ route('register') }}">Don't have Account, Create an Account!</a>
+                                    <a class="small" href="{{ route('register') }}" style="color: black">Belum Punya Akun, Buat Akun</a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="small" href="/">Back to home</a>
+                                    <a class="small" href="/" style="color: black">Kembali ke home</a>
                                 </div>
                             </div>
                         </div>

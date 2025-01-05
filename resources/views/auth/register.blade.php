@@ -19,11 +19,13 @@
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
                     <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block bg-register-image"></div>
+                        <div class="col-lg-6 d-none d-lg-block bg-register-image">
+                            <img src="{{ asset('img/ROSE 5.png') }}" alt="Login" style="width: 350px; margin-left:80px; margin-top:20px;">
+                        </div>
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4" style="font-size: 11px;">Buat Akun Baru LOGIKA</h1>
+                                    <h1 class="h4 text-gray-900 mb-4" style="font-size: 20px;"><b>REGISTRASI LOGIKA 2025</b></h1>
                                 </div>
                                 <!-- Register Form -->
                                 <form method="POST" action="{{ route('register.attempt') }}" class="user">
@@ -31,7 +33,7 @@
                                     <!-- Username -->
                                     <div class="form-group">
                                         <input type="text" name="username" class="form-control form-control-user"
-                                               placeholder="Enter Username" required style="font-size: 11px;">
+                                               placeholder="Masukkan Username" required style="font-size: 11px;">
                                         @error('username')
                                         <span class="text-danger small">{{ $message }}</span>
                                         @enderror
@@ -39,14 +41,14 @@
                                     <!-- Password -->
                                     <div class="form-group">
                                         <input type="password" name="password" class="form-control form-control-user"
-                                               placeholder="Password" required style="font-size: 11px;">
+                                               placeholder="Masukkan Password" required style="font-size: 11px;">
                                         @error('password')
                                         <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <!-- Role -->
                                     <div class="form-group">
-                                        <select name="role" class="form-control form-control-user" aria-label=".form-select-lg example" required style="font-size: 11px;">
+                                        <select name="role" id="role-select" class="form-control form-control-user" aria-label=".form-select-lg example" required style="font-size: 11px;">
                                             <!-- Placeholder dengan value kosong -->
                                             <option value="">Select Role</option>
                                             <option value="admin">Admin</option>
@@ -57,14 +59,14 @@
                                         @error('role')
                                         <span class="text-danger small">{{ $message }}</span>
                                         @enderror
-                                    </div>                                                                  
-                                    <button type="submit" class="btn btn-primary btn-user btn-block" style="font-size: 11px;">
-                                        Register Account
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block" style="font-size: 11px; background-color: #FCA82B">
+                                        Buat Akun
                                     </button>
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="{{ route('login') }}">Already have an account? Login!</a>
+                                    <a class="small" href="{{ route('login') }}" style="color: black">Sudah Punya Akun, Login Sekarang</a>
                                 </div>
                             </div>
                         </div>
@@ -78,5 +80,14 @@
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+<!-- Tambahan JavaScript untuk menampilkan pilihan yang dipilih -->
+<script>
+    document.getElementById('role-select').addEventListener('change', function() {
+        var selectedRole = this.options[this.selectedIndex].text;
+        alert('Role yang dipilih: ' + selectedRole);
+    });
+</script>
+
 </body>
 </html>

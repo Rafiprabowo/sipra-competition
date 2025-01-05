@@ -38,8 +38,8 @@
                                     <form action="{{ route('admin.bobot-soal.deleteRow', $bobot->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('POST')
-                                        <input type="hidden" name="kriteria_nilai" value="{{ $bobot->kriteria_nilai }}">
-                                        <button type="submit" class="btn btn-danger" style="font-size: 11px;" title="Hapus">
+                                        <input type="hidden" name="kriteria_nilai" value="{{ $bobot->kriteria_nilai }}" style="font-size: 11px;">
+                                        <button type="submit" class="btn btn-danger" title="Hapus" style="font-size: 11px;">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>                                    
