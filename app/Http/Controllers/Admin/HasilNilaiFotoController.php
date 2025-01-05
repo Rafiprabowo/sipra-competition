@@ -21,6 +21,10 @@ class HasilNilaiFotoController extends Controller
         // Ambil mata lomba
         $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::FOTO->value)->first();
 
+        if (!$mata_lomba) {
+            return redirect()->route('admin.dashboard')->with('error', 'Mohon maaf, masukkan mata lomba Foto untuk membuka penilaian.');
+        }
+
         // Ambil penilaian foto dengan relasi dan filter duplikat berdasarkan pembina_id
         $penilaianFotos = PenilaianFoto::with('juri', 'pembina')
             ->where('mata_lomba_id', $mata_lomba->id)
