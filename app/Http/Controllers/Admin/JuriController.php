@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Juri;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Models\User;
 use App\Models\MataLomba;
 
@@ -126,4 +128,29 @@ class JuriController extends Controller
 
         return redirect()->route('juri.index')->with('success', 'Data berhasil dihapus!');
     }
+
+    public function export()
+    {
+        $juri = Juri::with('mata_lomba')->get();
+        
+        // Konfigurasi Dompdf
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new Dompdf($options);
+
+        // Render view ke dalam HTML
+        $html = view('admin.juri.pdf', compact('juri'))->render();
+
+        // Load HTML ke Dompdf
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render PDF
+        $dompdf->render();
+
+        // Output file PDF
+        return $dompdf->stream('data_juri.pdf');
+    }
+
 }

@@ -48,6 +48,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/finalisasi/{id}/update', [\App\Http\Controllers\Admin\FinalisasiController::class, 'update'])->name('finalisasi.update');
     Route::get('/view-file/{file}', [\App\Http\Controllers\Admin\FinalisasiController::class, 'view'])->name('viewFile');
 
+    Route::get('/juri/export', [App\Http\Controllers\Admin\JuriController::class, 'export'])->name('juri.export');
+
     Route::post('/upload-template', [\App\Http\Controllers\Admin\HasilNilaiPioneringController::class, 'uploadTemplate'])->name('uploadTemplate');
     Route::get('/export-pdf', [\App\Http\Controllers\Admin\HasilNilaiPioneringController::class, 'exportPDF'])->name('exportPDF');
     Route::get('/export-excel', [\App\Http\Controllers\Admin\HasilNilaiPioneringController::class, 'exportExcel'])->name('exportExcel');
