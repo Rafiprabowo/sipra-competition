@@ -9,8 +9,8 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('symbols.index') }}">Symbols</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Symbol</li>
+                <li class="breadcrumb-item"><a href="{{ route('symbols.index') }}">Simbol</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Simbol</li>
             </ol>
         </nav>
 
@@ -23,7 +23,7 @@
 
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h5 style="font-size: 11px;">Edit Symbol</h5>
+                <h5 style="font-size: 11px;">Edit Simbol</h5>
                 <a href="{{ route('symbols.index') }}" class="btn btn-secondary" style="font-size: 11px;" title="Back to List">
                     <i class="fas fa-arrow-left"></i>
                 </a>
@@ -34,7 +34,7 @@
                     @method('PUT')
 
                     <div class="form-group">
-                        <label for="letter">Letter</label>
+                        <label for="letter">Huruf</label>
                         <input type="text" name="letter" id="letter" class="form-control form-control-sm" value="{{ old('letter', strtoupper($symbol->letter)) }}" maxlength="1" required>
                         @error('letter')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="type">Type</label>
+                        <label for="type">Jenis</label>
                         <select name="type" id="type" class="form-control form-control-sm" required>
                             <option value="{{ \App\Enums\SymbolType::Semaphore->value }}" 
                                     {{ old('type', $symbol->type ?? '') == \App\Enums\SymbolType::Semaphore->value ? 'selected' : '' }}>
@@ -59,7 +59,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="image">Symbol Image</label>
+                        <label for="image">Gambar Huruf</label>
                         <input type="file" name="image" id="image" class="form-control form-control-sm" accept="image/*">
                         <small>Current Image: 
                             @if ($symbol->image)

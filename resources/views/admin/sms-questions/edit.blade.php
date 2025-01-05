@@ -10,7 +10,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('sms-questions.index') }}">SMS Questions</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit SMS Question</li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Pertanyaan SMS</li>
             </ol>
         </nav>
 
@@ -23,7 +23,7 @@
 
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h5 style="font-size: 11px;">Edit SMS Question</h5>
+                <h5 style="font-size: 11px;">Edit Pertanyaan SMS</h5>
                 <a href="{{ route('sms-questions.index') }}" class="btn btn-secondary" style="font-size: 11px;" title="Back to List">
                     <i class="fas fa-arrow-left"></i>
                 </a>
@@ -34,7 +34,7 @@
                     @method('PUT')
                     
                     <div class="form-group">
-                        <label for="word">Word</label>
+                        <label for="word">Kata</label>
                         <input type="text" name="word" id="word" class="form-control form-control-sm" value="{{ old('word', $smsQuestion->word) }}" required>
                         @error('word')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="type">Type</label>
+                        <label for="type">Jenis</label>
                         <select name="type" id="type" class="form-control form-control-sm" required>
                             <option value="{{ \App\Enums\SymbolType::Semaphore->value }}" 
                                     {{ old('type', $smsQuestion->type) == \App\Enums\SymbolType::Semaphore->value ? 'selected' : '' }}>
@@ -59,7 +59,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="cbt_session_id">CBT Session</label>
+                        <label for="cbt_session_id">Sesi CBT</label>
                         <select name="cbt_session_id" id="cbt_session_id" class="form-control form-control-sm">
                             <option value="">Select CBT Session (optional)</option>
                             @foreach($cbtSessions as $cbtSession)

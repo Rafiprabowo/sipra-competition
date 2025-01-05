@@ -9,8 +9,8 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('symbols.index') }}">Symbols</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Add New Symbol</li>
+                <li class="breadcrumb-item"><a href="{{ route('symbols.index') }}">Simbol</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tambah Simbol</li>
             </ol>
         </nav>
 
@@ -32,7 +32,7 @@
                 <form action="{{ route('symbols.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
-                        <label for="letter">Letter</label>
+                        <label for="letter">Huruf</label>
                         <input type="text" name="letter" id="letter" class="form-control form-control-sm" value="{{ old('letter') }}" maxlength="1" required>
                         @error('letter')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
@@ -40,7 +40,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="type">Type</label>
+                        <label for="type">Jenis</label>
                         <select name="type" id="type" class="form-control form-control-sm" required>
                             <option value="{{ \App\Enums\SymbolType::Semaphore->value }}" 
                                     {{ old('type', $symbol->type ?? '') == \App\Enums\SymbolType::Semaphore->value ? 'selected' : '' }}>
@@ -58,7 +58,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="image">Symbol Image</label>
+                        <label for="image">Gambar Huruf</label>
                         <input type="file" name="image" id="image" class="form-control form-control-sm" accept="image/*">
                         @error('image')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
