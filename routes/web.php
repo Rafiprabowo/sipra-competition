@@ -33,23 +33,23 @@ use Maatwebsite\Excel\Row;
 Route::get('/', function () { return view('home'); });
 Route::get('/login', function () {return view('auth.login');})->name('login');
 Route::post('/login', \App\Http\Controllers\Auth\LoginController::class)->name('login.attempt');
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
+Route::get('/register', function () {return view('auth.register');})->name('register');
 Route::post('/register', \App\Http\Controllers\Auth\RegisterController::class)->name('register.attempt');
 Route::post('/logout', \App\Http\Controllers\Auth\LogoutController::class)->name('logout');
+
 Route::get('/download-template/{templateId}', [\App\Http\Controllers\Admin\TemplateDokumenController::class, 'downloadTemplate'])->name('downloadTemplate');
+
 Route::get('/view-file/{fileName}', [\App\Http\Controllers\Admin\TemplateDokumenController::class, 'viewFile'])->name('viewFile');
 
 //Admin
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', function () {
         $finalisasis = \App\Models\Finalisasi::with('pembina.upload_dokumen')->get();
         return view('admin.dashboard', compact('finalisasis'));
-    })->name('admin.dashboard')->middleware(['role:admin']);
-    Route::get('/admin/edit-profile-admin', [App\Http\Controllers\Admin\EditProfileAdminController::class, 'editProfileAdmin'])->name('editProfileAdmin')->middleware(['role:admin']);
-    Route::put('/admin/update-profile-admin', [App\Http\Controllers\Admin\EditProfileAdminController::class, 'updateProfileAdmin'])->name('updateProfileAdmin')->middleware(['role:admin']);
-    Route::resource('users', UserController::class)->middleware(['role:admin']);
+    })->name('admin.dashboard');
+    Route::get('/admin/edit-profile-admin', [App\Http\Controllers\Admin\EditProfileAdminController::class, 'editProfileAdmin'])->name('editProfileAdmin');
+    Route::put('/admin/update-profile-admin', [App\Http\Controllers\Admin\EditProfileAdminController::class, 'updateProfileAdmin'])->name('updateProfileAdmin');
+    Route::resource('users', UserController::class);
     Route::post('/finalisasi/{id}/approve', [\App\Http\Controllers\Admin\FinalisasiController::class, 'approve'])->name('finalisasi.approve');
     Route::post('/finalisasi/{id}/reject', [\App\Http\Controllers\Admin\FinalisasiController::class, 'reject'])->name('finalisasi.reject');
     Route::get('/finalisasi/{id}/edit', [\App\Http\Controllers\Admin\FinalisasiController::class, 'edit'])->name('finalisasi.edit');
@@ -80,8 +80,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/export-pdf-vidio', [\App\Http\Controllers\Admin\HasilNilaiVidioController::class, 'exportPDFVidio'])->name('exportPDFVidio');
     Route::get('/export-excel-vidio', [\App\Http\Controllers\Admin\HasilNilaiVidioController::class, 'exportExcelVidio'])->name('exportExcelVidio');
 
-    // Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class)->middleware(['role:admin']);
-    Route::resource('dokumen', \App\Http\Controllers\Admin\TemplateDokumenController::class)->middleware(['role:admin']);
+    // Route::resource('verif_dokumen', \App\Http\Controllers\DashboardController::class);
+    Route::resource('dokumen', \App\Http\Controllers\Admin\TemplateDokumenController::class);
     Route::get('/hasil-nilai/nilai-karikatur', [\App\Http\Controllers\Admin\HasilNilaiKarikaturController::class, 'index'])->name('admin.hasil_nilai.nilai_karikatur');
     Route::get('/hasil-nilai/nilai-pionering', [\App\Http\Controllers\Admin\HasilNilaiPioneringController::class, 'index'])->name('admin.hasil_nilai.nilai_pionering');
     Route::get('/hasil-nilai/nilai-lkfbb', [\App\Http\Controllers\Admin\HasilNilaiLkfbbController::class, 'index'])->name('admin.hasil_nilai.nilai_lkfbb');
@@ -90,21 +90,21 @@ Route::prefix('admin')->group(function () {
     Route::get('/hasil-nilai/nilai-vidio', [\App\Http\Controllers\Admin\HasilNilaiVidioController::class, 'index'])->name('admin.hasil_nilai.nilai_vidio');
 
     Route::prefix('peserta')->group(function () {
-        Route::get('/data-peserta', [\App\Http\Controllers\Admin\PesertaController::class, 'index'])->name('admin.peserta.index')->middleware(['role:admin']);
-        Route::get('/peserta/{id}', [\App\Http\Controllers\Admin\PesertaController::class, 'show'])->name('admin.peserta.show')->middleware(['role:admin']);
-        Route::get('/peserta/{id}/edit', [\App\Http\Controllers\Admin\PesertaController::class, 'edit'])->name('admin.peserta.edit')->middleware(['role:admin']);
-        Route::put('/peserta/{id}', [\App\Http\Controllers\Admin\PesertaController::class, 'update'])->name('admin.peserta.update')->middleware(['role:admin']);
-        Route::delete('/peserta/{id}', [\App\Http\Controllers\Admin\PesertaController::class, 'destroy'])->name('admin.peserta.destroy')->middleware(['role:admin']);
+        Route::get('/data-peserta', [\App\Http\Controllers\Admin\PesertaController::class, 'index'])->name('admin.peserta.index');
+        Route::get('/peserta/{id}', [\App\Http\Controllers\Admin\PesertaController::class, 'show'])->name('admin.peserta.show');
+        Route::get('/peserta/{id}/edit', [\App\Http\Controllers\Admin\PesertaController::class, 'edit'])->name('admin.peserta.edit');
+        Route::put('/peserta/{id}', [\App\Http\Controllers\Admin\PesertaController::class, 'update'])->name('admin.peserta.update');
+        Route::delete('/peserta/{id}', [\App\Http\Controllers\Admin\PesertaController::class, 'destroy'])->name('admin.peserta.destroy');
     });
 
     Route::prefix('mata-lomba')->group(function () {
-        Route::get('/data-mata-lomba', [\App\Http\Controllers\Admin\MataLomba::class, 'index'])->name('admin.mata-lomba.index')->middleware(['role:admin']);
-        Route::post('/mata-lomba', [\App\Http\Controllers\Admin\MataLomba::class, 'store'])->name('admin.mata-lomba.store')->middleware(['role:admin']);
-        Route::get('/mata-lomba/create', [\App\Http\Controllers\Admin\MataLomba::class, 'create'])->name('admin.mata-lomba.create')->middleware(['role:admin']);
-        Route::get('/mata-lomba/{id}/edit', [App\Http\Controllers\Admin\MataLomba::class, 'edit'])->name('admin.mata-lomba.edit')->middleware(['role:admin']);
-        Route::get('/mata-lomba/{id}', [App\Http\Controllers\Admin\MataLomba::class, 'show'])->name('admin.mata-lomba.show')->middleware(['role:admin']);
-        Route::put('/mata-lomba/{id}', [App\Http\Controllers\Admin\MataLomba::class, 'update'])->name('admin.mata-lomba.update')->middleware(['role:admin']);
-        Route::delete('/mata-lomba/{id}', [App\Http\Controllers\Admin\MataLomba::class, 'destroy'])->name('admin.mata-lomba.destroy')->middleware(['role:admin']);
+        Route::get('/data-mata-lomba', [\App\Http\Controllers\Admin\MataLomba::class, 'index'])->name('admin.mata-lomba.index');
+        Route::post('/mata-lomba', [\App\Http\Controllers\Admin\MataLomba::class, 'store'])->name('admin.mata-lomba.store');
+        Route::get('/mata-lomba/create', [\App\Http\Controllers\Admin\MataLomba::class, 'create'])->name('admin.mata-lomba.create');
+        Route::get('/mata-lomba/{id}/edit', [App\Http\Controllers\Admin\MataLomba::class, 'edit'])->name('admin.mata-lomba.edit');
+        Route::get('/mata-lomba/{id}', [App\Http\Controllers\Admin\MataLomba::class, 'show'])->name('admin.mata-lomba.show');
+        Route::put('/mata-lomba/{id}', [App\Http\Controllers\Admin\MataLomba::class, 'update'])->name('admin.mata-lomba.update');
+        Route::delete('/mata-lomba/{id}', [App\Http\Controllers\Admin\MataLomba::class, 'destroy'])->name('admin.mata-lomba.destroy');
     });
 
     Route::prefix('sesi-cbt')->group(function(){
@@ -126,30 +126,30 @@ Route::prefix('admin')->group(function () {
         });
 
     Route::prefix('bobot-soal')->group(function () {
-        Route::get('/data-bobot-soal', [\App\Http\Controllers\Admin\BobotSoalController::class, 'index'])->name('admin.bobot-soal.index')->middleware(['role:admin']);
-        Route::post('/bobot-soal', [\App\Http\Controllers\Admin\BobotSoalController::class, 'store'])->name('admin.bobot-soal.store')->middleware(['role:admin']);
-        Route::get('/bobot-soal/create', [\App\Http\Controllers\Admin\BobotSoalController::class, 'create'])->name('admin.bobot-soal.create')->middleware(['role:admin']);
-        Route::get('/bobot-soal/{id}', [\App\Http\Controllers\Admin\BobotSoalController::class, 'show'])->name('admin.bobot-soal.show')->middleware(['role:admin']);
-        Route::get('/bobot-soal/{id}/edit', [App\Http\Controllers\Admin\BobotSoalController::class, 'edit'])->name('admin.bobot-soal.edit')->middleware(['role:admin']);
-        Route::put('/bobot-soal/{id}', [App\Http\Controllers\Admin\BobotSoalController::class, 'update'])->name('admin.bobot-soal.update')->middleware(['role:admin']);
-        Route::delete('/bobot-soal/{id}', [App\Http\Controllers\Admin\BobotSoalController::class, 'destroy'])->name('admin.bobot-soal.destroy')->middleware(['role:admin']);
-        Route::post('admin/bobot-soal/storeTemporary', [App\Http\Controllers\Admin\BobotSoalController::class, 'storeTemporary'])->name('admin.bobot-soal.storeTemporary')->middleware(['role:admin']);
-        Route::delete('admin/bobot-soal/removeTemporary/{index}', [App\Http\Controllers\Admin\BobotSoalController::class, 'removeTemporary'])->name('admin.bobot-soal.removeTemporary')->middleware(['role:admin']);
-        Route::delete('/admin/bobot-soal/deleteRow/{id}', [App\Http\Controllers\Admin\BobotSoalController::class, 'deleteRow'])->name('admin.bobot-soal.deleteRow')->middleware(['role:admin']);
+        Route::get('/data-bobot-soal', [\App\Http\Controllers\Admin\BobotSoalController::class, 'index'])->name('admin.bobot-soal.index');
+        Route::post('/bobot-soal', [\App\Http\Controllers\Admin\BobotSoalController::class, 'store'])->name('admin.bobot-soal.store');
+        Route::get('/bobot-soal/create', [\App\Http\Controllers\Admin\BobotSoalController::class, 'create'])->name('admin.bobot-soal.create');
+        Route::get('/bobot-soal/{id}', [\App\Http\Controllers\Admin\BobotSoalController::class, 'show'])->name('admin.bobot-soal.show');
+        Route::get('/bobot-soal/{id}/edit', [App\Http\Controllers\Admin\BobotSoalController::class, 'edit'])->name('admin.bobot-soal.edit');
+        Route::put('/bobot-soal/{id}', [App\Http\Controllers\Admin\BobotSoalController::class, 'update'])->name('admin.bobot-soal.update');
+        Route::delete('/bobot-soal/{id}', [App\Http\Controllers\Admin\BobotSoalController::class, 'destroy'])->name('admin.bobot-soal.destroy');
+        Route::post('admin/bobot-soal/storeTemporary', [App\Http\Controllers\Admin\BobotSoalController::class, 'storeTemporary'])->name('admin.bobot-soal.storeTemporary');
+        Route::delete('admin/bobot-soal/removeTemporary/{index}', [App\Http\Controllers\Admin\BobotSoalController::class, 'removeTemporary'])->name('admin.bobot-soal.removeTemporary');
+        Route::delete('/admin/bobot-soal/deleteRow/{id}', [App\Http\Controllers\Admin\BobotSoalController::class, 'deleteRow'])->name('admin.bobot-soal.deleteRow');
     });
 
     Route::prefix('pembina')->group(function () {
-        Route::get('/data-pembina', [\App\Http\Controllers\Admin\PembinaController::class, 'index'])->name('admin.pembina.index')->middleware(['role:admin']);
-        Route::get('/pembina/create', [\App\Http\Controllers\Admin\PembinaController::class, 'create'])->name('admin.pembina.create')->middleware(['role:admin']);
-        Route::get('/pembina/{id}', [\App\Http\Controllers\Admin\PembinaController::class, 'show'])->name('admin.pembina.show')->middleware(['role:admin']);
-        Route::post('/pembina', [\App\Http\Controllers\Admin\PembinaController::class, 'store'])->name('admin.pembina.store')->middleware(['role:admin']);
-        Route::get('/pembina/{id}/edit', [\App\Http\Controllers\Admin\PembinaController::class, 'edit'])->name('admin.pembina.edit')->middleware(['role:admin']);
-        Route::put('/pembina/{id}', [\App\Http\Controllers\Admin\PembinaController::class, 'update'])->name('admin.pembina.update')->middleware(['role:admin']);
-        Route::delete('/pembina/{id}', [\App\Http\Controllers\Admin\PembinaController::class, 'destroy'])->name('admin.pembina.destroy')->middleware(['role:admin']);
+        Route::get('/data-pembina', [\App\Http\Controllers\Admin\PembinaController::class, 'index'])->name('admin.pembina.index');
+        Route::get('/pembina/create', [\App\Http\Controllers\Admin\PembinaController::class, 'create'])->name('admin.pembina.create');
+        Route::get('/pembina/{id}', [\App\Http\Controllers\Admin\PembinaController::class, 'show'])->name('admin.pembina.show');
+        Route::post('/pembina', [\App\Http\Controllers\Admin\PembinaController::class, 'store'])->name('admin.pembina.store');
+        Route::get('/pembina/{id}/edit', [\App\Http\Controllers\Admin\PembinaController::class, 'edit'])->name('admin.pembina.edit');
+        Route::put('/pembina/{id}', [\App\Http\Controllers\Admin\PembinaController::class, 'update'])->name('admin.pembina.update');
+        Route::delete('/pembina/{id}', [\App\Http\Controllers\Admin\PembinaController::class, 'destroy'])->name('admin.pembina.destroy');
     });
 
     Route::prefix('juri')->group(function () {
-        Route::resource('/juri', JuriController::class)->middleware(['role:admin']);
+        Route::resource('/juri', JuriController::class);
     });
     
 
@@ -190,13 +190,13 @@ Route::prefix('admin')->group(function () {
         
     });
 
-})->middleware(['role:admin']);
+});
 
 
 //Peserta
-Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
-    Route::get('/edit-profile', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'editProfilePeserta'])->name('editProfilePeserta')->middleware(['role:peserta']);
-    Route::put('/update-profile', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'updateProfilePeserta'])->name('updateProfilePeserta')->middleware(['role:peserta']);
+Route::prefix('peserta')->middleware(['auth', 'role:peserta'])->group(function () {
+    Route::get('/edit-profile', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'editProfilePeserta'])->name('editProfilePeserta');
+    Route::put('/update-profile', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'updateProfilePeserta'])->name('updateProfilePeserta');
     
     // Dashboard peserta
     Route::get('/dashboard', [\App\Http\Controllers\Peserta\DashboardController::class, 'index'])->name('peserta.dashboard');
@@ -219,118 +219,118 @@ Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
 
 
 //Pembina
-Route::prefix('pembina')->group(function () {
+Route::prefix('pembina')->middleware(['auth', 'role:pembina'])->group(function () {
     Route::get('/dashboard', function () {
         $finalisasis = \App\Models\Finalisasi::with('pembina.upload_dokumen')->get();
         return view('pembina.dashboard', compact('finalisasis'));
-    })->name('pembina.dashboard')->middleware(['role:pembina']);
-    Route::get('/edit-profile-pembina', [App\Http\Controllers\Pembina\EditProfilePembinaController::class, 'editProfilePembina'])->name('editProfilePembina')->middleware(['role:pembina']);
-    Route::put('/update-profile-pembina', [App\Http\Controllers\Pembina\EditProfilePembinaController::class, 'updateProfilePembina'])->name('updateProfilePembina')->middleware(['role:pembina']);
-    Route::get('/lihat-anggota', [App\Http\Controllers\Pembina\LihatAnggotaController::class, 'index'])->name('pembina.lihat-anggota')->middleware(['role:pembina']);
+    })->name('pembina.dashboard');
+    Route::get('/edit-profile-pembina', [App\Http\Controllers\Pembina\EditProfilePembinaController::class, 'editProfilePembina'])->name('editProfilePembina');
+    Route::put('/update-profile-pembina', [App\Http\Controllers\Pembina\EditProfilePembinaController::class, 'updateProfilePembina'])->name('updateProfilePembina');
+    Route::get('/lihat-anggota', [App\Http\Controllers\Pembina\LihatAnggotaController::class, 'index'])->name('pembina.lihat-anggota');
     // Route untuk upload lomba
-    Route::get('/upload-lombas', [App\Http\Controllers\Pembina\UploadLombaController::class, 'upload_lombas'])->name('upload_lombas.form')->middleware(['role:pembina']);
-    Route::post('/upload-lombas/store', [App\Http\Controllers\Pembina\UploadLombaController::class, 'store'])->name('upload_lombas.store')->middleware(['role:pembina']);
-    Route::delete('/upload-lombas/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'destroy'])->name('upload_lombas.destroy')->middleware(['role:pembina']);
-    Route::get('/upload-lombas/edit/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'edit'])->name('upload_lombas.edit')->middleware(['role:pembina']);
-    Route::put('/upload-lombas/update/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'update'])->name('upload_lombas.update')->middleware(['role:pembina']);
-    Route::post('/lomba-foto-vidio/store', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'store'])->name('lomba_foto_vidio.store')->middleware(['role:pembina']);
-    Route::get('/lomba-foto-vidio/{file}', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'showFile'])->name('lomba_foto_vidio.showFile')->middleware(['role:pembina']);
-    Route::delete('/lomba-foto-vidio/{id}', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'destroy'])->name('lomba_foto_vidio.destroy')->middleware(['role:pembina']);
-    Route::get('/registrasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('registrasi.form')->middleware(['role:pembina']);
-    Route::post('/pembina/store', [App\Http\Controllers\Pembina\RegistrasiController::class, 'storePembina'])->name('pembina.store')->middleware(['role:pembina']);
-    Route::put('/pembina', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updatePembina'])->name('pembina.update')->middleware(['role:pembina']);
-    Route::post('/regu', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'storeRegu'])->name('regu.store')->middleware(['role:pembina']);
-    Route::put('/regu/{regu}/update', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updateRegu'])->name('regu.update')->middleware(['role:pembina']);
+    Route::get('/upload-lombas', [App\Http\Controllers\Pembina\UploadLombaController::class, 'upload_lombas'])->name('upload_lombas.form');
+    Route::post('/upload-lombas/store', [App\Http\Controllers\Pembina\UploadLombaController::class, 'store'])->name('upload_lombas.store');
+    Route::delete('/upload-lombas/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'destroy'])->name('upload_lombas.destroy');
+    Route::get('/upload-lombas/edit/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'edit'])->name('upload_lombas.edit');
+    Route::put('/upload-lombas/update/{id}', [App\Http\Controllers\Pembina\UploadLombaController::class, 'update'])->name('upload_lombas.update');
+    Route::post('/lomba-foto-vidio/store', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'store'])->name('lomba_foto_vidio.store');
+    Route::get('/lomba-foto-vidio/{file}', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'showFile'])->name('lomba_foto_vidio.showFile');
+    Route::delete('/lomba-foto-vidio/{id}', [\App\Http\Controllers\Pembina\LombaFotoVidioController::class, 'destroy'])->name('lomba_foto_vidio.destroy');
+    Route::get('/registrasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('registrasi.form');
+    Route::post('/pembina/store', [App\Http\Controllers\Pembina\RegistrasiController::class, 'storePembina'])->name('pembina.store');
+    Route::put('/pembina', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updatePembina'])->name('pembina.update');
+    Route::post('/regu', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'storeRegu'])->name('regu.store');
+    Route::put('/regu/{regu}/update', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updateRegu'])->name('regu.update');
     Route::delete('/regu/{regu}/destroy', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'destroyRegu'])->name('regu.destroy');
-    Route::post('/peserta/store', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'storePeserta'])->name('peserta.store')->middleware(['role:pembina']);
-    Route::put('/peserta/{peserta}/update', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updatePeserta'])->name('peserta.update')->middleware(['role:pembina']);
-    Route::delete('/peserta/{peserta}/destroy', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'destroyPeserta'])->name('peserta.destroy')->middleware(['role:pembina']);
-    Route::post('/dokumen-persyaratan', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'storeDokumen'])->name('upload_dokumen.store')->middleware(['role:pembina']);
-    Route::resource('data-peserta', \App\Http\Controllers\Pembina\PesertaController::class)->middleware(['role:pembina']);
-    Route::post('/finalisasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'finalisasi'])->name('finalisasi')->middleware(['role:pembina']);
+    Route::post('/peserta/store', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'storePeserta'])->name('peserta.store');
+    Route::put('/peserta/{peserta}/update', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'updatePeserta'])->name('peserta.update');
+    Route::delete('/peserta/{peserta}/destroy', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'destroyPeserta'])->name('peserta.destroy');
+    Route::post('/dokumen-persyaratan', [\App\Http\Controllers\Pembina\RegistrasiController::class, 'storeDokumen'])->name('upload_dokumen.store');
+    Route::resource('data-peserta', \App\Http\Controllers\Pembina\PesertaController::class);
+    Route::post('/finalisasi', [App\Http\Controllers\Pembina\RegistrasiController::class, 'finalisasi'])->name('finalisasi');
     Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
-    Route::get('/regu/{jenisKelamin}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getRegu'])->name('getRegu')->middleware(['role:pembina']);
-})->middleware(['role:pembina']);
+    Route::get('/regu/{jenisKelamin}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getRegu'])->name('getRegu');
+});
 
 
 
 
 
 //Juri
-Route::prefix('juri')->group(function () {
+Route::prefix('juri')->middleware(['auth', 'role:juri'])->group(function () {
     Route::get('/dashboard', function () {
         $finalisasis = Finalisasi::with('pembina')->get();
         return view('juri.dashboard', compact('finalisasis'));
-    })->name('juri.dashboard')->middleware(['role:juri']);
-    Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri')->middleware(['role:juri']);
-    Route::get('/edit-profile-juri', [App\Http\Controllers\Juri\EditProfileJuriController::class, 'editProfileJuri'])->name('editProfileJuri')->middleware(['role:juri']);
-    Route::put('/update-profile-juri', [App\Http\Controllers\Juri\EditProfileJuriController::class, 'updateProfileJuri'])->name('updateProfileJuri')->middleware(['role:juri']);
+    })->name('juri.dashboard');
+    Route::get('/profil', [App\Http\Controllers\Pembina\RegistrasiController::class, 'registrasi'])->name('profil.juri');
+    Route::get('/edit-profile-juri', [App\Http\Controllers\Juri\EditProfileJuriController::class, 'editProfileJuri'])->name('editProfileJuri');
+    Route::put('/update-profile-juri', [App\Http\Controllers\Juri\EditProfileJuriController::class, 'updateProfileJuri'])->name('updateProfileJuri');
     
-    Route::resource('/penilaian-karikatur', \App\Http\Controllers\Juri\PenilaianKarikaturController::class)->middleware(['role:juri']);
-    Route::get('/penilaian-karikatur/create', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'createForm'])->name('penilaian-karikatur.create')->middleware(['role:juri']);
-    Route::post('/penilaian-karikatur', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'store'])->name('penilaian-karikatur.store')->middleware(['role:juri']);
-    Route::get('/penilaian-karikatur/{id}', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'edit'])->name('penilaian-karikatur.edit')->middleware(['role:juri']);
-    Route::put('/penilaian-karikatur/{id}', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'update'])->name('penilaian-karikatur.update')->middleware(['role:juri']);
-    Route::delete('/penilaian-karikatur/{id}', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'destroy'])->name('penilaian-karikatur.destroy')->middleware(['role:juri']);
+    Route::resource('/penilaian-karikatur', \App\Http\Controllers\Juri\PenilaianKarikaturController::class);
+    Route::get('/penilaian-karikatur/create', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'createForm'])->name('penilaian-karikatur.create');
+    Route::post('/penilaian-karikatur', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'store'])->name('penilaian-karikatur.store');
+    Route::get('/penilaian-karikatur/{id}', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'edit'])->name('penilaian-karikatur.edit');
+    Route::put('/penilaian-karikatur/{id}', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'update'])->name('penilaian-karikatur.update');
+    Route::delete('/penilaian-karikatur/{id}', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'destroy'])->name('penilaian-karikatur.destroy');
 
-    Route::resource('/penilaian-pionering', \App\Http\Controllers\Juri\PenilaianPioneringController::class)->middleware(['role:juri']);
-    Route::get('/penilaian-pionering/create', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'createForm'])->name('penilaian-pionering.create')->middleware(['role:juri']);
-    Route::post('/penilaian-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'store'])->name('penilaian-pionering.store')->middleware(['role:juri']);
-    Route::get('/penilaian-pionering/{id}', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'edit'])->name('penilaian-pionering.edit')->middleware(['role:juri']);
-    Route::put('/penilaian-pionering/{id}', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'update'])->name('penilaian-pionering.update')->middleware(['role:juri']);
-    Route::delete('/penilaian-pionering/{id}', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'destroy'])->name('penilaian-pionering.destroy')->middleware(['role:juri']);
-    Route::match(['get', 'post'], '/juri', [\App\Http\Controllers\Juri\ProfilJuriController::class, 'createOrUpdate'])->name('juri.profil_juri')->middleware(['role:juri']);
+    Route::resource('/penilaian-pionering', \App\Http\Controllers\Juri\PenilaianPioneringController::class);
+    Route::get('/penilaian-pionering/create', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'createForm'])->name('penilaian-pionering.create');
+    Route::post('/penilaian-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'store'])->name('penilaian-pionering.store');
+    Route::get('/penilaian-pionering/{id}', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'edit'])->name('penilaian-pionering.edit');
+    Route::put('/penilaian-pionering/{id}', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'update'])->name('penilaian-pionering.update');
+    Route::delete('/penilaian-pionering/{id}', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'destroy'])->name('penilaian-pionering.destroy');
+    Route::match(['get', 'post'], '/juri', [\App\Http\Controllers\Juri\ProfilJuriController::class, 'createOrUpdate'])->name('juri.profil_juri');
     
-    Route::resource('/penilaian-duta-logika', \App\Http\Controllers\Juri\PenilaianDutaLogikaController::class)->middleware(['role:juri']);
-    Route::get('/penilaian-duta-logika/create', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'createForm'])->name('penilaian-duta-logika.create')->middleware(['role:juri']);
-    Route::post('/penilaian-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'store'])->name('penilaian-duta-logika.store')->middleware(['role:juri']);
-    Route::get('/penilaian-duta-logika/{id}', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'edit'])->name('penilaian-duta-logika.edit')->middleware(['role:juri']);
-    Route::put('/penilaian-duta-logika/{id}', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'update'])->name('penilaian-duta-logika.update')->middleware(['role:juri']);
-    Route::delete('/penilaian-duta-logika/{id}', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'destroy'])->name('penilaian-duta-logika.destroy')->middleware(['role:juri']);
+    Route::resource('/penilaian-duta-logika', \App\Http\Controllers\Juri\PenilaianDutaLogikaController::class);
+    Route::get('/penilaian-duta-logika/create', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'createForm'])->name('penilaian-duta-logika.create');
+    Route::post('/penilaian-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'store'])->name('penilaian-duta-logika.store');
+    Route::get('/penilaian-duta-logika/{id}', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'edit'])->name('penilaian-duta-logika.edit');
+    Route::put('/penilaian-duta-logika/{id}', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'update'])->name('penilaian-duta-logika.update');
+    Route::delete('/penilaian-duta-logika/{id}', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'destroy'])->name('penilaian-duta-logika.destroy');
 
-    Route::resource('/penilaian-lkfbb', \App\Http\Controllers\Juri\PenilaianLkfbbController::class)->middleware(['role:juri']);
-    Route::get('/penilaian-lkfbb/create', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'createForm'])->name('penilaian-lkfbb.create')->middleware(['role:juri']);
-    Route::post('/penilaian-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'store'])->name('penilaian-lkfbb.store')->middleware(['role:juri']);
-    Route::get('/penilaian-lkfbb/{id}', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'edit'])->name('penilaian-lkfbb.edit')->middleware(['role:juri']);
-    Route::put('/penilaian-lkfbb/{id}', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'update'])->name('penilaian-lkfbb.update')->middleware(['role:juri']);
-    Route::delete('/penilaian-lkfbb/{id}', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'destroy'])->name('penilaian-lkfbb.destroy')->middleware(['role:juri']);
+    Route::resource('/penilaian-lkfbb', \App\Http\Controllers\Juri\PenilaianLkfbbController::class);
+    Route::get('/penilaian-lkfbb/create', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'createForm'])->name('penilaian-lkfbb.create');
+    Route::post('/penilaian-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'store'])->name('penilaian-lkfbb.store');
+    Route::get('/penilaian-lkfbb/{id}', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'edit'])->name('penilaian-lkfbb.edit');
+    Route::put('/penilaian-lkfbb/{id}', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'update'])->name('penilaian-lkfbb.update');
+    Route::delete('/penilaian-lkfbb/{id}', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'destroy'])->name('penilaian-lkfbb.destroy');
 
-    Route::resource('/penilaian-foto', \App\Http\Controllers\Juri\PenilaianFotoController::class)->middleware(['role:juri']);
-    Route::get('/penilaian-foto/create', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'createForm'])->name('penilaian-foto.create')->middleware(['role:juri']);
-    Route::post('/penilaian-foto', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'store'])->name('penilaian-foto.store')->middleware(['role:juri']);
-    Route::get('/penilaian-foto/{id}', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'edit'])->name('penilaian-foto.edit')->middleware(['role:juri']);
-    Route::put('/penilaian-foto/{id}', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'update'])->name('penilaian-foto.update')->middleware(['role:juri']);
-    Route::delete('/penilaian-foto/{id}', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'destroy'])->name('penilaian-foto.destroy')->middleware(['role:juri']);
+    Route::resource('/penilaian-foto', \App\Http\Controllers\Juri\PenilaianFotoController::class);
+    Route::get('/penilaian-foto/create', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'createForm'])->name('penilaian-foto.create');
+    Route::post('/penilaian-foto', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'store'])->name('penilaian-foto.store');
+    Route::get('/penilaian-foto/{id}', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'edit'])->name('penilaian-foto.edit');
+    Route::put('/penilaian-foto/{id}', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'update'])->name('penilaian-foto.update');
+    Route::delete('/penilaian-foto/{id}', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'destroy'])->name('penilaian-foto.destroy');
 
-    Route::resource('/penilaian-vidio', \App\Http\Controllers\Juri\PenilaianVidioController::class)->middleware(['role:juri']);
-    Route::get('/penilaian-vidio/create', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'createForm'])->name('penilaian-vidio.create')->middleware(['role:juri']);
-    Route::post('/penilaian-vidio', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'store'])->name('penilaian-vidio.store')->middleware(['role:juri']);
-    Route::get('/penilaian-vidio/{id}', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'edit'])->name('penilaian-vidio.edit')->middleware(['role:juri']);
-    Route::put('/penilaian-vidio/{id}', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'update'])->name('penilaian-vidio.update')->middleware(['role:juri']);
-    Route::delete('/penilaian-vidio/{id}', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'destroy'])->name('penilaian-vidio.destroy')->middleware(['role:juri']);
+    Route::resource('/penilaian-vidio', \App\Http\Controllers\Juri\PenilaianVidioController::class);
+    Route::get('/penilaian-vidio/create', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'createForm'])->name('penilaian-vidio.create');
+    Route::post('/penilaian-vidio', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'store'])->name('penilaian-vidio.store');
+    Route::get('/penilaian-vidio/{id}', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'edit'])->name('penilaian-vidio.edit');
+    Route::put('/penilaian-vidio/{id}', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'update'])->name('penilaian-vidio.update');
+    Route::delete('/penilaian-vidio/{id}', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'destroy'])->name('penilaian-vidio.destroy');
 
-    Route::post('/filter-mata-lomba', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterMataLomba'])->name('mata-lomba.filter')->middleware(['role:juri']);
-    Route::post('/filter-nama-regu', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterNamaRegu'])->name('nama-regu.filter')->middleware(['role:juri']);
-    Route::post('/filter-peserta', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterPeserta'])->name('peserta.filter')->middleware(['role:juri']);
-    Route::post('/filter-kriteria', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterKriteria'])->name('kriteria.filter')->middleware(['role:juri']);
+    Route::post('/filter-mata-lomba', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterMataLomba'])->name('mata-lomba.filter');
+    Route::post('/filter-nama-regu', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterNamaRegu'])->name('nama-regu.filter');
+    Route::post('/filter-peserta', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterPeserta'])->name('peserta.filter');
+    Route::post('/filter-kriteria', [App\Http\Controllers\Juri\PenilaianKarikaturController::class, 'filterKriteria'])->name('kriteria.filter');
 
-    Route::post('/filter-mata-lomba-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterMataLomba'])->name('mata-lomba-pionering.filter')->middleware(['role:juri']);
-    Route::post('/filter-nama-regu-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterNamaRegu'])->name('nama-regu-pionering.filter')->middleware(['role:juri']);
-    Route::post('/filter-peserta-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterPeserta'])->name('peserta-pionering.filter')->middleware(['role:juri']);
-    Route::post('/filter-kriteria-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterKriteria'])->name('kriteria-pionering.filter')->middleware(['role:juri']);
+    Route::post('/filter-mata-lomba-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterMataLomba'])->name('mata-lomba-pionering.filter');
+    Route::post('/filter-nama-regu-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterNamaRegu'])->name('nama-regu-pionering.filter');
+    Route::post('/filter-peserta-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterPeserta'])->name('peserta-pionering.filter');
+    Route::post('/filter-kriteria-pionering', [App\Http\Controllers\Juri\PenilaianPioneringController::class, 'filterKriteria'])->name('kriteria-pionering.filter');
     
-    Route::post('/filter-mata-lomba-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterMataLomba'])->name('mata-lomba-duta-logika.filter')->middleware(['role:juri']);
-    Route::post('/filter-nama-regu-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterNamaRegu'])->name('nama-regu-duta-logika.filter')->middleware(['role:juri']);
-    Route::post('/filter-peserta-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterPeserta'])->name('peserta-duta-logika.filter')->middleware(['role:juri']);
-    Route::post('/filter-kriteria-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterKriteria'])->name('kriteria-duta-logika.filter')->middleware(['role:juri']);
+    Route::post('/filter-mata-lomba-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterMataLomba'])->name('mata-lomba-duta-logika.filter');
+    Route::post('/filter-nama-regu-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterNamaRegu'])->name('nama-regu-duta-logika.filter');
+    Route::post('/filter-peserta-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterPeserta'])->name('peserta-duta-logika.filter');
+    Route::post('/filter-kriteria-duta-logika', [App\Http\Controllers\Juri\PenilaianDutaLogikaController::class, 'filterKriteria'])->name('kriteria-duta-logika.filter');
 
-    Route::post('/filter-mata-lomba-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterMataLomba'])->name('mata-lomba-lkfbb.filter')->middleware(['role:juri']);
-    Route::post('/filter-nama-regu-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterNamaRegu'])->name('nama-regu-lkfbb.filter')->middleware(['role:juri']);
-    Route::post('/filter-peserta-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterPeserta'])->name('peserta-lkfbb.filter')->middleware(['role:juri']);
-    Route::post('/filter-kriteria-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterKriteria'])->name('kriteria-lkfbb.filter')->middleware(['role:juri']);
+    Route::post('/filter-mata-lomba-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterMataLomba'])->name('mata-lomba-lkfbb.filter');
+    Route::post('/filter-nama-regu-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterNamaRegu'])->name('nama-regu-lkfbb.filter');
+    Route::post('/filter-peserta-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterPeserta'])->name('peserta-lkfbb.filter');
+    Route::post('/filter-kriteria-lkfbb', [App\Http\Controllers\Juri\PenilaianLkfbbController::class, 'filterKriteria'])->name('kriteria-lkfbb.filter');
 
-    Route::post('/filter-mata-lomba-foto', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'filterMataLomba'])->name('mata-lomba-foto.filter')->middleware(['role:juri']);
-    Route::post('/filter-mata-lomba-vidio', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'filterMataLomba'])->name('mata-lomba-vidio.filter')->middleware(['role:juri']);
+    Route::post('/filter-mata-lomba-foto', [App\Http\Controllers\Juri\PenilaianFotoController::class, 'filterMataLomba'])->name('mata-lomba-foto.filter');
+    Route::post('/filter-mata-lomba-vidio', [App\Http\Controllers\Juri\PenilaianVidioController::class, 'filterMataLomba'])->name('mata-lomba-vidio.filter');
 
     Route::get('/regu/{pangkalan_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getReguPangkalan'])->name('getReguPangkalan');
     Route::get('/peserta/{regu_id}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getPesertaRegu'])->name('getPesertaRegu');
@@ -346,5 +346,5 @@ Route::prefix('juri')->group(function () {
 
     Route::get('/foto/{pembina_id}', \App\Http\Controllers\Juri\GetPembinaByIDController::class)->name('getPembinaById');
     Route::get('/vidio/{pembina_id}', \App\Http\Controllers\Juri\GetPembinaByID2Controller::class)->name('getPembinaById2');
-})->middleware(['role:juri']);
+});
 
