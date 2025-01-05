@@ -19,6 +19,10 @@ class HasilNilaiLkfbbController extends Controller
     public function index() {
         $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::LKFBB->value)->first();
     
+        if (!$mata_lomba) {
+            return redirect()->route('admin.dashboard')->with('error', 'Mohon maaf, masukkan mata lomba LKFBB untuk membuka penilaian.');
+        }
+
         // Fetch and process participants by gender
         $putra = Peserta::with('penilaian_lkfbb')
             ->where('mata_lomba_id', $mata_lomba->id)

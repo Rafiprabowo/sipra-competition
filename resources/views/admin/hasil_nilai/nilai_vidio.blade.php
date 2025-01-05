@@ -10,7 +10,10 @@
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
         @if (session('error'))
-            <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
+        <div class="alert alert-danger" role="alert">
+            <p>{{ session('error') }}</p>
+            <button onclick="window.location='{{ route('admin.dashboard') }}'" class="btn btn-primary">OK</button>
+        </div>
         @endif
         @if ($errors->any())
             <div class="alert alert-danger">
