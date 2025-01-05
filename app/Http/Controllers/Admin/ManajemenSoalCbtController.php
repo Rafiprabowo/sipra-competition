@@ -101,6 +101,10 @@ class ManajemenSoalCbtController extends Controller
             TpkQuestion::where('cbt_session_id', $session_id)->delete();
             return redirect()->route('sesi-soal.index', ['id' => $session->id, 'nama' => $session->mataLomba->nama])
                 ->with('success', 'Semua soal berhasil dihapus!');
+        }else if ($session->mataLomba->nama == \App\Enums\MataLomba::SMS->value) {
+            SmsQuestion::where('cbt_session_id', $session_id)->delete();
+            return redirect()->route('sesi-soal.index', ['id' => $session->id, 'nama' => $session->mataLomba->nama])
+                ->with('success', 'Semua soal berhasil dihapus!');
         }
     }
 

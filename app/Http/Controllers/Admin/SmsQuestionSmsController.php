@@ -59,7 +59,9 @@ class SmsQuestionSmsController extends Controller
 
             // Ambil simbol dari huruf-huruf kata
             $letters = str_split($word);
-            $symbols = Symbols::whereIn('letter', $letters)->get();
+            $symbols = Symbols::whereIn('letter', $letters)
+                                ->where('type', $request->type)
+                                ->get();
 
             // Validasi simbol
             if ($symbols->count() != count(array_unique($letters))) {
@@ -136,7 +138,9 @@ class SmsQuestionSmsController extends Controller
             $letters = str_split($word);
     
             // Ambil simbol untuk huruf-huruf tersebut
-            $symbols = Symbols::whereIn('letter', $letters)->get();
+            $symbols = Symbols::whereIn('letter', $letters)
+                                ->where('type', $request->type)
+                                ->get();
     
             // Validasi simbol (pastikan semua simbol ditemukan)
             if ($symbols->count() != count(array_unique($letters))) {

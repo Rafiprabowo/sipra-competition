@@ -20,17 +20,23 @@
         @else
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex justify-content-end">
-                          <!-- Tombol untuk ekspor PDF -->
-                        <a href="{{ route('pdf.lomba-tpk') }}" class="btn btn-primary mt-4 mr-2">
+                    <h5>Hasil Lomba {{$mataLomba}}</h5>
+                     <div class="d-flex justify-content-end">
+
+                        
+
+                        <!-- Tombol untuk ekspor PDF -->
+                        <a href="{{ route('pdf.lomba-sms') }}" class="btn btn-primary mt-4 mr-2">
                             <i class="fas fa-file-pdf"></i> Ekspor PDF
                         </a>
-                        <a href="{{ route('excel.lomba-tpk') }}" class="btn btn-primary mt-4">
-                            <i class="fas fa-file-pdf"></i> Ekspor Excel
+
+                        <a href="{{route('excel.lomba-sms')}}" class="btn btn-primary mt-4">
+                            <i class="fas fa-file-excel"></i> Ekspor Excel
                         </a>
-                    </div>
+                     </div>
                 </div>
                 <div class="card-body">
+                    
                     <div class="table-responsive">
                         <table id="table-peserta" class="table table-bordered">
                             <thead>
@@ -59,7 +65,7 @@
                             </tbody>
                         </table>
                     </div>
-                  
+                   
                 </div>
             </div>
         @endif

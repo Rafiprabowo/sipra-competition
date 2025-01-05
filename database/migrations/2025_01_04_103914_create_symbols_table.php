@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('type', [\App\Enums\SymbolType::Semaphore->value, \App\Enums\SymbolType::Morse->value]);
             $table->string('image')->nullable();
-            $table->char('letter', 1)->unique();
+            $table->char('letter', 1);
             $table->timestamps();
         });
     }

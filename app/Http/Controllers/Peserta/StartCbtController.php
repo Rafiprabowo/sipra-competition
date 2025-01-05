@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Peserta;
 
 use App\Http\Controllers\Controller;
 use App\Models\CbtSession;
+use App\Models\SmsAnswer;
 use App\Models\TpkAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,23 @@ class StartCbtController extends Controller
                         ->value('answer');
 
             return view('peserta.sesi-cbt.tpk.exam', compact('session', 'tpk_question', 'question_number', 'answer'));
+        }else if ($session->mataLomba->nama == \App\Enums\MataLomba::SMS->value) {
+            $sms_question = $session->smsQuestions()->skip($question_number - 1)->first();
+            if (!$sms_question) {
+                return redirect()->route('peserta.sesi-sms.index')->with('error', 'Tidak ada pertanyaan');
+            }
+        
+            $peserta = Auth::user()->peserta;
+        
+            // Mengambil semua jawaban terkait sms_question_images
+            $answers = \App\Models\SmsAnswer::where('peserta_id', $peserta->id)
+                ->where('cbt_session_id', $session->id)
+                ->whereIn('sms_question_image_id', $sms_question->images->pluck('id')) // Ambil ID gambar simbol
+                ->get();
+        
+            return view('peserta.sesi-cbt.sms.exam', compact('session', 'sms_question', 'question_number', 'answers'));
         }
+        
     }
 }
 

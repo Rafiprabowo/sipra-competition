@@ -1,30 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Exports;
 
-use App\Http\Controllers\Controller;
 use App\Models\CbtSession;
 use App\Models\PesertaSession;
-use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class LaporanHasilLombaTpkController extends Controller
+class HasilLombaTpk implements FromCollection, WithHeadings
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(Request $request)
+    // Menentukan data yang akan diekspor
+    public function collection()
     {
-        // Nama Mata Lomba TPK
-        $mataLombaTPK = \App\Enums\MataLomba::TPK->value;
+        $sms = \App\Enums\MataLomba::TPK->value;
     
         // Ambil ID sesi CBT yang terkait dengan mata lomba TPK
-        $cbtSessionIds = CbtSession::whereHas('mataLomba', function ($query) use ($mataLombaTPK) {
-            $query->where('nama', $mataLombaTPK);
+        $cbtSessionIds = CbtSession::whereHas('mataLomba', function ($query) use ($sms) {
+            $query->where('nama', $sms);
         })->pluck('id');
-    
+
         // Ambil data peserta dan urutkan berdasarkan jenis kelamin dan nilai
-        $topPeserta = PesertaSession::whereIn('cbt_session_id', $cbtSessionIds)
+        return PesertaSession::whereIn('cbt_session_id', $cbtSessionIds)
             ->whereHas('peserta', function ($query) {
                 $query->whereIn('jenis_kelamin', ['Putra', 'Putri']);
             })
@@ -38,8 +34,9 @@ class LaporanHasilLombaTpkController extends Controller
             ->get()
             ->groupBy('peserta.jenis_kelamin') // Kelompokkan berdasarkan jenis kelamin
             ->map(function ($group) {
-                // Menambahkan label "Juara 1", "Juara 2", "Juara 3" hanya untuk peserta dengan index 0, 1, dan 2
                 return $group->map(function ($pesertaSession, $index) {
+                    // Menambahkan label "Juara" untuk indeks 0, 1, dan 2, lainnya diberi label "Peserta"
+                    $peringkat = '';
                     if ($index == 0) {
                         $peringkat = 'Juara 1';
                     } elseif ($index == 1) {
@@ -47,31 +44,33 @@ class LaporanHasilLombaTpkController extends Controller
                     } elseif ($index == 2) {
                         $peringkat = 'Juara 3';
                     } else {
-                        $peringkat = ' '; // Label untuk peserta setelah Juara 3
+                        $peringkat = '';
                     }
 
                     return [
-                        'id' => $pesertaSession->id,
-                        'score' => $pesertaSession->score,
                         'nama_peserta' => $pesertaSession->peserta->nama,
                         'jenis_kelamin' => $pesertaSession->peserta->jenis_kelamin,
                         'mata_lomba' => $pesertaSession->cbtSession->mataLomba->nama ?? null,
                         'nama_regu' => $pesertaSession->peserta->regu_pembina->nama_regu ?? null,
                         'nama_pangkalan' => $pesertaSession->peserta->regu_pembina->pembina->pangkalan ?? 'Tidak ada pangkalan', // Menampilkan pangkalan
-                        'peringkat' => $peringkat // Menambahkan peringkat berdasarkan urutan
+                        'score' => $pesertaSession->score,
+                        'peringkat' => $peringkat,
                     ];
                 });
-            });
-    
-        // Gabungkan data laki-laki dan perempuan dalam satu array
-        $combinedTopPeserta = $topPeserta;
+            })->collapse();
+    }
 
-        // Buat PDF dari tampilan
-        $pdf = Pdf::loadView('pdf.laporan-lomba-tpk', ['top_peserta' => $combinedTopPeserta]);
-        
-        // Mengatur ukuran kertas dan orientasi PDF (Opsional)
-        $pdf->setPaper('A4', 'potrait'); // Atur ukuran dan orientasi kertas (A4 dan landscape)
-
-        return $pdf->download('laporan-hasil-lomba-tpk.pdf');
+    // Menentukan header kolom Excel
+    public function headings(): array
+    {
+        return [
+            'Nama Peserta',
+            'Jenis Kelamin',
+            'Mata Lomba',
+            'Nama Regu',
+            'Nama Pangkalan',
+            'Score',
+            'Peringkat'
+        ];
     }
 }

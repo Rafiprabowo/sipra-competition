@@ -158,10 +158,12 @@
             <!-- Card 5 -->
             <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
-                    <img src="{{ asset('img/CENDRA 5.png') }}" alt="Semaphore & Morse" class="card-img-top img-fluid p-3">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold" style="font-size: 11px; color:black;">Semaphore Morse</h5>
-                    </div>
+                    <a href="{{route('peserta.sesi-sms.index')}}" class="text-center text-lg text-decoration-none">
+                        <img src="{{ asset('img/CENDRA 5.png') }}" alt="Semaphore & Morse" class="card-img-top img-fluid p-3">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold" style="font-size: 11px; color:black;">Semaphore Morse</h5>
+                        </div>
+                    </a>
                 </div>
             </div>
             <!-- Card 6 -->

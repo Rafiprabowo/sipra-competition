@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -35,8 +36,20 @@ class HasilLombaTpkController extends Controller
             ->get()
             ->groupBy('peserta.jenis_kelamin') // Kelompokkan berdasarkan jenis kelamin
             ->map(function ($group) {
-                // Ambil hanya 3 peserta teratas dari setiap jenis kelamin
-                return $group->take(3)->map(function ($pesertaSession, $index) {
+                // Menampilkan semua peserta tanpa batasan jumlah
+                return $group->map(function ($pesertaSession, $index) {
+                    // Menambahkan label "Juara" untuk indeks 0, 1, dan 2, lainnya diberi label "Peserta"
+                    $peringkat = '';
+                    if ($index == 0) {
+                        $peringkat = 'Juara 1';
+                    } elseif ($index == 1) {
+                        $peringkat = 'Juara 2';
+                    } elseif ($index == 2) {
+                        $peringkat = 'Juara 3';
+                    } else {
+                        $peringkat = '';
+                    }
+
                     return [
                         'id' => $pesertaSession->id,
                         'score' => $pesertaSession->score,
@@ -45,7 +58,7 @@ class HasilLombaTpkController extends Controller
                         'mata_lomba' => $pesertaSession->cbtSession->mataLomba->nama ?? null,
                         'nama_regu' => $pesertaSession->peserta->regu_pembina->nama_regu ?? null,
                         'nama_pangkalan' => $pesertaSession->peserta->regu_pembina->pembina->pangkalan ?? 'Tidak ada pangkalan', // Menampilkan pangkalan
-                        'peringkat' => $index + 1 // Menambahkan peringkat berdasarkan urutan
+                        'peringkat' => $peringkat,
                     ];
                 });
             });
@@ -59,5 +72,3 @@ class HasilLombaTpkController extends Controller
         ]);
     }
 }
-
-

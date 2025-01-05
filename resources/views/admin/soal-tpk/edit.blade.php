@@ -73,7 +73,9 @@
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Ubah"></button>
+                    <button type="submit" class="btn btn-primary mr-2" style="font-size: 11px;" title="Ubah">
+                        <i class="fas fa-save"></i>
+                    </button>
                     <a href="{{ route('sesi-soal.index', $session->id) }}" class="btn btn-secondary" style="font-size: 11px;" title="Batal">
                         <i class="fas fa-arrow-left"></i>
                     </a>

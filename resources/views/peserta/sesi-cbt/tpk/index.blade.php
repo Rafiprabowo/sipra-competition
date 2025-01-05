@@ -24,8 +24,6 @@
                             <th>Waktu Mulai</th>
                             <th>Waktu Selesai</th>
                             <th>Durasi</th>
-                            <th>Status</th>
-                            <th>Kode Akses</th>
                             <th>Token</th>
                             <th>Aksi</th>
                         </tr>
@@ -37,16 +35,6 @@
                                 <td><span class="badge badge-info">{{ $session->waktu_mulai }}</span></td>
                                 <td><span class="badge badge-info">{{ $session->waktu_selesai }}</span></td>
                                 <td>{{ $session->durasi }} menit</td>
-                                <td>
-                                    @if($session->status == 'draft')
-                                        <span class="badge badge-secondary">Belum Dimulai</span>
-                                    @elseif($session->status == 'active')
-                                        <span class="badge badge-success">Dimulai</span>
-                                    @else
-                                        <span class="badge badge-info">{{ ucfirst($session->status) }}</span>
-                                    @endif
-                                </td>
-                                <td>{{ $session->kode_akses }}</td>
                                 <td>
                                     <form action="{{route('token.cbt', $session->id)}}" method="POST">
                                         @csrf

@@ -1,26 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\CbtSession;
 use App\Models\PesertaSession;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
 
-class LaporanHasilLombaTpkController extends Controller
+class HasilLombaSmsController extends Controller
 {
     /**
      * Handle the incoming request.
      */
     public function __invoke(Request $request)
     {
-        // Nama Mata Lomba TPK
-        $mataLombaTPK = \App\Enums\MataLomba::TPK->value;
+        // Nama Mata Lomba SMS
+        $mataLombaSMS = \App\Enums\MataLomba::SMS->value;
     
-        // Ambil ID sesi CBT yang terkait dengan mata lomba TPK
-        $cbtSessionIds = CbtSession::whereHas('mataLomba', function ($query) use ($mataLombaTPK) {
-            $query->where('nama', $mataLombaTPK);
+        // Ambil ID sesi CBT yang terkait dengan mata lomba SMS
+        $cbtSessionIds = CbtSession::whereHas('mataLomba', function ($query) use ($mataLombaSMS) {
+            $query->where('nama', $mataLombaSMS);
         })->pluck('id');
     
         // Ambil data peserta dan urutkan berdasarkan jenis kelamin dan nilai
@@ -38,8 +36,10 @@ class LaporanHasilLombaTpkController extends Controller
             ->get()
             ->groupBy('peserta.jenis_kelamin') // Kelompokkan berdasarkan jenis kelamin
             ->map(function ($group) {
-                // Menambahkan label "Juara 1", "Juara 2", "Juara 3" hanya untuk peserta dengan index 0, 1, dan 2
+                // Menampilkan semua peserta tanpa batasan jumlah
                 return $group->map(function ($pesertaSession, $index) {
+                    // Menambahkan label "Juara" untuk indeks 0, 1, dan 2, lainnya diberi label "Peserta"
+                    $peringkat = '';
                     if ($index == 0) {
                         $peringkat = 'Juara 1';
                     } elseif ($index == 1) {
@@ -47,7 +47,7 @@ class LaporanHasilLombaTpkController extends Controller
                     } elseif ($index == 2) {
                         $peringkat = 'Juara 3';
                     } else {
-                        $peringkat = ' '; // Label untuk peserta setelah Juara 3
+                        $peringkat = '';
                     }
 
                     return [
@@ -58,20 +58,18 @@ class LaporanHasilLombaTpkController extends Controller
                         'mata_lomba' => $pesertaSession->cbtSession->mataLomba->nama ?? null,
                         'nama_regu' => $pesertaSession->peserta->regu_pembina->nama_regu ?? null,
                         'nama_pangkalan' => $pesertaSession->peserta->regu_pembina->pembina->pangkalan ?? 'Tidak ada pangkalan', // Menampilkan pangkalan
-                        'peringkat' => $peringkat // Menambahkan peringkat berdasarkan urutan
+                        'peringkat' => $peringkat,
                     ];
                 });
             });
     
         // Gabungkan data laki-laki dan perempuan dalam satu array
-        $combinedTopPeserta = $topPeserta;
-
-        // Buat PDF dari tampilan
-        $pdf = Pdf::loadView('pdf.laporan-lomba-tpk', ['top_peserta' => $combinedTopPeserta]);
-        
-        // Mengatur ukuran kertas dan orientasi PDF (Opsional)
-        $pdf->setPaper('A4', 'potrait'); // Atur ukuran dan orientasi kertas (A4 dan landscape)
-
-        return $pdf->download('laporan-hasil-lomba-tpk.pdf');
+        $combinedTopPeserta = $topPeserta->collapse();
+    
+        // Kembalikan view dengan data yang diambil
+        return view('hasil-lomba-sms', [
+            'top_peserta' => $combinedTopPeserta,
+            'mataLomba' => $mataLombaSMS
+        ]);
     }
 }

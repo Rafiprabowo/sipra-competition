@@ -1,5 +1,7 @@
 <?php
 
+use App\Exports\HasilLombaSms;
+use App\Exports\HasilLombaTpk;
 use App\Http\Controllers\Admin\EditSoalTpkController;
 use App\Http\Controllers\Admin\ImportSoalTpkController;
 use App\Http\Controllers\Admin\JuriController;
@@ -8,11 +10,14 @@ use App\Http\Controllers\Admin\PertanyaanTpkController;
 use App\Http\Controllers\Admin\SmsQuestionSmsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\HasilLombaSmsController;
 use App\Http\Controllers\HasilLombaTpkController;
 use App\Http\Controllers\Pembina\RegistrasiController;
 use App\Models\Finalisasi;
 use App\Models\Peserta;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Excel as ExcelExcel;
+use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Row;
 
 /*
@@ -145,16 +150,25 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('juri')->group(function () {
         Route::resource('/juri', JuriController::class)->middleware(['role:admin']);
-       });
+    });
     
 
     Route::post('/{id}/soal-tpk/import',\App\Http\Controllers\Admin\ImportSoalTpkController::class)->name('soal-tpk.import');
     Route::post('/{id}/soal-sms/import',\App\Http\Controllers\Admin\ImportSoalSmsController::class)->name('soal-sms.import');
 
     Route::get('/hasil-lomba-tpk', HasilLombaTpkController::class)->name('hasil-tpk');
+    Route::get('/hasil-lomba-sms', HasilLombaSmsController::class)->name('hasil-sms');
 
     Route::prefix('laporan')->group(function(){
-        Route::get('/tes-pengetahuan-kepramukaan', \App\Http\Controllers\Admin\LaporanHasilLombaTpkController::class)->name('pdf.lomba-tpk');
+        Route::get('/pdf/tes-pengetahuan-kepramukaan', \App\Http\Controllers\Admin\LaporanHasilLombaTpkController::class)->name('pdf.lomba-tpk');
+        Route::get('/excel/tes-pengetahuan-kepramukaan', function(){
+            return Excel::download(new HasilLombaTpk(), 'hasil_lomba_tpk.xlsx');
+        })->name('excel.lomba-tpk');
+        
+        Route::get('/pdf/tes-semaphore-morse', \App\Http\Controllers\Admin\LaporanHasilLombaSmsController::class)->name('pdf.lomba-sms');
+        Route::get('/excel/tes-semaphore-morse', function(){
+            return Excel::download(new HasilLombaSms(), 'hasil_lomba_sms.xlsx');
+        })->name('excel.lomba-sms');
     });
 
     Route::prefix('/symbols')->group(function(){
@@ -177,21 +191,33 @@ Route::prefix('admin')->group(function () {
     });
 
 })->middleware(['role:admin']);
+
+
 //Peserta
 Route::prefix('peserta')->middleware(['role:peserta'])->group(function () {
     Route::get('/edit-profile', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'editProfilePeserta'])->name('editProfilePeserta')->middleware(['role:peserta']);
     Route::put('/update-profile', [App\Http\Controllers\Peserta\EditProfilePesertaController::class, 'updateProfilePeserta'])->name('updateProfilePeserta')->middleware(['role:peserta']);
+    
     // Dashboard peserta
     Route::get('/dashboard', [\App\Http\Controllers\Peserta\DashboardController::class, 'index'])->name('peserta.dashboard');
     
     // Computer Based Test
     Route::get('/tes-pengetahuan-kepramukaan', [\App\Http\Controllers\Peserta\SesiLombaTpkController::class, 'index'])->name('peserta.sesi-tpk.index');
+
+    Route::get('/tes-semaphore-morse', \App\Http\Controllers\Peserta\SesiLombaSmsController::class)->name('peserta.sesi-sms.index');
+    
+
     Route::post('/cbt/{session_id}/token', \App\Http\Controllers\Peserta\AttemptTokenController::class )->name('token.cbt');
     Route::get('/cbt/{session_id}/start/{question_number}', \App\Http\Controllers\Peserta\StartCbtController::class )->name('start.cbt');
     Route::post('/cbt/{session_id}/{question_number}/answer', \App\Http\Controllers\Peserta\SaveAnswerCbtController::class)->name('answer.cbt');
+    Route::post('/sms/save-answer', \App\Http\Controllers\Peserta\SaveSmsAnswerController::class)->name('save-sms.answer');
     Route::get('/cbt/{session_id}/finish', \App\Http\Controllers\Peserta\EndCbtController::class)->name('end.cbt');
     Route::get('/cbt/{session_id}/review', \App\Http\Controllers\Peserta\ReviewCbtController::class)->name('review.cbt');
 });
+
+
+
+
 //Pembina
 Route::prefix('pembina')->group(function () {
     Route::get('/dashboard', function () {
@@ -224,6 +250,11 @@ Route::prefix('pembina')->group(function () {
     Route::post('/peserta/import', [\App\Http\Controllers\Pembina\PesertaController::class, 'import'])->name('peserta.import');
     Route::get('/regu/{jenisKelamin}', [\App\Http\Controllers\Ajax\AjaxController::class, 'getRegu'])->name('getRegu')->middleware(['role:pembina']);
 })->middleware(['role:pembina']);
+
+
+
+
+
 //Juri
 Route::prefix('juri')->group(function () {
     Route::get('/dashboard', function () {

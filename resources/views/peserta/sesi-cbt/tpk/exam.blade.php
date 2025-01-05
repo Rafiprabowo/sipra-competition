@@ -1,4 +1,5 @@
 @extends('layouts.template')
+
 @section('sidebar')
     @include('layouts.sidebar.peserta')
 @endsection
@@ -161,6 +162,14 @@ $(document).ready(function() {
             }
         });
     });
+
+    if (parseInt("{{ $question_number }}") <= 1) {
+        $('#prev-question').attr('disabled', true);
+    }
+
+    if (parseInt("{{ $question_number }}") >= "{{ $session->tpk_questions->count() }}") {
+        $('#next-question').attr('disabled', true);
+    }
 
     $('#next-question').click(function() {
         let nextQuestionNumber = parseInt("{{ $question_number }}") + 1;

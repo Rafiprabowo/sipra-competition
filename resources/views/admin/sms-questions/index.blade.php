@@ -81,8 +81,8 @@
 @section('h-script')
     <style>
         .symbol-image {
-            width: 50px;  /* Set the width as needed */
-            height: auto; /* Maintain aspect ratio */
+            width: auto;  /* Set the width as needed */
+            height: 50px; /* Maintain aspect ratio */
             object-fit: contain; /* Prevent image from stretching */
         }
 

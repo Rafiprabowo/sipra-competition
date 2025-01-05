@@ -3,7 +3,7 @@
 @section('content')
     <x-letterhead />
     <div class="content">
-        <h3>Hasil Lomba Tes Pengetahuan Kepramukaan</h3>
+        <h3>Hasil Lomba Tes Semaphore & Morse</h3>
 
         <!-- Putra -->
         <h4>Putra</h4>

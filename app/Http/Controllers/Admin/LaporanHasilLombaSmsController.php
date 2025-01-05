@@ -8,7 +8,7 @@ use App\Models\PesertaSession;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class LaporanHasilLombaTpkController extends Controller
+class LaporanHasilLombaSmsController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -16,11 +16,11 @@ class LaporanHasilLombaTpkController extends Controller
     public function __invoke(Request $request)
     {
         // Nama Mata Lomba TPK
-        $mataLombaTPK = \App\Enums\MataLomba::TPK->value;
+        $mataLombaSMS = \App\Enums\MataLomba::SMS->value;
     
         // Ambil ID sesi CBT yang terkait dengan mata lomba TPK
-        $cbtSessionIds = CbtSession::whereHas('mataLomba', function ($query) use ($mataLombaTPK) {
-            $query->where('nama', $mataLombaTPK);
+        $cbtSessionIds = CbtSession::whereHas('mataLomba', function ($query) use ($mataLombaSMS) {
+            $query->where('nama', $mataLombaSMS);
         })->pluck('id');
     
         // Ambil data peserta dan urutkan berdasarkan jenis kelamin dan nilai
@@ -67,11 +67,12 @@ class LaporanHasilLombaTpkController extends Controller
         $combinedTopPeserta = $topPeserta;
 
         // Buat PDF dari tampilan
-        $pdf = Pdf::loadView('pdf.laporan-lomba-tpk', ['top_peserta' => $combinedTopPeserta]);
+        $pdf = Pdf::loadView('pdf.laporan-lomba-sms', ['top_peserta' => $combinedTopPeserta]);
         
         // Mengatur ukuran kertas dan orientasi PDF (Opsional)
         $pdf->setPaper('A4', 'potrait'); // Atur ukuran dan orientasi kertas (A4 dan landscape)
 
-        return $pdf->download('laporan-hasil-lomba-tpk.pdf');
+        return $pdf->download('laporan-hasil-lomba-sms.pdf');
     }
 }
+

@@ -84,7 +84,7 @@
                         <a class="collapse-item" href="{{route('admin.hasil_nilai.nilai_foto')}}">FOTO</a>
                         <a class="collapse-item" href="{{route('admin.hasil_nilai.nilai_vidio')}}">VIDIO</a>
                         <a class="collapse-item" href="{{route('hasil-tpk')}}">TPK</a>
-                        <a class="collapse-item" href="cards.html">SEMAPHORE MORSE</a>
+                        <a class="collapse-item" href="{{route('hasil-sms')}}">SEMAPHORE MORSE</a>
                     </div>
                 </div>                
             </div>

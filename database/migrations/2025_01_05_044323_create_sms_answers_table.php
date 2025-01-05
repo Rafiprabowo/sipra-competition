@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tpk_answers', function (Blueprint $table) {
+        Schema::create('sms_answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('peserta_id')->constrained('pesertas')->cascadeOnDelete();
             $table->foreignId('cbt_session_id')->constrained('cbt_sessions')->cascadeOnDelete();
-            $table->foreignId('tpk_question_id')->constrained('tpk_questions')->cascadeOnDelete();
-            $table->enum('answer', ['a', 'b', 'c', 'd'])->nullable();
+            $table->foreignId('sms_question_image_id')->constrained('sms_question_images')->cascadeOnDelete();
+            $table->string('answer')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tpk_answers');
+        Schema::dropIfExists('sms_answers');
     }
 };
