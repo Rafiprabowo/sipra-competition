@@ -28,6 +28,14 @@ class DatabaseSeeder extends Seeder
 
          $sms = MataLomba::factory()->forMataLomba(\App\Enums\MataLomba::SMS->value)->create();
          $tpk = MataLomba::factory()->forMataLomba(\App\Enums\MataLomba::TPK->value)->create();
+         $karikatur = MataLomba::factory()->state([
+            'nama' => \App\Enums\MataLomba::KARIKATUR->value,
+            'deskripsi' => 'Karikatur',
+            'jumlah_peserta' => 1,
+            'ditujukan' => 0,
+            'kategori' => 'non-cbt'
+         ])->create();
+       
 
         // Membuat User Pembina dengan Regu dan Peserta terkait
         User::factory()
@@ -65,18 +73,18 @@ class DatabaseSeeder extends Seeder
         $pesertas = Peserta::all();
 
         // Hubungkan peserta dengan sesi CBT melalui tabel pivot peserta_sessions
-        $cbtSessions->each(function ($cbtSession) use ($pesertas) {
-            // Pilih peserta dengan mata_lomba_id yang sama dengan mata_lomba_id dari sesi CBT
-            $selectedPesertas = $pesertas->where('mata_lomba_id', $cbtSession->mata_lomba_id)->random(10); // Ambil 5-10 peserta sesuai mata lomba
+        // $cbtSessions->each(function ($cbtSession) use ($pesertas) {
+        //     // Pilih peserta dengan mata_lomba_id yang sama dengan mata_lomba_id dari sesi CBT
+        //     $selectedPesertas = $pesertas->where('mata_lomba_id', $cbtSession->mata_lomba_id)->random(10); // Ambil 5-10 peserta sesuai mata lomba
 
-            foreach ($selectedPesertas as $peserta) {
-                // Buat relasi di tabel pivot PesertaSession
-                PesertaSession::factory()->create([
-                    'cbt_session_id' => $cbtSession->id,
-                    'peserta_id' => $peserta->id,
-                ]);
-            }
-        });
+        //     foreach ($selectedPesertas as $peserta) {
+        //         // Buat relasi di tabel pivot PesertaSession
+        //         PesertaSession::factory()->create([
+        //             'cbt_session_id' => $cbtSession->id,
+        //             'peserta_id' => $peserta->id,
+        //         ]);
+        //     }
+        // });
 
     }
 }
