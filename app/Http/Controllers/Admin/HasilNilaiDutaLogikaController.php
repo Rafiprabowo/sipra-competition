@@ -19,6 +19,10 @@ class HasilNilaiDutaLogikaController extends Controller
     public function index() {
         $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::DUTALOGIKA->value)->first();
     
+        if (!$mata_lomba) {
+            return redirect()->route('admin.dashboard')->with('error', 'Mohon maaf, masukkan mata lomba DUTA LOGIKA untuk membuka penilaian.');
+        }
+    
         // Fetch and process participants by gender
         $putra = Peserta::with('penilaian_duta_logika')
             ->where('mata_lomba_id', $mata_lomba->id)
@@ -69,7 +73,7 @@ class HasilNilaiDutaLogikaController extends Controller
         });
     
         return view('admin.hasil_nilai.nilai_duta_logika', compact('putra', 'putri'));
-    }      
+    }    
 
     public function uploadTemplateDutaLogika(Request $request)
     {

@@ -4,11 +4,15 @@
 @endsection
 @section('content')
     <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 11px;">
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+                <p>{{ session('error') }}</p>
+                <button onclick="window.location='{{ route('admin.dashboard') }}'" class="btn btn-primary">OK</button>
+            </div>
+        @endif
+
         @if (session('success'))
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
         @endif
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -140,4 +144,6 @@
             });
         });
     </script>
+
+</div>
 @endsection

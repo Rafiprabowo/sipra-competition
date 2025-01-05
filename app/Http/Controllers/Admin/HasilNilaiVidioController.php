@@ -21,6 +21,10 @@ class HasilNilaiVidioController extends Controller
         // Ambil mata lomba
         $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::VIDIO->value)->first();
 
+        if (!$mata_lomba) {
+            return redirect()->route('admin.dashboard')->with('error', 'Mohon maaf, masukkan mata lomba Vidio untuk membuka penilaian.');
+        }
+
         // Ambil penilaian vidio dengan relasi dan filter duplikat berdasarkan pembina_id
         $penilaianVidios = PenilaianVidio::with('juri', 'pembina')
             ->where('mata_lomba_id', $mata_lomba->id)

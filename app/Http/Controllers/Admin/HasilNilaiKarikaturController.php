@@ -19,6 +19,10 @@ class HasilNilaiKarikaturController extends Controller
     public function index() {
         $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::KARIKATUR->value)->first();
     
+        if (!$mata_lomba) {
+            return redirect()->route('admin.dashboard')->with('error', 'Mohon maaf, masukkan mata lomba Karikatur untuk membuka penilaian.');
+        }
+
         // Fetch and process participants by gender
         $putra = Peserta::with('penilaian_karikatur')
             ->where('mata_lomba_id', $mata_lomba->id)
