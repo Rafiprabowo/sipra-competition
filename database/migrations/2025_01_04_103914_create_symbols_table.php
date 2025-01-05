@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('answers', function (Blueprint $table) {
+        Schema::create('symbols', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tpk_question_id')->constrained('tpk_questions')->onDelete('cascade');
-            $table->enum('selected_answer', ['a', 'b', 'c', 'd', 'e'])->nullable();
-            $table->boolean('is_correct')->nullable();
+            $table->enum('type', [\App\Enums\SymbolType::Semaphore->value, \App\Enums\SymbolType::Morse->value]);
+            $table->string('image')->nullable();
+            $table->char('letter', 1)->unique();
             $table->timestamps();
         });
-
     }
 
     /**
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('answers');
+        Schema::dropIfExists('symbols');
     }
 };

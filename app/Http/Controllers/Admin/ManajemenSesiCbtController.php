@@ -70,8 +70,8 @@ class ManajemenSesiCbtController extends Controller
         $validatedData = $request->validate([
             'mata_lomba_id' => 'required|exists:mata_lombas,id',
             'nama' => 'required|string|max:255',
-            'waktu_mulai' => 'required|date_format:H:i',
-            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required|after:waktu_mulai',
             'status' => 'required|in:draft,active,completed',
         ], [
             'waktu_selesai.after' => 'Waktu selesai harus sesudah waktu mulai.'

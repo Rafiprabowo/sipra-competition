@@ -36,7 +36,8 @@
                                     <th>Waktu Selesai</th>
                                     <th>Durasi</th>
                                     <th>Status</th>
-                                    <th>Kode Akses</th>
+                                    <th>Mata Lomba</th>
+                                    <th>Kode Akses</th>                                    
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -61,7 +62,7 @@
                                                 <span class="badge badge-info">{{ ucfirst($session->status) }}</span>
                                             @endif
                                         </td>                                       
-                                                                    
+                                        <td>{{$session->mataLomba->nama}}</td>
                                         <td >{{$session->kode_akses}}</td>
                                         <td>
                                             <a href="{{ route('sesi-peserta.index', $session->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" title="Lihat Peserta">

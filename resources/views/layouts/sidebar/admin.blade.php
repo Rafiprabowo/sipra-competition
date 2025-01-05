@@ -12,7 +12,7 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('admin.dashboard')}}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            
             <span style="font-size: 11px;">Dashboard</span></a>
     </li>
     <hr class="sidebar-divider my-2">
@@ -20,34 +20,34 @@
     <!-- Manjemen Peserta -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('admin.peserta.index')}}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            
             <span style="font-size: 11px;">Manajemen Peserta</span></a>
     </li>
     <!-- Manjemen Pembina -->
 
     <li class="nav-item">
         <a class="nav-link" href="{{route('admin.pembina.index')}}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            
             <span style="font-size: 11px;">Manajemen Pembina</span></a>
     </li>
 
     <!-- Manjemen Juri -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('juri.index')}}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            
             <span style="font-size: 11px;">Manajemen Juri</span></a>
     </li>
 
     <!-- Manjemen User -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('users.index')}}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            
             <span style="font-size: 11px;">Manajemen User</span></a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" href="{{route('admin.mata-lomba.index')}}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            
             <span style="font-size: 11px;">Manajemen Mata Lomba</span></a>
     </li>
 
@@ -56,16 +56,29 @@
             <span style="font-size: 11px;">Lomba CBT SMS & TPK</span></a>
     </li>
 
+    <!-- Nav Item - Simbol -->
+    <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseSimbol" aria-expanded="true" aria-controls="collapseSimbol">
+            <span style="font-size: 11px;">Manajemen Soal SMS</span>
+        </a>
+        <div id="collapseSimbol" class="collapse" aria-labelledby="headingSimbol" data-parent="#accordionSidebar">
+            <div class="bg-white collapse-inner rounded">
+                <a class="collapse-item" href="{{route('symbols.index')}}">Symbols</a>
+                <a class="collapse-item" href="{{route('sms-questions.index')}}">Pertanyaan</a>
+            </div>
+        </div>
+    </li>
+    
+
     <li class="nav-item">
         <a class="nav-link" href="{{route('admin.bobot-soal.index')}}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            
             <span style="font-size: 11px;">Manajemen Bobot Soal</span></a>
     </li>
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
             <span style="font-size: 11px;">Hasil Penilaian</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -85,9 +98,10 @@
             </div>
         </div>
     </li>
+
     <li class="nav-item">
         <a class="nav-link" href="{{route('dokumen.index')}}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            
             <span style="font-size: 11px;">Template Dokumen</span></a>
     </li>
 

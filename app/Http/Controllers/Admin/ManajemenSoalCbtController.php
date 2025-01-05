@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CbtSession;
 use App\Models\MataLomba;
+use App\Models\SmsQuestion;
 use App\Models\TpkQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +17,8 @@ class ManajemenSoalCbtController extends Controller
 
         if($session->mataLomba->nama == \App\Enums\MataLomba::TPK->value){
             return view('admin.soal-tpk.index', compact('session'));
+        }else if($session->mataLomba->nama == \App\Enums\MataLomba::SMS->value){
+            return view('admin.soal-sms.index', compact('session'));
         }else{
             return redirect()->route('sesi-soal.index', ['session_id' => $session, 'nama' => $session->mataLomba->nama])->with('error', 'Kategori lomba tidak valid.');
         }
@@ -35,6 +38,8 @@ class ManajemenSoalCbtController extends Controller
         if($session->mataLomba->nama == \App\Enums\MataLomba::TPK->value){
             $tpk_question = TpkQuestion::find($id);
             return view('admin.soal-tpk.edit', compact('session', 'tpk_question'));
+        }else if($session->mataLomba->nama == \App\Enums\MataLomba::SMS->value){
+            $sms_questions = SmsQuestion::find($id);
         }
     }
 
