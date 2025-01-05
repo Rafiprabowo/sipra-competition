@@ -34,14 +34,15 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    <img src="{{ $user->foto_profil ? asset('storage/' . $user->foto_profil) : asset('images/default.png') }}" alt="Foto user" style="width:40px;">
-                                </td>                                
+                                    @if ($user->foto_profil)
+                                        <img src="{{ asset('storage/' . $user->foto_profil) }}" alt="Foto user" style="width:40px;">
+                                    @else
+                                        <span>null</span>
+                                    @endif
+                                </td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->role ?? '-' }}</td>
                                 <td>
-                                    {{-- <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm mr-2" title="Lihat">
-                                        <i class="fas fa-eye"></i>
-                                    </a> --}}
                                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
