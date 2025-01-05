@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-fluid mt-4" style="font-size: 11px;">
         <div class="card">
-            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <div class="card-header bg-warning text-white d-flex justify-content-between align-items-center">
                 <h5 style="font-size: 11px;">Daftar Template Dokumen</h5>
                 <!-- Tombol Tambah Dokumen -->
                 <a href="{{ route('dokumen.create') }}" class="btn btn-primary" style="font-size: 11px;" title="Tambah">

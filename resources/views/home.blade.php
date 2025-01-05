@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOMBA 2024</title>
+    <title>LOGIKA 2025</title>
     <style>
         body {
             margin: 0;
@@ -17,7 +17,7 @@
             justify-content: center;
             align-items: center;
             padding: 10px 20px;
-            background: #332deb;
+            background: #EE3637;
             flex-wrap: wrap; /* Agar elemen bisa membungkus dalam beberapa baris jika tidak muat */
         }
 
@@ -30,8 +30,6 @@
         .logo-container img {
             height: 50px;
             margin-right: 10px;
-            border-radius: 50%; /* Memberikan efek rounded pada logo */
-            border: 2px solid white; /* Menambahkan border putih di sekitar logo */
         }
 
         nav {
@@ -61,11 +59,11 @@
         }
 
         nav ul li a:hover {
-            background-color: #1a1aff; /* Warna latar belakang saat hover */
+            background-color: #F67630; /* Warna latar belakang saat hover */
         }
 
         .masuk-button {
-            background-color: #ff00ff;
+            background-color: #FFBC29;
             padding: 8px 15px;
             border-radius: 5px;
             color: white;
@@ -75,7 +73,7 @@
         }
 
         .masuk-button:hover {
-            background-color: #cc00cc; /* Warna latar belakang saat hover */
+            background-color: #FFBC29; /* Warna latar belakang saat hover */
         }
 
         main {
@@ -92,7 +90,7 @@
         }
 
         h1 {
-            font-size: 3em;
+            font-size: 2em;
             margin: 0;
         }
 
@@ -122,7 +120,6 @@
 
         #timeline {
             padding: 2em;
-            background-color: #f4f4f4;
             color: #000;
             font-family: 'Arial', sans-serif;
         }
@@ -139,7 +136,7 @@
             content: '';
             position: absolute;
             width: 6px;
-            background-color: #003366;
+            background-color: #FFBC29;
             top: 0;
             bottom: 0;
             left: 50%;
@@ -150,7 +147,7 @@
             padding: 1em 2em;
             position: relative;
             background-color: inherit;
-            width: 50%;
+            width: 80%;
             box-sizing: border-box;
         }
 
@@ -160,7 +157,7 @@
             width: 20px;
             height: 20px;
             right: -10px;
-            background-color: #003366;
+            background-color: #FFBC29;
             border: 3px solid #ffffff;
             top: 15px;
             border-radius: 50%;
@@ -175,12 +172,13 @@
 
         .timeline-item:nth-child(odd) {
             left: 50%;
-            text-align: right;
+            text-align: left;
+            transform: translateX(-100%);
         }
 
         .timeline-date {
             font-weight: bold;
-            color: #003366;
+            color: #ED3237;
             margin-bottom: 0.5em;
         }
 
@@ -188,7 +186,6 @@
             padding: 1em;
             border: 1px solid #ccc;
             border-radius: 5px;
-            background-color: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -266,9 +263,9 @@
 <body>
     <header style="padding: 5px">
         <div class="logo-container">
-            <img src="{{ asset('img/bistik.jpg') }}" alt="Logo 1">
-            <img src="{{ asset('img/jaringan.jpg') }}" alt="Logo 2">
-            <img src="{{ asset('img/cipta.jpg') }}" alt="Logo 3">
+            <img src="{{ asset('img/LOGO 2.png') }}" alt="Logo 1">
+            <img src="{{ asset('img/CENDRA 6.png') }}" alt="Logo 2">
+            <img src="{{ asset('img/ROSE 2.png') }}" alt="Logo 3">
         </div>
         <nav>
             <ul>
@@ -282,49 +279,36 @@
     </header>
     
     <main>
-        <section class="content">
-            <h1>LOMBA 2024</h1>
-            <p>Kompetisi Pramuka se SMP di kota Malang</p>
-            <h2>Final Surabaya<br>01 Agustus 2023</h2>
-            {{-- <div class="countdown">
-                <div class="time">
-                    <span id="days">0</span>
-                    <span>Hari</span>
-                </div>
-                <div class="time">
-                    <span id="hours">0</span>
-                    <span>Jam</span>
-                </div>
-                <div class="time">
-                    <span id="minutes">0</span>
-                    <span>Menit</span>
-                </div>
-                <div class="time">
-                    <span id="seconds">0</span>
-                    <span>Detik</span>
-                </div>
-            </div> --}}
+        <section class="content" style="text-align: center;">
+            <h1>LOGIKA (LOMBA GIAT PRAMUKA) II ARVEGATU</h1>
+            <p>Lomba Giat Pramuka Arvegatu <br> Tingkat Penggalang SD/MI Sederajat <br> se-Jawa Timur</p>
         </section>
 
-        <section id="timeline">
-            <h2>TIMELINE</h2>
+        <section id="timeline" style="text-align: center">
+            <h2>Timeline Lomba</h2>
             <div class="timeline-container">
                 <div class="timeline-item">
-                    <div class="timeline-date">15 Maret - 10 Mei 2023</div>
+                    <div class="timeline-date">9 Desember 2024 - 1 Februari 2025</div>
                     <div class="timeline-content">
-                        <h3>PENDAFTARAN DAN SUBMIT PROPOSAL</h3>
+                        <h3>Pendaftaran</h3>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-date">22 Mei 2023</div>
+                    <div class="timeline-date">1 Februari 2025</div>
                     <div class="timeline-content">
-                        <h3>BABAK PENYISIHAN PERTAMA</h3>
+                        <h3>Technical Meeting</h3>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-date">23 Mei 2023</div>
+                    <div class="timeline-date">22 Februari 2025</div>
                     <div class="timeline-content">
-                        <h3>BABAK PENYISIHAN</h3>
+                        <h3>Pendaftaran Ulang</h3>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">22 Februari 2025</div>
+                    <div class="timeline-content">
+                        <h3>Pelaksanaan Lomba</h3>
                     </div>
                 </div>
             </div>
@@ -334,28 +318,36 @@
             <h2>LOMBA</h2>
             <div class="kategori-container">
                 <div class="kategori-item">
-                    <img src="{{ asset('img/iot.jpg') }}" alt="Internet Of Things">
-                    <h3>Internet Of Things</h3>
+                    <img src="{{ asset('img/ROSE 1.png') }}" alt="Pionering">
+                    <h3>Pionering</h3>
                 </div>
                 <div class="kategori-item">
-                    <img src="{{ asset('img/bistik.jpg') }}" alt="Perencanaan Bisnis Bidang TIK">
-                    <h3>Perencanaan Bisnis Bidang TIK</h3>
+                    <img src="{{ asset('img/CENDRA 4.png') }}" alt="Karikatur">
+                    <h3>Karikatur</h3>
                 </div>
                 <div class="kategori-item">
-                    <img src="{{ asset('img/hackathon.jpg') }}" alt="Hackathon">
-                    <h3>Hackathon</h3>
+                    <img src="{{ asset('img/ROSE 3.png') }}" alt="Duta Logika">
+                    <h3>Duta Logika</h3>
                 </div>
                 <div class="kategori-item">
-                    <img src="{{ asset('img/animasi.jpg') }}" alt="Animasi">
-                    <h3>Animasi</h3>
+                    <img src="{{ asset('img/CENDRA 2.png') }}" alt="LKFBB">
+                    <h3>LKFBB</h3>
                 </div>
                 <div class="kategori-item">
-                    <img src="{{ asset('img/game.jpg') }}" alt="Pengembangan Aplikasi Bidang Permainan">
-                    <h3>Pengembangan Aplikasi Bidang Permainan</h3>
+                    <img src="{{ asset('img/ROSE 6.png') }}" alt="Tes Kemampuan Kepramukaan">
+                    <h3>Tes Kemampuan Kepramukaan</h3>
                 </div>
                 <div class="kategori-item">
-                    <img src="{{ asset('img/egov.jpg') }}" alt="E-Government">
-                    <h3>E-Government</h3>
+                    <img src="{{ asset('img/CENDRA 5.png') }}" alt="Semaphore & Morse">
+                    <h3>Semaphore & Morse</h3>
+                </div>
+                <div class="kategori-item">
+                    <img src="{{ asset('img/ROSE 4.png') }}" alt="Foto">
+                    <h3>Foto</h3>
+                </div>
+                <div class="kategori-item">
+                    <img src="{{ asset('img/CENDRA 3.png') }}" alt="Vidio">
+                    <h3>Vidio</h3>
                 </div>
             </div>
         </section>
@@ -372,22 +364,6 @@
             </div>
         </div>
     </main>
-    <script>
-        // Countdown timer logic
-        const countdownDate = new Date("Aug 1, 2023 00:00:00").getTime();
-
-        const countdownFunction = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = countdownDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = days;
-            document.getElementById("hours").innerText = hours;
-            document.getElementById("[_{{{CITATION{{{_1{](https://github.com/xpros/www/tree/d7f4b372e52ac11dee9f1245353767ec077d55fe/src%2Fcountdown%2Fcountdown.js)[_{{{CITATION{{{_2{](https://github.com/randika480/grid-af-host-testing/tree/67225ae70d72b9b411eddb882d6e41715e28da41/src%2Fcomponents%2FCountDown.js)[_{{{CITATION{{{_3{](https://github.com/santiaguf/spacex-platzi/tree/c02680dc8d4454bc2f881921af9c5f3dbe88cf90/js%2Flaunches.js)[_{{{CITATION{{{_4{](https://github.com/Brymo/CoronaCrew/tree/4a909cb149c4db56c3c72fddbfcfe125dafdd543/main.js)[_{{{CITATION{{{_5{](https://github.com/koldovsky/610-team-3/tree/9ad5ae5a5aa0052d88b50857279917562bfa3acf/js%2Fcountdown.js)
-    </script>
+    
 </body>
 </html>
