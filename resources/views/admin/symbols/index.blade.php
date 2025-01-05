@@ -9,7 +9,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Symbols</li>
+                <li class="breadcrumb-item active" aria-current="page">Gambar Semaphore Morse</li>
             </ol>
         </nav>
 
@@ -22,7 +22,7 @@
         
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h5 style="font-size: 11px;">Symbols List</h5>
+                <h5 style="font-size: 11px;">List Simbol</h5>
                 <a href="{{route('symbols.create')}}" class="btn btn-primary" style="font-size: 11px;" title="Add New Symbol">
                     <i class="fas fa-plus"></i>
                 </a>
@@ -33,10 +33,10 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Letter</th>
-                                <th>Type</th>
-                                <th>Image</th>
-                                <th>Actions</th>
+                                <th>Huruf</th>
+                                <th>Jenis</th>
+                                <th>Gambar</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>

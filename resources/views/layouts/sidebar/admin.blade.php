@@ -55,8 +55,8 @@
             <span style="font-size: 11px;">Manajemen Soal SMS</span>
         </a>
         <div id="collapseSimbol" class="collapse" aria-labelledby="headingSimbol" data-parent="#accordionSidebar">
-            <div class="bg-white collapse-inner rounded">
-                <a class="collapse-item" href="{{route('symbols.index')}}">Symbols</a>
+            <div class="bg-white collapse-inner rounded" style="font-size: 11px;">
+                <a class="collapse-item" href="{{route('symbols.index')}}">Gambar Semaphore Morse</a>
                 <a class="collapse-item" href="{{route('sms-questions.index')}}">Pertanyaan</a>
             </div>
         </div>

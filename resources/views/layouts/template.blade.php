@@ -107,28 +107,32 @@
                                 @else
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nama belum diisi</span>
                                 @endif
-                                <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('profile_pictures/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile">
+                                <img class="img-profile rounded-circle" src="{{ Storage::url(Auth::user()->foto_profil) }}">
+                                {{-- <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('profile_pictures/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile"> --}}
                             @elseif(Auth::user()->role == 'juri')
                                 @if(Auth::user()->juri)
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->juri->nama }}</span>
                                 @else
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nama belum diisi</span>
                                 @endif
-                                <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('profile_pictures/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile">
+                                <img class="img-profile rounded-circle" src="{{ Storage::url(Auth::user()->foto_profil) }}">
+                                {{-- <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('profile_pictures/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile"> --}}
                             @elseif(Auth::user()->role == 'peserta')
                                 @if(Auth::user()->peserta)
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->peserta->nama }}</span>
                                 @else
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nama belum diisi</span>
                                 @endif
-                                <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('profile_pictures/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile">
+                                <img class="img-profile rounded-circle" src="{{ Storage::url(Auth::user()->foto_profil) }}">
+                                {{-- <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('profile_pictures/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile"> --}}
                             @elseif(Auth::user()->role == 'admin')
                                 @if(Auth::user()->admin)
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->admin->nama }}</span>
                                 @else
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nama belum diisi</span>
                                 @endif
-                                <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('profile_pictures/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile">
+                                <img class="img-profile rounded-circle" src="{{ Storage::url(Auth::user()->foto_profil) }}">
+                                {{-- <img class="img-profile rounded-circle" src="{{ Auth::user()->foto_profil ? asset('profile_pictures/' . Auth::user()->foto_profil) : asset('images/default.png') }}" alt="User Profile"> --}}
                             @endif
                         </a>
                         <!-- Dropdown - User Information -->

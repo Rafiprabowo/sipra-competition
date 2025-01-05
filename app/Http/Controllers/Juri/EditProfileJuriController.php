@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash; 
 use App\Models\User;
 use App\Models\Juri;
+use Illuminate\Support\Facades\Storage;
 
 class EditProfileJuriController extends Controller
 {
@@ -38,9 +39,16 @@ class EditProfileJuriController extends Controller
             $user->password = Hash::make($request->password);
         }
 
+        // Jika ada gambar baru yang diunggah
         if ($request->hasFile('foto_profil')) {
-            $path = $request->file('foto_profil')->store('profile_pictures', 'public');
-            $user->foto_profil = $path;
+            // Menghapus gambar lama jika ada
+            if ($user->profil) {
+                Storage::disk('public')->delete($user->image);
+            }
+
+            // Menyimpan gambar baru dengan cara yang sama seperti di method store
+            $imagePath = $request->file('foto_profil')->store('images', 'public');  // Menyimpan gambar di folder 'images'
+            $user->foto_profil = $imagePath;
         }
 
         $user->save();

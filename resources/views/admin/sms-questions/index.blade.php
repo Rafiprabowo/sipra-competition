@@ -9,7 +9,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">SMS Questions</li>
+                <li class="breadcrumb-item active" aria-current="page">Pertanyaan Semaphore Morse</li>
             </ol>
         </nav>
 
@@ -22,21 +22,21 @@
 
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h5 style="font-size: 11px;">SMS Questions List</h5>
-                <a href="{{ route('sms-questions.create') }}" class="btn btn-primary btn-sm" style="font-size: 11px;">
-                    Add New Question
+                <h5 style="font-size: 11px;">List Pertanyaan Semaphore Morse</h5>
+                <a href="{{ route('sms-questions.create') }}" class="btn btn-primary btn-sm" style="font-size: 11px;" title="Tambah">
+                    <i class="fas fa-plus"></i>
                 </a>
             </div>
             <div class="card-body">
                 <table class="table table-bordered table-sm" id="smsQuestionsTable">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Word</th>
-                            <th>Type</th>
-                            <th>CBT Session</th>
-                            <th>Symbol Images</th>
-                            <th>Actions</th>    
+                            <th>No</th>
+                            <th>Kata</th>
+                            <th>Jenis</th>
+                            <th>Sesi CBT</th>
+                            <th>Gambar Semaphore Morse</th>
+                            <th>Aksi</th>    
                         </tr>
                     </thead>
                     <tbody>

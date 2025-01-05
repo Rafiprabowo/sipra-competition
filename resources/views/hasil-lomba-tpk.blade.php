@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" style="font-size: 11px;">
         @if (session('success'))
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
@@ -22,10 +22,10 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-end">
                           <!-- Tombol untuk ekspor PDF -->
-                        <a href="{{ route('pdf.lomba-tpk') }}" class="btn btn-primary mt-4 mr-2">
+                        <a href="{{ route('pdf.lomba-tpk') }}" class="btn btn-primary mt-4 mr-2" style="font-size: 11px;">
                             <i class="fas fa-file-pdf"></i> Ekspor PDF
                         </a>
-                        <a href="{{ route('excel.lomba-tpk') }}" class="btn btn-primary mt-4">
+                        <a href="{{ route('excel.lomba-tpk') }}" class="btn btn-primary mt-4" style="font-size: 11px;">
                             <i class="fas fa-file-pdf"></i> Ekspor Excel
                         </a>
                     </div>
@@ -65,8 +65,8 @@
         @endif
 
         <div class="d-flex justify-content-start mt-4">
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary" style="font-size: 11px;" title="Kembali">
+                <i class="fas fa-arrow-left"></i>
             </a>
         </div>
     </div>
