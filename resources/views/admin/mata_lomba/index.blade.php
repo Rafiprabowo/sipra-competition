@@ -47,13 +47,10 @@
                                 </td>                                
                                 <td>{{$value->deskripsi}}</td>
                                 <td>
-                                    {{-- <a href="{{route('admin.mata-lomba.show', $value->id)}}" class="btn btn-info btn-sm " title="Lihat">
-                                        <i class="fas fa-eye"></i>
-                                    </a> --}}
-                                    <a href="{{route('admin.mata-lomba.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah">
+                                    <a href="{{route('admin.mata-lomba.edit', $value->id)}}" class="btn btn-warning btn-sm mx-3" title="Ubah" style="font-size: 11px;">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="{{route('admin.mata-lomba.destroy', $value->id)}}" method="POST" style="display:inline;">
+                                    <form action="{{route('admin.mata-lomba.destroy', $value->id)}}" method="POST" style="display:inline;" style="font-size: 11px;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger  btn-sm" title="Hapus" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?');">

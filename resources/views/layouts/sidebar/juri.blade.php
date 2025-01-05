@@ -7,23 +7,18 @@
 
 </style>
 <!-- Sidebar -->
-<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #1c294e; ">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: black; ">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
+            <img src="{{ asset('img/Logika.png') }}" alt="Logika" width="50px;" style="margin-top: 30px;">
         </div>
-        <div class="sidebar-brand-text mx-3" style="font-size: 11px;">LOGIKA</div>
     </a>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
+    <li class="nav-item" style="padding-top: 15%;">
         <a class="nav-link" href="{{route('juri.dashboard')}}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
             <span style="font-size: 11px;">Dashboard</span></a>
     </li>
 
@@ -33,7 +28,6 @@
     <!-- Nav Item - Charts -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('juri.profil_juri')}}">
-            <i class="fas fa-fw fa-chart-area"></i>
             <span style="font-size: 11px;">Profil Juri</span></a>
     </li>
 
@@ -41,7 +35,6 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
             <span style="font-size: 11px;">Penilaian Lomba</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

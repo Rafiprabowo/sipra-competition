@@ -73,10 +73,10 @@
           <nav class="mb-4" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item {{ request('tab') == null ? 'active' : '' }}" {{ request('tab') == null ? 'aria-current=page' : '' }}>
-                        <a href="{{ route('peserta.dashboard') }}" class="text-decoration-none {{ request('tab') == null ? 'active' : '' }}">Mata Lomba</a>
+                        <a href="{{ route('peserta.dashboard') }}" class="text-decoration-none {{ request('tab') == null ? 'active' : '' }}" style="color: black;">Mata Lomba</a>
                     </li>
                     <li class="breadcrumb-item {{ request('tab') == 'listverifikasi' ? 'active' : '' }}" {{ request('tab') == 'listverifikasi' ? 'aria-current=page' : '' }}>
-                        <a href="{{ route('peserta.dashboard', ['tab' => 'listverifikasi']) }}" class="text-decoration-none {{ request('tab') == 'listverifikasi' ? 'active' : '' }}" id="loadListVerifikasi">
+                        <a href="{{ route('peserta.dashboard', ['tab' => 'listverifikasi']) }}" class="text-decoration-none {{ request('tab') == 'listverifikasi' ? 'active' : '' }}" id="loadListVerifikasi" style="color: black;">
                             List Verifikasi Pangkalan
                         </a>
                     </li>
@@ -128,27 +128,27 @@
             <!-- Card 1 -->
             <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
-                    <img src="{{ asset('img/iot.jpg') }}" class="card-img-top img-fluid p-3" alt="Internet of Things">
+                    <img src="{{ asset('img/ROSE 1.png') }}" alt="Pionering" class="card-img-top img-fluid p-3">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold" style="font-size: 11px;">Pioneering</h5>
+                        <h5 class="card-title fw-bold" style="font-size: 11px; padding-top:15%; color:black;">Pioneering</h5>
                     </div>
                 </div>
             </div>
             <!-- Card 2 -->
             <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
-                    <img src="{{ asset('img/bistik.jpg') }}" class="card-img-top img-fluid p-3" alt="Perencanaan Bisnis">
+                    <img src="{{ asset('img/CENDRA 4.png') }}" alt="Karikatur" class="card-img-top img-fluid p-3">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold" style="font-size: 11px;">Karikatur</h5>
+                        <h5 class="card-title fw-bold" style="font-size: 11px; color:black;">Karikatur</h5>
                     </div>
                 </div>
             </div>
             <!-- Card 3 -->
             <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
-                    <img src="{{ asset('img/hackathon.jpg') }}" class="card-img-top img-fluid p-3" alt="Hackathon">
+                    <img src="{{ asset('img/ROSE 3.png') }}" alt="Duta Logika" class="card-img-top img-fluid p-3">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold" style="font-size: 11px;">Duta Logika</h5>
+                        <h5 class="card-title fw-bold" style="font-size: 11px; padding-top:15%; color:black;">Duta Logika</h5>
                     </div>
                 </div>
             </div>
@@ -158,26 +158,26 @@
             <!-- Card 5 -->
             <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
-                    <img src="{{ asset('img/game.jpg') }}" class="card-img-top img-fluid p-3" alt="Pengembangan Game">
+                    <img src="{{ asset('img/CENDRA 5.png') }}" alt="Semaphore & Morse" class="card-img-top img-fluid p-3">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold" style="font-size: 11px;">Semaphore Morse</h5>
+                        <h5 class="card-title fw-bold" style="font-size: 11px; color:black;">Semaphore Morse</h5>
                     </div>
                 </div>
             </div>
             <!-- Card 6 -->
             <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
-                    <img src="{{ asset('img/egov.jpg') }}" class="card-img-top img-fluid p-3" alt="E-Government">
+                    <img src="{{ asset('img/CENDRA 2.png') }}" alt="LKFBB" class="card-img-top img-fluid p-3">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold" style="font-size: 11px;">LKFBB</h5>
+                        <h5 class="card-title fw-bold" style="font-size: 11px; color:black;">LKFBB</h5>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
                     <a href="{{route('peserta.sesi-tpk.index')}}" class="text-center text-lg text-decoration-none" >
-                        <img src="{{asset('img/egov.jpg')}}" alt="Tes Pengetahuan Kepramukaan" class="card-img-top img-fluid p-3">
-                        <span class="card-title" style="font-size: 11px;">Tes Pengetahuan Kepramukaan</span>
+                        <img src="{{ asset('img/ROSE 6.png') }}" alt="Tes Kemampuan Kepramukaan" class="card-img-top img-fluid p-3">
+                        <h5 class="card-title fw-bold" style="font-size: 11px; padding-top:20%; color:black;">Tes Pengetahuan Kepramukaan</h5>
                     </a>
                 </div>
             </div>
