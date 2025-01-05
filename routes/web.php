@@ -3,7 +3,9 @@
 use App\Http\Controllers\Admin\EditSoalTpkController;
 use App\Http\Controllers\Admin\ImportSoalTpkController;
 use App\Http\Controllers\Admin\JuriController;
+use App\Http\Controllers\Admin\KelolaSymbolSmsController;
 use App\Http\Controllers\Admin\PertanyaanTpkController;
+use App\Http\Controllers\Admin\SmsQuestionSmsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HasilLombaTpkController;
@@ -111,11 +113,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/{id}/peserta/create', [\App\Http\Controllers\Admin\ParticipantsSessionController::class, 'create'])->name('sesi-peserta.create');
         Route::get('/{id}/soal', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'index'])->name('sesi-soal.index');
         Route::get('/{id}/soal/create', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'create'])->name('sesi-soal.create');
-        Route::post('/{id}/soal-tpk/import',\App\Http\Controllers\Admin\ImportSoalTpkController::class)->name('soal-tpk.import');
         Route::get('/{session_id}/soal/{id}/edit', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'edit'])->name('sesi-soal.edit');
         Route::put('/{session_id}/soal/{id}/update', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'update'])->name('sesi-soal.update');
         Route::delete('/{session_id}/soal/{id}/delete', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'destroy'])->name('sesi-soal.delete');
         Route::delete('/{session_id}/soal/delete-all', [\App\Http\Controllers\Admin\ManajemenSoalCbtController::class, 'destroyAll'])->name('sesi-soal.delete-all');
+
         });
 
     Route::prefix('bobot-soal')->group(function () {
@@ -144,12 +146,34 @@ Route::prefix('admin')->group(function () {
     Route::prefix('juri')->group(function () {
         Route::resource('/juri', JuriController::class)->middleware(['role:admin']);
        });
+    
 
+    Route::post('/{id}/soal-tpk/import',\App\Http\Controllers\Admin\ImportSoalTpkController::class)->name('soal-tpk.import');
+    Route::post('/{id}/soal-sms/import',\App\Http\Controllers\Admin\ImportSoalSmsController::class)->name('soal-sms.import');
 
     Route::get('/hasil-lomba-tpk', HasilLombaTpkController::class)->name('hasil-tpk');
 
     Route::prefix('laporan')->group(function(){
         Route::get('/tes-pengetahuan-kepramukaan', \App\Http\Controllers\Admin\LaporanHasilLombaTpkController::class)->name('pdf.lomba-tpk');
+    });
+
+    Route::prefix('/symbols')->group(function(){
+        Route::get('/', [KelolaSymbolSmsController::class, 'index'])->name('symbols.index');
+        Route::get('/create', [KelolaSymbolSmsController::class, 'create'])->name('symbols.create');
+        Route::post('/', [KelolaSymbolSmsController::class, 'store'])->name('symbols.store');
+        Route::get('/{id}/edit', [KelolaSymbolSmsController::class, 'edit'])->name('symbols.edit');
+        Route::put('/{id}/update', [KelolaSymbolSmsController::class, 'update'])->name('symbols.update');   
+        Route::delete('/{id}/destroy', [KelolaSymbolSmsController::class, 'destroy'])->name('symbols.destroy');   
+    });
+
+    Route::prefix('/sms-questions')->group(function(){
+        Route::get('/', [SmsQuestionSmsController::class, 'index'])->name('sms-questions.index');
+        Route::get('/create', [SmsQuestionSmsController::class, 'create'])->name('sms-questions.create');
+        Route::post('/', [SmsQuestionSmsController::class, 'store'])->name('sms-questions.store');
+        Route::get('/{id}/edit', [SmsQuestionSmsController::class, 'edit'])->name('sms-questions.edit');
+        Route::put('/{smsQuestion}/update', [SmsQuestionSmsController::class, 'update'])->name('sms-questions.update');
+        Route::delete('/{smsQuestion}/destroy', [SmsQuestionSmsController::class, 'destroy'])->name('sms-questions.destroy');
+        
     });
 
 })->middleware(['role:admin']);

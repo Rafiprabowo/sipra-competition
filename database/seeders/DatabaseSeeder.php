@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\CbtSession;
+use App\Models\MataLomba;
 use App\Models\Peserta;
 use App\Models\PesertaSession;
 use App\Models\Pembina;
@@ -25,6 +26,9 @@ class DatabaseSeeder extends Seeder
              'role' => 'admin'
          ]);
 
+         $sms = MataLomba::factory()->forMataLomba(\App\Enums\MataLomba::SMS->value)->create();
+         $tpk = MataLomba::factory()->forMataLomba(\App\Enums\MataLomba::TPK->value)->create();
+
         // Membuat User Pembina dengan Regu dan Peserta terkait
         User::factory()
         ->state(['role' => 'pembina'])
@@ -34,13 +38,15 @@ class DatabaseSeeder extends Seeder
                     ReguPembina::factory()
                         ->count(1)
                         ->withKategoriPA() // Kategori PA
-                        ->has(Peserta::factory()->putra()->count(1)) // Regu PA memiliki 1 peserta putra
+                        ->has(Peserta::factory()->putra()->withMataLomba($tpk)->count(1)) // Regu PA memiliki 1 peserta putra
+                        ->has(Peserta::factory()->putra()->withMataLomba($sms)->count(1)) // Regu PA memiliki 1 peserta putra
                 )
                 ->has(
                     ReguPembina::factory()
                         ->count(1)
                         ->withKategoriPI() // Kategori PI
-                        ->has(Peserta::factory()->putri()->count(1)) // Regu PI memiliki 1 peserta putri
+                        ->has(Peserta::factory()->putri()->withMataLomba($sms)->count(1)) // Regu PI memiliki 1 peserta putri
+                        ->has(Peserta::factory()->putri()->withMataLomba($tpk)->count(1)) // Regu PI memiliki 1 peserta putri
                 )
         )
         ->count(5) // Buat 5 user dengan role pembina
@@ -50,22 +56,27 @@ class DatabaseSeeder extends Seeder
         ->create();
     
         // Buat beberapa sesi CBT
-        $cbtSessions = CbtSession::factory()->count(3)->create();
+        CbtSession::factory()->withMataLomba($tpk)->count(2)->create();
+        CbtSession::factory()->withMataLomba($sms)->count(2)->create();
+
+        $cbtSessions = CbtSession::all();
 
         // Ambil semua peserta yang dibuat sebelumnya
         $pesertas = Peserta::all();
 
         // Hubungkan peserta dengan sesi CBT melalui tabel pivot peserta_sessions
-        $cbtSessions->each(function ($cbtSession) use ($pesertas) {
-            // Pilih beberapa peserta secara acak untuk setiap sesi
-            $selectedPesertas = $pesertas->random(rand(5, 10)); // Ambil 5-10 peserta secara acak
+        // $cbtSessions->each(function ($cbtSession) use ($pesertas) {
+        //     // Pilih peserta dengan mata_lomba_id yang sama dengan mata_lomba_id dari sesi CBT
+        //     $selectedPesertas = $pesertas->where('mata_lomba_id', $cbtSession->mata_lomba_id)->random(10); // Ambil 5-10 peserta sesuai mata lomba
 
-            foreach ($selectedPesertas as $peserta) {
-                PesertaSession::factory()->create([
-                    'cbt_session_id' => $cbtSession->id,
-                    'peserta_id' => $peserta->id,
-                ]);
-            }
-        });
+        //     foreach ($selectedPesertas as $peserta) {
+        //         // Buat relasi di tabel pivot PesertaSession
+        //         PesertaSession::factory()->create([
+        //             'cbt_session_id' => $cbtSession->id,
+        //             'peserta_id' => $peserta->id,
+        //         ]);
+        //     }
+        // });
+
     }
 }

@@ -24,5 +24,8 @@ class CbtSession extends Model
     public function tpk_questions(){
         return $this->hasMany(TpkQuestion::class);
     }
+    public function smsQuestions(){
+        return $this->hasMany(SmsQuestion::class);
+    }
 
 }
