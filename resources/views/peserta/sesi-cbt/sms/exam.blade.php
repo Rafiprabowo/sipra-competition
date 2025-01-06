@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<div class="container-fluid d-flex justify-content-center">
+<div class="container-fluid d-flex justify-content-center" style="font-size: 11px;">
     <div class="row w-100">
         <!-- Question Content -->
         <div class="col-md-8">

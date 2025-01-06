@@ -3,7 +3,7 @@
     @include('layouts.sidebar.peserta')
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" style="font-size:11px;">
         @if (session('success'))
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
@@ -43,7 +43,7 @@
                                         </div>
                                 </td>
                                 <td>
-                                    <button type="submit" class="btn btn-primary">Mulai Ujian</button>
+                                    <button type="submit" class="btn btn-primary" style="font-size:11px;">Mulai Ujian</button>
                                     </form>
                                 </td>
                             </tr>
@@ -53,8 +53,8 @@
             </div>
         @endif
         <div class="d-flex justify-content-start mt-4">
-            <a href="{{ route('peserta.dashboard') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+            <a href="{{ route('peserta.dashboard') }}" class="btn btn-secondary" style="font-size:11px;" title="Kembali">
+                <i class="fas fa-arrow-left"></i>
             </a>
         </div>
     </div>
