@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('symbols', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', [\App\Enums\SymbolType::Semaphore->value, \App\Enums\SymbolType::Morse->value]);
+            $table->enum('type', [\App\Enums\QuestionType::SEMAPHORE->value, \App\Enums\QuestionType::MORSE->value]);
             $table->string('image')->nullable();
             $table->char('letter', 1);
             $table->timestamps();

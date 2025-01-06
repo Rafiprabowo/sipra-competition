@@ -11,36 +11,33 @@
 @section('content')
     <div class="container" style="font-size: 11px;">
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
+            <div class="card-header py-3 d-flex justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Edit Sesi Computer Based Test</h6>
             </div>
             <div class="card-body">
                 <form action="{{ route('sesi-cbt.update', $session->id) }}" method="POST">
                     @csrf
-                    @method('PUT')
+                    @method('PUT') <!-- This is required for updating -->
+                    
                     <div class="form-group">
                         <label for="mata_lomba_id">Lomba Computer Based Test</label>
                         <select class="form-control" name="mata_lomba_id" id="mata_lomba_id" style="font-size: 11px;" required>
                             <option value="">--Pilih--</option>
                             @foreach ($mataLombas as $item)
-                                <option value="{{ $item->id }}" @if($item->id == $session->mata_lomba_id) selected @endif>{{ $item->nama }}</option>
+                                <option value="{{ $item->id }}" {{ $item->id == old('mata_lomba_id', $session->mata_lomba_id) ? 'selected' : '' }}>
+                                    {{ $item->nama }}
+                                </option>
                             @endforeach
                         </select>
                         @error('mata_lomba_id')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="nama">Nama Sesi</label>
-                        <input type="text" class="form-control" id="nama" name="nama" value="{{ $session->nama }}" style="font-size: 11px;" required>
-                        @error('nama')
-                            <div class="alert alert-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
+
                     <div class="form-group">
                         <label for="waktu_mulai">Waktu Mulai</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" id="waktu_mulai" name="waktu_mulai" value="{{ \Carbon\Carbon::parse($session->waktu_mulai)->format('H:i') }}" style="font-size: 11px;" required>
+                            <input type="text" class="form-control timepicker" id="waktu_mulai" name="waktu_mulai" style="font-size: 11px;" value="{{ old('waktu_mulai', $session->waktu_mulai) }}" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-clock"></i></span>
                             </div>
@@ -49,10 +46,11 @@
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+                    
                     <div class="form-group">
                         <label for="waktu_selesai">Waktu Selesai</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" id="waktu_selesai" name="waktu_selesai" value="{{ \Carbon\Carbon::parse($session->waktu_selesai)->format('H:i') }}" style="font-size: 11px;" required>
+                            <input type="text" class="form-control timepicker" id="waktu_selesai" name="waktu_selesai" style="font-size: 11px;" value="{{ old('waktu_selesai', $session->waktu_selesai) }}" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-clock"></i></span>
                             </div>
@@ -61,24 +59,41 @@
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
-                    
+
+                    <div class="form-group">
+                        <label for="jumlah_soal">Jumlah Soal</label>
+                        <input type="number" class="form-control" id="jumlah_soal" name="jumlah_soal" style="font-size: 11px;" value="{{ old('jumlah_soal', $session->jumlah_soal) }}" required>
+                        @error('jumlah_soal')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select class="form-control" name="status" id="status" style="font-size: 11px;" required>
-                            <option value="{{ \App\Enums\StatusSesiCbt::Draft->value }}" @if($session->status == \App\Enums\StatusSesiCbt::Draft->value) selected @endif>Ditutup</option>
-                            <option value="{{ \App\Enums\StatusSesiCbt::Active->value }}" @if($session->status == \App\Enums\StatusSesiCbt::Active->value) selected @endif>Dibuka</option>
-                            <option value="{{ \App\Enums\StatusSesiCbt::Completed->value }}" @if($session->status == \App\Enums\StatusSesiCbt::Completed->value) selected @endif>Selesai</option>
+                            <option value="{{ \App\Enums\StatusSesiCbt::Draft->value }}" {{ $session->status == \App\Enums\StatusSesiCbt::Draft->value ? 'selected' : '' }}>Ditutup</option>
+                            <option value="{{ \App\Enums\StatusSesiCbt::Active->value }}" {{ $session->status == \App\Enums\StatusSesiCbt::Active->value ? 'selected' : '' }}>Dibuka</option>
+                            <option value="{{ \App\Enums\StatusSesiCbt::Completed->value }}" {{ $session->status == \App\Enums\StatusSesiCbt::Completed->value ? 'selected' : '' }}>Selesai</option>
                         </select>
                         @error('status')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="d-flex ">
+
+                    <div class="form-group">
+                        <label for="kode_akses">Kode Akses (opsional)</label>
+                        <input type="text" class="form-control" id="kode_akses" name="kode_akses" style="font-size: 11px;" value="{{ old('kode_akses', $session->kode_akses) }}">
+                        @error('kode_akses')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="d-flex">
                         <a href="{{ route('sesi-cbt.index') }}" class="btn btn-secondary mr-2" style="font-size: 11px;" title="Kembali">
                             <i class="fas fa-arrow-left"></i>
                         </a>
-                        <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Ubah">
-                            <i class="fas fa-sync-alt"></i>
+                        <button type="submit" class="btn btn-primary" style="font-size: 11px;" title="Simpan">
+                            <i class="fas fa-save"></i>
                         </button>
                     </div>
                 </form>
@@ -99,12 +114,11 @@
  <script>
     $(document).ready(function(){
         $('#waktu_mulai').pickatime({
-            format: 'H:i'
+            format: 'HH:i'
         });
         $('#waktu_selesai').pickatime({
-            format: 'H:i'
+            format: 'HH:i'
         });
     });
-</script>
-
+ </script>
 @endsection

@@ -29,6 +29,7 @@
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="form-group">
                         <label for="waktu_mulai">Waktu Mulai</label>
                         <div class="input-group">
@@ -41,6 +42,7 @@
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+                    
                     <div class="form-group">
                         <label for="waktu_selesai">Waktu Selesai</label>
                         <div class="input-group">
@@ -53,16 +55,35 @@
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    {{-- <div class="form-group">
+                        <label for="durasi">Durasi (Menit)</label>
+                        <input type="number" class="form-control" id="durasi" name="durasi" style="font-size: 11px;" required>
+                        @error('durasi')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div> --}}
+
+                    <div class="form-group">
+                        <label for="jumlah_soal">Jumlah Soal</label>
+                        <input type="number" class="form-control" id="jumlah_soal" name="jumlah_soal" style="font-size: 11px;" required>
+                        @error('jumlah_soal')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select class="form-control" name="status" id="status" style="font-size: 11px;" required>
-                            <option value="{{\App\Enums\StatusSesiCbt::Draft->value}}">Ditutup</option>
-                            <option value="{{\App\Enums\StatusSesiCbt::Active->value}}">Dibuka</option>
+                            <option value="{{ \App\Enums\StatusSesiCbt::Draft->value }}">Ditutup</option>
+                            <option value="{{ \App\Enums\StatusSesiCbt::Active->value }}">Dibuka</option>
+                            <option value="{{ \App\Enums\StatusSesiCbt::Completed->value }}">Selesai</option>
                         </select>
                         @error('status')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="form-group">
                         <label for="kode_akses">Kode Akses (opsional)</label>
                         <input type="text" class="form-control" id="kode_akses" name="kode_akses" style="font-size: 11px;">
@@ -70,6 +91,7 @@
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="d-flex">
                         <a href="{{ route('sesi-cbt.index') }}" class="btn btn-secondary mr-2" style="font-size: 11px;" title="Kembali">
                             <i class="fas fa-arrow-left"></i>

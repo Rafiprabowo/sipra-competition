@@ -35,41 +35,9 @@ class DatabaseSeeder extends Seeder
             'ditujukan' => 0,
             'kategori' => 'non-cbt'
          ])->create();
-         $duta_logika = MataLomba::factory()->state([
-            'nama' => \App\Enums\MataLomba::DUTALOGIKA->value,
-            'deskripsi' => 'Duta Logika',
-            'jumlah_peserta' => 1,
-            'ditujukan' => 0,
-            'kategori' => 'non-cbt'
-         ])->create();
-         $pionering = MataLomba::factory()->state([
-            'nama' => \App\Enums\MataLomba::PIONERING->value,
-            'deskripsi' => 'Pionering',
-            'jumlah_peserta' => 4,
-            'ditujukan' => 0,
-            'kategori' => 'non-cbt'
-         ])->create();
-         $lkfbb = MataLomba::factory()->state([
-            'nama' => \App\Enums\MataLomba::LKFBB->value,
-            'deskripsi' => 'LKFBB',
-            'jumlah_peserta' => 8,
-            'ditujukan' => 0,
-            'kategori' => 'non-cbt'
-         ])->create();
-         $foto = MataLomba::factory()->state([
-            'nama' => \App\Enums\MataLomba::FOTO->value,
-            'deskripsi' => 'Foto',
-            'jumlah_peserta' => 1,
-            'ditujukan' => 1,
-            'kategori' => 'non-cbt'
-         ])->create();
-         $vidio = MataLomba::factory()->state([
-            'nama' => \App\Enums\MataLomba::VIDIO->value,
-            'deskripsi' => 'Vidio',
-            'jumlah_peserta' => 1,
-            'ditujukan' => 1,
-            'kategori' => 'non-cbt'
-         ])->create();
+
+         
+       
 
         // Membuat User Pembina dengan Regu dan Peserta terkait
         User::factory()
@@ -98,8 +66,8 @@ class DatabaseSeeder extends Seeder
         ->create();
     
         // Buat beberapa sesi CBT
-        CbtSession::factory()->withMataLomba($tpk)->count(2)->create();
-        CbtSession::factory()->withMataLomba($sms)->count(2)->create();
+        // CbtSession::factory()->withMataLomba($tpk)->count(2)->create();
+        // CbtSession::factory()->withMataLomba($sms)->count(2)->create();
 
         $cbtSessions = CbtSession::all();
 

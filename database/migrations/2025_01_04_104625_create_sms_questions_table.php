@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('sms_questions', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', [\App\Enums\SymbolType::Semaphore->value, \App\Enums\SymbolType::Morse->value]);
+            $table->enum('type', [\App\Enums\QuestionType::SEMAPHORE->value, \App\Enums\QuestionType::MORSE->value]);
             $table->string('word');
+            $table->enum('difficulty', ['mudah', 'sulit']);
             $table->foreignId('cbt_session_id')->nullable()->constrained('cbt_sessions')->cascadeOnDelete();
             $table->timestamps();
         });

@@ -119,6 +119,15 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
         });
 
+        Route::prefix('/pengaturan-soal')->group(function(){
+            Route::get('/', [\App\Http\Controllers\Admin\PengaturanSoalCbtController::class, 'index'])->name('cbt-session-question-configurations.index');
+            Route::get('/create', [\App\Http\Controllers\Admin\PengaturanSoalCbtController::class, 'create'])->name('cbt-session-question-configurations.create');
+            Route::post('/', [\App\Http\Controllers\Admin\PengaturanSoalCbtController::class, 'store'])->name('cbt-session-question-configurations.store');
+            Route::get('/{id}/edit', [\App\Http\Controllers\Admin\PengaturanSoalCbtController::class, 'edit'])->name('cbt-session-question-configurations.edit');
+            Route::put('/{id}/update', [\App\Http\Controllers\Admin\PengaturanSoalCbtController::class, 'update'])->name('cbt-session-question-configurations.update');
+            Route::delete('/{id}/delete', [\App\Http\Controllers\Admin\PengaturanSoalCbtController::class, 'destroy'])->name('cbt-session-question-configurations.destroy');
+        });
+
     Route::prefix('bobot-soal')->group(function () {
         Route::get('/data-bobot-soal', [\App\Http\Controllers\Admin\BobotSoalController::class, 'index'])->name('admin.bobot-soal.index');
         Route::post('/bobot-soal', [\App\Http\Controllers\Admin\BobotSoalController::class, 'store'])->name('admin.bobot-soal.store');

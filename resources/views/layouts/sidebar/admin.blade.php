@@ -46,7 +46,12 @@
 
     <li class="nav-item">
         <a class="nav-link" href="{{route('sesi-cbt.index')}}">
-            <span style="font-size: 11px;">Lomba CBT SMS & TPK</span></a>
+            <span style="font-size: 11px;">Manajemen Sesi Computer Based Test</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('cbt-session-question-configurations.index')}}">
+            <span style="font-size: 11px;">Pengaturan Soal Computer Based Test</span></a>
     </li>
 
     <!-- Nav Item - Simbol -->

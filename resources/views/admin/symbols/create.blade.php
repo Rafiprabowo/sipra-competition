@@ -42,12 +42,12 @@
                     <div class="form-group">
                         <label for="type">Jenis</label>
                         <select name="type" id="type" class="form-control form-control-sm" required>
-                            <option value="{{ \App\Enums\SymbolType::Semaphore->value }}" 
-                                    {{ old('type', $symbol->type ?? '') == \App\Enums\SymbolType::Semaphore->value ? 'selected' : '' }}>
+                            <option value="{{ \App\Enums\QuestionType::SEMAPHORE->value }}" 
+                                    {{ old('type', $symbol->type ?? '') == \App\Enums\QuestionType::SEMAPHORE->value ? 'selected' : '' }}>
                                 Semaphore
                             </option>
-                            <option value="{{ \App\Enums\SymbolType::Morse->value }}" 
-                                    {{ old('type', $symbol->type ?? '') == \App\Enums\SymbolType::Morse->value ? 'selected' : '' }}>
+                            <option value="{{ \App\Enums\QuestionType::MORSE->value }}" 
+                                    {{ old('type', $symbol->type ?? '') == \App\Enums\QuestionType::MORSE->value ? 'selected' : '' }}>
                                 Morse
                             </option>
                         </select>

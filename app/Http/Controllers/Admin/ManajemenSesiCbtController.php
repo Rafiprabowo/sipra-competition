@@ -24,9 +24,10 @@ class ManajemenSesiCbtController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'waktu_mulai' => 'required|date_format:H:i',
-            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
             'mata_lomba_id' => 'required|exists:mata_lombas,id',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required|after:waktu_mulai',
+            'jumlah_soal' => 'required|integer',
             'status' => 'required|in:draft,active,completed',
             'kode_akses' => 'nullable|string|unique:cbt_sessions,kode_akses',
         ], [
@@ -44,8 +45,8 @@ class ManajemenSesiCbtController extends Controller
         $validatedData['nama'] = $namaLomba . ' - Sesi ' . ($sessionCount + 1);
 
         // Calculate duration in minutes
-        $startTime = Carbon::createFromFormat('H:i', $validatedData['waktu_mulai']);
-        $endTime = Carbon::createFromFormat('H:i', $validatedData['waktu_selesai']);
+        $startTime = Carbon::parse(trim($validatedData['waktu_mulai']));
+        $endTime = Carbon::parse( trim($validatedData['waktu_selesai']));
         $validatedData['durasi'] = $startTime->diffInMinutes($endTime);
 
         // Generate a unique access code
@@ -69,25 +70,47 @@ class ManajemenSesiCbtController extends Controller
     {
         $validatedData = $request->validate([
             'mata_lomba_id' => 'required|exists:mata_lombas,id',
-            'nama' => 'required|string|max:255',
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required|after:waktu_mulai',
+            'jumlah_soal' => 'required|integer',
             'status' => 'required|in:draft,active,completed',
+            'kode_akses' => 'nullable|string|unique:cbt_sessions,kode_akses,' . $id, // Adjusting unique rule for update
         ], [
             'waktu_selesai.after' => 'Waktu selesai harus sesudah waktu mulai.'
         ]);
-
-        // Calculate duration in minutes
-        $startTime = Carbon::createFromFormat('H:i', $validatedData['waktu_mulai']);
-        $endTime = Carbon::createFromFormat('H:i', $validatedData['waktu_selesai']);
-        $validatedData['durasi'] = $startTime->diffInMinutes($endTime);
-
-        // Retrieve the session and update it
+    
+        // Fetch the session to update
         $session = CbtSession::findOrFail($id);
-        $session->update($validatedData);
+    
+        // Fetch related MataLomba
+        $mataLomba = MataLomba::findOrFail($validatedData['mata_lomba_id']);
+        $namaLomba = $mataLomba->nama;
+    
+        // Count existing sessions (excluding the current session)
+        $sessionCount = CbtSession::where('mata_lomba_id', $validatedData['mata_lomba_id'])
+                                    ->where('id', '!=', $id)
+                                    ->count();
+    
+        // Update session name
+        $validatedData['nama'] = $namaLomba . ' - Sesi ' . ($sessionCount + 1);
+ 
+        $waktuMulai = Carbon::parse(trim($validatedData['waktu_mulai']));
+        $waktuSelesai = Carbon::parse(trim($validatedData['waktu_selesai']));
 
+    
+        // Calculate duration in minutes
+        $validatedData['durasi'] = $waktuMulai->diffInMinutes($waktuSelesai);
+    
+        // Generate a unique access code if it's not provided
+        $validatedData['kode_akses'] = $validatedData['kode_akses'] ?? strtoupper(Str::random(6));
+    
+        // Update the session
+        $session->update($validatedData);
+    
         return redirect()->route('sesi-cbt.index')->with('success', 'Sesi berhasil diperbarui!');
     }
+    
+
 
     public function destroy($id){
         $session = CbtSession::find($id);

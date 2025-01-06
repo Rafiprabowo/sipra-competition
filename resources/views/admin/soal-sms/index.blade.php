@@ -43,6 +43,7 @@
                             <th>Tipe</th>
                             <th>Kata</th>
                             <th>Gambar</th>
+                            <th>Tingkat Kesulitan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -62,6 +63,7 @@
                                         @endforeach
                                     </div>
                                 </td>
+                                <td>{{ $question->difficulty }}</td>
                                 <td >
                                     <a href="{{route('sesi-soal.edit', ['session_id' => $session->id, 'id' => $question->id])}}" class="btn btn-warning btn-sm mr-2" data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="fas fa-edit"></i>

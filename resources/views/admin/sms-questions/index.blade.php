@@ -32,23 +32,24 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Sesi CBT</th>
                             <th>Kata</th>
                             <th>Jenis</th>
-                            <th>Sesi CBT</th>
                             <th>Gambar Semaphore Morse</th>
-                            <th>Aksi</th>    
+                            <th>Kesulitan</th> <!-- Tambahkan kolom untuk difficulty -->
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($smsQuestions as $smsQuestion)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $smsQuestion->word }}</td>
-                                <td>{{ $smsQuestion->type == \App\Enums\SymbolType::Semaphore->value ? 'Semaphore' : 'Morse' }}</td>
                                 <td>{{ $smsQuestion->cbtSession ? $smsQuestion->cbtSession->nama : 'N/A' }}</td>
+                                <td>{{ $smsQuestion->word }}</td>
+                                <td>{{ $smsQuestion->type == \App\Enums\QuestionType::SEMAPHORE->value ? 'Semaphore' : 'Morse' }}</td>
                                 <td>
                                     <div class="d-flex flex-wrap justify-content-start">
-                                        @foreach ($smsQuestion->symbols as $symbol) 
+                                        @foreach ($smsQuestion->symbols as $symbol)
                                             <div class="symbol-container text-center" style="margin-right: 10px; margin-bottom: 5px;">
                                                 <img src="{{ Storage::url($symbol->image) }}" alt="{{ $symbol->letter }}" class="symbol-image">
                                                 <div>{{ $symbol->letter }}</div>
@@ -56,6 +57,7 @@
                                         @endforeach
                                     </div>
                                 </td>
+                                <td>{{ ucfirst($smsQuestion->difficulty) }}</td> <!-- Menampilkan nilai difficulty -->
                                 <td>
                                     {{-- Edit and Delete actions (if needed) --}}
                                     <a href="{{ route('sms-questions.edit', $smsQuestion->id) }}" class="btn btn-sm btn-warning mr-2" title="Edit">
@@ -72,6 +74,7 @@
                             </tr>
                         @endforeach
                     </tbody>
+                    
                 </table>
             </div>
         </div>

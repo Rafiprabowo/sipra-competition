@@ -17,7 +17,7 @@ class CbtSession extends Model
     public function peserta()
     {
         return $this->belongsToMany(Peserta::class, 'peserta_sessions')
-                    ->withPivot('score', 'status', 'completed_at')
+                    ->withPivot('score', 'status', 'completed_at', 'correct_difficult_answers', 'correct_answer_count')
                     ->withTimestamps();
     }
     
@@ -26,6 +26,9 @@ class CbtSession extends Model
     }
     public function smsQuestions(){
         return $this->hasMany(SmsQuestion::class);
+    }
+    public function questionConfigurations(){
+        return $this->hasMany(CbtSessionQuestionConfiguration::class, 'cbt_session_id');
     }
 
 }

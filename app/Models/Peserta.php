@@ -45,7 +45,7 @@ class Peserta extends Model
     public function cbtSessions()
     {
         return $this->belongsToMany(CbtSession::class, 'peserta_sessions')
-                    ->withPivot('score', 'status', 'completed_at')
+                    ->withPivot('score', 'status', 'completed_at', 'correct_difficult_answers', 'correct_answer_count')
                     ->withTimestamps();
     }
 

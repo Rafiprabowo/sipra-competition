@@ -22,7 +22,7 @@ class KelolaSymbolSmsController extends Controller
     public function store(Request $request){
         $request->validate([
             'letter' => 'required|string|max:1',
-            'type' => ['required', Rule::in([\App\Enums\SymbolType::Morse->value, \App\Enums\SymbolType::Semaphore->value])],
+            'type' => ['required', Rule::in([\App\Enums\QuestionType::MORSE->value, \App\Enums\QuestionType::SEMAPHORE->value])],
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
         ]);
 
@@ -52,7 +52,7 @@ class KelolaSymbolSmsController extends Controller
     // Validasi input
     $request->validate([
         'letter' => 'required|string|max:1',
-        'type' => ['required', Rule::in([\App\Enums\SymbolType::Morse->value, \App\Enums\SymbolType::Semaphore->value])],
+        'type' => ['required', Rule::in([\App\Enums\QuestionType::MORSE->value, \App\Enums\QuestionType::SEMAPHORE->value])],
         'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
     ]);
 
