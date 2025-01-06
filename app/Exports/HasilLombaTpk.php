@@ -3,61 +3,68 @@
 namespace App\Exports;
 
 use App\Models\CbtSession;
+use App\Models\MataLomba;
 use App\Models\PesertaSession;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class HasilLombaTpk implements FromCollection, WithHeadings
 {
-    // Menentukan data yang akan diekspor
+    
     public function collection()
     {
-        $sms = \App\Enums\MataLomba::TPK->value;
-    
-        // Ambil ID sesi CBT yang terkait dengan mata lomba TPK
-        $cbtSessionIds = CbtSession::whereHas('mataLomba', function ($query) use ($sms) {
-            $query->where('nama', $sms);
-        })->pluck('id');
+        
+        $mataLomba = MataLomba::where('nama', \App\Enums\MataLomba::TPK->value)->first();
 
-        // Ambil data peserta dan urutkan berdasarkan jenis kelamin dan nilai
-        return PesertaSession::whereIn('cbt_session_id', $cbtSessionIds)
-            ->whereHas('peserta', function ($query) {
-                $query->whereIn('jenis_kelamin', ['Putra', 'Putri']);
-            })
-            ->with([
-                'peserta:id,nama,jenis_kelamin,regu_pembina_id',
-                'peserta.regu_pembina:id,nama_regu,pembina_id',
-                'peserta.regu_pembina.pembina:id,pangkalan', // Memuat relasi pembina dan pangkalan
-                'cbtSession.mataLomba:id,nama',
-            ])
-            ->orderByDesc('score') // Mengurutkan berdasarkan nilai
-            ->get()
-            ->groupBy('peserta.jenis_kelamin') // Kelompokkan berdasarkan jenis kelamin
-            ->map(function ($group) {
+        $rankingResults = [];
+
+        if ($mataLomba) {
+            $pesertaSessions = PesertaSession::with('peserta')
+                ->whereHas('cbtSession', function ($query) use ($mataLomba) {
+                    $query->where('mata_lomba_id', $mataLomba->id);
+                })
+                ->orderByDesc('score')
+                ->orderByDesc('correct_difficult_answers')
+                ->orderByDesc('completed_at')
+                ->get();
+
+            
+            $groupedByGender = $pesertaSessions->groupBy(fn($pesertaSession) => $pesertaSession->peserta->jenis_kelamin ?? 'Tidak diketahui');
+
+            
+            $rankedByGender = $groupedByGender->map(function ($group) {
                 return $group->map(function ($pesertaSession, $index) {
-                    // Menambahkan label "Juara" untuk indeks 0, 1, dan 2, lainnya diberi label "Peserta"
-                    $peringkat = '';
-                    if ($index == 0) {
-                        $peringkat = 'Juara 1';
-                    } elseif ($index == 1) {
-                        $peringkat = 'Juara 2';
-                    } elseif ($index == 2) {
-                        $peringkat = 'Juara 3';
+                    // Menambahkan peringkat untuk Juara 1, 2, dan 3
+                    if ($index < 3) {
+                        $pesertaSession->rank = 'Juara ' . ($index + 1);
                     } else {
-                        $peringkat = '';
+                        $pesertaSession->rank = '';
                     }
 
-                    return [
-                        'nama_peserta' => $pesertaSession->peserta->nama,
-                        'jenis_kelamin' => $pesertaSession->peserta->jenis_kelamin,
-                        'mata_lomba' => $pesertaSession->cbtSession->mataLomba->nama ?? null,
-                        'nama_regu' => $pesertaSession->peserta->regu_pembina->nama_regu ?? null,
-                        'nama_pangkalan' => $pesertaSession->peserta->regu_pembina->pembina->pangkalan ?? 'Tidak ada pangkalan', // Menampilkan pangkalan
-                        'score' => $pesertaSession->score,
-                        'peringkat' => $peringkat,
-                    ];
+                    return $pesertaSession;
                 });
-            })->collapse();
+            });
+
+            
+            $rankingResults = $rankedByGender->collapse(); // Flatten the collection
+
+            // Format hasil untuk ekspor
+            $formattedResults = $rankingResults->map(function ($pesertaSession) {
+                return [
+                    'nama_peserta' => $pesertaSession->peserta->nama ?? 'N/A',
+                    'jenis_kelamin' => $pesertaSession->peserta->jenis_kelamin ?? 'N/A',
+                    'mata_lomba' => $pesertaSession->cbtSession->mataLomba->nama ?? 'N/A',
+                    'nama_regu' => $pesertaSession->peserta->regu_pembina->nama_regu ?? 'N/A',
+                    'nama_pangkalan' => $pesertaSession->peserta->regu_pembina->pembina->pangkalan ?? 'Tidak ada pangkalan',
+                    'score' => $pesertaSession->score,
+                    'peringkat' => $pesertaSession->rank,
+                ];
+            });
+
+            return $formattedResults;
+        }
+
+        return collect(); // Kembalikan koleksi kosong jika tidak ditemukan data
     }
 
     // Menentukan header kolom Excel
@@ -67,9 +74,9 @@ class HasilLombaTpk implements FromCollection, WithHeadings
             'Nama Peserta',
             'Jenis Kelamin',
             'Mata Lomba',
-            'Nama Regu',
-            'Nama Pangkalan',
-            'Score',
+            'Regu',
+            'Pangkalan',
+            'Nilai',
             'Peringkat'
         ];
     }

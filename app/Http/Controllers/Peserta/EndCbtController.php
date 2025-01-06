@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CbtSession;
 use App\Models\PesertaSession;
 use App\Models\SmsAnswer;
-use App\Models\SmsQuestion;
 use App\Models\TpkAnswer;
-use App\Models\TpkQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

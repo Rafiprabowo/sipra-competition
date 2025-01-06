@@ -98,27 +98,27 @@ class DatabaseSeeder extends Seeder
         ->create();
     
         // Buat beberapa sesi CBT
-        // CbtSession::factory()->withMataLomba($tpk)->count(2)->create();
-        // CbtSession::factory()->withMataLomba($sms)->count(2)->create();
+        CbtSession::factory()->withMataLomba($tpk)->create();
+        CbtSession::factory()->withMataLomba($sms)->create();
 
-        // $cbtSessions = CbtSession::all();
+        $cbtSessions = CbtSession::all();
 
         // Ambil semua peserta yang dibuat sebelumnya
-        // $pesertas = Peserta::all();
+        $pesertas = Peserta::all();
 
         // Hubungkan peserta dengan sesi CBT melalui tabel pivot peserta_sessions
-        // $cbtSessions->each(function ($cbtSession) use ($pesertas) {
-        //     // Pilih peserta dengan mata_lomba_id yang sama dengan mata_lomba_id dari sesi CBT
-        //     $selectedPesertas = $pesertas->where('mata_lomba_id', $cbtSession->mata_lomba_id)->random(10); // Ambil 5-10 peserta sesuai mata lomba
+        $cbtSessions->each(function ($cbtSession) use ($pesertas) {
+            // Pilih peserta dengan mata_lomba_id yang sama dengan mata_lomba_id dari sesi CBT
+            $selectedPesertas = $pesertas->where('mata_lomba_id', $cbtSession->mata_lomba_id)->random(10); // Ambil 5-10 peserta sesuai mata lomba
 
-        //     foreach ($selectedPesertas as $peserta) {
-        //         // Buat relasi di tabel pivot PesertaSession
-        //         PesertaSession::factory()->create([
-        //             'cbt_session_id' => $cbtSession->id,
-        //             'peserta_id' => $peserta->id,
-        //         ]);
-        //     }
-        // });
+            foreach ($selectedPesertas as $peserta) {
+                // Buat relasi di tabel pivot PesertaSession
+                PesertaSession::factory()->create([
+                    'cbt_session_id' => $cbtSession->id,
+                    'peserta_id' => $peserta->id,
+                ]);
+            }
+        });
 
     }
 }
