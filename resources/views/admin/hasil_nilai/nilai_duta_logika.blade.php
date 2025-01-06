@@ -79,7 +79,7 @@
                 pageLength: 10, // Set number of rows per page
                 responsive: true,
                 searching: true,
-                ordering: false,
+                ordering: true,
             });
         });
     </script>
