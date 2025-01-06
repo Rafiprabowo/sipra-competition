@@ -24,8 +24,16 @@
     </style>
 </head>
 <body>
-    <div style="text-align: center;">
-        <img src="{{ storage_path('app/public/profile_pictures/kop_surat.jpg') }}" alt="Kop Surat" style="width: 100%; height: auto;">
+    <div class="kop-surat" style="text-align: center;">
+        {{-- <img src="{{ asset('') }}" alt="Logo Kiri"> --}}
+        <div>
+            <h2>PESERTA PERLOMBAAN</h2>
+            <h3>PRESTASI TANGGAP PRAMUKA PENGGALANG (PRESTAPRAGA)</h3>
+            <h3>PANGKALAN SMA SURYA BUANA MALANG</h3>
+            <p>JL. Candi VI 01/06 Karangbesuki Sukun Kota Malang Telp./Fax (0341)5024546</p>
+        </div>
+        {{-- <img src="{{ asset('') }}" alt="Logo Kanan"> --}}
+        <hr style="border: 3px solid black;">
     </div>
 
     @if(isset($tab) && ($tab == 'putra' || $tab == 'putri'))
@@ -42,8 +50,8 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama</th>
-                    <th>Nama Regu</th>
+                    <th>Nama Peserta</th>
+                    <th>Regu</th>
                     <th>Pangkalan</th>
                     <th>Jenis Kelamin</th>
                     <th>Nilai Akhir</th>
@@ -112,8 +120,8 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama</th>
-                    <th>Nama Regu</th>
+                    <th>Nama Peserta</th>
+                    <th>Regu</th>
                     <th>Pangkalan</th>
                     <th>Nilai Akhir</th>
                     <th>Rangking</th>
@@ -136,6 +144,40 @@
         </table>
     @endif
 
+    @if(isset($tab) && ($tab == 'penilaian_dutaLogika'))
+        @if($mata_lomba->nama == 'DUTA LOGIKA')
+            <h3 style="text-align: center;">Hasil Lomba Duta Logika LOGIKA 2025</h3>
+        @endif
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Peserta</th>
+                    <th>Regu</th>
+                    <th>Pangkalan</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Nilai akhir</th>
+                    <th>Rangking</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if($mata_lomba->nama == 'DUTA LOGIKA')
+                @foreach($peserta as $index => $item)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $item->nama }}</td>
+                        <td>{{ $item->regu_pembina->nama_regu }}</td>
+                        <td>{{ $item->regu_pembina->pembina->pangkalan }}</td>
+                        <td>{{ $item->jenis_kelamin }}</td>
+                        <td>{{ $item->highest_total_nilai }}</td>
+                        <td>{{ $item->penilaian_duta_logika->rangking }}</td>
+                    </tr>
+                @endforeach
+                @endif
+            </tbody>
+        </table>
+    @endif
+
     @if(isset($tab) && ($tab == 'penilaian_vidio'))
         @if($mata_lomba->nama == 'VIDIO')
             <h3 style="text-align: center;">Hasil Lomba Vidio LOGIKA 2025</h3>
@@ -144,8 +186,8 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama</th>
-                    <th>Nama Regu</th>
+                    <th>Nama Peserta</th>
+                    <th>Regu</th>
                     <th>Pangkalan</th>
                     <th>Nilai Akhir</th>
                     <th>Rangking</th>

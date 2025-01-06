@@ -23,16 +23,6 @@
             </div>
         @endif
 
-        <!-- Form Upload Template PDF -->
-        <form action="{{ route('uploadTemplate') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label for="template" class="form-label">Upload Template PDF</label>
-                <input type="file" class="form-control" id="template" name="template" style="font-size: 11px;" required>
-            </div>
-            <button type="submit" class="btn btn-primary" style="font-size: 11px;">Upload Template</button>
-        </form>
-
         <div class="card shadow mb-4 mt-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Lihat Hasil Penilaian Lkfbb</h6>

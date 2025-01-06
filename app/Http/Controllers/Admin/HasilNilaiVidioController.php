@@ -49,31 +49,8 @@ class HasilNilaiVidioController extends Controller
         return view('admin.hasil_nilai.nilai_vidio', compact('penilaianVidios'));
     }      
 
-    public function uploadTemplateVidio(Request $request)
-    {
-        // Validasi input dari form
-        $request->validate([
-            'template' => 'required|file|mimes:pdf|max:2048',  // Maksimal 2MB untuk file
-        ]);
-
-        // Simpan file template PDF
-        $filePath = $request->file('template')->store('templates');
-
-        // Simpan path file ke dalam session atau database
-        session(['template_pdf' => $filePath]);
-
-        return redirect()->back()->with('success', 'Template PDF berhasil diunggah.');
-    }
-
     public function exportPDFVidio(Request $request)
     {
-        // Ambil path template dari session atau database
-        $templatePath = session('template_pdf');
-
-        if (!$templatePath) {
-            return redirect()->back()->with('error', 'Template PDF belum diunggah.');
-        }
-
         $tab = 'penilaian_vidio';
 
         $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::VIDIO->value)->first();

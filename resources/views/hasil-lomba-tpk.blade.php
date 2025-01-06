@@ -18,9 +18,9 @@
                 Tidak ada data peserta yang tersedia saat ini.
             </div>
         @else
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h6>Hasil Lomba Tes Pengetahuan Kepramukaan</h6>
+            <div class="card shadow mb-4 mt-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Hasil Lomba Tes Pengetahuan Kepramukaan</h6>
                     <div class="d-flex justify-content-end">
                         <a href="{{ route('pdf.lomba-tpk') }}" class="btn btn-primary mt-4 mr-2" style="font-size: 11px;">
                             <i class="fas fa-file-pdf"></i> Ekspor PDF
