@@ -74,6 +74,7 @@ class SmsQuestionSmsController extends Controller
             $smsQuestion = SmsQuestion::create([
                 'type' => $request->type,
                 'word' => $word,
+                'difficulty' => $request->difficulty,
                 'cbt_session_id' => $request->cbt_session_id,
             ]);
     

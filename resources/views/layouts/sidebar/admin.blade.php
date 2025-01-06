@@ -57,12 +57,12 @@
     <!-- Nav Item - Simbol -->
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseSimbol" aria-expanded="true" aria-controls="collapseSimbol">
-            <span style="font-size: 11px;">Manajemen Soal SMS</span>
+            <span style="font-size: 11px;">Manajemen Soal Semaphore & Morse</span>
         </a>
         <div id="collapseSimbol" class="collapse" aria-labelledby="headingSimbol" data-parent="#accordionSidebar">
             <div class="bg-white collapse-inner rounded" style="font-size: 11px;">
-                <a class="collapse-item" href="{{route('symbols.index')}}">Gambar Semaphore Morse</a>
-                <a class="collapse-item" href="{{route('sms-questions.index')}}">Pertanyaan</a>
+                <a class="collapse-item" href="{{route('symbols.index')}}">Input Simbol</a>
+                <a class="collapse-item" href="{{route('sms-questions.index')}}">Bank Soal</a>
             </div>
         </div>
     </li>
