@@ -23,6 +23,14 @@ use Maatwebsite\Excel\Facades\Excel;
 |
 */
 Route::get('/', function () { return view('home'); });
+Route::get('/pionering', function () { return view('pionering'); });
+Route::get('/karikatur', function () { return view('karikatur'); });
+Route::get('/duta-logika', function () { return view('pionering'); });
+Route::get('/foto', function () { return view('duta-logika'); });
+Route::get('/vidio', function () { return view('foto'); });
+Route::get('/semaphore', function () { return view('semaphore'); });
+Route::get('/tpk', function () { return view('tpk'); });
+Route::get('/lkfbb', function () { return view('lkfbb'); });
 Route::get('/statistik', function () { return view('statistik'); });
 Route::get('/login', function () {return view('auth.login');})->name('login');
 Route::post('/login', \App\Http\Controllers\Auth\LoginController::class)->name('login.attempt');

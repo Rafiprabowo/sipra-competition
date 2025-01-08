@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -318,38 +319,38 @@
         <section id="kategori">
             <h2>LOMBA</h2>
             <div class="kategori-container">
-                <div class="kategori-item">
+                <a class="kategori-item" href="/pionering">
                     <img src="{{ asset('img/ROSE 1.png') }}" alt="Pionering">
                     <h3>Pionering</h3>
-                </div>
-                <div class="kategori-item">
+                </a>
+                <a class="kategori-item" href="/karikatur">
                     <img src="{{ asset('img/CENDRA 4.png') }}" alt="Karikatur">
                     <h3>Karikatur</h3>
-                </div>
-                <div class="kategori-item">
+                </a>
+                <a class="kategori-item" href="/duta-logika">
                     <img src="{{ asset('img/ROSE 3.png') }}" alt="Duta Logika">
                     <h3>Duta Logika</h3>
-                </div>
-                <div class="kategori-item">
+                </a>
+                <a class="kategori-item" href="/lkfbb">
                     <img src="{{ asset('img/CENDRA 2.png') }}" alt="LKFBB">
                     <h3>LKFBB</h3>
-                </div>
-                <div class="kategori-item">
+                </a>
+                <a class="kategori-item" href="/tpk">
                     <img src="{{ asset('img/ROSE 6.png') }}" alt="Tes Kemampuan Kepramukaan">
                     <h3>Tes Kemampuan Kepramukaan</h3>
-                </div>
-                <div class="kategori-item">
+                </a>
+                <a class="kategori-item" href="/semaphore">
                     <img src="{{ asset('img/CENDRA 5.png') }}" alt="Semaphore & Morse">
                     <h3>Semaphore & Morse</h3>
-                </div>
-                <div class="kategori-item">
+                </a>
+                <a class="kategori-item" href="/foto">
                     <img src="{{ asset('img/ROSE 4.png') }}" alt="Foto">
                     <h3>Foto</h3>
-                </div>
-                <div class="kategori-item">
+                </a>
+                <a class="kategori-item" href="/vidio">
                     <img src="{{ asset('img/CENDRA 3.png') }}" alt="Vidio">
                     <h3>Vidio</h3>
-                </div>
+                </a>
             </div>
         </section>
 
