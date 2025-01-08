@@ -13,19 +13,18 @@ class ImportSoalSmsController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, $id)
+    public function __invoke(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,csv',
         ]);
     
-        $session = CbtSession::find($id);
+        \App\Models\SmsQuestion::query()->delete();
     
         // Corrected Excel import method with both import class and file
-        Excel::import(new SmsImportQuestion($session->id), $request->file('file'));
+        Excel::import(new SmsImportQuestion(), $request->file('file'));
     
-        return redirect()->route('sesi-soal.index', ['id' => $session->id, 'nama' => $session->mataLomba->nama])
-                         ->with('success', 'Data soal berhasil diimpor.');
+        return redirect()->route('soal-sms.index')->with('success', 'Data soal berhasil diimpor. Semua data lama telah dihapus.');
     }
     
 }

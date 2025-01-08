@@ -14,12 +14,6 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 class SmsImportQuestion implements ToModel, WithHeadingRow
 {
 
-protected $cbt_session_id;
-
-public function __construct($cbt_session_id)
-{
-    $this->cbt_session_id = $cbt_session_id;
-}
 
 public function model(array $row)
 {
@@ -42,7 +36,6 @@ public function model(array $row)
         $smsQuestion = SmsQuestion::create([
             'type' => strtoupper($row['tipe_soal']),
             'word' => $word,
-            'cbt_session_id' => $this->cbt_session_id
         ]);
 
         // Extract the letters from the word

@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('cbt_session_question_configurations', function (Blueprint $table) {
             $table->id();
             $table->enum('question_type', [\App\Enums\QuestionType::MORSE->value, \App\Enums\QuestionType::SEMAPHORE->value, \App\Enums\QuestionType::PK->value]);
-            $table->integer('question_count');
+            $table->integer('easy_question_count')->default(0);
+            $table->integer('hard_question_count')->default(0);
             $table->foreignId('cbt_session_id')->constrained('cbt_sessions')->cascadeOnDelete();
             $table->timestamps();
         });

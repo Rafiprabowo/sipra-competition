@@ -101,6 +101,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         Route::delete('/mata-lomba/{id}', [App\Http\Controllers\Admin\MataLomba::class, 'destroy'])->name('admin.mata-lomba.destroy');
     });
 
+    Route::prefix('bank-soal')->group(function(){
+        Route::resource('soal-tpk', \App\Http\Controllers\Admin\BankSoalTpkController::class);
+        Route::resource('soal-sms', \App\Http\Controllers\Admin\BankSoalSmsController::class);
+    });
+
     Route::prefix('sesi-cbt')->group(function(){
         Route::get('/index', [\App\Http\Controllers\Admin\ManajemenSesiCbtController::class, 'index'])->name('sesi-cbt.index');
         Route::get('/create', [\App\Http\Controllers\Admin\ManajemenSesiCbtController::class, 'create'])->name('sesi-cbt.create');
@@ -156,8 +161,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     });
     
 
-    Route::post('/{id}/soal-tpk/import',\App\Http\Controllers\Admin\ImportSoalTpkController::class)->name('soal-tpk.import');
-    Route::post('/{id}/soal-sms/import',\App\Http\Controllers\Admin\ImportSoalSmsController::class)->name('soal-sms.import');
+    Route::post('/import/soal-tpk',\App\Http\Controllers\Admin\ImportSoalTpkController::class)->name('import.soal-tpk');
+    Route::post('/import/soal-sms',\App\Http\Controllers\Admin\ImportSoalSmsController::class)->name('import.soal-sms');
 
     Route::get('/hasil-lomba-tpk', HasilLombaTpkController::class)->name('hasil-tpk');
     Route::get('/hasil-lomba-sms', HasilLombaSmsController::class)->name('hasil-sms');
