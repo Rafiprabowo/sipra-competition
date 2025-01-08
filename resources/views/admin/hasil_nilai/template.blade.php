@@ -71,6 +71,12 @@
                         <td>{{ $peserta->penilaian_pionering->rangking }}</td>
                     </tr>
                 @endforeach
+                <br>
+                <div class="footer" style="text-align: right; position: absolute; right: 0;">
+                    <p>Malang, {{ $peserta->penilaian_pionering->first()->created_at->format('d F Y') }}</p>
+                    <p style="margin-top: 60%;">{{ $peserta->penilaian_pionering->juri->nama }}</p>
+                </div>    
+
                 @elseif($mata_lomba->nama == 'KARIKATUR')
                 @foreach(${$tab} as $index => $peserta)
                     <tr>
@@ -83,6 +89,12 @@
                         <td>{{ $peserta->penilaian_karikatur->rangking }}</td>
                     </tr>
                 @endforeach
+                    <br>
+                    <div class="footer" style="text-align: right; position: absolute; right: 0;">
+                        <p>Malang, {{ $peserta->penilaian_karikatur->first()->created_at->format('d F Y') }}</p>
+                        <p style="margin-top: 60%;">{{ $peserta->penilaian_karikatur->juri->nama }}</p>
+                    </div>                    
+
                 @elseif($mata_lomba->nama == 'DUTA LOGIKA')
                 @foreach(${$tab} as $index => $peserta)
                     <tr>
@@ -95,6 +107,11 @@
                         <td>{{ $peserta->penilaian_duta_logika->rangking }}</td>
                     </tr>
                 @endforeach
+                <br>
+                <div class="footer" style="text-align: right; position: absolute; right: 0;">
+                    <p>Malang, {{ $peserta->penilaian_duta_logika->first()->created_at->format('d F Y') }}</p>
+                    <p style="margin-top: 60%;">{{ $peserta->penilaian_duta_logika->juri->nama }}</p>
+                </div>    
                 @elseif($mata_lomba->nama == 'LKFBB')
                 @foreach(${$tab} as $index => $peserta)
                     <tr>
@@ -107,6 +124,11 @@
                         <td>{{ $peserta->penilaian_lkfbb->rangking }}</td>
                     </tr>
                 @endforeach
+                <br>
+                <div class="footer" style="text-align: right; position: absolute; right: 0;">
+                    <p>Malang, {{ $peserta->penilaian_lkfbb->first()->created_at->format('d F Y') }}</p>
+                    <p style="margin-top: 60%;">{{ $peserta->penilaian_lkfbb->juri->nama }}</p>
+                </div> 
                 @endif
             </tbody>
         </table>
@@ -142,6 +164,11 @@
                 @endif
             </tbody>
         </table>
+        <br>
+        <div class="footer" style="text-align: right; position: absolute; right: 0;">
+            <p>Malang, {{ $peserta->penilaian_foto->first()->created_at->format('d F Y') }}</p>
+            <p style="margin-top: 60%;">{{ $peserta->penilaian_foto->juri->nama }}</p>
+        </div> 
     @endif
 
     @if(isset($tab) && ($tab == 'penilaian_dutaLogika'))
@@ -176,6 +203,11 @@
                 @endif
             </tbody>
         </table>
+        <br>
+        <div class="footer" style="text-align: right; position: absolute; right: 0;">
+            <p>Malang, {{ $peserta->penilaian_duta_logika->first()->created_at->format('d F Y') }}</p>
+            <p style="margin-top: 60%;">{{ $peserta->penilaian_duta_logika->juri->nama }}</p>
+        </div> 
     @endif
 
     @if(isset($tab) && ($tab == 'penilaian_vidio'))
@@ -208,6 +240,11 @@
                 @endif
             </tbody>
         </table>
+        <br>
+        <div class="footer" style="text-align: right; position: absolute; right: 0;">
+            <p>Malang, {{ $peserta->penilaian_vidio->first()->created_at->format('d F Y') }}</p>
+            <p style="margin-top: 60%;">{{ $peserta->penilaian_vidio->juri->nama }}</p>
+        </div> 
     @endif
 </body>
 </html>
