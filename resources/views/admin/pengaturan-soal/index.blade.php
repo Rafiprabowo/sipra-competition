@@ -5,12 +5,12 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" style="font-size: 11px;">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Daftar Konfigurasi Soal</h6>
-                <a href="{{ route('cbt-session-question-configurations.create') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus"></i> Tambah Konfigurasi Soal
+                <a href="{{ route('cbt-session-question-configurations.create') }}" class="btn btn-primary btn-sm" title="Tambah">
+                    <i class="fas fa-plus"></i>
                 </a>
             </div>
             <div class="card-body">
@@ -26,7 +26,7 @@
                 @if($configurations->isEmpty())
                     <p class="text-center">Belum ada konfigurasi soal untuk sesi CBT ini.</p>
                 @else
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover" id="dataTable">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -79,4 +79,15 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('#dataTable').DataTable({
+                pageLength: 10, // Set number of rows per page
+                responsive: true,
+                searching: true,
+                ordering: true
+            });
+        });
+    </script>
 @endsection

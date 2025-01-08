@@ -3,7 +3,7 @@
     @include('layouts.sidebar.peserta')
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" style="font-size:11px;">
         <div class="card mb-4 bg-white">
             <div class="card-header">
                 <h5>Ulasan Tes CBT</h5>

@@ -10,7 +10,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use App\Exports\PesertaExport; 
+use App\Exports\PesertaExport;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use PDF;
 use Illuminate\Support\Facades\DB;
 
@@ -22,30 +23,19 @@ class HasilNilaiDutaLogikaController extends Controller
         if (!$mata_lomba) {
             return redirect()->route('admin.dashboard')->with('error', 'Mohon maaf, masukkan mata lomba DUTA LOGIKA untuk membuka penilaian.');
         }
-    
-        // Fetch and process participants by gender
-        $putra = Peserta::with('penilaian_duta_logika')
+
+        // Fetch and combine participants by gender
+        $peserta = Peserta::with('penilaian_duta_logika')
             ->where('mata_lomba_id', $mata_lomba->id)
-            ->where('jenis_kelamin', 'Putra')
             ->whereHas('penilaian_duta_logika')
             ->get()
             ->map(function ($peserta) {
                 $peserta->highest_total_nilai = $peserta->penilaian_duta_logika->total_nilai;
                 return $peserta;
             })->sortByDesc('highest_total_nilai')->values();
-    
-        $putri = Peserta::with('penilaian_duta_logika')
-            ->where('mata_lomba_id', $mata_lomba->id)
-            ->where('jenis_kelamin', 'Putri')
-            ->whereHas('penilaian_duta_logika')
-            ->get()
-            ->map(function ($peserta) {
-                $peserta->highest_total_nilai = $peserta->penilaian_duta_logika->total_nilai;
-                return $peserta;
-            })->sortByDesc('highest_total_nilai')->values();
-    
-        // Assign rankings and update the database for Putra
-        $putra->each(function ($peserta, $index) {
+
+        // Assign rankings and update the database
+        $peserta->each(function ($peserta, $index) {
             if ($index == 0) {
                 $rank = 'Juara 1';
             } elseif ($index == 1) {
@@ -57,66 +47,17 @@ class HasilNilaiDutaLogikaController extends Controller
             }
             $peserta->penilaian_duta_logika->update(['rangking' => $rank]);
         });
-    
-        // Assign rankings and update the database for Putri
-        $putri->each(function ($peserta, $index) {
-            if ($index == 0) {
-                $rank = 'Juara 1';
-            } elseif ($index == 1) {
-                $rank = 'Juara 2';
-            } elseif ($index == 2) {
-                $rank = 'Juara 3';
-            } else {
-                $rank = null;
-            }
-            $peserta->penilaian_duta_logika->update(['rangking' => $rank]);
-        });
-    
-        return view('admin.hasil_nilai.nilai_duta_logika', compact('putra', 'putri'));
-    }    
 
-    public function uploadTemplateDutaLogika(Request $request)
-    {
-        // Validasi input dari form
-        $request->validate([
-            'template' => 'required|file|mimes:pdf|max:2048',  // Maksimal 2MB untuk file
-        ]);
-
-        // Simpan file template PDF
-        $filePath = $request->file('template')->store('templates');
-
-        // Simpan path file ke dalam session atau database
-        session(['template_pdf' => $filePath]);
-
-        return redirect()->back()->with('success', 'Template PDF berhasil diunggah.');
+        return view('admin.hasil_nilai.nilai_duta_logika', compact('peserta'));
     }
 
-    public function exportPDFDutaLogika(Request $request)
+    public function exportPDFDutaLogika()
     {
-        // Ambil path template dari session atau database
-        $templatePath = session('template_pdf');
-
-        if (!$templatePath) {
-            return redirect()->back()->with('error', 'Template PDF belum diunggah.');
-        }
-
-        $tab = $request->input('tab');
-
         $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::DUTALOGIKA->value)->first();
-        
-        $putra = Peserta::with('penilaian_duta_logika', 'regu_pembina.pembina')
+        $tab = 'penilaian_dutaLogika';
+
+        $peserta = Peserta::with('penilaian_duta_logika', 'regu_pembina.pembina')
             ->where('mata_lomba_id', $mata_lomba->id)
-            ->where('jenis_kelamin', 'Putra')
-            ->whereHas('penilaian_duta_logika')
-            ->get()
-            ->map(function ($peserta) {
-                $peserta->highest_total_nilai = $peserta->penilaian_duta_logika->total_nilai;
-                return $peserta;
-            })->sortByDesc('highest_total_nilai')->values();
-        
-        $putri = Peserta::with('penilaian_duta_logika', 'regu_pembina.pembina')
-            ->where('mata_lomba_id', $mata_lomba->id)
-            ->where('jenis_kelamin', 'Putri')
             ->whereHas('penilaian_duta_logika')
             ->get()
             ->map(function ($peserta) {
@@ -124,7 +65,7 @@ class HasilNilaiDutaLogikaController extends Controller
                 return $peserta;
             })->sortByDesc('highest_total_nilai')->values();
 
-        $data = compact('putra', 'putri', 'tab', 'mata_lomba');
+        $data = compact('peserta', 'mata_lomba', 'tab');
         
         $pdf = PDF::loadView('admin.hasil_nilai.template', $data)->setPaper('a4', 'portrait');
         return $pdf->download('penilaian_duta_logika.pdf');
@@ -134,28 +75,9 @@ class HasilNilaiDutaLogikaController extends Controller
     {
         $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::DUTALOGIKA->value)->first();
 
-        // Data Putra
-        $dataPutra = Peserta::with('penilaian_duta_logika', 'regu_pembina.pembina')
+        // Data peserta
+        $data = Peserta::with('penilaian_duta_logika', 'regu_pembina.pembina')
             ->where('mata_lomba_id', $mata_lomba->id)
-            ->where('jenis_kelamin', 'Putra')
-            ->whereHas('penilaian_duta_logika')
-            ->get()
-            ->map(function ($peserta) {
-                return [
-                    'no' => $peserta->id,
-                    'nama' => $peserta->nama,
-                    'nama_regu' => $peserta->regu_pembina->nama_regu,
-                    'pangkalan' => $peserta->regu_pembina->pembina->pangkalan,
-                    'jenis_kelamin' => $peserta->jenis_kelamin,
-                    'nilai_akhir' => $peserta->penilaian_duta_logika->total_nilai,
-                    'rangking' => $peserta->penilaian_duta_logika->rangking,
-                ];
-            })->sortByDesc('nilai_akhir')->values()->toArray();
-
-        // Data Putri
-        $dataPutri = Peserta::with('penilaian_duta_logika', 'regu_pembina.pembina')
-            ->where('mata_lomba_id', $mata_lomba->id)
-            ->where('jenis_kelamin', 'Putri')
             ->whereHas('penilaian_duta_logika')
             ->get()
             ->map(function ($peserta) {
@@ -171,8 +93,7 @@ class HasilNilaiDutaLogikaController extends Controller
             })->sortByDesc('nilai_akhir')->values()->toArray();
 
         $sheets = [
-            new PenilaianDutaLogikaSheet($dataPutra, 'Putra'),
-            new PenilaianDutaLogikaSheet($dataPutri, 'Putri')
+            new PenilaianDutaLogikaSheet($data, 'Penilaian Duta Logika')
         ];
 
         return Excel::download(new MultipleSheetsExport($sheets), 'penilaian_duta_logika.xlsx');
@@ -228,5 +149,6 @@ class MultipleSheetsExport implements WithMultipleSheets
         return $this->sheets;
     }
 }
+
 
 

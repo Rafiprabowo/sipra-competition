@@ -47,7 +47,7 @@
                                     <td>{{ ucfirst($symbol->type) }}</td>
                                     <td>
                                         @if($symbol->image)
-                                            <img src="{{ Storage::url($symbol->image) }}" alt="{{ $symbol->letter }}" width="100">
+                                            <img src="{{ Storage::url($symbol->image) }}" alt="{{ $symbol->letter }}" width="50">
                                         @else
                                             No Image
                                         @endif

@@ -14,7 +14,7 @@ class HasilLombaTpkController extends Controller
      */
     public function __invoke(Request $request)
 {
-    $mataLomba = MataLomba::where('nama', \App\Enums\MataLomba::SMS->value)->first();
+    $mataLomba = MataLomba::where('nama', \App\Enums\MataLomba::TPK->value)->first();
 
     $rankingResults = []; // Inisialisasi variabel
 
