@@ -23,6 +23,7 @@ use Maatwebsite\Excel\Facades\Excel;
 |
 */
 Route::get('/', function () { return view('home'); });
+Route::get('/statistik', function () { return view('statistik'); });
 Route::get('/login', function () {return view('auth.login');})->name('login');
 Route::post('/login', \App\Http\Controllers\Auth\LoginController::class)->name('login.attempt');
 Route::get('/register', function () {return view('auth.register');})->name('register');

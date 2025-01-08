@@ -3,7 +3,7 @@
     @include('layouts.sidebar.admin')
 @endsection
 @section('content')
-    <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 11px;">
+    <div class="col-sm-12 ms-2 me-2" style="font-size: 11px;">
         @if (session('success'))
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
@@ -23,9 +23,9 @@
             </div>
         @endif
 
-        <div class="card shadow mb-4 mt-4">
+        <div class="card shadow">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Lihat Hasil Penilaian Pionering</h6>
+                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 16px;">Lihat Hasil Penilaian Pionering</h6>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a class="nav-link active" id="putra-tab" data-toggle="tab" href="#putra" role="tab" aria-controls="putra" aria-selected="true">Putra</a>
@@ -39,7 +39,7 @@
                     <a href="{{ route('exportPDF', ['tab' => 'putra']) }}" class="btn btn-danger btn-md" title="Export PDF Putra" style="font-size: 11px;">
                         <i class="fas fa-file-pdf"></i> Export PDF Putra
                     </a>
-                    <a href="{{ route('exportPDF', ['tab' => 'putri']) }}" class="btn btn-danger btn-md" title="Export PDF Putri" style="font-size: 11px;">
+                    <a href="{{ route('exportPDF', ['tab' => 'putri']) }}" class="btn btn-warning btn-md" title="Export PDF Putri" style="font-size: 11px;">
                         <i class="fas fa-file-pdf"></i> Export PDF Putri
                     </a>
                     <a href="{{ route('exportExcel') }}" class="btn btn-success btn-md" title="Export Excel" style="font-size: 11px;">

@@ -22,7 +22,7 @@
 
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h5 style="font-size: 11px;">List Pertanyaan Semaphore Morse</h5>
+                <h5 class="m-0 font-weight-bold text-primary" style="font-size: 16px;">List Pertanyaan Semaphore Morse</h5>
                 <a href="{{ route('sms-questions.create') }}" class="btn btn-primary btn-sm" style="font-size: 11px;" title="Tambah">
                     <i class="fas fa-plus"></i>
                 </a>

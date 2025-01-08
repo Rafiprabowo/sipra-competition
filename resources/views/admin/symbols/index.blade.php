@@ -22,7 +22,7 @@
         
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h5 style="font-size: 11px;">List Simbol</h5>
+                <h5 class="m-0 font-weight-bold text-primary" style="font-size: 16px;">List Simbol</h5>
                 <a href="{{route('symbols.create')}}" class="btn btn-primary" style="font-size: 11px;" title="Add New Symbol">
                     <i class="fas fa-plus"></i>
                 </a>
@@ -53,10 +53,6 @@
                                         @endif
                                     </td>
                                     <td>
-                                        {{-- <!-- View Button -->
-                                        <a href="{{ route('symbols.show', $symbol->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" title="View Symbol">
-                                            <i class="fas fa-eye"></i>
-                                        </a> --}}
                                         <!-- Edit Button -->
                                         <a href="{{ route('symbols.edit', $symbol->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit Symbol">
                                             <i class="fas fa-edit"></i>

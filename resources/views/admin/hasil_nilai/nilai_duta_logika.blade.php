@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="col-sm-12 ms-2 me-2 mt-4" style="font-size: 11px;">
+    <div class="col-sm-12 ms-2 me-2" style="font-size: 11px;">
         @if (session('error'))
             <div class="alert alert-danger" role="alert">
                 <p>{{ session('error') }}</p>
@@ -26,9 +26,9 @@
             </div>
         @endif
 
-        <div class="card shadow mb-4 mt-4">
+        <div class="card shadow">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Lihat Hasil Penilaian Duta Logika</h6>
+                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 16px;">Lihat Hasil Penilaian Duta Logika</h6>
                 <!-- Tombol Ekspor -->
                 <div>
                     <a href="{{ route('exportPDFDutaLogika') }}" class="btn btn-danger btn-md" title="Export PDF" style="font-size: 11px;">
@@ -79,7 +79,7 @@
                 pageLength: 10, // Set number of rows per page
                 responsive: true,
                 searching: true,
-                ordering: true,
+                ordering: true
             });
         });
     </script>

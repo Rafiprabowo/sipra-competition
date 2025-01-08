@@ -23,7 +23,7 @@
         @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Data Peserta</h6>
+                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 16px;">Data Peserta</h6>
                 {{-- <a href="{{route('admin.peserta.create')}}" class="btn btn-primary btn-md">Tambah Peserta</a> --}}
             </div>
 

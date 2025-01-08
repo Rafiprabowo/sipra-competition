@@ -273,6 +273,7 @@
                 <li><a href="#timeline">Timeline</a></li>
                 <li><a href="#kategori">Kategori</a></li>
                 <li><a href="#lokasi">Lokasi</a></li>
+                <li><a href="/statistik">Statistik</a></li>
                 <li><a href="{{ route('login') }}" class="masuk-button">Masuk</a></li>
             </ul>
         </nav>
