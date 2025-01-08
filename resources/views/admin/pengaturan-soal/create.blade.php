@@ -5,7 +5,17 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid">   
+    <div class="container-fluid">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Form Tambah Konfigurasi Soal</h6>
@@ -43,16 +53,7 @@
                         @enderror
                     </div>
 
-                    <div class="form-group">
-                        <label for="question_count">Jumlah Total Soal</label>
-                        <div class="input-group">
-                            <input type="number" class="form-control" name="question_count" id="question_count" value="{{ old('question_count') }}" placeholder="Masukkan jumlah total soal" required>
-                        </div>
-                        @error('question_count')
-                            <div class="alert alert-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
+                    <!-- Removed the 'question_count' field as it can be derived -->
                     <div class="form-group">
                         <label for="easy_question_count">Jumlah Soal Mudah</label>
                         <div class="input-group">

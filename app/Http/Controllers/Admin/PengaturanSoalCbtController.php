@@ -36,7 +36,7 @@ class PengaturanSoalCbtController extends Controller
     $cbtSession = CbtSession::findOrFail($validatedData['cbt_session_id']);
 
     // Validasi apakah jenis soal sesuai dengan mata lomba
-    $mataLomba = $cbtSession->mataLomba; // Relasi `mataLomba` harus ada di model CbtSession
+    $mataLomba = $cbtSession->mataLomba;
 
     if (in_array($validatedData['question_type'], [\App\Enums\QuestionType::SEMAPHORE->value, \App\Enums\QuestionType::MORSE->value])) {
         if ($mataLomba->nama !== \App\Enums\MataLomba::SMS->value) {
@@ -56,9 +56,8 @@ class PengaturanSoalCbtController extends Controller
         ])->withInput();
     }
 
-    // Validasi apakah jumlah soal mudah dan sulit mencukupi di database
+    // Validasi ketersediaan soal
     if (in_array($validatedData['question_type'], [\App\Enums\QuestionType::SEMAPHORE->value, \App\Enums\QuestionType::MORSE->value])) {
-        // Query untuk soal jenis SMS (semaphore/morse)
         $easyAvailable = SmsQuestion::where('type', $validatedData['question_type'])
             ->where('difficulty', 'mudah')
             ->count();
@@ -67,7 +66,6 @@ class PengaturanSoalCbtController extends Controller
             ->where('difficulty', 'sulit')
             ->count();
     } elseif ($validatedData['question_type'] === \App\Enums\QuestionType::PK->value) {
-        // Query untuk soal jenis TPK (PK)
         $easyAvailable = TpkQuestion::where('difficulty', \App\Enums\Difficulty::LOTS->value)
             ->count();
 
@@ -75,14 +73,12 @@ class PengaturanSoalCbtController extends Controller
             ->count();
     }
 
-    // Validasi jumlah soal mudah
     if ($validatedData['easy_question_count'] > $easyAvailable) {
         return back()->withErrors([
             'easy_question_count' => 'Jumlah soal mudah yang tersedia tidak mencukupi. Tersedia: ' . $easyAvailable
         ])->withInput();
     }
 
-    // Validasi jumlah soal sulit
     if ($validatedData['hard_question_count'] > $hardAvailable) {
         return back()->withErrors([
             'hard_question_count' => 'Jumlah soal sulit yang tersedia tidak mencukupi. Tersedia: ' . $hardAvailable
@@ -95,23 +91,41 @@ class PengaturanSoalCbtController extends Controller
 
     $newTotalQuestions = $existingTotalQuestions + $validatedData['easy_question_count'] + $validatedData['hard_question_count'];
 
-    // Validasi apakah total soal melebihi jumlah_soal di sesi CBT
+    // Validasi agar total soal tidak melebihi jumlah soal yang diizinkan dan tidak kurang dari jumlah soal yang diperlukan
     if ($newTotalQuestions > $cbtSession->jumlah_soal) {
         return back()->withErrors([
             'question_count' => 'Total jumlah soal melebihi jumlah soal yang diperbolehkan untuk sesi ini. Maksimal: ' . $cbtSession->jumlah_soal . ', saat ini: ' . $existingTotalQuestions
         ])->withInput();
     }
 
-    // Simpan data konfigurasi soal
-    CbtSessionQuestionConfiguration::create([
-        'cbt_session_id' => $validatedData['cbt_session_id'],
-        'question_type' => $validatedData['question_type'],
-        'easy_question_count' => $validatedData['easy_question_count'],
-        'hard_question_count' => $validatedData['hard_question_count'],
-    ]);
+    // Validasi agar soal tidak kurang dari jumlah soal yang diizinkan
+    if ($newTotalQuestions < $cbtSession->jumlah_soal) {
+        return back()->withErrors([
+            'question_count' => 'Total jumlah soal kurang dari jumlah soal yang diperlukan untuk sesi ini. Diperlukan: ' . $cbtSession->jumlah_soal . ', saat ini: ' . $newTotalQuestions
+        ])->withInput();
+    }
 
-    return redirect()->route('cbt-session-question-configurations.index')->with('success', 'Konfigurasi soal berhasil ditambahkan!');
+    // Simpan konfigurasi soal
+    DB::beginTransaction();
+
+    try {
+        CbtSessionQuestionConfiguration::create([
+            'cbt_session_id' => $validatedData['cbt_session_id'],
+            'question_type' => $validatedData['question_type'],
+            'easy_question_count' => $validatedData['easy_question_count'],
+            'hard_question_count' => $validatedData['hard_question_count'],
+        ]);
+
+        DB::commit();
+
+        return redirect()->route('cbt-session-question-configurations.index')->with('success', 'Konfigurasi soal berhasil ditambahkan!');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan konfigurasi soal.'])->withInput();
+    }
 }
+
+    
 
 
 
@@ -133,51 +147,109 @@ public function update(Request $request, $id)
     $validatedData = $request->validate([
         'cbt_session_id' => 'required|exists:cbt_sessions,id',
         'question_type' => 'required',
-        'question_count' => 'required|integer|min:1',
+        'easy_question_count' => 'required|integer|min:0',
+        'hard_question_count' => 'required|integer|min:0',
     ]);
 
-    // Ambil data konfigurasi berdasarkan ID
+    // Ambil konfigurasi soal yang akan diupdate
     $configuration = CbtSessionQuestionConfiguration::findOrFail($id);
 
-    // Ambil sesi CBT terkait untuk validasi tambahan
+    // Ambil sesi CBT
     $cbtSession = CbtSession::findOrFail($validatedData['cbt_session_id']);
-    $mataLomba = $cbtSession->mataLomba; // Asumsi relasi `mataLomba` ada di model CbtSession
 
-    // Validasi tambahan: jenis soal SEMAPHORE dan MORSE hanya untuk MataLomba SMS
+    // Validasi apakah jenis soal sesuai dengan mata lomba
+    $mataLomba = $cbtSession->mataLomba;
+
     if (in_array($validatedData['question_type'], [\App\Enums\QuestionType::SEMAPHORE->value, \App\Enums\QuestionType::MORSE->value])) {
         if ($mataLomba->nama !== \App\Enums\MataLomba::SMS->value) {
             return back()->withErrors([
-                'question_type' => 'Jenis soal SEMAPHORE dan MORSE hanya bisa digunakan untuk sesi CBT dengan mata lomba SMS.',
+                'question_type' => 'Jenis soal SEMAPHORE dan MORSE hanya bisa digunakan untuk sesi CBT dengan mata lomba SMS.'
             ])->withInput();
         }
-    }
-
-    // Validasi tambahan: jenis soal PK hanya untuk MataLomba TPK
-    if ($validatedData['question_type'] === \App\Enums\QuestionType::PK->value) {
+    } elseif ($validatedData['question_type'] === \App\Enums\QuestionType::PK->value) {
         if ($mataLomba->nama !== \App\Enums\MataLomba::TPK->value) {
             return back()->withErrors([
-                'question_type' => 'Jenis soal PK hanya bisa digunakan untuk sesi CBT dengan mata lomba TPK.',
+                'question_type' => 'Jenis soal PK hanya bisa digunakan untuk sesi CBT dengan mata lomba TPK.'
             ])->withInput();
         }
-    }
-
-    // Validasi tambahan: jumlah soal tidak melebihi `jumlah_soal` pada sesi CBT
-    $existingConfigurations = CbtSessionQuestionConfiguration::where('cbt_session_id', $cbtSession->id)
-        ->where('id', '!=', $configuration->id) // Exclude the current configuration
-        ->sum('question_count');
-    
-    $totalQuestions = $existingConfigurations + $validatedData['question_count'];
-    if ($totalQuestions > $cbtSession->jumlah_soal) {
+    } else {
         return back()->withErrors([
-            'question_count' => 'Total jumlah soal melebihi batas maksimal (' . $cbtSession->jumlah_soal . ') untuk sesi CBT ini.',
+            'question_type' => 'Jenis soal tidak valid atau tidak didukung.'
         ])->withInput();
     }
 
-    // Update data konfigurasi soal
-    $configuration->update($validatedData);
+    // Validasi ketersediaan soal
+    if (in_array($validatedData['question_type'], [\App\Enums\QuestionType::SEMAPHORE->value, \App\Enums\QuestionType::MORSE->value])) {
+        $easyAvailable = SmsQuestion::where('type', $validatedData['question_type'])
+            ->where('difficulty', 'mudah')
+            ->count();
 
-    return redirect()->route('cbt-session-question-configurations.index')->with('success', 'Konfigurasi soal berhasil diperbarui!');
+        $hardAvailable = SmsQuestion::where('type', $validatedData['question_type'])
+            ->where('difficulty', 'sulit')
+            ->count();
+    } elseif ($validatedData['question_type'] === \App\Enums\QuestionType::PK->value) {
+        $easyAvailable = TpkQuestion::where('difficulty', \App\Enums\Difficulty::LOTS->value)
+            ->count();
+
+        $hardAvailable = TpkQuestion::where('difficulty', \App\Enums\Difficulty::MOTS->value)
+            ->count();
+    }
+
+    if ($validatedData['easy_question_count'] > $easyAvailable) {
+        return back()->withErrors([
+            'easy_question_count' => 'Jumlah soal mudah yang tersedia tidak mencukupi. Tersedia: ' . $easyAvailable
+        ])->withInput();
+    }
+
+    if ($validatedData['hard_question_count'] > $hardAvailable) {
+        return back()->withErrors([
+            'hard_question_count' => 'Jumlah soal sulit yang tersedia tidak mencukupi. Tersedia: ' . $hardAvailable
+        ])->withInput();
+    }
+
+    // Hitung total soal untuk sesi
+    $existingTotalQuestions = CbtSessionQuestionConfiguration::where('cbt_session_id', $validatedData['cbt_session_id'])
+        ->where('id', '!=', $id) // Exclude the current record
+        ->sum(DB::raw('easy_question_count + hard_question_count'));
+
+    $newTotalQuestions = $existingTotalQuestions + $validatedData['easy_question_count'] + $validatedData['hard_question_count'];
+
+    // Validasi agar total soal tidak melebihi jumlah soal yang diizinkan dan tidak kurang dari jumlah soal yang diperlukan
+    if ($newTotalQuestions > $cbtSession->jumlah_soal) {
+        return back()->withErrors([
+            'question_count' => 'Total jumlah soal melebihi jumlah soal yang diperbolehkan untuk sesi ini. Maksimal: ' . $cbtSession->jumlah_soal . ', saat ini: ' . $existingTotalQuestions
+        ])->withInput();
+    }
+
+    // Validasi agar soal tidak kurang dari jumlah soal yang diizinkan
+    if ($newTotalQuestions < $cbtSession->jumlah_soal) {
+        return back()->withErrors([
+            'question_count' => 'Total jumlah soal kurang dari jumlah soal yang diperlukan untuk sesi ini. Diperlukan: ' . $cbtSession->jumlah_soal . ', saat ini: ' . $newTotalQuestions
+        ])->withInput();
+    }
+
+    // Update konfigurasi soal
+    DB::beginTransaction();
+
+    try {
+        $configuration->update([
+            'cbt_session_id' => $validatedData['cbt_session_id'],
+            'question_type' => $validatedData['question_type'],
+            'easy_question_count' => $validatedData['easy_question_count'],
+            'hard_question_count' => $validatedData['hard_question_count'],
+        ]);
+
+        DB::commit();
+
+        return redirect()->route('cbt-session-question-configurations.index')->with('success', 'Konfigurasi soal berhasil diperbarui!');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui konfigurasi soal.'])->withInput();
+    }
 }
+
+
+
 
 public function destroy($id)
 {

@@ -13,6 +13,7 @@
                     <i class="fas fa-arrow-left"></i> Kembali
                 </a>
             </div>
+            <div class="card-body
             <div class="card-body">
                 <form action="{{ route('cbt-session-question-configurations.update', $configuration->id) }}" method="POST">
                     @csrf
@@ -57,18 +58,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="question_count">Jumlah Total Soal</label>
-                        <input type="number" class="form-control" name="question_count" id="question_count" 
-                            value="{{ old('question_count', $configuration->question_count) }}" placeholder="Masukkan jumlah total soal" required>
-                        @error('question_count')
-                            <div class="alert alert-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
                         <label for="easy_question_count">Jumlah Soal Mudah</label>
                         <input type="number" class="form-control" name="easy_question_count" id="easy_question_count" 
-                            value="{{ old('easy_question_count', $configuration->easy_question_count) }}" placeholder="Masukkan jumlah soal mudah">
+                            value="{{ old('easy_question_count', $configuration->easy_question_count) }}" placeholder="Masukkan jumlah soal mudah" required>
                         @error('easy_question_count')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
@@ -77,8 +69,17 @@
                     <div class="form-group">
                         <label for="hard_question_count">Jumlah Soal Sulit</label>
                         <input type="number" class="form-control" name="hard_question_count" id="hard_question_count" 
-                            value="{{ old('hard_question_count', $configuration->hard_question_count) }}" placeholder="Masukkan jumlah soal sulit">
+                            value="{{ old('hard_question_count', $configuration->hard_question_count) }}" placeholder="Masukkan jumlah soal sulit" required>
                         @error('hard_question_count')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question_count">Jumlah Total Soal</label>
+                        <input type="number" class="form-control" name="question_count" id="question_count" 
+                            value="{{ old('question_count', $configuration->easy_question_count + $configuration->hard_question_count) }}" placeholder="Jumlah total soal" readonly>
+                        @error('question_count')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
