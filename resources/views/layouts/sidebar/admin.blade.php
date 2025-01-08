@@ -107,6 +107,11 @@
             <span style="font-size: 11px;">Template Dokumen</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="#">
+            <span style="font-size: 11px;">Manajemen Narasi Lomba</span></a>
+    </li>
+
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
