@@ -12,19 +12,27 @@
     <div class="container" style="font-size: 11px;">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary" style="font-size: 11px;">Edit Sesi Computer Based Test</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Edit Sesi Computer Based Test</h6>
             </div>
             <div class="card-body">
                 <form action="{{ route('sesi-cbt.update', $session->id) }}" method="POST">
                     @csrf
-                    @method('PUT') <!-- This is required for updating -->
-                    
+                    @method('PUT')
+                
+                    <div class="form-group">
+                        <label for="nama">Nama Sesi</label>
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $session->nama) }}" style="font-size: 11px;" required>
+                        @error('nama')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                
                     <div class="form-group">
                         <label for="mata_lomba_id">Lomba Computer Based Test</label>
                         <select class="form-control" name="mata_lomba_id" id="mata_lomba_id" style="font-size: 11px;" required>
                             <option value="">--Pilih--</option>
                             @foreach ($mataLombas as $item)
-                                <option value="{{ $item->id }}" {{ $item->id == old('mata_lomba_id', $session->mata_lomba_id) ? 'selected' : '' }}>
+                                <option value="{{ $item->id }}" {{ $item->id == $session->mata_lomba_id ? 'selected' : '' }}>
                                     {{ $item->nama }}
                                 </option>
                             @endforeach
@@ -33,11 +41,11 @@
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
-
+                
                     <div class="form-group">
                         <label for="waktu_mulai">Waktu Mulai</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" id="waktu_mulai" name="waktu_mulai" style="font-size: 11px;" value="{{ old('waktu_mulai', $session->waktu_mulai) }}" required>
+                            <input type="text" class="form-control timepicker" id="waktu_mulai" name="waktu_mulai" value="{{ old('waktu_mulai', $session->waktu_mulai) }}" style="font-size: 11px;" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-clock"></i></span>
                             </div>
@@ -50,7 +58,7 @@
                     <div class="form-group">
                         <label for="waktu_selesai">Waktu Selesai</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" id="waktu_selesai" name="waktu_selesai" style="font-size: 11px;" value="{{ old('waktu_selesai', $session->waktu_selesai) }}" required>
+                            <input type="text" class="form-control timepicker" id="waktu_selesai" name="waktu_selesai" value="{{ old('waktu_selesai', $session->waktu_selesai) }}" style="font-size: 11px;" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-clock"></i></span>
                             </div>
@@ -59,15 +67,16 @@
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
-
+                
+                
                     <div class="form-group">
                         <label for="jumlah_soal">Jumlah Soal</label>
-                        <input type="number" class="form-control" id="jumlah_soal" name="jumlah_soal" style="font-size: 11px;" value="{{ old('jumlah_soal', $session->jumlah_soal) }}" required>
+                        <input type="number" class="form-control" id="jumlah_soal" name="jumlah_soal" value="{{ old('jumlah_soal', $session->jumlah_soal) }}" style="font-size: 11px;" required>
                         @error('jumlah_soal')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
-
+                
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select class="form-control" name="status" id="status" style="font-size: 11px;" required>
@@ -79,15 +88,15 @@
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
-
+                
                     <div class="form-group">
                         <label for="kode_akses">Kode Akses (opsional)</label>
-                        <input type="text" class="form-control" id="kode_akses" name="kode_akses" style="font-size: 11px;" value="{{ old('kode_akses', $session->kode_akses) }}">
+                        <input type="text" class="form-control" id="kode_akses" name="kode_akses" value="{{ old('kode_akses', $session->kode_akses) }}" style="font-size: 11px;">
                         @error('kode_akses')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
-
+                
                     <div class="d-flex">
                         <a href="{{ route('sesi-cbt.index') }}" class="btn btn-secondary mr-2" style="font-size: 11px;" title="Kembali">
                             <i class="fas fa-arrow-left"></i>
@@ -97,6 +106,7 @@
                         </button>
                     </div>
                 </form>
+                
             </div>
         </div>
     </div>

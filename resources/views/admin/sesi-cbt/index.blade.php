@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid" style="font-size: 11px;">
+    <div class="container-fluid" style="font-size: 12px;">
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">

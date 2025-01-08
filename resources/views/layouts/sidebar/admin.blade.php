@@ -54,15 +54,21 @@
             <span style="font-size: 11px;">Pengaturan Soal Computer Based Test</span></a>
     </li>
 
+    
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('soal-tpk.index')}}">
+            <span style="font-size: 11px;">Bank Soal Tes Pengetahuan Kepramukaan</span></a>
+    </li>
+
     <!-- Nav Item - Simbol -->
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseSimbol" aria-expanded="true" aria-controls="collapseSimbol">
-            <span style="font-size: 11px;">Manajemen Soal Semaphore & Morse</span>
+            <span style="font-size: 11px;">Bank Soal Semaphore & Morse</span>
         </a>
         <div id="collapseSimbol" class="collapse" aria-labelledby="headingSimbol" data-parent="#accordionSidebar">
             <div class="bg-white collapse-inner rounded" style="font-size: 11px;">
                 <a class="collapse-item" href="{{route('symbols.index')}}">Input Simbol</a>
-                <a class="collapse-item" href="{{route('sms-questions.index')}}">Bank Soal</a>
+                <a class="collapse-item" href="{{route('soal-sms.index')}}">Bank Soal</a>
             </div>
         </div>
     </li>
