@@ -21,12 +21,12 @@ class CbtSession extends Model
                     ->withTimestamps();
     }
     
-    public function tpk_questions(){
-        return $this->hasMany(TpkQuestion::class);
-    }
-    public function smsQuestions(){
-        return $this->hasMany(SmsQuestion::class);
-    }
+        public function tpk_questions(){
+            return $this->hasMany(TpkQuestion::class);
+        }
+        public function smsQuestions(){
+            return $this->hasMany(SmsQuestion::class);
+        }
     public function questionConfigurations(){
         return $this->hasMany(CbtSessionQuestionConfiguration::class, 'cbt_session_id');
     }

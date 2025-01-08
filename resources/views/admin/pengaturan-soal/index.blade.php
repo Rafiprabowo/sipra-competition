@@ -60,9 +60,6 @@
                                     <td>{{ $configuration->easy_question_count }}</td>
                                     <td>{{ $configuration->hard_question_count }}</td>
                                     <td>
-                                        <a href="{{ route('cbt-session-question-configurations.edit', $configuration->id) }}" class="btn btn-warning btn-sm" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
                                         <form action="{{ route('cbt-session-question-configurations.destroy', $configuration->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
