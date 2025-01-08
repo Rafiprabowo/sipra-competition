@@ -315,6 +315,42 @@ public function update(Request $request, $id)
     }
 }
 
+public function destroy($id)
+{
+    // Cari konfigurasi berdasarkan ID
+    $configuration = CbtSessionQuestionConfiguration::findOrFail($id);
+
+    // Ambil sesi CBT terkait
+    $cbtSession = $configuration->cbtSession;
+
+    // Mulai transaksi database
+    DB::beginTransaction();
+
+    try {
+        // Perbarui cbt_session_id menjadi null untuk soal terkait berdasarkan tipe soal
+        if ($configuration->question_type === \App\Enums\QuestionType::SEMAPHORE->value || $configuration->question_type === \App\Enums\QuestionType::MORSE->value) {
+            // Perbarui soal SMS terkait
+            $cbtSession->smsQuestions()->update(['cbt_session_id' => null]);
+        } elseif ($configuration->question_type === \App\Enums\QuestionType::PK->value) {
+            // Perbarui soal TPK terkait
+            $cbtSession->tpk_questions()->update(['cbt_session_id' => null]);
+        }
+
+        // Hapus data konfigurasi
+        $configuration->delete();
+
+        // Commit transaksi
+        DB::commit();
+
+        return redirect()->route('cbt-session-question-configurations.index')->with('success', 'Konfigurasi soal berhasil dihapus, dan soal terkait tidak lagi terhubung ke sesi CBT.');
+    } catch (\Exception $e) {
+        // Rollback transaksi jika terjadi kesalahan
+        DB::rollBack();
+        return back()->withErrors(['error' => 'Terjadi kesalahan saat menghapus konfigurasi soal.'])->withInput();
+    }
+}
+
+
 
 
 
