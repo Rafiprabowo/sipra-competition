@@ -199,7 +199,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span style="font-size: 11px;"><strong>LOGIKA 2025</strong></span>
+                    <span style="font-size: 14px;"><strong>LOGIKA 2025</strong></span>
                 </div>
             </div>
         </footer>

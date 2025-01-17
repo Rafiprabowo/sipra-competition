@@ -17,7 +17,7 @@
             justify-content: center;
             align-items: center;
             padding: 10px 20px;
-            background: #EE3637;
+            background: #030000;
             flex-wrap: wrap;
         }
 
@@ -98,7 +98,7 @@
         .penalties-table th, .penalties-table td {
             border: 1px solid #ddd;
             padding: 8px;
-            text-align: left;
+            text-align: center;
         }
 
         .penalties-table th {
@@ -106,7 +106,7 @@
         }
 
         .button-container {
-            text-align: center;
+            text-align: left;
             margin-top: 20px;
         }
 
@@ -145,7 +145,7 @@
     </header>
 
     <div class="card">
-        <h2>LKFBB</h2>
+        <h2 style="text-align: center; padding-bottom:2%;">PERSYARATAN LKFBB</h2>
         <ul>
             <li>Setiap regu diwakili oleh 8 orang.</li>
             <li>Durasi pelaksanaan LKFBB adalah maksimal 6 menit/regu.</li>
@@ -168,7 +168,7 @@
             <li>Untuk formasi bisa dilakukan dengan urutan bebas, tetapi harus sesuai dengan yang telah ditentukan.</li>
             <li>Apabila peserta melakukan pelanggaran, maka akan dikenakan pengurangan nilai seperti ketentuan berikut:</li>
         </ul>
-        <table class="penalties-table">
+        <table class="penalties-table" style="margin-top: 3%; text-align: center;">
             <thead>
                 <tr>
                     <th>No.</th>
@@ -190,8 +190,8 @@
             </tbody>
         </table>
 
-        <h2 style="padding-top: 5%;">Kriteria Penilaian</h2>
-<table class="penalties-table">
+        <h2 style="padding-top: 5%; text-align:center;">KRITERIA PENILAIAN</h2>
+<table class="penalties-table" style="text-align: center;">
     <thead>
         <tr>
             <th>Kriteria Penilaian</th>
@@ -228,7 +228,7 @@
     </tbody>
 </table>
 
-        <div class="button-container">
+        <div class="button-container" style="margin-top: 4%; margin-bottom:3%;">
             <a href="/">Kembali</a>
         </div>
     </div>

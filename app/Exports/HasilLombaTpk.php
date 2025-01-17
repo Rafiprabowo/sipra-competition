@@ -24,8 +24,8 @@ class HasilLombaTpk implements FromCollection, WithHeadings
                     $query->where('mata_lomba_id', $mataLomba->id);
                 })
                 ->orderByDesc('score')
-                ->orderByDesc('correct_difficult_answers')
                 ->orderByDesc('completed_at')
+                ->orderByDesc('correct_difficult_answers')
                 ->get();
 
             
@@ -58,6 +58,9 @@ class HasilLombaTpk implements FromCollection, WithHeadings
                     'nama_pangkalan' => $pesertaSession->peserta->regu_pembina->pembina->pangkalan ?? 'Tidak ada pangkalan',
                     'score' => $pesertaSession->score,
                     'peringkat' => $pesertaSession->rank,
+                    'completed_at' => $pesertaSession->completed_at,
+                    'correct_difficult_answers' => $pesertaSession->correct_difficult_answers,
+                    'correct_answer_count' => $pesertaSession->correct_answer_count,
                 ];
             });
 
@@ -77,7 +80,10 @@ class HasilLombaTpk implements FromCollection, WithHeadings
             'Regu',
             'Pangkalan',
             'Nilai',
-            'Peringkat'
+            'Waktu',
+            'Peringkat',
+            'Soal Sulit Benar',
+            'Jumlah Soal Benar'
         ];
     }
 }

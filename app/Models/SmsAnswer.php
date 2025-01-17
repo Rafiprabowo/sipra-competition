@@ -18,4 +18,15 @@ class SmsAnswer extends Model
     public function peserta(){
         return $this->belongsTo(Peserta::class, 'peserta_id');
     }
+
+    public function smsQuestion()
+    {
+        return $this->belongsTo(SmsQuestion::class, 'sms_question_id');
+    }
+
+    public function cbtSession()
+    {
+        return $this->belongsTo(CbtSession::class, 'cbt_session_id');
+    }
+
 }

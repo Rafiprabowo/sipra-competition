@@ -16,4 +16,10 @@ class Symbols extends Model
         ->withPivot('order')
         ->withTimestamps();
     }
+
+    public function simulasiSmsQuestions(){
+        return $this->belongsToMany(SimulasiSmsQuestion::class, 'simulasi_sms_quetion_images', 'symbol_id', 'simulasi_sms_question_id')
+        ->withPivot('order')
+        ->withTimestamps();
+    }
 }

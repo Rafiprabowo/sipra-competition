@@ -84,16 +84,14 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: start;
-        gap: 25px;
+        gap: 10px;
     }
 
     .number-navigation .btn-question {
         width: 50px;
-        height: 50px;
         text-align: center;
         font-weight: bold;
-        line-height: 50px;
-        border-radius: 0;
+        border-radius: 10px;
     }
 
     .not-answered {

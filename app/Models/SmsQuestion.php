@@ -31,5 +31,9 @@ class SmsQuestion extends Model
     {
         return $this->hasMany(SmsQuestionImage::class, 'sms_question_id');
     }
+
+    public function smsAnswers(){
+        return $this->hasMany(SmsAnswer::class);
+    }
 }
 

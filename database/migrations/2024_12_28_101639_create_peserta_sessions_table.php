@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('peserta_sessions', function (Blueprint $table) {
             $table->id();
             $table->float('score');
+            $table->float('scoreMorse')->nullable();
+            $table->float('scoreSemaphore')->nullable();
             $table->enum('status', ['in_progress', 'completed'])->default('in_progress');
             $table->timestamp('completed_at')->nullable();
             $table->integer('correct_difficult_answers')->nullable();
+            $table->integer('correct_easy_answers')->nullable();
             $table->integer('correct_answer_count')->nullable();
             $table->foreignId('cbt_session_id')->constrained('cbt_sessions')->cascadeOnDelete();
             $table->foreignId('peserta_id')->constrained('pesertas')->cascadeOnDelete();

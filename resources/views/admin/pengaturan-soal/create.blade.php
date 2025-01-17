@@ -53,6 +53,16 @@
                         @enderror
                     </div>
 
+                    <div class="form-group">
+                        <label for="total_bobot_nilai">Total Bobot Nilai (%)</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="total_bobot_nilai" id="total_bobot_nilai" value="{{ old('total_bobot_nilai', 0) }}" placeholder="Masukkan bobot nilai (%)">
+                        </div>
+                        @error('total_bobot_nilai')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <!-- Removed the 'question_count' field as it can be derived -->
                     <div class="form-group">
                         <label for="easy_question_count">Jumlah Soal Mudah</label>
@@ -70,6 +80,26 @@
                             <input type="number" class="form-control" name="hard_question_count" id="hard_question_count" value="{{ old('hard_question_count', 0) }}" placeholder="Masukkan jumlah soal sulit">
                         </div>
                         @error('hard_question_count')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bobot_nilai_mudah">Bobot Nilai Mudah (%)</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="bobot_nilai_mudah" id="bobot_nilai_mudah" value="{{ old('bobot_nilai_mudah', 0) }}" placeholder="Masukkan bobot nilai mudah">
+                        </div>
+                        @error('bobot_nilai_mudah')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bobot_nilai_sulit">Bobot Nilai Sulit (%)</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="bobot_nilai_sulit" id="bobot_nilai_sulit" value="{{ old('bobot_nilai_sulit', 0) }}" placeholder="Masukkan bobot nilai sulit">
+                        </div>
+                        @error('bobot_nilai_sulit')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>

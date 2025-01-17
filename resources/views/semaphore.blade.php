@@ -17,7 +17,7 @@
             justify-content: center;
             align-items: center;
             padding: 10px 20px;
-            background: #EE3637;
+            background: #030000;
             flex-wrap: wrap;
         }
 
@@ -98,7 +98,7 @@
         .penalties-table th, .penalties-table td {
             border: 1px solid #ddd;
             padding: 8px;
-            text-align: left;
+            text-align: center;
         }
 
         .penalties-table th {
@@ -106,7 +106,7 @@
         }
 
         .button-container {
-            text-align: center;
+            text-align: left;
             margin-top: 20px;
         }
 
@@ -145,7 +145,7 @@
     </header>
 
     <div class="card">
-        <h2>SEMAPHORE DAN MORSE</h2>
+        <h2 style="text-align: center; padding-bottom:2%;">PERSYARATAN SEMAPHORE DAN MORSE</h2>
         <ul>
             <li>Peserta lomba semaphore dan morse sebanyak 1 orang tiap regu.</li>
             <li>Peserta menggunakan pakaian pramuka lengkap.</li>
@@ -154,7 +154,7 @@
             <li>Durasi pengerjaan 30 menit.</li>
             <li>Apabila peserta melakukan pelanggaran, maka akan dikenakan pengurangan nilai seperti ketentuan berikut:</li>
         </ul>
-        <table class="penalties-table">
+        <table class="penalties-table" style="margin-top: 3%; text-align: center;">
             <thead>
                 <tr>
                     <th>No.</th>
@@ -181,8 +181,8 @@
             </tbody>
         </table>
 
-            <h2 style="padding-top: 5%;">Kriteria Penilaian</h2>
-            <table class="penalties-table">
+        <h2 style="padding-top: 5%; text-align:center;">KRITERIA PENILAIAN</h2>
+            <table class="penalties-table" style="text-align: center;">
                 <thead>
                     <tr>
                         <th>Kriteria Penilaian</th>
@@ -194,7 +194,7 @@
                     <tr>
                         <td>Ketepatan Jawaban</td>
                         <td>100</td>
-                        <td>Jumlah soal yang harus dikerjakan sebanyak 15 soal. Setiap soal terdiri atas 5 huruf. Setiap huruf memiliki poin 1,333 jika jawaban benar, dan poin 0 jika jawaban salah.</td>
+                        <td>Jumlah soal yang harus dikerjakan sebanyak 15 soal. Setiap soal terdiri atas 5 huruf. Setiap huruf memiliki poin 0 jika jawaban salah.</td>
                     </tr>
                     <tr>
                         <td>Kecepatan Pengumpulan</td>
@@ -205,8 +205,9 @@
             </table>
 
         
-        <div class="button-container">
+        <div class="button-container" style="margin-top: 4%; margin-bottom:3%;"> 
             <a href="/">Kembali</a>
+            <a href="{{route('simulasi.index')}}" style="background-color:green;">Simulasi</a>
         </div>
     </div>
     

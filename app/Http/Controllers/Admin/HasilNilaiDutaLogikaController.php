@@ -8,10 +8,11 @@ use App\Models\Peserta;
 use App\Models\MataLomba;
 use Maatwebsite\Excel\Facades\Excel; 
 use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Models\User;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use App\Exports\PesertaExport;
-use Barryvdh\DomPDF\PDF as DomPDFPDF;
+use Dompdf\Dompdf;
 use PDF;
 use Illuminate\Support\Facades\DB;
 
@@ -51,8 +52,7 @@ class HasilNilaiDutaLogikaController extends Controller
         return view('admin.hasil_nilai.nilai_duta_logika', compact('peserta'));
     }
 
-    public function exportPDFDutaLogika()
-    {
+    public function exportPDFDutaLogika() {
         $mata_lomba = MataLomba::where('nama', \App\Enums\MataLomba::DUTALOGIKA->value)->first();
         $tab = 'penilaian_dutaLogika';
 
@@ -66,6 +66,21 @@ class HasilNilaiDutaLogikaController extends Controller
             })->sortByDesc('highest_total_nilai')->values();
 
         $data = compact('peserta', 'mata_lomba', 'tab');
+
+        $ketuaPelaksanas = User::where('role', 'ketua_pelaksana')->get();
+
+        $pathLogoKiri = public_path('img/logo-kiri.png');
+        $pathLogoKanan = public_path('img/logo-kanan.jpg');
+        $typeLogoKiri = pathinfo($pathLogoKiri, PATHINFO_EXTENSION);
+        $typeLogoKanan = pathinfo($pathLogoKanan, PATHINFO_EXTENSION);
+        $dataLogoKiri = file_get_contents($pathLogoKiri);
+        $dataLogoKanan = file_get_contents($pathLogoKanan);
+        $base64LogoKiri = 'data:image/' . $typeLogoKiri . ';base64,' . base64_encode($dataLogoKiri);
+        $base64LogoKanan = 'data:image/' . $typeLogoKanan . ';base64,' . base64_encode($dataLogoKanan);
+
+        $data['base64LogoKiri'] = $base64LogoKiri;
+        $data['base64LogoKanan'] = $base64LogoKanan;
+        $data['ketuaPelaksanas'] = $ketuaPelaksanas;
         
         $pdf = PDF::loadView('admin.hasil_nilai.template', $data)->setPaper('a4', 'portrait');
         return $pdf->download('penilaian_duta_logika.pdf');

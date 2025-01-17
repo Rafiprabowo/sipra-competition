@@ -40,15 +40,7 @@
                                     <td>{{ $peserta->nama }}</td>
                                     <td>{{ Auth::user()->juri->nama }}</td>
                                     <td>{{ $peserta->penilaian_karikatur->total_nilai }}</td>
-                                    <td>
-                                        {{-- <a href="#" class="btn btn-info btn-sm" title="Lihat">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <!-- Tombol Edit -->
-                                        <a href="{{ route('penilaian-karikatur.edit', $peserta->penilaianKarikatur->id ?? 0) }}" class="btn btn-warning btn-sm mx-2" title="Ubah">
-                                            <i class="fas fa-edit"></i>
-                                        </a>                                         --}}
-                                    
+                                    <td>                            
                                         <!-- Form Hapus -->
                                         <form action="{{ route('penilaian-karikatur.destroy', $peserta->penilaian_karikatur->id) }}" method="POST" style="display: inline;">
                                             @csrf

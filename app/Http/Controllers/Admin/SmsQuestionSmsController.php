@@ -218,17 +218,10 @@ class SmsQuestionSmsController extends Controller
 }
 
 
-    
-
-
     public function destroy(SmsQuestion $smsQuestion){
         $smsQuestion->symbols()->detach();
         $smsQuestion->delete();
 
         return redirect()->route('sms-questions.index')->with('success', 'SMS Question deleted successfully');
     }
-    
-
-
-
 }

@@ -69,6 +69,7 @@
             <div class="bg-white collapse-inner rounded" style="font-size: 11px;">
                 <a class="collapse-item" href="{{route('symbols.index')}}">Input Simbol</a>
                 <a class="collapse-item" href="{{route('soal-sms.index')}}">Bank Soal</a>
+                <a class="collapse-item" href="{{route('simulasi-soal-sms.index')}}">Bank Soal Simulasi</a>
             </div>
         </div>
     </li>
@@ -105,11 +106,6 @@
     <li class="nav-item">
         <a class="nav-link" href="{{route('dokumen.index')}}">
             <span style="font-size: 11px;">Template Dokumen</span></a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <span style="font-size: 11px;">Manajemen Narasi Lomba</span></a>
     </li>
 
     <!-- Sidebar Toggler (Sidebar) -->

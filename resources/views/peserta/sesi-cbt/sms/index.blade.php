@@ -27,8 +27,7 @@
                             <th>Waktu Mulai</th>
                             <th>Waktu Selesai</th>
                             <th>Durasi</th>
-                            <th>Jumlah Soal</th>
-                    
+                            <th>Jumlah Huruf</th>
                             <th>Token</th>
                             <th>Aksi</th>
                         </tr>
@@ -40,15 +39,7 @@
                                 <td><span class="badge badge-info">{{ \Carbon\Carbon::parse($session->waktu_mulai)->format('d-m-Y H:i') }}</span></td>
                                 <td><span class="badge badge-info">{{ \Carbon\Carbon::parse($session->waktu_selesai)->format('d-m-Y H:i') }}</span></td>
                                 <td>{{ $session->durasi }} menit</td>
-                                <td>
-                                    @php
-                                        $totalQuestions = 0;
-                                        foreach ($session->questionConfigurations as $config) {
-                                            $totalQuestions += $config->question_count;
-                                        }
-                                    @endphp
-                                    {{ $totalQuestions }} soal
-                                </td>
+                                <td>{{ $session->jumlah_soal }} </td>
                                 
                                 <td>
                                     <form action="{{ route('token.cbt', $session->id) }}" method="POST">

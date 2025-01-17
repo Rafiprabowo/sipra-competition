@@ -41,7 +41,6 @@
                                 <th>Nilai</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Juara</th>
-                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,7 +60,6 @@
                                     <td>{{ $participant->score }}</td>
                                     <td>{{ $participant->peserta->jenis_kelamin }}</td>
                                     <td>{{ $participant->rank ? 'Juara ' . $participant->rank : '-' }}</td>
-                                    <td></td>
                                 </tr>
                             @endforeach
                         </tbody>

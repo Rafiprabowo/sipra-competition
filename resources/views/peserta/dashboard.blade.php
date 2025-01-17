@@ -128,7 +128,7 @@
             <!-- Card 1 -->
             <div class="col-md-6 col-sm-6 col-lg-4 p-4">
                 <div class="card shadow-sm rounded-4 h-100 text-center">
-                    <img src="{{ asset('img/ROSE 1.png') }}" alt="Pionering" class="card-img-top img-fluid p-3">
+                    <img src="{{ asset('img/ROSE 1.png') }}" alt="Pionering" class="card-img-top img-fluid p-3" >
                     <div class="card-body">
                         <h5 class="card-title fw-bold" style="font-size: 11px; padding-top:15%; color:black;">Pioneering</h5>
                     </div>

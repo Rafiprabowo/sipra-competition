@@ -34,6 +34,9 @@
                                 <th>Jenis Soal</th>
                                 <th>Jumlah Soal Mudah</th>
                                 <th>Jumlah Soal Sulit</th>
+                                <th>Total Bobot Nilai (%)</th>
+                                <th>Bobot Soal Mudah (%)</th>
+                                <th>Bobot Soal Sulit (%)</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -59,6 +62,9 @@
                                     </td>
                                     <td>{{ $configuration->easy_question_count }}</td>
                                     <td>{{ $configuration->hard_question_count }}</td>
+                                    <td>{{ $configuration->total_bobot_nilai }}</td>
+                                    <td>{{ $configuration->bobot_nilai_mudah }}</td>
+                                    <td>{{ $configuration->bobot_nilai_sulit }}</td>
                                     <td>
                                         <form action="{{ route('cbt-session-question-configurations.destroy', $configuration->id) }}" method="POST" style="display:inline;">
                                             @csrf

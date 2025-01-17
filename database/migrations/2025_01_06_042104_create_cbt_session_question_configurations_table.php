@@ -16,6 +16,9 @@ return new class extends Migration
             $table->enum('question_type', [\App\Enums\QuestionType::MORSE->value, \App\Enums\QuestionType::SEMAPHORE->value, \App\Enums\QuestionType::PK->value]);
             $table->integer('easy_question_count')->default(0);
             $table->integer('hard_question_count')->default(0);
+            $table->integer('total_bobot_nilai')->default(0);
+            $table->integer('bobot_nilai_mudah')->default(0);
+            $table->integer('bobot_nilai_sulit')->default(0);
             $table->foreignId('cbt_session_id')->constrained('cbt_sessions')->cascadeOnDelete();
             $table->timestamps();
         });

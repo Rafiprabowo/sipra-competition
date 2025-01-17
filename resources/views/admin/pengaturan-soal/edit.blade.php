@@ -13,7 +13,6 @@
                     <i class="fas fa-arrow-left"></i> Kembali
                 </a>
             </div>
-            <div class="card-body
             <div class="card-body">
                 <form action="{{ route('cbt-session-question-configurations.update', $configuration->id) }}" method="POST">
                     @csrf

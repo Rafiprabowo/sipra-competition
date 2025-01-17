@@ -27,6 +27,7 @@
                             <option value="pembina">Pembina</option>
                             <option value="peserta">Peserta</option>
                             <option value="juri">Juri</option>
+                            <option value="ketua_pelaksana">Ketua Pelaksana</option>
                         </select>
                     </div>
 

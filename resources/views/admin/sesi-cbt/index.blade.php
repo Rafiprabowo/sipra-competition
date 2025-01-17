@@ -71,7 +71,7 @@
                                     <td>
                                         <!-- Display question types and counts -->
                                         @foreach($session->questionConfigurations as $config)
-                                            <div>{{ $config->question_type }} - {{ $config->question_count }} soal</div>
+                                            <div>{{ $config->question_type }}</div>
                                         @endforeach
                                     </td>
                                     <td >{{$session->kode_akses}}</td>
@@ -101,13 +101,19 @@
             </div>
         </div>
     </div>
-@endsection
 
-@section('script')
     <script>
-        $(function(){
-            $('#dataTable').DataTable();
-            $('[data-toggle="tooltip"]').tooltip(); // Initialize tooltips
+        document.addEventListener("DOMContentLoaded", function() {
+            $('#dataTable').DataTable({
+                pageLength: 10,
+                responsive: true,
+                searching: true,
+                ordering: true,
+            });
         });
     </script>
 @endsection
+
+
+
+

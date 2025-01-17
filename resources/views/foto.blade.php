@@ -17,7 +17,7 @@
             justify-content: center;
             align-items: center;
             padding: 10px 20px;
-            background: #EE3637;
+            background: #030000;
             flex-wrap: wrap;
         }
 
@@ -98,7 +98,7 @@
         .penalties-table th, .penalties-table td {
             border: 1px solid #ddd;
             padding: 8px;
-            text-align: left;
+            text-align: center;
         }
 
         .penalties-table th {
@@ -106,7 +106,7 @@
         }
 
         .button-container {
-            text-align: center;
+            text-align: left;
             margin-top: 20px;
         }
 
@@ -145,7 +145,7 @@
     </header>
 
     <div class="card">
-        <h2>LOMBA FOTO PANGKALAN TERFAVORIT</h2>
+        <h2 style="text-align: center; padding-bottom:2%;">PERSYARATAN FOTO PANGKALAN</h2>
         <ul>
             <li>Tema foto: “Kegiatan Lomba”.</li>
             <li>Format foto dalam JPG/JPEG.</li>
@@ -174,7 +174,9 @@
             <li>Foto akan diupload panitia pada jam 11.00 - 11.30. Penilaian like akan dibatasi sampai jam 15.00 dari foto diupload.</li>
             <li>Kriteria penilaian:</li>
         </ul>
-        <table class="penalties-table">
+
+        <h2 style="padding-top: 5%; text-align:center;">KRITERIA PENILAIAN</h2>
+        <table class="penalties-table" style="text-align: center;">
             <thead>
                 <tr>
                     <th>Kriteria Penilaian</th>
@@ -198,14 +200,9 @@
                     <td>10</td>
                     <td>Menilai teks singkat yang menjelaskan atau memberikan interpretasi terhadap hasil foto yang telah diunggah.</td>
                 </tr>
-                <tr>
-                    <td>TOTAL</td>
-                    <td>100</td>
-                    <td></td>
-                </tr>
             </tbody>
         </table>
-        <div class="button-container">
+        <div class="button-container" style="margin-top: 4%; margin-bottom:3%;">
             <a href="/">Kembali</a>
         </div>
     </div>

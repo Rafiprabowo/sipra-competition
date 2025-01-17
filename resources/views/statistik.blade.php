@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGIKA 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             margin: 0;
@@ -18,7 +19,7 @@
             justify-content: center;
             align-items: center;
             padding: 10px 20px;
-            background: #EE3637;
+            background: #030000;
             flex-wrap: wrap;
         }
     
@@ -88,7 +89,7 @@
     
         th, td {
             padding: 10px;
-            text-align: left;
+            text-align: center;
         }
     
         th {
@@ -139,15 +140,30 @@
         .pagination button.active {
             background-color: #FFBC29;
         }
+
+        .oval {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+        }
+
+        .green {
+            background-color: #2ed8b6; /* Warna hijau */
+        }
+
+        .red {
+            background-color: #FF5370; /* Warna merah */
+        }
+
     </style>
     
 </head>
 <body>
     <header style="padding: 5px">
         <div class="logo-container">
-            <img src="{{ asset('img/LOGO 2.png') }}" alt="Logo 1">
-            <img src="{{ asset('img/CENDRA 6.png') }}" alt="Logo 2">
-            <img src="{{ asset('img/ROSE 2.png') }}" alt="Logo 3">
+            <img src="{{ asset('img/LOGO 2.png') }}" alt="Logo 1" style="margin-left: 50px;">
         </div>
         <nav>
             <ul>
@@ -162,9 +178,9 @@
     </header>
 
     <div>
-        <h1 style="text-align: center; margin-top:2%;">DATA STATISTIK</h1>
+        <h1 style="text-align: center; margin-top:3%;">DATA STATISTIK</h1>
     </div>
-    <div style="display: flex; justify-content: center; padding-top: 40px; gap: 20px; flex-wrap: wrap;">
+    <div style="display: flex; justify-content: center; padding-top: 20px; gap: 20px; flex-wrap: wrap;">
         <?php
             $conn = new mysqli('localhost', 'root', '', 'sipra_competition2');
 
@@ -209,8 +225,8 @@
         $result_belum_validasi = $conn->query($sql_belum_validasi);
     ?>
 
-    <h2 style="text-align: center; margin-top:2%;">Pangkalan Sudah Validasi</h2>
-    <table id="table-participants">
+    <h2 style="text-align: center; padding-top:30px;">Pangkalan Sudah Validasi</h2>
+    <table id="table-participants" style="text-align: center;">
         <thead>
             <tr>
                 <th>Nama Pembina</th>
@@ -222,7 +238,7 @@
             <?php
                 if ($result_validasi->num_rows > 0) {
                     while($row = $result_validasi->fetch_assoc()) {
-                        echo "<tr><td>" . $row["nama"]. "</td><td>" . $row["pangkalan"]. "</td><td>Sudah Validasi</td></tr>";
+                        echo "<tr><td>" . $row["nama"]. "</td><td>" . $row["pangkalan"]. "</td><td><span class='oval green'>Sudah Validasi</span></td></tr>";
                     }
                 } else {
                     echo "<tr><td colspan='3'>Tidak ada data</td></tr>";
@@ -231,8 +247,8 @@
         </tbody>
     </table>
 
-    <h2 style="text-align: center; margin-top:2%;">Pangkalan Belum Validasi</h2>
-    <table id="table-participants2">
+    <h2 style="text-align: center; padding-top:30px;">Pangkalan Belum Validasi</h2>
+    <table id="table-participants2" style="margin-bottom: 5%;">
         <thead>
             <tr>
                 <th>Nama Pembina</th>
@@ -244,7 +260,7 @@
             <?php
                 if ($result_belum_validasi->num_rows > 0) {
                     while($row = $result_belum_validasi->fetch_assoc()) {
-                        echo "<tr><td>" . $row["nama"]. "</td><td>" . $row["pangkalan"]. "</td><td>Belum Validasi</td></tr>";
+                        echo "<tr><td>" . $row["nama"]. "</td><td>" . $row["pangkalan"]. "</td><td><span class='oval red'>Belum Validasi</span></td></tr>";
                     }
                 } else {
                     echo "<tr><td colspan='3'>Tidak ada data</td></tr>";
@@ -252,6 +268,30 @@
             ?>
         </tbody>
     </table>
+
+    <footer style="background-color: #030000; color: #ffffff; padding: 20px; text-align: center;">
+        <div style="margin-bottom: 20px;">
+            <img src="{{ asset('img/LOGO 1.png') }}" alt="Logo 1" style="width:100px;">
+        </div>
+        <div style="margin-bottom: 20px;">
+            <a href="https://www.facebook.com/arvegatu.esempeempat" style="margin: 0 10px; color: #ffffff; text-decoration: none;" title="Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.youtube.com/@arvegatuscout1995" style="margin: 0 10px; color: #ffffff; text-decoration: none;" title="Youtube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="+62 341 551289" style="margin: 0 10px; color: #ffffff; text-decoration: none;" title="Phone">
+                <i class="fa fa-phone"></i>
+            </a>
+            <a href="https://www.instagram.com/arvegatuscout/" style="margin: 0 10px; color: #ffffff; text-decoration: none;" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <p>LOGIKA II ©2025. All rights reserved.</p>
+            <p>SMP Negeri 4 Malang</p>
+        </div>
+    </footer>
     
 </body>
 </html>
@@ -332,5 +372,32 @@
 
         renderTablePage(currentPage);
         createPagination();
+
+        $('#table-participants').DataTable({
+                pageLength: 10, // Set number of rows per page
+                responsive: true,
+                searching: true,
+                ordering: true
+         });
+
+            $('#table-participants2').DataTable({
+                pageLength: 10, // Set number of rows per page
+                responsive: true,
+                searching: true,
+                ordering: true
+            });
     });
 </script>
+
+    <!-- jQuery -->
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+
+    <!-- Bootstrap Bundle (termasuk Popper.js) -->
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    
+    <!-- SB Admin 2 (menggunakan Bootstrap) -->
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+    
+    <!-- DataTables -->
+    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>

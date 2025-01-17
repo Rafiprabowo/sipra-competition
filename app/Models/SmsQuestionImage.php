@@ -17,4 +17,8 @@ class SmsQuestionImage extends Model
     public function smsQuestion(){
         return $this->belongsTo(SmsQuestion::class, 'sms_question_id');
     }
+
+    public function smsAnswers(){
+        return $this->hasMany(SmsAnswer::class, 'sms_question_image_id');
+    }
 }

@@ -5,6 +5,7 @@ use App\Exports\HasilLombaTpk;
 use App\Http\Controllers\Admin\JuriController;
 use App\Http\Controllers\Admin\KelolaSymbolSmsController;
 use App\Http\Controllers\Admin\SmsQuestionSmsController;
+use App\Http\Controllers\Admin\SimulasiSmsQuestionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\HasilLombaSmsController;
 use App\Http\Controllers\HasilLombaTpkController;
@@ -25,9 +26,9 @@ use Maatwebsite\Excel\Facades\Excel;
 Route::get('/', function () { return view('home'); });
 Route::get('/pionering', function () { return view('pionering'); });
 Route::get('/karikatur', function () { return view('karikatur'); });
-Route::get('/duta-logika', function () { return view('pionering'); });
-Route::get('/foto', function () { return view('duta-logika'); });
-Route::get('/vidio', function () { return view('foto'); });
+Route::get('/duta-logika', function () { return view('duta-logika'); });
+Route::get('/foto', function () { return view('foto'); });
+Route::get('/vidio', function () { return view('vidio'); });
 Route::get('/semaphore', function () { return view('semaphore'); });
 Route::get('/tpk', function () { return view('tpk'); });
 Route::get('/lkfbb', function () { return view('lkfbb'); });
@@ -113,6 +114,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::prefix('bank-soal')->group(function(){
         Route::resource('soal-tpk', \App\Http\Controllers\Admin\BankSoalTpkController::class);
         Route::resource('soal-sms', \App\Http\Controllers\Admin\BankSoalSmsController::class);
+        Route::resource('simulasi-soal-sms', \App\Http\Controllers\Admin\BankSoalSimulasiSmsController::class);
     });
 
     Route::prefix('sesi-cbt')->group(function(){
@@ -172,6 +174,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     Route::post('/import/soal-tpk',\App\Http\Controllers\Admin\ImportSoalTpkController::class)->name('import.soal-tpk');
     Route::post('/import/soal-sms',\App\Http\Controllers\Admin\ImportSoalSmsController::class)->name('import.soal-sms');
+    Route::post('/import/simulasi-soal-sms',\App\Http\Controllers\Admin\ImportSimulasiSoalSmsController::class)->name('import.simulasi-soal-sms');
 
     Route::get('/hasil-lomba-tpk', HasilLombaTpkController::class)->name('hasil-tpk');
     Route::get('/hasil-lomba-sms', HasilLombaSmsController::class)->name('hasil-sms');
@@ -204,6 +207,15 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/{id}/edit', [SmsQuestionSmsController::class, 'edit'])->name('sms-questions.edit');
         Route::put('/{smsQuestion}/update', [SmsQuestionSmsController::class, 'update'])->name('sms-questions.update');
         Route::delete('/{smsQuestion}/destroy', [SmsQuestionSmsController::class, 'destroy'])->name('sms-questions.destroy');
+    });
+
+    Route::prefix('/simulasi-sms-questions')->group(function(){
+        Route::get('/', [SimulasiSmsQuestionController::class, 'index'])->name('simulasi-sms-questions.index');
+        Route::get('/create', [SimulasiSmsQuestionController::class, 'create'])->name('simulasi-sms-questions.create');
+        Route::post('/', [SimulasiSmsQuestionController::class, 'store'])->name('simulasi-sms-questions.store');
+        Route::get('/{id}/edit', [SimulasiSmsQuestionController::class, 'edit'])->name('simulasi-sms-questions.edit');
+        Route::put('/{simulasiSmsQuestion}/update', [SimulasiSmsQuestionController::class, 'update'])->name('simulasi-sms-questions.update');
+        Route::delete('/{simulasiSmsQuestion}/destroy', [SimulasiSmsQuestionController::class, 'destroy'])->name('simulasi-sms-questions.destroy');
         
     });
 
@@ -227,6 +239,7 @@ Route::prefix('peserta')->middleware(['auth', 'role:peserta'])->group(function (
     Route::get('/cbt/{session_id}/start/{question_number}', \App\Http\Controllers\Peserta\StartCbtController::class )->name('start.cbt');
     Route::post('/cbt/{session_id}/{question_number}/answer', \App\Http\Controllers\Peserta\SaveAnswerCbtController::class)->name('answer.cbt');
     Route::post('/sms/save-answer', \App\Http\Controllers\Peserta\SaveSmsAnswerController::class)->name('save-sms.answer');
+    Route::post('/simulasi-sms/save-answer', \App\Http\Controllers\Peserta\SaveSimulasiSmsAnswerController::class)->name('save-simulasi-sms.answer');
     Route::get('/cbt/{session_id}/finish', \App\Http\Controllers\Peserta\EndCbtController::class)->name('end.cbt');
     Route::get('/cbt/{session_id}/review', \App\Http\Controllers\Peserta\ReviewCbtController::class)->name('review.cbt');
 });
@@ -356,4 +369,12 @@ Route::prefix('juri')->middleware(['auth', 'role:juri'])->group(function () {
     Route::get('/foto/{pembina_id}', \App\Http\Controllers\Juri\GetPembinaByIDController::class)->name('getPembinaById');
     Route::get('/vidio/{pembina_id}', \App\Http\Controllers\Juri\GetPembinaByID2Controller::class)->name('getPembinaById2');
 });
+
+Route::get('/simulasi', [\App\Http\Controllers\SimulasiCbtSmsContrroller::class, 'index'])->name('simulasi.index');
+Route::get('/simulasi/{nomor_soal}', [\App\Http\Controllers\SimulasiCbtSmsContrroller::class, 'start'])->name('simulasi.start');
+Route::post('/simulasi/answer/save', \App\Http\Controllers\Peserta\SaveSimulasiSmsAnswerController::class)->name('simulasi.answer.save');
+Route::get('/simulasi/end/{nama}', [\App\Http\Controllers\SimulasiCbtSmsContrroller::class, 'end'])->name('simulasi.end');
+Route::get('/simulasi/hasil/{nama}/{nilai}/{jawaban_benar}/{durasi}', [\App\Http\Controllers\SimulasiCbtSmsContrroller::class, 'hasil'])->name('simulasi.hasil');
+
+
 

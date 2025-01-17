@@ -9,6 +9,7 @@ use App\Models\MataLomba;
 use Maatwebsite\Excel\Facades\Excel; 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use App\Models\User;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use App\Exports\PesertaExport; 
 use PDF;
@@ -62,6 +63,21 @@ class HasilNilaiVidioController extends Controller
             ->sortByDesc('total_nilai')->values();
 
         $data = compact('penilaianVidios', 'mata_lomba', 'tab');
+
+        $ketuaPelaksanas = User::where('role', 'ketua_pelaksana')->get();
+        
+        $pathLogoKiri = public_path('img/logo-kiri.png');
+        $pathLogoKanan = public_path('img/logo-kanan.jpg');
+        $typeLogoKiri = pathinfo($pathLogoKiri, PATHINFO_EXTENSION);
+        $typeLogoKanan = pathinfo($pathLogoKanan, PATHINFO_EXTENSION);
+        $dataLogoKiri = file_get_contents($pathLogoKiri);
+        $dataLogoKanan = file_get_contents($pathLogoKanan);
+        $base64LogoKiri = 'data:image/' . $typeLogoKiri . ';base64,' . base64_encode($dataLogoKiri);
+        $base64LogoKanan = 'data:image/' . $typeLogoKanan . ';base64,' . base64_encode($dataLogoKanan);
+
+        $data['base64LogoKiri'] = $base64LogoKiri;
+        $data['base64LogoKanan'] = $base64LogoKanan;
+        $data['ketuaPelaksanas'] = $ketuaPelaksanas;
         
         $pdf = PDF::loadView('admin.hasil_nilai.template', $data)->setPaper('a4', 'portrait');
         return $pdf->download('penilaian_vidio.pdf');

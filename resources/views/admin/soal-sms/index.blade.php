@@ -35,13 +35,15 @@
                             <th>Kata</th>
                             <th>Gambar</th>
                             <th>Tingkat Kesulitan</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($session->smsQuestions as $question)
+                        @php $iteration = 1; @endphp
+                        @foreach($session->smsQuestions->filter(function($question) {
+                            return $question->type == 'SEMAPHORE';
+                        }) as $question)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $iteration }}</td>
                                 <td>{{ $question->type }}</td>
                                 <td>{{ $question->word }}</td>
                                 <td>
@@ -57,6 +59,30 @@
                                 <td>{{ $question->difficulty }}</td>
                           
                             </tr>
+                            @php $iteration++; @endphp
+                        @endforeach
+
+                        @foreach($session->smsQuestions->filter(function($question) {
+                            return $question->type == 'MORSE';
+                        }) as $question)
+                            <tr>
+                                <td>{{ $iteration }}</td>
+                                <td>{{ $question->type }}</td>
+                                <td>{{ $question->word }}</td>
+                                <td>
+                                    <div class="d-flex flex-wrap justify-content-start">
+                                        @foreach ($question->symbols as $symbol) 
+                                            <div class="symbol-container text-center" style="margin-right: 10px; margin-bottom: 5px; width: 80px;">
+                                                <img src="{{ Storage::url($symbol->image) }}" alt="{{ $symbol->letter }}" class="symbol-image" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 5px;">
+                                                <div style="font-size: 10px; margin-top: 5px;">{{ $symbol->letter }}</div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </td>
+                                <td>{{ $question->difficulty }}</td>
+                          
+                            </tr>
+                            @php $iteration++; @endphp
                         @endforeach
                     </tbody>
                 </table>
@@ -66,12 +92,15 @@
 
 
 </div>
-@endsection
 
-@section('script')
 <script>
-    $(function(){
-        $('#dataTable').DataTable();
+    document.addEventListener("DOMContentLoaded", function() {
+        $('#dataTable').DataTable({
+            pageLength: 10,
+            responsive: true,
+            searching: true,
+            ordering: true,
+        });
     });
 </script>
 @endsection

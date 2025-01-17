@@ -132,6 +132,7 @@ class JuriController extends Controller
     public function export()
     {
         $juri = Juri::with('mata_lomba')->get();
+        set_time_limit(300);
         
         // Konfigurasi Dompdf
         $options = new Options();
@@ -139,8 +140,24 @@ class JuriController extends Controller
         $options->set('isRemoteEnabled', true);
         $dompdf = new Dompdf($options);
 
+        // Base64 encoding for logos
+        $pathLogoKiri = public_path('img/logo-kiri.png');
+        $pathLogoKanan = public_path('img/logo-kanan.jpg');
+        $typeLogoKiri = pathinfo($pathLogoKiri, PATHINFO_EXTENSION);
+        $typeLogoKanan = pathinfo($pathLogoKanan, PATHINFO_EXTENSION);
+        $dataLogoKiri = file_get_contents($pathLogoKiri);
+        $dataLogoKanan = file_get_contents($pathLogoKanan);
+        $base64LogoKiri = 'data:image/' . $typeLogoKiri . ';base64,' . base64_encode($dataLogoKiri);
+        $base64LogoKanan = 'data:image/' . $typeLogoKanan . ';base64,' . base64_encode($dataLogoKanan);
+
+        $data = [
+            'juri' => $juri,
+            'base64LogoKiri' => $base64LogoKiri,
+            'base64LogoKanan' => $base64LogoKanan,
+        ];
+
         // Render view ke dalam HTML
-        $html = view('admin.juri.pdf', compact('juri'))->render();
+        $html = view('admin.juri.pdf', $data)->render();
 
         // Load HTML ke Dompdf
         $dompdf->loadHtml($html);
@@ -152,5 +169,4 @@ class JuriController extends Controller
         // Output file PDF
         return $dompdf->stream('data_juri.pdf');
     }
-
 }

@@ -38,27 +38,44 @@
         </div>
 
         <!-- Navigation Content -->
-<div class="col-md-4">
-    <div class="card" style="background-color: #ffffff; border-radius: 0; border: 1px solid #ddd;">
-        <div class="card-header">
-            <h5>Nomor Soal</h5>
-        </div>
-        <div class="card-body">
-            <p><strong>Pilih nomor soal untuk navigasi</strong></p>
-            <div class="number-navigation">
-                @foreach($session->smsQuestions as $number => $question)
-                    <a href="/peserta/cbt/{{ $session->id }}/start/{{ $number + 1 }}"
-                       class="btn btn-question {{ $number + 1 == $question_number ? 'answered' : 'not-answered' }}">
-                        {{ $number + 1 }}
-                    </a>
-                @endforeach
+        <div class="col-md-4">
+            <div class="card" style="background-color: #ffffff; border-radius: 0; border: 1px solid #ddd;">
+                <div class="card-header">
+                    <h5>Nomor Soal</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Pilih nomor soal untuk navigasi</strong></p>
+                    <div class="number-navigation">
+                        @php
+                            $sms_questions = $session->smsQuestions;
+                        @endphp
+        
+                        @foreach($sms_questions as $question)
+                            @php
+                                $answered = \App\Models\SmsAnswer::where('cbt_session_id', $session->id)
+                                    ->where('peserta_id', Auth::user()->peserta->id)
+                                    ->whereHas('questionImage', function ($query) use ($question) {
+                                        $query->whereIn('id', $question->images->pluck('id'));
+                                    })
+                                    ->exists();
+                            @endphp
+        
+                            <a href="{{ route('start.cbt', ['session_id' => $session->id, 'question_number' => $loop->iteration]) }}"
+                                class="btn btn-question {{ $answered ? 'answered' : 'not-answered' }}"
+                                id="btn-question-{{ $question->id }}">
+                                {{ $loop->iteration }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <button id="end-test" class="btn btn-danger">Akhiri Tes</button>
+                </div>
             </div>
         </div>
-        <div class="card-footer d-flex justify-content-between">
-            <button id="end-test" class="btn btn-danger">Akhiri Tes</button>
-        </div>
-    </div>
-</div>
+        
+        
+        
 
     </div>
 </div>
@@ -70,16 +87,14 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: start;
-        gap: 25px;
+        gap: 10px;
     }
 
     .number-navigation .btn-question {
         width: 50px;
-        height: 50px;
         text-align: center;
         font-weight: bold;
-        line-height: 50px;
-        border-radius: 0;
+        border-radius: 10px;
     }
 
     .not-answered {
@@ -158,44 +173,51 @@
 @section('script')
 <script>
 $(document).ready(function() {
+    // Disable the previous button if the current question number is 1
     if (parseInt("{{ $question_number }}") <= 1) {
         $('#prev-question').attr('disabled', true);
     }
 
+    // Disable the next button if the current question number is the last question
     if (parseInt("{{ $question_number }}") >= "{{ $session->smsQuestions->count() }}") {
         $('#next-question').attr('disabled', true);
     }
 
-    $('.letter-guess').on('input', function (){
+    // Save answer when input value changes
+    $('.letter-guess').on('input', function() {
         let questionImageId = $(this).data('question-image-id');
-        let answer = $(this).val()
-        let sessionId = "{{$session->id}}"
+        let answer = $(this).val();
+        let sessionId = "{{ $session->id }}";
+        let sms_question_id = "{{$sms_question->id}}"
 
-        console.log('Symbol ID:', questionImageId, 'Answer ID : ', answer, 'Session ID : ', sessionId); // Debugging purpose
+        console.log(sms_question_id)
+
         $.ajax({
-            url: "{{route('save-sms.answer')}}",
+            url: "{{ route('save-sms.answer') }}",
             method: 'POST',
             data: {
+                sms_question_id: sms_question_id,
                 sms_question_image_id: questionImageId,
                 answer: answer,
                 session_id: sessionId,
-                _token: "{{csrf_token()}}" 
+                _token: "{{ csrf_token() }}"
             },
-            success: function(response){
+            success: function(response) {
                 console.log('Jawaban berhasil disimpan.');
-                console.log(response.data)
             },
-            error: function(xhr){
-                console.error('Gagal menyimpan jawaban : ', xhr);
+            error: function(xhr) {
+                console.error('Gagal menyimpan jawaban:', xhr);
             }
-        })
+        });
     });
 
+    // Navigate to the next question
     $('#next-question').click(function() {
         let nextQuestionNumber = parseInt("{{ $question_number }}") + 1;
         window.location.href = "/peserta/cbt/" + "{{ $session->id }}" + "/start/" + nextQuestionNumber;
     });
 
+    // Navigate to the previous question
     $('#prev-question').click(function() {
         let prevQuestionNumber = parseInt("{{ $question_number }}") - 1;
         if (prevQuestionNumber > 0) {
@@ -203,11 +225,14 @@ $(document).ready(function() {
         }
     });
 
+    // End the test
     $('#end-test').click(function() {
         if (confirm('Apakah Anda yakin ingin mengakhiri tes?')) {
             window.location.href = "{{ route('end.cbt', ['session_id' => $session->id]) }}";
         }
     });
+
+
 });
 </script>
 @endsection

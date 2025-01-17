@@ -25,8 +25,8 @@ class HasilLombaTpkController extends Controller
                 $query->where('mata_lomba_id', $mataLomba->id);
             })
             ->orderByDesc('score')
-            ->orderByDesc('correct_difficult_answers')
             ->orderBy('completed_at')
+            ->orderByDesc('correct_difficult_answers')
             ->get();
 
         // Group peserta berdasarkan jenis_kelamin

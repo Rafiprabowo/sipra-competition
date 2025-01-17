@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGIKA 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <style>
         body {
             margin: 0;
@@ -18,7 +20,7 @@
             justify-content: center;
             align-items: center;
             padding: 10px 20px;
-            background: #EE3637;
+            background: #030000;
             flex-wrap: wrap; /* Agar elemen bisa membungkus dalam beberapa baris jika tidak muat */
         }
 
@@ -100,99 +102,128 @@
             color: black;
         }
 
-        .countdown {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .time {
-            text-align: center;
-        }
-
-        .time span {
-            display: block;
-            font-size: 2em;
-        }
-
         aside img {
             height: 300px;
         }
 
         #timeline {
-            padding: 2em;
-            color: #000;
-            font-family: 'Arial', sans-serif;
-        }
+    padding: 2em;
+    color: #000;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+}
 
-        .timeline-container {
-            position: relative;
-            margin: 2em 0;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+.timeline-container {
+    position: relative;
+    margin: 2em 0;
+    max-width: 1000px; /* Adjust max-width to make it wider */
+    margin-left: auto;
+    margin-right: auto;
+}
 
-        .timeline-container::after {
-            content: '';
-            position: absolute;
-            width: 6px;
-            background-color: #FFBC29;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -3px;
-        }
+.timeline-container::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: black;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
-        .timeline-item {
-            padding: 1em 2em;
-            position: relative;
-            background-color: inherit;
-            width: 80%;
-            box-sizing: border-box;
-        }
+.timeline-item-left, .timeline-item-right {
+    padding: 1em 2em; /* Adjust padding for more space */
+    position: relative;
+    background-color: inherit;
+    width: 45%; /* Adjust width to make divs wider */
+    box-sizing: border-box;
+    transition: transform 0.3s, background-color 0.3s;
+}
 
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            right: -10px;
-            background-color: #FFBC29;
-            border: 3px solid #ffffff;
-            top: 15px;
-            border-radius: 50%;
-            z-index: 1;
-        }
+.timeline-item-left:hover, .timeline-item-right:hover {
+    transform: scale(1.05);
+    background-color: #ffe6e6;
+}
 
-        .timeline-item:nth-child(even) {
-            left: 50%;
-            text-align: left;
-            transform: translateX(-100%);
-        }
+.timeline-item-left::after, .timeline-item-right::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border: 3px solid #ffffff;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    z-index: 1;
+    transition: background-color 0.3s;
+}
 
-        .timeline-item:nth-child(odd) {
-            left: 50%;
-            text-align: left;
-            transform: translateX(-100%);
-        }
+.timeline-item-left {
+    left: 0;
+    text-align: right;
+}
 
-        .timeline-date {
-            font-weight: bold;
-            color: #ED3237;
-            margin-bottom: 0.5em;
-        }
+.timeline-item-left::after {
+    right: -10px;
+}
 
-        .timeline-content {
-            padding: 1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+.timeline-item-right {
+    left: 50%;
+    text-align: left;
+}
 
-        .timeline-content h3 {
-            margin: 0.5em 0;
-        }
+.timeline-item-right::after {
+    left: -10px;
+}
+
+.timeline-date-left {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    width: 150px;
+    color: black;
+}
+
+.timeline-date-right {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    width: 400px;
+    color: black;
+}
+
+.timeline-content-right {
+    padding: 1em;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.timeline-content-left {
+    padding: 1em;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.timeline-content-left p, .timeline-content-right p {
+    margin: 0;
+    word-wrap: break-word; /* Ensure long words wrap to the next line */
+}
+
+@media screen and (max-width: 600px) {
+    .timeline-item-left, .timeline-item-right {
+        width: 100%;
+        text-align: center;
+    }
+
+    .timeline-item-left::after, .timeline-item-right::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
 
         #kategori {
             padding: 2em;
@@ -216,6 +247,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 200px;
             text-align: center;
+            flex: 1 1 calc(25% - 2em); /* Adjusted to fit 4 items per row */
         }
 
         .kategori-item img {
@@ -264,9 +296,7 @@
 <body>
     <header style="padding: 5px">
         <div class="logo-container">
-            <img src="{{ asset('img/LOGO 2.png') }}" alt="Logo 1">
-            <img src="{{ asset('img/CENDRA 6.png') }}" alt="Logo 2">
-            <img src="{{ asset('img/ROSE 2.png') }}" alt="Logo 3">
+            <img src="{{ asset('img/LOGO 2.png') }}" alt="Logo 1" style="margin-left: 50px;">
         </div>
         <nav>
             <ul>
@@ -289,70 +319,75 @@
         <section id="timeline" style="text-align: center">
             <h2>Timeline Lomba</h2>
             <div class="timeline-container">
-                <div class="timeline-item">
-                    <div class="timeline-date">9 Desember 2024 - 1 Februari 2025</div>
-                    <div class="timeline-content">
-                        <h3>Pendaftaran</h3>
+                <div class="timeline-item-left">
+                    <div class="timeline-date-left">9 Desember 2024 - 1 Februari 2025</div>
+                    <div class="timeline-content-left">
+                        <p>PENDAFTARAN</p>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">1 Februari 2025</div>
-                    <div class="timeline-content">
-                        <h3>Technical Meeting</h3>
+                <div class="timeline-item-right">
+                    <div class="timeline-date-right">1 Februari 2025</div>
+                    <div class="timeline-content-right">
+                        <p>TECHNICAL MEETING</p>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">22 Februari 2025</div>
-                    <div class="timeline-content">
-                        <h3>Pendaftaran Ulang</h3>
+                <div class="timeline-item-left">
+                    <div class="timeline-date-left">22 Februari 2025</div>
+                    <div class="timeline-content-left">
+                        <p>PENDAFTARAN ULANG</p>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">22 Februari 2025</div>
-                    <div class="timeline-content">
-                        <h3>Pelaksanaan Lomba</h3>
+                <div class="timeline-item-right">
+                    <div class="timeline-date-right">22 Februari 2025</div>
+                    <div class="timeline-content-right">
+                        <p>PELAKSANAAN LOMBA</p>
                     </div>
                 </div>
             </div>
         </section>
         
+        
+        
         <section id="kategori">
             <h2>LOMBA</h2>
             <div class="kategori-container">
-                <a class="kategori-item" href="/pionering">
-                    <img src="{{ asset('img/ROSE 1.png') }}" alt="Pionering">
+                <a class="kategori-item" href="/pionering" style="text-decoration: none;">
+                    <img src="{{ asset('img/ROSE 1.png') }}" alt="Pionering" style="margin-top: 14%;">
                     <h3>Pionering</h3>
                 </a>
-                <a class="kategori-item" href="/karikatur">
+                <a class="kategori-item" href="/karikatur" style="text-decoration: none;">
                     <img src="{{ asset('img/CENDRA 4.png') }}" alt="Karikatur">
                     <h3>Karikatur</h3>
                 </a>
-                <a class="kategori-item" href="/duta-logika">
-                    <img src="{{ asset('img/ROSE 3.png') }}" alt="Duta Logika">
+                <a class="kategori-item" href="/duta-logika" style="text-decoration: none;">
+                    <img src="{{ asset('img/ROSE 3.png') }}" alt="Duta Logika" style="margin-top: 14%;">
                     <h3>Duta Logika</h3>
                 </a>
-                <a class="kategori-item" href="/lkfbb">
+                <a class="kategori-item" href="/lkfbb" style="text-decoration: none;">
                     <img src="{{ asset('img/CENDRA 2.png') }}" alt="LKFBB">
                     <h3>LKFBB</h3>
                 </a>
-                <a class="kategori-item" href="/tpk">
-                    <img src="{{ asset('img/ROSE 6.png') }}" alt="Tes Kemampuan Kepramukaan">
+            </div>
+            <div class="kategori-container">
+                <a class="kategori-item" href="/tpk" style="text-decoration: none;">
+                    <img src="{{ asset('img/ROSE 6.png') }}" alt="Tes Kemampuan Kepramukaan" style="margin-top: 14%;">
                     <h3>Tes Kemampuan Kepramukaan</h3>
                 </a>
-                <a class="kategori-item" href="/semaphore">
+                <a class="kategori-item" href="/semaphore" style="text-decoration: none;">
                     <img src="{{ asset('img/CENDRA 5.png') }}" alt="Semaphore & Morse">
                     <h3>Semaphore & Morse</h3>
                 </a>
-                <a class="kategori-item" href="/foto">
-                    <img src="{{ asset('img/ROSE 4.png') }}" alt="Foto">
+                <a class="kategori-item" href="/foto" style="text-decoration: none;">
+                    <img src="{{ asset('img/ROSE 4.png') }}" alt="Foto" style="margin-top: 14%;">
                     <h3>Foto</h3>
                 </a>
-                <a class="kategori-item" href="/vidio">
+                <a class="kategori-item" href="/vidio" style="text-decoration: none;">
                     <img src="{{ asset('img/CENDRA 3.png') }}" alt="Vidio">
                     <h3>Vidio</h3>
                 </a>
             </div>
         </section>
+        
 
         <h2>Lokasi Kami</h2>
         <div class="container" id="lokasi"> 
@@ -366,6 +401,29 @@
             </div>
         </div>
     </main>
+    <footer style="background-color: #030000; color: #ffffff; padding: 20px; text-align: center;">
+        <div style="margin-bottom: 20px;">
+            <img src="{{ asset('img/LOGO 1.png') }}" alt="Logo 1" style="width:100px;">
+        </div>
+        <div style="margin-bottom: 20px;">
+            <a href="https://www.facebook.com/arvegatu.esempeempat" style="margin: 0 10px; color: #ffffff; text-decoration: none;" title="Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.youtube.com/@arvegatuscout1995" style="margin: 0 10px; color: #ffffff; text-decoration: none;" title="Youtube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="+62 341 551289" style="margin: 0 10px; color: #ffffff; text-decoration: none;" title="Phone">
+                <i class="fa fa-phone"></i>
+            </a>
+            <a href="https://www.instagram.com/arvegatuscout/" style="margin: 0 10px; color: #ffffff; text-decoration: none;" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <p>LOGIKA II ©2025. All rights reserved.</p>
+            <p>SMP Negeri 4 Malang</p>
+        </div>
+    </footer>
     
 </body>
 </html>

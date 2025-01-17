@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Peserta;
 
 use App\Http\Controllers\Controller;
+use App\Models\Answer;
 use App\Models\CbtSession;
 use App\Models\PesertaSession;
 use App\Models\SmsAnswer;
@@ -75,64 +76,99 @@ class EndCbtController extends Controller
      
          // If the MataLomba is SMS
          if ($session->mataLomba->nama == \App\Enums\MataLomba::SMS->value) {
-             // Get all SMS answers for the participant in this session
-             $answers = SmsAnswer::where('peserta_id', $peserta->id)
-                                  ->where('cbt_session_id', $session_id)
-                                  ->get();
-             
-             // Get all SMS questions for this session
-             $questions = $session->smsQuestions;
-             
-             // Initialize score, correct difficult answers count, and correct answer count
-             $score = 0;
-             $correctDifficultAnswers = 0;
-             $correctAnswerCount = 0;
-     
-             foreach ($answers as $answer) {
-                 $questionImage = $answer->questionImage;
-                 if ($questionImage) {
-                     $participantAnswer = strtoupper($answer->answer);
-                     $question = $questionImage->smsQuestion;
-                     
-                     // Calculate score and check if the answer is correct
-                     if ($participantAnswer == strtoupper($questionImage->symbol->letter)) {
-                         $score += 1;
-                         $correctAnswerCount += 1; // Increment for each correct letter
-     
-                         // Check if the question difficulty is 'sulit'
-                         if ($question->difficulty == 'sulit') {
-                             // Iterate over each character in the word and check if it's correctly answered
-                             $correctAnswerLetters = str_split(strtoupper($question->word));  // Convert word to an array of letters
-                             if (in_array($participantAnswer, $correctAnswerLetters)) {
-                                 $correctDifficultAnswers += 1; // Increment if the letter is correct for 'sulit' difficulty
-                             }
-                         }
-                     }
-                 }
-             }
-     
-             // Save the score and answer counts (adjust as needed)
-             PesertaSession::where('peserta_id', $peserta->id)
-                           ->where('cbt_session_id', $session_id)
-                           ->update([
-                               'status' => 'completed',
-                               'completed_at' => now(),
-                               'score' => $score * 1.333,  // Save the calculated score
-                               'correct_difficult_answers' => $correctDifficultAnswers,  // Store the count of correct letters for 'sulit'
-                               'correct_answer_count' => $correctAnswerCount,  // Store the total correct answers
-                           ]);
-     
-             return redirect()->route('review.cbt', ['session_id' => $session_id])
-                              ->with('success', 'Tes SMS berhasil diakhiri. Terima kasih telah mengikuti!')
-                              ->with('score', $score)
-                              ->with('correct_difficult_answers', $correctDifficultAnswers)
-                              ->with('correct_answer_count', $correctAnswerCount);
-         }
-     
-         return response()->json(['message' => 'Tidak ada tindakan yang diambil untuk jenis lomba ini.'], 400);
-     }
-     
-
-    
-   
+            // Get all SMS answers for the participant in this session
+            $answers = SmsAnswer::where('peserta_id', $peserta->id)
+                                ->where('cbt_session_id', $session_id)
+                                ->with(['questionImage.smsQuestion', 'questionImage.symbol', 'cbtSession.questionConfigurations'])
+                                ->get();
+        
+            $correctAnswerCount = 0;
+            $correctDifficultAnswers = 0;
+            $correctEasyAnswers = 0;
+            $scoreMorse = 0;
+            $scoreSemaphore = 0;
+            $score = 0; // Initialize $score to a default value
+        
+            foreach ($answers as $answer) {
+                $questionImage = $answer->questionImage;
+                if ($questionImage) {
+                    $participantAnswer = strtoupper($answer->answer);
+                    $question = $questionImage->smsQuestion;
+        
+                    // Calculate score and check if the answer is correct
+                    if ($participantAnswer == strtoupper($questionImage->symbol->letter)) {
+                        $correctAnswerCount += 1; // Increment for each correct letter
+        
+                        // Check if the question difficulty is 'sulit'
+                        if ($question->difficulty == 'sulit') {
+                            $correctAnswerLetters = str_split(strtoupper($question->word));  // Convert word to an array of letters
+                            if (in_array($participantAnswer, $correctAnswerLetters)) {
+                                $correctDifficultAnswers += 1; // Increment if the letter is correct for 'sulit' difficulty
+                            }
+                        }
+        
+                        if ($question->difficulty == 'mudah') {
+                            $correctAnswerLetters = str_split(strtoupper($question->word));  // Convert word to an array of letters
+                            if (in_array($participantAnswer, $correctAnswerLetters)) {
+                                $correctEasyAnswers += 1; // Increment if the letter is correct for 'mudah' difficulty
+                            }
+                        }
+                    }
+                }
+            }
+        
+            // Check if there are any answers before proceeding
+            if ($answers->isNotEmpty()) {
+                $cbt_session = $answers->first()->cbtSession;
+                $questionConfigurations = $cbt_session->questionConfigurations;
+        
+                // Initialize scores for each type
+                $scoreMorse = 0;
+                $scoreSemaphore = 0;
+        
+                foreach ($answers as $answer) {
+                    $questionImage = $answer->questionImage;
+                    $question = $questionImage->smsQuestion;
+        
+                    // Calculate the score based on the question type
+                    if ($question->type == \App\Enums\QuestionType::MORSE->value) {
+                        foreach ($questionConfigurations as $configuration) {
+                            $bobot_nilai_sulit = $configuration->bobot_nilai_sulit;
+                            $bobot_nilai_mudah = $configuration->bobot_nilai_mudah;
+                            $scoreMorse = ((($correctDifficultAnswers * $bobot_nilai_sulit)/100) + (($correctEasyAnswers * $bobot_nilai_mudah)/100));
+                        }
+                    } elseif ($question->type == \App\Enums\QuestionType::SEMAPHORE->value) {
+                        foreach ($questionConfigurations as $configuration) {
+                            $bobot_nilai_sulit = $configuration->bobot_nilai_sulit;
+                            $bobot_nilai_mudah = $configuration->bobot_nilai_mudah;
+                            $scoreSemaphore = ((($correctDifficultAnswers * $bobot_nilai_sulit)/100) + (($correctEasyAnswers * $bobot_nilai_mudah)/100));
+                        }
+                    }
+                }
+        
+                $score = $scoreMorse + $scoreSemaphore;
+            }
+        
+            // Save the score and answer counts (adjust as needed)
+            PesertaSession::where('peserta_id', $peserta->id)
+                          ->where('cbt_session_id', $session_id)
+                          ->update([
+                              'status' => 'completed',
+                              'completed_at' => now(),
+                              'score' => $score,  // Save the calculated score
+                              'correct_difficult_answers' => $correctDifficultAnswers,  // Store the count of correct letters for 'sulit'
+                              'correct_easy_answers' => $correctEasyAnswers,
+                              'correct_answer_count' => $correctAnswerCount,  // Store the total correct answers
+                          ]);
+        
+            return redirect()->route('review.cbt', ['session_id' => $session_id])
+                             ->with('success', 'Tes SMS berhasil diakhiri. Terima kasih telah mengikuti!')
+                             ->with('score', $score)
+                             ->with('correct_difficult_answers', $correctDifficultAnswers)
+                             ->with('correct_easy_answers', $correctEasyAnswers)
+                             ->with('correct_answer_count', $correctAnswerCount);
+        }
+        
+        return response()->json(['message' => 'Tidak ada tindakan yang diambil untuk jenis lomba ini.'], 400);     
+    }
 }

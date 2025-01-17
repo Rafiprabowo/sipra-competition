@@ -15,6 +15,7 @@ class SaveSmsAnswerController extends Controller
     public function __invoke(Request $request)
     {
         $request->validate([
+            'sms_question_id' => 'required|exists:sms_questions,id',
             'sms_question_image_id' => 'required|exists:sms_question_images,id',
             'answer' => 'nullable|string|max:1',
             'session_id' => 'required|exists:cbt_sessions,id'
@@ -26,6 +27,7 @@ class SaveSmsAnswerController extends Controller
             [
                 'peserta_id' => $peserta->id,
                 'cbt_session_id' => $request->session_id,
+                'sms_question_id' => $request->sms_question_id,
                 'sms_question_image_id' => $request->sms_question_image_id,
             ],
             [
@@ -38,4 +40,5 @@ class SaveSmsAnswerController extends Controller
             'data' => $smsAnswer
         ])->setStatusCode(200);
     }
+    
 }
