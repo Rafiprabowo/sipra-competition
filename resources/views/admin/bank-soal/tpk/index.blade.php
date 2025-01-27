@@ -55,9 +55,9 @@
                                     <td>{{$question->question_text}}</td>
                                     <td>
                                         @if($question->question_image)
-                                            <img src="{{ Storage::url($question->question_image) }}" alt="Question Image" width="50">
+                                            <img src="{{ Storage::url($question->question_image) }}" alt="{{$question->question_text}}" width="50">
                                         @else
-                                            -
+                                            <span>null</span>
                                         @endif
                                     </td>
                                     <td>{{$question->answer_a}}</td>

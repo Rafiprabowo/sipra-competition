@@ -291,6 +291,46 @@
             border: 0; 
         }
 
+        #contact h2 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        #contact p {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            justify-content: center; /* Horizontally center the buttons */
+            gap: 15px; /* Space between buttons */
+            align-items: center; /* Vertically center the buttons */
+        }
+        
+        .contact-button {
+            background: #030000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: auto; /* Adjust button width according to content */
+            text-align: center;
+            text-decoration: none; /* Remove underline */
+        }
+        
+        .contact-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+            background: #030000;
+        }
+
     </style>
 </head>
 <body>
@@ -303,6 +343,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="#timeline">Timeline</a></li>
                 <li><a href="#kategori">Kategori</a></li>
+                <li><a href="#contact">Contact</a></li>
                 <li><a href="#lokasi">Lokasi</a></li>
                 <li><a href="/statistik">Statistik</a></li>
                 <li><a href="{{ route('login') }}" class="masuk-button">Masuk</a></li>
@@ -388,6 +429,15 @@
             </div>
         </section>
         
+        <section id="contact" style="text-align: center; padding: 2em; background-color: white;">
+            <h2>Contact Pendaftaran</h2>
+            <p>Jika Anda memiliki pertanyaan atau memerlukan informasi lebih lanjut, jangan ragu untuk menghubungi kami.</p>
+            <div class="contact-buttons">
+                <a href="https://api.whatsapp.com/send/?phone=6287739977029&text&type=phone_number&app_absent=0" class="contact-button" target="_blank" rel="noopener noreferrer"><b>Contact Person Pendaftaran: Andhira</b></a>
+                <a href="https://api.whatsapp.com/qr/435SBCKF7BYPJ1?autoload=1&app_absent=0" class="contact-button" target="_blank" rel="noopener noreferrer"><b>Contact Person Umum: Eka</b></a>
+                <a href="https://api.whatsapp.com/qr/N666EQ3NA5D5H1?autoload=1&app_absent=0" class="contact-button" target="_blank" rel="noopener noreferrer"><b>Contact Person Sponsorship: Febi</b></a>
+            </div>
+        </section>
 
         <h2>Lokasi Kami</h2>
         <div class="container" id="lokasi"> 

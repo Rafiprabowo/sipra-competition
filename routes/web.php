@@ -115,6 +115,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         Route::resource('soal-tpk', \App\Http\Controllers\Admin\BankSoalTpkController::class);
         Route::resource('soal-sms', \App\Http\Controllers\Admin\BankSoalSmsController::class);
         Route::resource('simulasi-soal-sms', \App\Http\Controllers\Admin\BankSoalSimulasiSmsController::class);
+        Route::resource('simulasi-soal-tpk', \App\Http\Controllers\Admin\BankSoalSimulasiTpkController::class);
     });
 
     Route::prefix('sesi-cbt')->group(function(){
@@ -175,6 +176,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/import/soal-tpk',\App\Http\Controllers\Admin\ImportSoalTpkController::class)->name('import.soal-tpk');
     Route::post('/import/soal-sms',\App\Http\Controllers\Admin\ImportSoalSmsController::class)->name('import.soal-sms');
     Route::post('/import/simulasi-soal-sms',\App\Http\Controllers\Admin\ImportSimulasiSoalSmsController::class)->name('import.simulasi-soal-sms');
+    Route::post('/import/simulasi-soal-tpk',\App\Http\Controllers\Admin\ImportSimulasiSoalTpkController::class)->name('import.simulasi-soal-tpk');
 
     Route::get('/hasil-lomba-tpk', HasilLombaTpkController::class)->name('hasil-tpk');
     Route::get('/hasil-lomba-sms', HasilLombaSmsController::class)->name('hasil-sms');
@@ -376,5 +378,9 @@ Route::post('/simulasi/answer/save', \App\Http\Controllers\Peserta\SaveSimulasiS
 Route::get('/simulasi/end/{nama}', [\App\Http\Controllers\SimulasiCbtSmsContrroller::class, 'end'])->name('simulasi.end');
 Route::get('/simulasi/hasil/{nama}/{nilai}/{jawaban_benar}/{durasi}', [\App\Http\Controllers\SimulasiCbtSmsContrroller::class, 'hasil'])->name('simulasi.hasil');
 
-
+Route::get('/simulasi_tpk', [\App\Http\Controllers\SimulasiCbtTpkController::class, 'index'])->name('simulasi_tpk.index');
+Route::get('/simulasi_tpk/{nomor_soal}', [\App\Http\Controllers\SimulasiCbtTpkController::class, 'start'])->name('simulasi_tpk.start');
+Route::post('/simulasi_tpk/answer/save/{nomor_soal}', \App\Http\Controllers\Peserta\SaveSimulasiTpkAnswerController::class)->name('simulasi_tpk.answer.save');
+Route::get('/simulasi_tpk/end/{nama}', [\App\Http\Controllers\SimulasiCbtTpkController::class, 'end'])->name('simulasi_tpk.end');
+Route::get('/simulasi_tpk/hasil/{nama}/{nilai}/{jawaban_benar}/{durasi}', [\App\Http\Controllers\SimulasiCbtTpkController::class, 'hasil'])->name('simulasi_tpk.hasil');
 

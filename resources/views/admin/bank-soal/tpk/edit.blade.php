@@ -40,7 +40,7 @@
                         <label for="question_image">Gambar Pertanyaan</label>
                         <input type="file" name="question_image" id="question_image" class="form-control">
                         @if($tpk_question->question_image)
-                            <img src="{{ Storage::url($tpk_question->question_image) }}" alt="Question Image" width="100" class="mt-2">
+                            <img src="{{ Storage::url($tpk_question->question_image) }}" alt="{{ $tpk_question->question_text }}" width="100" class="mt-2">
                         @endif
                     </div>
 

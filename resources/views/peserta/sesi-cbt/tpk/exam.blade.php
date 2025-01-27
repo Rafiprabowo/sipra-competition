@@ -19,7 +19,7 @@
                         <p><strong>{{ $tpk_question->question_text }}</strong></p>
                         @if($tpk_question->question_image)
                         <div class="mb-3">
-                            <img src="{{ Storage::url($tpk_question->question_image) }}" alt="Question Image" class="img-fluid">
+                            <img src="{{ Storage::url($tpk_question->question_image) }}" alt="{{ $tpk_question->question_text }}" class="img-fluid" width="100">
                         </div>
                         @endif
                         <div class="form-group">

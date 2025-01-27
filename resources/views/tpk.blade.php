@@ -137,6 +137,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/">Timeline</a></li>
                 <li><a href="/">Kategori</a></li>
+                <li><a href="/">Contact</a></li>
                 <li><a href="/">Lokasi</a></li>
                 <li><a href="/statistik">Statistik</a></li>
                 <li><a href="{{ route('login') }}" class="masuk-button">Masuk</a></li>
@@ -215,6 +216,7 @@
         
         <div class="button-container" style="margin-top: 4%; margin-bottom:3%;">
             <a href="/">Kembali</a>
+            <a href="{{route('simulasi_tpk.index')}}" style="background-color:green;">Simulasi</a>
         </div>
     </div>
     

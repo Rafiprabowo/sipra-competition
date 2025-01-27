@@ -170,6 +170,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/">Timeline</a></li>
                 <li><a href="/">Kategori</a></li>
+                <li><a href="/">Contact</a></li>
                 <li><a href="/">Lokasi</a></li>
                 <li><a href="/statistik">Statistik</a></li>
                 <li><a href="{{ route('login') }}" class="masuk-button">Masuk</a></li>

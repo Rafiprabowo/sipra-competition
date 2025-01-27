@@ -68,7 +68,7 @@ class BankSoalTpkController extends Controller
         $question = TpkQuestion::findOrFail($id); // Adjust the model name if different
 
         if ($request->hasFile('question_image')) {
-            $validated['question_image'] = $request->file('question_image')->store('questions');
+            $validated['question_image'] = $request->file('question_image')->store('images', 'public');
         }
 
         $question->update($validated);

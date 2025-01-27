@@ -53,11 +53,15 @@
         <a class="nav-link" href="{{route('cbt-session-question-configurations.index')}}">
             <span style="font-size: 11px;">Pengaturan Soal Computer Based Test</span></a>
     </li>
-
     
     <li class="nav-item">
         <a class="nav-link" href="{{route('soal-tpk.index')}}">
             <span style="font-size: 11px;">Bank Soal Tes Pengetahuan Kepramukaan</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('simulasi-soal-tpk.index')}}">
+            <span style="font-size: 11px;">Bank Soal Simulasi Tes Pengetahuan Kepramukaan</span></a>
     </li>
 
     <!-- Nav Item - Simbol -->
